@@ -1,0 +1,26 @@
+﻿#Linux
+*~
+
+#Winodws
+Thumbs.db
+*.exe
+
+#C++
+Makefile*
+*.o
+
+#Qt
+ui_*.h
+moc_*.cpp
+qrc_*.cpp
+
+#Qt Creator
+*.pro.user
+*.autosave
+/*build*/*
+*/release/*
+*/debug/*
+
+#Virtual Studio
+*.suo
+
