@@ -26,7 +26,7 @@ require_once("./config.php");
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">RP</a>
+          <a class="brand" href="/">RP-HOST</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="/">主页</a></li>
@@ -36,6 +36,7 @@ require_once("./config.php");
               <li><a href="/">公告</a></li>
             </ul>
             <ul class="nav pull-right">
+              <li><a href="/">登录到管理面板</a></li>
             </ul>
           </div>
         </div>
@@ -44,7 +45,7 @@ require_once("./config.php");
     <div id="main" class="container">
       <div class="row">
         <div id="rp-sidebar" class="span3">
-          <ul class="nav nav-list sidenav">
+          <ul class="nav nav-list sidenav affix">
             <li><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
             <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
             <li><a href="#try-and-by"><i class="icon-chevron-right"></i> 试用和购买</a></li>
@@ -141,11 +142,45 @@ require_once("./config.php");
               注意：你运行的一切服务，都在以上的限制之中，包括但不限于自动备份、脚本、终端程序、PPTP、数据库.
             </p>
           </section>
+          <section id="service">
+            <div class="page-header">
+              <h1>客服</h1>
+            </div>
+            <p class="lead">
+              RP主机的客服主要以支持单和邮件的方式提供，你可以与客服沟通你在使用中遇到的任何问题，例如你需要某个运行库，但服务器没有安装等等.<br />
+              `额外技术支持版`中提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务. 
+              而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用),视客服心情而定.
+            </p>
+            <p class="lead">
+              客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>
+            </p>
+          </section>
+          <section id="agreement" style="min-height:300px;">
+            <div class="page-header">
+              <h1>政策和约定</h1>
+            </div>
+            <p class="lead">
+              你必须遵守下列约定：
+              <ul>
+                <li>遵守服务器当地(均为中国大陆之外)的法律</li>
+                <li>禁止放置容易引起GFW封杀的站点</li>
+                <li>禁止放置容易遭到黑客攻击的站点(包括但不限于：黑阔基地、色情、私服、垃圾邮件群发、虚假广告、诈骗站点)</li>
+                <li>禁止放置大规模采集器生成的垃圾站点</li>
+              </ul>
+              如果无意违反以上约定，即不是以破坏RP主机为目的，警告一到两次.<br />
+              如果故意或频繁违反以上约定，直接封停账户，不做退款.
+            </p>
+          </section>
         </div>
       </div>
     </div>
     <?= lpTools::linkTo("jquery",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
+    <script type="text/javascript">
+      jQuery(function(){
+        
+      });
+    </script>
   </body>
 </html>
 

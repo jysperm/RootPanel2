@@ -3,6 +3,11 @@
   border-color: #252525;
 }
 
+#main
+{
+  margin-top:35px;
+}
+
 .sidenav {
   width: 228px;
   margin: 30px 0 0;
