@@ -155,7 +155,7 @@ require_once("./config.php");
               客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>
             </p>
           </section>
-          <section id="agreement" style="min-height:300px;">
+          <section id="agreement" style="min-height:500px;">
             <div class="page-header">
               <h1>政策和约定</h1>
             </div>
