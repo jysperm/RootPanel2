@@ -43,9 +43,9 @@ require_once("./config.php");
       </div>
     </div>
     <div id="main" class="container">
-      <div class="row">
+      <div class="row-fluid">
         <div id="rp-sidebar" class="span3">
-          <ul class="nav nav-list sidenav affix">
+          <ul data-spy="affix" class="nav nav-list sidenav">
             <li><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
             <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
             <li><a href="#try-and-by"><i class="icon-chevron-right"></i> 试用和购买</a></li>
@@ -178,7 +178,12 @@ require_once("./config.php");
     <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
     <script type="text/javascript">
       jQuery(function(){
-        
+        /*$('.sidenav').affix({
+          offset: {
+            top: function () { return $(window).width() <= 980 ? 290 : 210 }
+          , bottom: 270
+          }
+        })*/
       });
     </script>
   </body>
