@@ -1,3 +1,23 @@
+.box header{
+  margin-bottom:10px;
+  padding-bottom:10px;
+  border-bottom:1px solid #DDD;
+  font-weight:bold;
+  font-size:20px;
+}
+.box {
+  background-color: white;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  margin-bottom:20px;
+  -webkit-box-shadow:0 0 0 1px #DDD;
+  -moz-box-shadow:0 0 0 1px #ddd;
+  box-shadow:0 0 0 1px #DDD;
+  overflow:hidden;
+  padding:14px;
+}
+
 .navbar-inverse .navbar-inner {
   background-color: #1B1B1B;
   border-color: #252525;
@@ -5,7 +25,7 @@
 
 #main
 {
-  margin-top:35px;
+  margin-top:50px;
 }
 
 .sidenav {
@@ -59,23 +79,3 @@
   -moz-border-radius: 6px 6px 0 0;
   border-radius: 6px 6px 0 0;
 }
-.page-header {
-  padding-bottom: 9px;
-  margin: 20px 0 30px;
-  border-bottom: 1px solid #EEE;
-}
-.lead {
-  font-size: 16px;
-}
-section {
-  font-size: 16px;
-  padding-top: 30px;
-}
-section li {
-  line-height: 22px;
-}
-.h90 {
-  height: 90px;
-  font-size: 16px;
-}
-

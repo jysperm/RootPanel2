@@ -1,9 +1,4 @@
-<?php if(!isset($lpInTemplate)) die();
-
-global $panelDomain;
-
-?>
-
+<?php if(!isset($lpInTemplate)) die();?>
 <!DOCTYPE html>
 <html lang="zh">
   <head>
@@ -15,7 +10,7 @@ global $panelDomain;
     <?= lpTools::linkTo("lp-css"); ?>
     <link href="/global.css" rel="stylesheet" type="text/css" />
   </head>
-  <body data-spy="scroll" data-target="#rp-sidebar" screen_capture_injected="true">
+  <body data-spy="scroll" data-target="#rp-sidebar" screen_capture_injected="true" class="well">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -28,13 +23,16 @@ global $panelDomain;
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="/">主页</a></li>
-              <!--<li><a href="/pay/">付款方式</a></li>
+              <li><a href="/logs/">日志</a></li>
               <li><a href="/manual/">用户手册</a></li>
               <li><a href="/service/">客服支持</a></li>
-              <li><a href="/news/">公告</a></li>-->
+              <li><a href="/news/">公告</a></li>
             </ul>
             <ul class="nav pull-right">
-              <li><a href="http://<?= $panelDomain;?>/">登录到管理面板</a></li>
+              <li><a href="/signup/">注册</a></li>
+              <li><a href="/request-free/">申请试用</a></li>
+              <li><a href="/login/">登录</a></li>
+              <li><a href="/logout/">注销</a></li>
             </ul>
           </div>
         </div>
