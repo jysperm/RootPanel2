@@ -1,7 +1,6 @@
 <?php
 
-$panelDomain="rp.my.jybox.net";
-
+$panelDomain="panel.rp.my.jybox.net";
 
 $lpUrl="/LightPHP/";
 

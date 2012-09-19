@@ -22,10 +22,10 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="/">主页</a></li>
-              <li><a href="/pay/">付款方式</a></li>
+              <!--<li><a href="/pay/">付款方式</a></li>
               <li><a href="/manual/">用户手册</a></li>
               <li><a href="/service/">客服支持</a></li>
-              <li><a href="/news/">公告</a></li>
+              <li><a href="/news/">公告</a></li>-->
             </ul>
             <ul class="nav pull-right">
               <li><a href="http://<?= $panelDomain;?>/">登录到管理面板</a></li>
