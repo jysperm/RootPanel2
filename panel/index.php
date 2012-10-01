@@ -5,6 +5,7 @@ require_once("./config.php");
 
 $tmp = new lpTemplate;
 
+$a["dontChangeTitle"] = true;
 $a["title"] = "RP主机，技术宅的虚拟主机";
 
 lpBeginBlock();?>
@@ -26,22 +27,6 @@ lpBeginBlock();?>
 
 <?php
 $a["rpSidebar"]=lpEndBlock();
-
-lpBeginBlock();?>
-
-<script type="text/javascript">
-  jQuery(function(){
-    /*$('.sidenav').affix({
-      offset: {
-        top: function () { return $(window).width() <= 980 ? 290 : 210 }
-      , bottom: 270
-      }
-    })*/
-  });
-</script>
-
-<?php
-$a["endOfBody"]=lpEndBlock();
 
 ?>
 
@@ -85,24 +70,24 @@ $a["endOfBody"]=lpEndBlock();
       <h2>试用版</h2>
       <p class="h90">所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的资源限制.</p>
       <p>
-        <a class="btn btn-success" href="assets/bootstrap.zip">1. 注册帐号</a> 
-        <a class="btn btn-success" href="assets/bootstrap.zip">2. 填写申请</a>
+        <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
+        <a class="btn btn-success" href="/request-free/">2. 填写申请</a>
       </p>
     </div>
     <div class="span4">
       <h2>标准版</h2>
       <p class="h90">每月8元，每季度19元.</p>
       <p>
-        <a class="btn btn-success" href="assets/bootstrap.zip">1. 注册帐号</a> 
-        <a class="btn btn-success" href="assets/bootstrap.zip">2. 去淘宝付费</a>
+        <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
+        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=14519431757">2. 去淘宝付费</a>
       </p>
     </div>
     <div class="span4">
       <h2>额外技术支持版</h2>
       <p class="h90">每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.</p>
       <p>
-        <a class="btn btn-success" href="assets/bootstrap.zip">1. 注册帐号</a> 
-        <a class="btn btn-success" href="assets/bootstrap.zip">2. 去淘宝付费</a>
+        <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
+        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=14519431757">2. 去淘宝付费</a>
       </p>
     </div>
   </div>
@@ -153,7 +138,8 @@ $a["endOfBody"]=lpEndBlock();
     <ul>
       <li>遵守服务器当地(均为中国大陆之外)的法律</li>
       <li>禁止放置容易引起GFW封杀的站点</li>
-      <li>禁止放置容易遭到黑客攻击的站点(包括但不限于：黑阔基地、色情、私服、垃圾邮件群发、虚假广告、诈骗站点)</li>
+      <li>禁止放置容易遭到黑客攻击的站点,或故意吸引黑客的攻击</li>
+      <li>禁止放置黑阔基地、色情、私服、垃圾邮件群发、虚假广告、诈骗类型的站点</li>
       <li>禁止放置大规模采集器生成的垃圾站点</li>
     </ul>
     如果无意违反以上约定，即不是以破坏RP主机为目的，警告一到两次.<br />
@@ -163,7 +149,7 @@ $a["endOfBody"]=lpEndBlock();
 
 <?php
 
-$tmp->parse("template.php",$a);
+$tmp->parse("template/base.php",$a);
 
 ?>
 

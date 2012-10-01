@@ -23,7 +23,7 @@
   border-color: #252525;
 }
 
-#main
+#main50
 {
   margin-top:50px;
 }
@@ -78,4 +78,37 @@
   -webkit-border-radius: 6px 6px 0 0;
   -moz-border-radius: 6px 6px 0 0;
   border-radius: 6px 6px 0 0;
+}
+
+.website hr{
+  margin:3px;
+}
+
+
+
+
+
+#main
+{
+  margin-top:25px;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 20px 0 30px;
+  border-bottom: 1px solid #EEE;
+}
+.lead {
+  font-size: 16px;
+}
+section {
+  font-size: 16px;
+  padding-top: 30px;
+}
+section li {
+  line-height: 22px;
+}
+.h90 {
+  height: 90px;
+  font-size: 16px;
 }

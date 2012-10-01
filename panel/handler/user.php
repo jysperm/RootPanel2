@@ -1,6 +1,6 @@
 <?php
 
-class JBSignup extends lpPage
+class Signup extends lpPage
 {
     private $msg;
     
@@ -19,7 +19,7 @@ class JBSignup extends lpPage
             return false;
         }
         
-        if(!preg_match('/[\x{4e00}-\x{9fa5}A-Za-z0-9_]+/u',$_POST["uname"]) or
+        if(!preg_match('/[A-Za-z][A-Za-z0-9_]+/u',$_POST["uname"]) or
            !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/',$_POST["email"]))
         {
             lpBeginBlock();?>
@@ -50,7 +50,7 @@ class JBSignup extends lpPage
         
         lpAuth::login($row["uname"],$row["passwd"],false,true);
         
-        $this->gotoUrl("/profile/");
+        $this->gotoUrl("/panel/");
         return true;
     }
     
@@ -68,13 +68,13 @@ class JBSignup extends lpPage
     }
 }
 
-class JBLogin extends lpPage
+class Login extends lpPage
 {
-        private $msg;
+    private $msg;
         
     public function get()
     {
-            return lpTemplate::parseFile("template/login.php");
+        return lpTemplate::parseFile("template/login.php");
     }
     
     public function post()
@@ -87,7 +87,7 @@ class JBLogin extends lpPage
         
         if(lpAuth::login($_POST["uname"],$_POST["passwd"]))
         {
-            $this->gotoUrl(isset($_GET["next"])?$_GET["next"]:"/");
+            $this->gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
                 return true;
         }
         else
@@ -99,18 +99,18 @@ class JBLogin extends lpPage
     
     public function procError()
     {
-            $this->httpCode=400;
+        $this->httpCode=400;
+        
+        $tmp=new lpTemplate;
+        
+        $a["errorMsg"]=$this->msg;
+        $a["uname"]=$_POST["uname"];
             
-            $tmp=new lpTemplate;
-            
-            $a["errorMsg"]=$this->msg;
-            $a["uname"]=$_POST["uname"];
-            
-          $tmp->parse("template/login.php",$a);
+        $tmp->parse("template/login.php",$a);
     }
 }
 
-class JBLogout extends lpPage
+class Logout extends lpPage
 {
     public function get()
     {

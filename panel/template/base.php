@@ -1,10 +1,15 @@
-<?php if(!isset($lpInTemplate)) die();?>
+<?php if(!isset($lpInTemplate)) die();
+
+if(!isset($dontChangeTitle) || !$dontChangeTitle)
+    $title .= " | RP主机，技术宅的虚拟主机";
+
+?>
 <!DOCTYPE html>
 <html lang="zh">
   <head>
     <meta charset="utf-8">
     <title><?= $title;?></title>
-    <?= $header;?>
+    <?= isset($header)?$header:"";?>
     <?= lpTools::linkTo("bootstrap",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-responsive",NULL,false); ?>
     <?= lpTools::linkTo("lp-css"); ?>
@@ -27,33 +32,43 @@
               <li><a href="/manual/">用户手册</a></li>
               <li><a href="/service/">客服支持</a></li>
               <li><a href="/news/">公告</a></li>
+              <li><a href="/request-free/">申请试用</a></li>
             </ul>
             <ul class="nav pull-right">
-              <li><a href="/signup/">注册</a></li>
-              <li><a href="/request-free/">申请试用</a></li>
-              <li><a href="/login/">登录</a></li>
-              <li><a href="/logout/">注销</a></li>
+              <? if(lpAuth::login()): ?>
+                <li><a href="/panel/">管理面板</a></li>
+                <li><a href="/logout/">注销</a></li>
+              <? else: ?>
+                <li><a href="/signup/">注册</a></li>
+                <li><a href="/login/">登录</a></li>
+              <? endif; ?>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <div id="main" class="container">
+    <div id="<?= isset($mainClass)?$mainClass:"main";?>" class="container">
       <div class="row-fluid">
-        <div id="rp-sidebar" class="span3">
-          <ul data-spy="affix" class="nav nav-list sidenav">
-            <?= $rpSidebar;?>
-          </ul>
-        </div>
-      
+        <? if(isset($rpSidebar)): ?>
+          <div id="rp-sidebar" class="span3">
+            <ul data-spy="affix" class="nav nav-list sidenav">
+              <?= $rpSidebar;?>
+            </ul>
+          </div>
+        <? endif; ?>
         <div class="span9">
           <?= $lpContents;?>
         </div>
+        <? if(isset($sidebar)): ?>
+          <div class="span3">
+              <?= $sidebar;?>
+          </div>
+        <? endif; ?>
       </div>
     </div>
     <?= lpTools::linkTo("jquery",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
-    <?= $endOfBody;?>
+    <?= isset($endOfBody)?$endOfBody:"";?>
   </body>
 </html>
 

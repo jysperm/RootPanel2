@@ -2,13 +2,34 @@
 
 require_once("./LightPHP/lp-load.php");
 require_once("config.php");
-
-
-require_once("handler/view.php");
+require_once("handler/global.php");
 
 lpMVC::bind('^/$',function(){
-    lpTemplate::parseFile("template/index.php");
+    require_once("index.php");
     return "";
+});
+
+lpMVC::bind('^/panel/?',function(){
+    lpTemplate::parseFile("template/panel.php");
+    return "";
+});
+
+lpMVC::bind('^/login/?',function()
+{
+    require_once("handler/user.php");
+    return new Login;
+});
+
+lpMVC::bind('^/logout/?',function()
+{
+    require_once("handler/user.php");
+    return new Logout;
+});
+
+lpMVC::bind('^/signup/?',function()
+{
+    require_once("handler/user.php");
+    return new Signup;
 });
 
 lpMVC::onDefault(function()
