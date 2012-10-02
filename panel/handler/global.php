@@ -12,4 +12,22 @@ function cbLogin($user)
     $conn->update("user",array("uname"=>$user),$row);
 }
 
+function gotoUrl($url)
+{
+    header("Location: {$url}");
+}
+
+function makeLog($uname,$content)
+{
+    global $lpCfgTimeToChina;
+  
+    $conn=new lpMySQL;
+    
+    $row["uname"]=$uname;
+    $row["time"]=time()+$lpCfgTimeToChina;
+    $row["content"]=$content;
+
+    $conn->insert("log",$row);
+}
+
 ?>

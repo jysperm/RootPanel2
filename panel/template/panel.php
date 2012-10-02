@@ -25,14 +25,6 @@ lpBeginBlock();?>
   {
     
   }
-  jQuery(function(){
-    /*$('.sidenav').affix({
-      offset: {
-        top: function () { return $(window).width() <= 980 ? 290 : 210 }
-      , bottom: 270
-      }
-    })*/
-  });
 </script>
 
 <?php
@@ -40,7 +32,8 @@ $a["endOfBody"]=lpEndBlock();
 
 ?>
 
-<section class="box" id="box-website" style="padding-top:60px;">
+<section class="box" id="box-website">
+  <header>Web站点管理</header>
   <div class="box website">
     <div>
       站点ID：123456 | 模板：常规Web

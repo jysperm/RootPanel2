@@ -18,7 +18,7 @@ $a["header"]=lpEndBlock();
 
 lpBeginBlock();?>
 
-<li><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
+<li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
 <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
 <li><a href="#try-and-by"><i class="icon-chevron-right"></i> 试用和购买</a></li>
 <li><a href="#resource"><i class="icon-chevron-right"></i> 资源参数</a></li>
@@ -27,6 +27,19 @@ lpBeginBlock();?>
 
 <?php
 $a["rpSidebar"]=lpEndBlock();
+
+lpBeginBlock();?>
+
+<script type="text/javascript">
+  $("a[rel=popover]")
+  .popover({trigger:"hover"})
+  .click(function(e) {
+    e.preventDefault()
+  });
+</script>
+
+<?php
+$a["endOfBody"]=lpEndBlock();
 
 ?>
 
@@ -68,7 +81,9 @@ $a["rpSidebar"]=lpEndBlock();
   <div class="row-fluid">
     <div class="span4">
       <h2>试用版</h2>
-      <p class="h90">所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的资源限制.</p>
+      <p class="h90">所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的
+      <a href="#" rel="popover" data-content="CPU时间限制(按天)：500秒(相当于0.6%)<br />最小内存保证：10M<br />内存竞争系数：0.4(与付费用户竞争内存时的系数)<br />硬盘限制：300M<br />流量限制(按天)：300M<br />流量限制(按月)：3G<br />" data-original-title="试用帐号限制">资源限制</a>
+      </p>
       <p>
         <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
         <a class="btn btn-success" href="/request-free/">2. 填写申请</a>
@@ -79,7 +94,7 @@ $a["rpSidebar"]=lpEndBlock();
       <p class="h90">每月8元，每季度19元.</p>
       <p>
         <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
-        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=14519431757">2. 去淘宝付费</a>
+        <a class="btn btn-success" href="/pay/">2. 通过淘宝付款</a>
       </p>
     </div>
     <div class="span4">
@@ -87,7 +102,7 @@ $a["rpSidebar"]=lpEndBlock();
       <p class="h90">每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.</p>
       <p>
         <a class="btn btn-success" href="/signup/">1. 注册帐号</a> 
-        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=14519431757">2. 去淘宝付费</a>
+        <a class="btn btn-success" href="/pay/">2. 通过淘宝付款</a>
       </p>
     </div>
   </div>

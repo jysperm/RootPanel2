@@ -10,7 +10,28 @@ lpMVC::bind('^/$',function(){
 });
 
 lpMVC::bind('^/panel/?',function(){
-    lpTemplate::parseFile("template/panel.php");
+    if(!lpAuth::login())
+    {
+        gotoUrl("/login/");
+        exit();
+    }
+        
+    $conn=new lpMySQL;
+    $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
+    if($rs->read() && $rs->type!="no")
+    {
+        lpTemplate::parseFile("template/panel.php");
+    }
+    else
+    {
+        gotoUrl("/pay/");
+    }
+    
+    return "";
+});
+
+lpMVC::bind('^/pay/?',function(){
+    require_once("template/pay.php");
     return "";
 });
 

@@ -1,5 +1,7 @@
 <?php
 
+lpLoader("lpTemplate");
+
 class Signup extends lpPage
 {
     private $msg;
@@ -24,7 +26,7 @@ class Signup extends lpPage
         {
             lpBeginBlock();?>
               <ul>
-                <li>帐号仅可以使用中文、英文、数字和下划线</li>
+                <li>帐号仅可以使用英文、数字、下划线,且第一个字符必须为英文字母</li>
                 <li>邮箱务必为正确的邮箱地址</li>
               </ul>
             <?php
@@ -45,10 +47,15 @@ class Signup extends lpPage
         $row["passwd"]=lpAuth::DBHash($_POST["uname"],$_POST["passwd"]);
         $row["email"]=$_POST["email"];
         $row["regtime"]=time()+$lpCfgTimeToChina;
+        $row["type"]="no";
+        $row["expired"]=time()+$lpCfgTimeToChina-1;
+        $row["hasaccount"]=0;
 
         $conn->insert("user",$row);
         
         lpAuth::login($row["uname"],$row["passwd"],false,true);
+        
+        makeLog($_POST["uname"],"注册了帐号");
         
         $this->gotoUrl("/panel/");
         return true;

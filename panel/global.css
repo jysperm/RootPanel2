@@ -90,7 +90,7 @@
 
 #main
 {
-  margin-top:25px;
+  margin-top:30px;
 }
 
 .page-header {
@@ -111,4 +111,9 @@ section li {
 .h90 {
   height: 90px;
   font-size: 16px;
+}
+
+.popover
+{
+  width: 350px;
 }

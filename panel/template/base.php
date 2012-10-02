@@ -2,6 +2,13 @@
 
 if(!isset($dontChangeTitle) || !$dontChangeTitle)
     $title .= " | RP主机，技术宅的虚拟主机";
+    
+if(lpAuth::login())
+{
+    $conn=new lpMySQL;
+    $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
+    $rs->read();
+}
 
 ?>
 <!DOCTYPE html>
@@ -27,20 +34,22 @@ if(!isset($dontChangeTitle) || !$dontChangeTitle)
           <a class="brand" href="/">RP-HOST</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="/">主页</a></li>
-              <li><a href="/logs/">日志</a></li>
+              <li><a href="/"><i class="icon-home icon-white"></i>主页</a></li>
+              <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i>购买</a></li>
               <li><a href="/manual/">用户手册</a></li>
-              <li><a href="/service/">客服支持</a></li>
               <li><a href="/news/">公告</a></li>
-              <li><a href="/request-free/">申请试用</a></li>
             </ul>
             <ul class="nav pull-right">
               <? if(lpAuth::login()): ?>
-                <li><a href="/panel/">管理面板</a></li>
-                <li><a href="/logout/">注销</a></li>
+                <li><a><?= lpAuth::getUName();?></a></li>
+                <? if($rs->type=="no" || $rs->type=="free"): ?>
+                  <li><a href="/request-free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
+                <? endif; ?>
+                <li><a href="/panel/"><i class="icon-list-alt icon-white"></i>管理面板</a></li>
+                <li><a href="/logout/"><i class="icon-off icon-white"></i>注销</a></li>
               <? else: ?>
-                <li><a href="/signup/">注册</a></li>
-                <li><a href="/login/">登录</a></li>
+                <li><a href="/signup/"><i class="icon-edit icon-white"></i>注册</a></li>
+                <li><a href="/login/"><i class="icon-user icon-white"></i>登录</a></li>
               <? endif; ?>
             </ul>
           </div>
