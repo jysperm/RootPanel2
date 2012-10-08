@@ -49,7 +49,6 @@ class Signup extends lpPage
         $row["regtime"]=time()+$lpCfgTimeToChina;
         $row["type"]="no";
         $row["expired"]=time()+$lpCfgTimeToChina-1;
-        $row["hasaccount"]=0;
 
         $conn->insert("user",$row);
         
