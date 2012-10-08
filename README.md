@@ -23,14 +23,21 @@
 ### 软件包设置
 
     a2enmod rewrite
+    
+### 创建用户
+
+    adduser rpadmin
 
 ### 克隆代码库
 
     cd /root
     git clone git://github.com/jybox/RootPanel.git
-
-### 符号链接
-
     ln -s RootPanel /RootPanel
+    cd /
+    chown -R rpadmin:rpadmin RootPanel
+    chmod -R 770 RootPanel
+
+
+
     
 
