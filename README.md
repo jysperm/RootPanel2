@@ -2,7 +2,7 @@
 ## 使用
 ### 操作系统
 
->`Ubuntu Server 12.04 64bit`
+>`Ubuntu Server 12.04 64bit`  
 >ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
 
 ### 更新软件包
