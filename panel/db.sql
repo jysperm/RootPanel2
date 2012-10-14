@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `virtualhost` (
   `cgi` text NOT NULL,
 --仅当type=only时有效，是否转发404（文件不存在）的请求，取值：0、1
   `is404` int(11) NOT NULL,
---仅当type=static，不转发的扩展名，空格隔开
+--仅当type=static时有效，不转发的扩展名，空格隔开
   `static` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

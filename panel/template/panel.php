@@ -30,105 +30,109 @@ lpBeginBlock();?>
 <?php
 $a["endOfBody"]=lpEndBlock();
 
+$uiTemplate=array("web"=>"常规Web(PHP等CGI)",
+                  "proxy"=>"反向代理",
+                  "python"=>"Python(WSGI模式)");
+$uiHander=array("web"=>"Web根目录",
+                "proxy"=>"反向代理URL",
+                "python"=>"Web根目录");
+$uiType=array("all"=>"全部转到Apache",
+              "only"=>"仅转发指定的URL(一般是脚本文件)",
+              "unless"=>"不转发指定的URL(一般是静态文件)");
+
+$conn=new lpMySQL;
+$rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
+
 ?>
 
 <section class="box" id="box-website">
-  <header>Web站点管理</header>
-  <div class="box website">
-    <div>
-      站点ID：123456 | 模板：常规Web
-    </div>
+<header>Web站点管理</header>
+<? while($rs->read()): ?>
+  <div class="box website" id="website<?= $rs->id;?>">
+    <div>站点ID：<span class="label"><?= $rs->id;?></span></div>
     <hr />
     <div>
-      绑定的域名：test.rphost1.tk *.test.rphost.tk
+      绑定的域名：
+      <?php 
+        $domains=explode(" ",trim(str_replace("  "," ",$rs->domains)));
+        foreach($domains as $v)
+        {
+          echo "<span class='label'>{$v}</span>  ";
+        }
+      ?>
     </div>
     <hr />
-    <div>
-      网站根目录：/home/test/web/
-    </div>
-    <hr />
-    <div>
-      仅将指定的URL转发给Apache作为动态脚本处理<br />
-      <i class="icon-ok"></i>PHP: .php<br />
-      <i class="icon-ok"></i>CGI: .cgi<br />
-      <i class="icon-ok"></i>不存在的路径<br />
-    </div>
-    <hr />
-    <div>
-      默认首页：index.html index.php<br />
-      已开启自动索引页面
-    </div>
-    <hr />
-    <div>
-      Alias别名：
-    </div>
-    <hr />
-    <div>
-      nginx access日志：<br />
-      nginx error日志：<br />
-      apache access日志：<br />
-      apache error日志：
-    </div>
-    <hr />
-    <div>
-      已开启SSL<br />
-      key：<br />
-      crt：
-    </div>
-    <hr />
-    <button class="btn btn-danger pull-right">删除</button>
-    
-    <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(123456);return false;">编辑</button>
-  </div>
-  
-  <div class="box website">
-    <div>
-      站点ID：123456 | 模板：常规Web
-    </div>
-    <hr />
-    <div>
-      绑定的域名：test.rphost1.tk *.test.rphost.tk
-    </div>
-    <hr />
-    <div>
-      网站根目录：/home/test/web/
-    </div>
-    <hr />
-    <div>
-      仅将指定的URL转发给Apache作为动态脚本处理<br />
-      <i class="icon-ok"></i>PHP: .php<br />
-      <i class="icon-ok"></i>CGI: .cgi<br />
-      <i class="icon-ok"></i>不存在的路径<br />
-    </div>
-    <hr />
-    <div>
-      默认首页：index.html index.php<br />
-      已开启自动索引页面
+    <div class="box">
+      <header>模板：<?= $uiTemplate[$rs->template];?></header>
+      <? switch($rs->template): 
+        case "web": ?>
+          <div><i class="icon-ok"></i><?= $uiType[$rs->type];?></div>
+          <div>
+          <? switch($rs->type):
+            case "all":
+            break; ?>
+            <? case "only": ?>
+              PHP: <?= $rs->php;?><br />
+              CGI: <?= $rs->cgi;?><br />
+              <i class="<?= ($rs->is404)?"icon-ok":"icon-remove";?>"></i>不存在的路径(404)
+            <? break;
+            case "unless": ?>
+              静态文件: <?= $rs->static;?>
+          <? endswitch; ?>
+          </div>
+          <hr />
+          <div>
+            默认首页：<?= $rs->indexs;?><br />
+            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
+          </div>
+        <? break;
+        case "proxy":
+        break;
+        case "python": ?>
+          <div>
+            默认首页：<?= $rs->indexs;?><br />
+            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
+          </div>
+      <? endswitch; ?>
+      <hr />
+      <div>
+        <?= $uiHander[$rs->template];?>：<?= $rs->root;?></span>
+      </div>
     </div>
     <hr />
     <div>
       Alias别名：
+      <?php
+        $alias=json_decode($rs->alias,true);
+        foreach($alias as $k => $v)
+        {
+            echo "$k : $v";
+        }
+      ?>
     </div>
     <hr />
     <div>
-      nginx access日志：<br />
-      nginx error日志：<br />
-      apache access日志：<br />
-      apache error日志：
+      nginx access日志：<?= $rs->nginxaccess;?><br />
+      nginx error日志：<?= $rs->nginxerror;?><br />
+      apache access日志：<?= $rs->apacheaccess;?><br />
+      apache error日志：<?= $rs->apacheerror;?>
     </div>
     <hr />
     <div>
-      已开启SSL<br />
-      key：<br />
-      crt：
+      <i class="<?= ($rs->isssl)?"icon-ok":"icon-remove";?>"></i>已开启SSL<br />
+      key：<?= $rs->sslkey;?><br />
+      crt：<?= $rs->sslcrt;?>
     </div>
     <hr />
-    <button class="btn btn-danger pull-right">删除</button>
-    
-    <button class="btn btn-info pull-right" style="margin-right:10px;">编辑</button>
+    <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $rs->id;?>);return false;">删除</button>
+    <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $rs->id;?>);return false;">编辑</button>
   </div>
+  <div class="box website">
+    <button class="btn btn-success pull-right" onclick="addWebsite();return false;">添加站点</button>
+  </div>
+<? endwhile; ?>
 </section>
-
+  
 <?php
 
 $tmp->parse("template/base.php",$a);
