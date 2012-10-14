@@ -1,0 +1,18 @@
+<Directory />
+    Options +FollowSymLinks
+    AllowOverride All
+</Directory>
+
+<VirtualHost *:8080>
+    ServerName rp.jybox.net
+    ServerAlias rp.jybox.net
+  
+    DocumentRoot /RootPanel/panel
+  
+    ErrorLog /root/log/apache.error.log
+    LogLevel warn
+    CustomLog /root/log/apache.access.log combined
+      
+    AssignUserId rpadmin rpadmin
+</VirtualHost>
+
