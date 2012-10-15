@@ -30,6 +30,11 @@ lpMVC::bind('^/panel/?',function(){
     return "";
 });
 
+lpMVC::bind('^/commit/virtualhost/?',function(){
+    require_once("handler/virtualhost.php");
+    return new VirtualHost;
+});
+
 lpMVC::bind('^/pay/?',function(){
     require_once("template/pay.php");
     return "";

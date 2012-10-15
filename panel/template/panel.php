@@ -23,7 +23,11 @@ lpBeginBlock();?>
 <script type="text/javascript">
   function editWebsite(websiteId)
   {
-    
+      $("#editWebsite .rp-title").html("编辑站点");
+      $.post("/commit/virtualhost/",{"do":"get","id":websiteId},function(data){
+        $("#editWebsite .rp-body").html(data);
+        $("#editWebsite").modal();
+      },"html");
   }
 </script>
 
@@ -44,6 +48,20 @@ $conn=new lpMySQL;
 $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
 
 ?>
+
+<div class="modal hide" id="editWebsite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel" class="rp-title"></h3>
+  </div>
+  <div class="modal-body rp-body">
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+    <button class="btn btn-primary rp-ok">保存</button>
+  </div>
+</div>
 
 <section class="box" id="box-website">
 <header>Web站点管理</header>

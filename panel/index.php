@@ -20,7 +20,7 @@ lpBeginBlock();?>
 
 <li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
 <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
-<li><a href="#try-and-by"><i class="icon-chevron-right"></i> 试用和购买</a></li>
+<li><a href="#try-and-buy"><i class="icon-chevron-right"></i> 试用和购买</a></li>
 <li><a href="#resource"><i class="icon-chevron-right"></i> 资源参数</a></li>
 <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
 <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
@@ -79,7 +79,7 @@ $a["endOfBody"]=lpEndBlock();
     </ul>
   </p>
 </section>
-<section id="try-and-by">
+<section id="try-and-buy">
   <div class="page-header">
     <h1>试用和购买</h1>
   </div>
