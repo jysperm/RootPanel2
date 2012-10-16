@@ -26,6 +26,38 @@ lpBeginBlock();?>
       $("#editWebsite .rp-title").html("编辑站点");
       $.post("/commit/virtualhost/",{"do":"get","id":websiteId},function(data){
         $("#editWebsite .rp-body").html(data);
+        
+        $("#editWebsite #opweb").click(function(){
+            $("#editWebsite .div-web").show();
+            $("#editWebsite .div-python").hide();
+        });
+        
+        $("#editWebsite #opproxy").click(function(){
+            $("#editWebsite .div-web").hide();
+            $("#editWebsite .div-python").hide();
+        });
+        
+        $("#editWebsite #oppython").click(function(){
+            $("#editWebsite .div-web").hide();
+            $("#editWebsite .div-python").show();
+        });
+        
+        
+        $("#editWebsite #opall").click(function(){
+            $("#editWebsite .div-only").hide();
+            $("#editWebsite .div-unless").hide();
+        });
+        
+        $("#editWebsite #oponly").click(function(){
+            $("#editWebsite .div-only").show();
+            $("#editWebsite .div-unless").hide();
+        });
+        
+        $("#editWebsite #opunless").click(function(){
+            $("#editWebsite .div-only").hide();
+            $("#editWebsite .div-unless").show();
+        });
+        
         $("#editWebsite").modal();
       },"html");
   }
