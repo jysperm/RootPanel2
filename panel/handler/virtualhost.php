@@ -39,6 +39,7 @@ class VirtualHost extends lpPage
                     {
                           ?>
                           <form class="rp-form" method="post">
+                            
                           <div>站点ID：<span class="label"><?= $rs->id;?></span></div>
                           <div>
                             绑定的域名：<input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= trim(str_replace("  "," ",$rs->domains));?>" required="required" />
@@ -137,6 +138,11 @@ class VirtualHost extends lpPage
                         return true;
                     }
                 }
+            case "edit":
+                $r["status"]="error";
+                $r["msg"]=print_r($_POST,true);
+                echo json_encode($r);
+                return true;
             default:
                 echo "参数错误";
                 return true;

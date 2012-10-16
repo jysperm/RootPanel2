@@ -58,6 +58,24 @@ lpBeginBlock();?>
             $("#editWebsite .div-unless").show();
         });
         
+        
+        $("#editWebsite .rp-ok").click(function(){
+            postdata=$("#editWebsite .rp-form").serializeArray();
+            postdata.push({name:"id",value:websiteId});
+            postdata.push({name:"do",value:"edit"});
+            $.post("/commit/virtualhost/", postdata,function(data){
+                if(data.status=="ok")
+                {
+                    window.location.reload();
+                }
+                else
+                {
+                    alert(data.msg);
+                }
+            },"json");
+        });
+        
+        
         $("#editWebsite").modal();
       },"html");
   }
