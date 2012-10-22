@@ -40,6 +40,11 @@ lpMVC::bind('^/pay/?',function(){
     return "";
 });
 
+lpMVC::bind('^/manual/?',function(){
+    require_once("template/manual.php");
+    return "";
+});
+
 lpMVC::bind('^/login/?',function()
 {
     require_once("handler/user.php");
