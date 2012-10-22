@@ -139,8 +139,45 @@ class VirtualHost extends lpPage
                     }
                 }
             case "edit":
-                $r["status"]="error";
-                $r["msg"]=print_r($_POST,true);
+                while(true)
+                {
+                  if(!isset($_POST["id"]))
+                  {
+                      $r["msg"]="参数不全";
+                      break;
+                  }
+                  $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
+                  if($rs->read() && $rs->uname==lpAuth::getUName())
+                  {
+                      //domains-域名
+                      // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
+                      // ^ *DOMAIN( DOMAIN)* *$
+                      if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',$_POST["domains"]))
+                      {
+                          $r["msg"]="域名格式不正确";
+                          break;
+                      }
+                      else
+                      {
+                          $_POST["domains"]=trim(str_replace("  "," ",$_POST["domains"]));
+                      }
+                      
+                      //参数正确性校验
+                      //写入数据库
+                      $r["msg"]="正确";
+                  }
+                  else
+                  {
+                      $r["msg"]="id不存在";
+                      break;
+                  }
+                  break;
+                }
+                
+                if(isset($r["msg"]))
+                    $r["status"]="error";
+                else
+                    $r["status"]="ok";
                 echo json_encode($r);
                 return true;
             default:

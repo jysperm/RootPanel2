@@ -58,6 +58,7 @@ lpBeginBlock();?>
             $("#editWebsite .div-unless").show();
         });
         
+        $("#editWebsite .rp-ok").unbind('click');
         
         $("#editWebsite .rp-ok").click(function(){
             postdata=$("#editWebsite .rp-form").serializeArray();
@@ -73,6 +74,7 @@ lpBeginBlock();?>
                     alert(data.msg);
                 }
             },"json");
+            return false;
         });
         
         
