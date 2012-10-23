@@ -103,15 +103,15 @@ class VirtualHost extends lpPage
                               <?= $uiHander[$rs->template];?>：<input type="text" class="input-xxlarge" id="root" name="root" value="<?= trim(str_replace("  "," ",$rs->root));?>" />
                           </div>
                           Alias别名（一行一对）：<br />
-                          <textarea id="alias" name="alias" rows="4">
-                            <?php
-                              $alias=json_decode($rs->alias,true);
-                              foreach($alias as $k => $v)
-                              {
-                                  echo "$k $v";
-                              }
-                            ?>
-                          </textarea>
+<textarea id="alias" name="alias" rows="4">
+<?php
+$alias=json_decode($rs->alias,true);
+foreach($alias as $k => $v)
+{
+  echo "$k $v\n";
+}
+?>
+</textarea>
                           <hr />
                           <div>
                             nginx access日志：<input type="text" class="input-xxlarge" id="nginxaccess" name="nginxaccess" value="<?= $rs->nginxaccess;?>" /><br />
@@ -141,34 +141,99 @@ class VirtualHost extends lpPage
             case "edit":
                 while(true)
                 {
+                  $r["msg"]="";
                   if(!isset($_POST["id"]))
                   {
                       $r["msg"]="参数不全";
                       break;
                   }
                   $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
-                  if($rs->read() && $rs->uname==lpAuth::getUName())
+                  if($rs->read() && $rs->uname==lpAuth::getUName() && $rs->type!="no")
                   {
                       //domains-域名
                       // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
                       // ^ *DOMAIN( DOMAIN)* *$
-                      if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',$_POST["domains"]))
+                      if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',$_POST["domains"]) ||
+                         strlen($_POST["domains"]) >128 )
                       {
                           $r["msg"]="域名格式不正确";
                           break;
                       }
                       else
                       {
-                          $_POST["domains"]=trim(str_replace("  "," ",$_POST["domains"]));
+                          $isOk=true;
+                          $row["domains"]=trim(str_replace("  "," ",$_POST["domains"]));
+                          $rsD=$conn->exec("SELECT * FROM `virtualhost` WHERE `id` <> '%i'",$_POST["id"]);
+                          while($rsD->read())
+                          {
+                              $tD=explode(" ",$rsD->domains);
+                              if(count(array_intersect($tD,$row["domains"])))
+                              {
+                                  $r["msg"]="以下域名已被其他人绑定，请联系客服：" . join(" ",array_intersect($tD,$row["domains"]));
+                                  $isOk=false;
+                              }
+                          }
+                          if(!$isOk)
+                            break;
                       }
                       
-                      //参数正确性校验
+                      //template 模板类型
+                      if(!in_array($_POST["optemplate"],array("web","proxy","python")))
+                      {
+                          $r["msg"]="参数错误";
+                          break;
+                      }
+                      else
+                      {
+                          $row["template"]=$_POST["optemplate"];
+                      }
+                      
+                      //Alias  别名
+                      $aliasR=array();
+                      $alias=explode("\n",$_POST["alias"]);
+                      foreach($alias as $v)
+                      {
+                          $vv=explode(" ",trim(str_replace("  "," ",$v)));
+                          
+                          if(isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1])
+                          {
+                          
+                              if(!preg_match('/^\S+$/',$vv[0]) || strlen($vv[0]) > 128 )
+                              {
+                                  $r["msg"].="别名" . $vv[0] . "不正确";
+                                  break;
+                              }
+                              
+                              
+                              $userDir="/home/{$rs->uname}/";
+                              
+                              if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$vv[1]) || substr($vv[1],0,strlen($userDir))!=$userDir || strlen($vv[1]) > 512  ||
+                                 strpos($vv[1],"/../") || substr($vv[1],-3)=="/.." )
+                              {
+                                  $r["msg"].="别名" . $vv[1] . "不正确";
+                                  break;
+                              }
+                              
+                              //写入对象
+                              
+                              $aliasR[$vv[0]]=$vv[1];
+                          }
+                      }
+                      
+                      $row["alias"]=json_encode($aliasR);
+                      
+                      
+                      
+                      
+                      $row["lastchange"]=time()+$lpCfgTimeToChina;
+                      
                       //写入数据库
-                      $r["msg"]="正确";
+                      $r["msg"].="正确";
+                      //$r["msg"]=print_r($_POST,true);
                   }
                   else
                   {
-                      $r["msg"]="id不存在";
+                      $r["msg"]="id不存在,或未续费";
                       break;
                   }
                   break;
