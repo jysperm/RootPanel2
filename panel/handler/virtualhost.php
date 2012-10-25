@@ -150,6 +150,9 @@ foreach($alias as $k => $v)
                   $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
                   if($rs->read() && $rs->uname==lpAuth::getUName() && $rs->type!="no")
                   {
+                      $userDir="/home/{$rs->uname}/";
+                      $isOk=true;
+                    
                       //domains-域名
                       // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
                       // ^ *DOMAIN( DOMAIN)* *$
@@ -161,8 +164,7 @@ foreach($alias as $k => $v)
                       }
                       else
                       {
-                          $isOk=true;
-                          $row["domains"]=trim(str_replace("  "," ",$_POST["domains"]));
+                          $row["domains"]=strtolower(trim(str_replace("  "," ",$_POST["domains"])));
                           $rsD=$conn->exec("SELECT * FROM `virtualhost` WHERE `id` <> '%i'",$_POST["id"]);
                           while($rsD->read())
                           {
@@ -205,7 +207,7 @@ foreach($alias as $k => $v)
                               }
                               
                               
-                              $userDir="/home/{$rs->uname}/";
+                              
                               
                               if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$vv[1]) || substr($vv[1],0,strlen($userDir))!=$userDir || strlen($vv[1]) > 512  ||
                                  strpos($vv[1],"/../") || substr($vv[1],-3)=="/.." )
@@ -222,14 +224,228 @@ foreach($alias as $k => $v)
                       
                       $row["alias"]=json_encode($aliasR);
                       
+                      // 日志
+                      if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["nginxaccess"]) || substr($_POST["nginxaccess"],0,strlen($userDir))!=$userDir || strlen($_POST["nginxaccess"]) > 512  ||
+                                 strpos($_POST["nginxaccess"],"/../") || substr($_POST["nginxaccess"],-3)=="/.." )
+                      {
+                          $r["msg"].="nginxaccess不正确";
+                          break;
+                      }
+                      
+                      if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["nginxerror"]) || substr($_POST["nginxerror"],0,strlen($userDir))!=$userDir || strlen($_POST["nginxerror"]) > 512  ||
+                                 strpos($_POST["nginxerror"],"/../") || substr($_POST["nginxerror"],-3)=="/.." )
+                      {
+                          $r["msg"].="nginxerror不正确";
+                          break;
+                      }
+                      
+                      if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["apacheaccess"]) || substr($_POST["apacheaccess"],0,strlen($userDir))!=$userDir || strlen($_POST["apacheaccess"]) > 512  ||
+                                 strpos($_POST["apacheaccess"],"/../") || substr($_POST["apacheaccess"],-3)=="/.." )
+                      {
+                          $r["msg"].="apacheaccess不正确";
+                          break;
+                      }
+                      
+                      if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["apacheerror"]) || substr($_POST["apacheerror"],0,strlen($userDir))!=$userDir || strlen($_POST["apacheerror"]) > 512  ||
+                                 strpos($_POST["apacheerror"],"/../") || substr($_POST["apacheerror"],-3)=="/.." )
+                      {
+                          $r["msg"].="apacheerror不正确";
+                          break;
+                      }
+                      
+                      $row["nginxaccess"]=$_POST["nginxaccess"];
+                      $row["nginxerror"]=$_POST["nginxerror"];
+                      $row["apacheaccess"]=$_POST["apacheaccess"];
+                      $row["apacheerror"]=$_POST["apacheerror"];
+                      
+                      //SSL
+                      if(isset($_POST["isssl"]) && $_POST["isssl"]=="on")
+                      {
+                          if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["sslcrt"]) || substr($_POST["sslcrt"],0,strlen($userDir))!=$userDir || strlen($_POST["sslcrt"]) > 512  ||
+                                 strpos($_POST["sslcrt"],"/../") || substr($_POST["sslcrt"],-3)=="/.." )
+                          {
+                              $r["msg"].="sslcrt不正确";
+                              break;
+                          }
+                          
+                          if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["sslkey"]) || substr($_POST["sslkey"],0,strlen($userDir))!=$userDir || strlen($_POST["sslkey"]) > 512  ||
+                                 strpos($_POST["sslkey"],"/../") || substr($_POST["sslkey"],-3)=="/.." )
+                          {
+                              $r["msg"].="sslkey不正确";
+                              break;
+                          }
+                          
+                          if(!file_exists($_POST["sslcrt"]))
+                          {
+                              $r["msg"].="sslcrt不存在";
+                              break;
+                          }
+                          
+                          if(!file_exists($_POST["sslkey"]))
+                          {
+                              $r["msg"].="sslkey不存在";
+                              break;
+                          }
+                          
+                          $row["isssl"]=1;
+                          $row["sslcrt"]=$_POST["sslcrt"];
+                          $row["sslkey"]=$_POST["sslkey"];
+                      }
+                      else
+                      {
+                          $row["isssl"]=0;
+                      }
+                      
+                      
+                      switch($_POST["optemplate"])
+                      {
+                          case "web":
+                              switch($_POST["optype"])
+                              {
+                                  case "all":
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  break;
+                                  case "only":
+                                  // [A-Za-z0-9_\-\.]+
+                                  // ^ *DOMAIN( DOMAIN)* *$
+                                  // ^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$
+                                  
+                                  
+                                  if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/',$_POST["php"]) ||
+                                     strlen($_POST["php"]) >256 )
+                                  {
+                                      $r["msg"]="php格式不正确";
+                                      $isOk=false;
+                                      break;
+                                  }
+                                  
+                                  if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/',$_POST["cgi"]) ||
+                                     strlen($_POST["cgi"]) >256 )
+                                  {
+                                      $r["msg"]="cgi格式不正确";
+                                      $isOk=false;
+                                      break;
+                                  }
+                                  
+                                  if(isset($_POST["is404"]) && $_POST["is404"]=="on")
+                                      $row["is404"]=1;
+                                  else
+                                      $row["is404"]=0;
+                                  
+                                  $row["php"]=$_POST["php"];
+                                  $row["cgi"]=$_POST["cgi"];
+                                  
+                                  
+                                  break;
+                                  case "unless":
+                                  
+                                  if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/',$_POST["static"]) ||
+                                     strlen($_POST["static"]) >256 )
+                                  {
+                                      $r["msg"]="static格式不正确";
+                                      $isOk=false;
+                                      break;
+                                  }
+                                  $row["static"]=$_POST["static"];
+                                  
+                                  
+                                  break;
+                                  default:
+                                      $r["msg"]="参数错误";
+                                      $isOk=false;
+                              }
+                              
+                              $row["type"]=$_POST["optype"];
+                              
+                              if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/',$_POST["indexs"]) ||
+                                     strlen($_POST["indexs"]) >256 )
+                              {
+                                  $r["msg"]="indexs格式不正确";
+                                  $isOk=false;
+                                  break;
+                              }
+                              
+                              if(isset($_POST["autoindex"]) && $_POST["autoindex"]=="on")
+                                    $row["autoindex"]=1;
+                                else
+                                    $row["autoindex"]=0;
+                                    
+                              if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["root"]) || substr($_POST["root"],0,strlen($userDir))!=$userDir || strlen($_POST["root"]) > 512  ||
+                                 strpos($_POST["root"],"/../") || substr($_POST["root"],-3)=="/.." )
+                              {
+                                  $r["msg"].="root不正确";
+                                  $isOk=false;
+                                  break;
+                              }
+                              
+                              
+                              $row["indexs"]=$_POST["indexs"];
+                              $row["root"]=$_POST["root"];
+                          
+                          break;
+                          case "proxy":
+                          
+                          
+                          if(!preg_match('%^http://[^\s]*$%',$_POST["root"]) ||
+                                     strlen($_POST["indexs"]) >512 )
+                              {
+                                  $r["msg"]="url格式不正确";
+                                  $isOk=false;
+                                  break;
+                              }
+                              
+                              $row["root"]=$_POST["root"];
+                          
+                          break;
+                          case "python":
+                          
+                          
+                          if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/',$_POST["pyindexs"]) ||
+                                     strlen($_POST["pyindexs"]) >256 )
+                              {
+                                  $r["msg"]="pyindexs格式不正确";
+                                  $isOk=false;
+                                  break;
+                              }
+                              
+                              if(isset($_POST["pyautoindex"]) && $_POST["pyautoindex"]=="on")
+                                    $row["autoindex"]=1;
+                                else
+                                    $row["autoindex"]=0;
+                                    
+                              if(!preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$_POST["root"]) || substr($_POST["root"],0,strlen($userDir))!=$userDir || strlen($_POST["root"]) > 512  ||
+                                 strpos($_POST["root"],"/../") || substr($_POST["root"],-3)=="/.." )
+                              {
+                                  $r["msg"].="root不正确";
+                                  $isOk=false;
+                                  break;
+                              }
+                              
+                              
+                              $row["indexs"]=$_POST["pyindexs"];
+                              $row["root"]=$_POST["root"];
+                          
+                          
+                          break;
+                          default:
+                              $r["msg"]="参数错误";
+                              $isOk=false;
+                      }
+                      
+                      if(!$isOk)
+                          break;
+                      
                       
                       
                       
                       $row["lastchange"]=time()+$lpCfgTimeToChina;
                       
                       //写入数据库
-                      $r["msg"].="正确";
-                      //$r["msg"]=print_r($_POST,true);
+                      $r["msg"].="正确".print_r($_POST,true);
                   }
                   else
                   {

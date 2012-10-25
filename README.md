@@ -58,7 +58,7 @@
 ### 重启服务器
 
     service nginx restart
-    service a restart
+    service apache2 restart
 
 
 
