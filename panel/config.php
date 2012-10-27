@@ -1,5 +1,7 @@
 <?php
 
+//$lpCfgMySQLDebug=true;
+
 $rpDomain="rp.jybox.net";
 
 $lpUrl="/LightPHP/";

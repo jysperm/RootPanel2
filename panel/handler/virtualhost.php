@@ -278,7 +278,9 @@ class VirtualHost extends lpPage
                 else
                 {
                     $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
-                    if($rs->read() && $rs->uname==lpAuth::getUName())
+                    $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+                    $rsU->read();
+                    if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
                     {
                           $tmp=new lpTemplate;
                           $tmp->parse("template/edit-website.php",array("rs"=>$rs->rawArray()));
@@ -301,6 +303,7 @@ class VirtualHost extends lpPage
                 
                 $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
                 $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+                $rsU->read();
                 if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
                 {
                     if($this->checkInput())
@@ -339,6 +342,7 @@ class VirtualHost extends lpPage
                 break;
             case "new":
                 $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+                $rsU->read();
                 if($rsU->type!="no")
                 {
                     if($this->checkInput(true))
@@ -384,6 +388,7 @@ class VirtualHost extends lpPage
                 
                 $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
                 $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+                $rsU->read();
                 if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
                 {
                     $conn->delete("virtualhost",array("id"=>$_POST["id"]));

@@ -53,5 +53,11 @@ $uiHander=array("web"=>"Web根目录",
 $uiType=array("all"=>"全部转到Apache",
               "only"=>"仅转发指定的URL(一般是脚本文件)",
               "unless"=>"不转发指定的URL(一般是静态文件)");
+              
+$uiUserType=array("no"=>"未购买",
+                  "free"=>"免费试用版",
+                  "std"=>"标准付费版",
+                  "ext"=>"额外技术支持版");
+
 
 ?>

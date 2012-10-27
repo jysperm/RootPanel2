@@ -1,6 +1,6 @@
 <?php
 
-global $uiTemplate,$uiHander,$uiType;
+global $uiTemplate,$uiHander,$uiType,$uiUserType;
 
 $tmp = new lpTemplate;
 
@@ -15,7 +15,9 @@ $a["header"]=lpEndBlock();
 
 lpBeginBlock();?>
 
+<li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#box-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
+<li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
 <?php
 $a["rpSidebar"]=lpEndBlock();
@@ -125,6 +127,9 @@ $a["endOfBody"]=lpEndBlock();
 
 $conn=new lpMySQL;
 $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
+$rsL=$conn->select("log",array("uname"=>lpAuth::getUName()),"time",-1,30,false);
+$rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+$rsU->read();
 
 ?>
 
@@ -141,6 +146,15 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
     <button class="btn btn-primary rp-ok">保存</button>
   </div>
 </div>
+
+<section class="box" id="box-index">
+    <header>概述</header>
+    <div>
+        账户类型：<?= $uiUserType[$rsU->type] ?><br />
+        到期时间：<span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span><br />
+        <a class="btn btn-success" href="/pay/"> 续费</a>
+    <div>
+</section>
 
 <section class="box" id="box-website">
 <header>Web站点管理</header>
@@ -229,6 +243,26 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
   <div class="box website">
     <button id="new-website" class="btn btn-success pull-right">添加站点</button>
   </div>
+</section>
+
+<section class="box" id="box-log">
+    <header>日志</header>
+    <div>
+        <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>id</th><th>时间</th><th>内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <? while($rsL->read()): ?>
+            <tr>
+              <td><?= $rsL->id;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= $rsL->content;?></td>
+            </tr> 
+          <? endwhile; ?>
+        </tbody>
+      </table>
+    <div>
 </section>
   
 <?php
