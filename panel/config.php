@@ -1,5 +1,7 @@
 <?php
 
+$rpDomain="rp.jybox.net";
+
 $lpUrl="/LightPHP/";
 $lpCfgCallback="cbLogin";
 

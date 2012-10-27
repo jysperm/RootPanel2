@@ -1,5 +1,7 @@
 <?php
 
+global $uiTemplate,$uiHander,$uiType;
+
 $tmp = new lpTemplate;
 
 $a["mainClass"] = "main50";
@@ -86,16 +88,6 @@ lpBeginBlock();?>
 <?php
 $a["endOfBody"]=lpEndBlock();
 
-$uiTemplate=array("web"=>"常规Web(PHP等CGI)",
-                  "proxy"=>"反向代理",
-                  "python"=>"Python(WSGI模式)");
-$uiHander=array("web"=>"Web根目录",
-                "proxy"=>"反向代理URL",
-                "python"=>"Web根目录");
-$uiType=array("all"=>"全部转到Apache",
-              "only"=>"仅转发指定的URL(一般是脚本文件)",
-              "unless"=>"不转发指定的URL(一般是静态文件)");
-
 $conn=new lpMySQL;
 $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
 
@@ -155,6 +147,7 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
             默认首页：<?= $rs->indexs;?><br />
             <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
           </div>
+          <hr />
         <? break;
         case "proxy":
         break;
@@ -163,8 +156,8 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
             默认首页：<?= $rs->indexs;?><br />
             <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
           </div>
+          <hr />
       <? endswitch; ?>
-      <hr />
       <div>
         <?= $uiHander[$rs->template];?>：<?= $rs->root;?></span>
       </div>

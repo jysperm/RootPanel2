@@ -30,4 +30,14 @@ function makeLog($uname,$content)
     $conn->insert("log",$row);
 }
 
+$uiTemplate=array("web"=>"常规Web(PHP等CGI)",
+                  "proxy"=>"反向代理",
+                  "python"=>"Python(WSGI模式)");
+$uiHander=array("web"=>"Web根目录",
+                "proxy"=>"反向代理URL",
+                "python"=>"Web根目录");
+$uiType=array("all"=>"全部转到Apache",
+              "only"=>"仅转发指定的URL(一般是脚本文件)",
+              "unless"=>"不转发指定的URL(一般是静态文件)");
+
 ?>

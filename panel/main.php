@@ -1,6 +1,6 @@
 <?php
 
-require_once("./LightPHP/lp-load.php");
+require_once("LightPHP/lp-load.php");
 require_once("config.php");
 require_once("handler/global.php");
 
