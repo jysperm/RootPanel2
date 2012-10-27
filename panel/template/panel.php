@@ -23,6 +23,20 @@ $a["rpSidebar"]=lpEndBlock();
 lpBeginBlock();?>
 
 <script type="text/javascript">
+  function deleteWebsite(websiteId)
+  {
+      if(confirm("你确定要删除？"))
+      {
+          $.post("/commit/virtualhost/",{"do":"delete","id":websiteId},function(data){
+            if(data.status=="ok")
+                window.location.reload();
+            else
+                alert(data.msg);
+          },"json");
+      }
+      return false;
+  }
+  
   function editWebsite(websiteId)
   {
       $("#editWebsite .rp-title").html("编辑站点");

@@ -371,7 +371,34 @@ class VirtualHost extends lpPage
                     echo json_encode($r);
                     return true;
                 }
+                return true;
                 break;
+            case "delete":
+                if(!isset($_POST["id"]))
+                {
+                    $r["msg"]="参数不全";
+                    $r["status"]="error";
+                    echo json_encode($r);
+                    return true;
+                }
+                
+                $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
+                $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
+                if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
+                {
+                    $conn->delete("virtualhost",array("id"=>$_POST["id"]));
+                  
+                    $r["status"]="ok";
+                    echo json_encode($r);
+                    return true;
+                }
+                else
+                {
+                    $r["msg"]="id不存在,或未续费";
+                    $r["status"]="error";
+                    echo json_encode($r);
+                    return true;
+                }
                 return true;
                 break;
             default:
