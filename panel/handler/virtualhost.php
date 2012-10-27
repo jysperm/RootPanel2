@@ -312,7 +312,7 @@ class VirtualHost extends lpPage
                         $row["lastchange"]=time()+$lpCfgTimeToChina;
                         $cfgOld=json_encode($rs->rawArray());
                         $cfgNew=json_encode($row);
-                        makeLog(lpAuth::getUName(),"修改了{$rs->id}的配置，原配置为：{$cfgOld},新配置为{$cfgNew}");
+                        makeLog(lpAuth::getUName(),"修改了站点{$rs->id}，原配置为：{$cfgOld},新配置为{$cfgNew}");
                         $conn->update("virtualhost",array("id"=>$_POST["id"]),$row);
                         
                         $r["status"]="ok";
@@ -354,7 +354,7 @@ class VirtualHost extends lpPage
                         $row["lastchange"]=time()+$lpCfgTimeToChina;
                         $cfgNew=json_encode($row);
                         $conn->insert("virtualhost",$row);
-                        makeLog(lpAuth::getUName(),"创建了{$conn->insertId()}，配置为：{$cfgNew}");
+                        makeLog(lpAuth::getUName(),"创建了站点{$conn->insertId()}，配置为：{$cfgNew}");
                         
                         $r["status"]="ok";
                         echo json_encode($r);
@@ -391,6 +391,8 @@ class VirtualHost extends lpPage
                 $rsU->read();
                 if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
                 {
+                    $cfgOld=json_encode($rs->rawArray());
+                    makeLog(lpAuth::getUName(),"删除了站点{$rs->id}，配置为{$cfgOld}");
                     $conn->delete("virtualhost",array("id"=>$_POST["id"]));
                   
                     $r["status"]="ok";

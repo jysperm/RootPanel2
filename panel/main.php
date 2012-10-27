@@ -30,9 +30,25 @@ lpMVC::bind('^/panel/?',function(){
     return "";
 });
 
+lpMVC::bind('^/admin/?',function(){
+    if(!lpAuth::login() || lpAuth::getUName()!="rpadmin")
+    {
+        gotoUrl("/login/");
+        exit();
+    }
+        
+    lpTemplate::parseFile("template/admin.php");
+    return "";
+});
+
 lpMVC::bind('^/commit/virtualhost/?',function(){
     require_once("handler/virtualhost.php");
     return new VirtualHost;
+});
+
+lpMVC::bind('^/commit/admin/?',function(){
+    require_once("handler/admin.php");
+    return new Admin;
 });
 
 lpMVC::bind('^/pay/?',function(){
