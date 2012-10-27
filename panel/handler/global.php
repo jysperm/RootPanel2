@@ -23,10 +23,10 @@ function checkFileName($filename)
     $userDir="/home/{$user}/";
     
     if(preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$filename) && 
-       substr($filename,0,strlen($userDir))!=$userDir &&
-       strlen($filename) < 512 &&
+       substr($filename,0,strlen($userDir)) == $userDir &&
+       strlen($filename) < 512  &&
        substr($filename,-3) != "/.." && 
-       strpos($filename,"/../") !=false)
+       strpos($filename,"/../") === false)
         return true;
     return false;
 }

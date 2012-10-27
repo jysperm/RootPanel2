@@ -211,10 +211,10 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
     <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $rs->id;?>);return false;">删除</button>
     <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $rs->id;?>);return false;">编辑</button>
   </div>
+<? endwhile; ?>
   <div class="box website">
     <button id="new-website" class="btn btn-success pull-right">添加站点</button>
   </div>
-<? endwhile; ?>
 </section>
   
 <?php
