@@ -17,6 +17,20 @@ function gotoUrl($url)
     header("Location: {$url}");
 }
 
+function checkFileName($filename)
+{
+    $user=lpAuth::getUName();
+    $userDir="/home/{$user}/";
+    
+    if(preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$filename) && 
+       substr($filename,0,strlen($userDir))!=$userDir &&
+       strlen($filename) < 512 &&
+       substr($filename,-3) != "/.." && 
+       strpos($filename,"/../") !=false)
+        return true;
+    return false;
+}
+
 function makeLog($uname,$content)
 {
     global $lpCfgTimeToChina;

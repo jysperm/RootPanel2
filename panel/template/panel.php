@@ -31,16 +31,19 @@ lpBeginBlock();?>
         
         $("#editWebsite #opweb").click(function(){
             $("#editWebsite .div-web").show();
+            $("#editWebsite .rp-root-name").html("Web根目录");
             $("#editWebsite .div-python").hide();
         });
         
         $("#editWebsite #opproxy").click(function(){
             $("#editWebsite .div-web").hide();
+            $("#editWebsite .rp-root-name").html("反向代理URL");
             $("#editWebsite .div-python").hide();
         });
         
         $("#editWebsite #oppython").click(function(){
             $("#editWebsite .div-web").hide();
+            $("#editWebsite .rp-root-name").html("Web根目录");
             $("#editWebsite .div-python").show();
         });
         
@@ -61,28 +64,46 @@ lpBeginBlock();?>
         });
         
         $("#editWebsite .rp-ok").unbind('click');
-        
         $("#editWebsite .rp-ok").click(function(){
             postdata=$("#editWebsite .rp-form").serializeArray();
             postdata.push({name:"id",value:websiteId});
             postdata.push({name:"do",value:"edit"});
             $.post("/commit/virtualhost/", postdata,function(data){
                 if(data.status=="ok")
-                {
                     window.location.reload();
-                }
                 else
-                {
                     alert(data.msg);
-                }
             },"json");
             return false;
         });
         
-        
         $("#editWebsite").modal();
       },"html");
+      
+      return false;
   }
+  
+  $($("#new-website").click(function(){
+    $("#editWebsite .rp-title").html("新增站点");
+    $.post("/commit/virtualhost/",{"do":"getnew"},function(data){
+      $("#editWebsite .rp-body").html(data);
+      
+      $("#editWebsite .rp-ok").unbind('click');
+      $("#editWebsite .rp-ok").click(function(){
+          postdata=$("#editWebsite .rp-form").serializeArray();
+          postdata.push({name:"do",value:"new"});
+          $.post("/commit/virtualhost/", postdata,function(data){
+              if(data.status=="ok")
+                  window.location.reload();
+              else
+                  alert(data.msg);
+          },"json");
+          return false;
+      });
+      
+      $("#editWebsite").modal();
+    },"html");
+  }));
 </script>
 
 <?php
@@ -191,7 +212,7 @@ $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
     <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $rs->id;?>);return false;">编辑</button>
   </div>
   <div class="box website">
-    <button class="btn btn-success pull-right" onclick="addWebsite();return false;">添加站点</button>
+    <button id="new-website" class="btn btn-success pull-right">添加站点</button>
   </div>
 <? endwhile; ?>
 </section>

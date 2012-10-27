@@ -1,9 +1,11 @@
 <?php
   global $rpDomain,$uiTemplate,$uiHander,$uiType;
 
-  if(isset($rs["new"]) && $rs["new"])
+  if(isset($new) && $new)
   {
-      $rs["domains"]="{$rs['id']}.{$rpDomain}";
+      $rs['id']="XXOO";
+      $id=substr(md5(time()),0,8);
+      $rs["domains"]="{$id}.{$rpDomain}";
       $rs["template"]="web";
       $rs["type"]="only";
       $rs["php"]="php";
@@ -12,9 +14,9 @@
       $rs["indexs"]="index.php index.html index.htm";
       $rs["autoindex"]=1;
       $rs["is404"]=1;
-      $uname=lpAuth::UName();
+      $uname=lpAuth::getUName();
       $rs["root"]="/home/{$uname}/web/";
-      $rs["alias"]="";
+      $rs["alias"]="{}";
       $rs["nginxaccess"]="/home/{$uname}/nginx.access.log";
       $rs["nginxerror"]="/home/{$uname}/nginx.error.log";
       $rs["apacheaccess"]="/home/{$uname}/apache.access.log";
@@ -32,7 +34,6 @@
   <div>
       绑定的域名：<input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= trim(str_replace("  "," ",$rs["domains"]));?>" required="required" />
   </div>
-  <hr />
   <div class="box">
     <header>站点模板：</header>
     <label class="radio">
@@ -87,10 +88,10 @@
         开启自动索引
       </label>
     </div>
-    <?= $uiHander[$rs["template"]];?>：<input type="text" class="input-xxlarge" id="root" name="root" value="<?= trim(str_replace("  "," ",$rs["root"]));?>" />
+    <span class="rp-root-name"><?= $uiHander[$rs["template"]];?></span>：<input type="text" class="input-xxlarge" id="root" name="root" value="<?= trim(str_replace("  "," ",$rs["root"]));?>" />
   </div>
   <div>
-Alias别名（一行一对）：<br />
+Alias别名(URL别名和绑定到的目录以空格隔开,一行一对)：<br />
 <textarea id="alias" name="alias" rows="4">
 <?php
 $alias=json_decode($rs["alias"],true);
@@ -114,7 +115,7 @@ foreach($alias as $k => $v)
       <input type="checkbox" id="isssl" name="isssl" <?= ($rs["isssl"])?"checked='checked'":"";?> />
       SSL支持
     </label>
-    ssl crt：<input type="text" class="input-xxlarge" id="sslcrt" name="sslcrt" value="<?= $rs["sslcrt"];?>" /><br />
-    ssl key：<input type="text" class="input-xxlarge" id="sslkey" name="sslkey" value="<?= $rs["sslkey"];?>" />
+    SSL Crt(证书)：<input type="text" class="input-xxlarge" id="sslcrt" name="sslcrt" value="<?= $rs["sslcrt"];?>" /><br />
+    SSL Key(私玥)：<input type="text" class="input-xxlarge" id="sslkey" name="sslkey" value="<?= $rs["sslkey"];?>" />
   </div>
 </form>
