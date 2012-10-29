@@ -59,6 +59,15 @@
 
     service nginx restart
     service apache2 restart
+    
+### 数据库
+
+    在PHPMyAdmin导入 `panel/db.sql`
+    在 `panel/config.php` 修改数据库连接信息，建议数据库名使用`rpadmin`
+    
+### 设置站点
+
+* 登录网站，注册`rpadmin`，该用户为管理员.
 
 
 
