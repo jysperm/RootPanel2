@@ -3,7 +3,10 @@
   width:85%;
 }
 
-
+/* admin.php */
+button.pull-right {
+  margin-right:10px;
+}
 
 
 

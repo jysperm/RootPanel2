@@ -1,6 +1,6 @@
 <?php
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType;
+global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
 
 $tmp = new lpTemplate;
 
@@ -33,15 +33,90 @@ $a["endOfBody"]=lpEndBlock();
 
 $conn=new lpMySQL;
 $rsL=$conn->select("log",array(),"time",-1,100,false);
-
 ?>
 
 <section class="box" id="box-index">
     <header>概述</header>
 </section>
 
-<section class="box" id="box-user">
+<?php
+function outputUserTable($conn,$rsU,$buttun)
+{
+    global $uiTemplate,$uiHander,$uiType,$uiUserType;
+?>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Email(ID)</th><th>用户(UA)</th><th>注册</th><th>登录</th><th>到期</th><th>类型(站点)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <? while($rsU->read()): ?>
+        <tr>
+          <td><span title="<?= $rsU->id;?>"><?= $rsU->email;?></span></td>
+          <td><span title="<?= $rsU->lastloginua . " " . $rsU->lastloginip;?>"><?= $rsU->uname;?></span></td>
+          <td><span title="<?= gmdate("Y.m.d H:i:s",$rsU->regtime);?>"><?= lpTools::niceTime($rsU->regtime);?></span></td>
+          <td><span title="<?= gmdate("Y.m.d H:i:s",$rsU->lastlogintime);?>"><?= lpTools::niceTime($rsU->lastlogintime);?></span></td>
+          <td>
+            <span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span>
+          </td>
+          <?php
+            $rsV = $conn->select("virtualhost",array("uname" => $rsU->uname));
+          ?>
+          <td><?= $uiUserType[$rsU->type] ?>(<?= $rsV->num();?>)</td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <button class="btn btn-success pull-right" onclick="userLog(<?= $rsU->id;?>);return false;">日志</button>
+            <button class="btn btn-success pull-right" onclick="userLoginAs(<?= $rsU->id;?>);return false;">登录为</button>
+            <button class="btn btn-success pull-right" onclick="userAddTime(<?= $rsU->id;?>);return false;">延时</button>
+            <?= str_replace("<!--ID-->",$rsU->id,$buttun);?>
+          </td>
+        </tr>
+      <? endwhile; ?>
+    </tbody>
+  </table>
+<?php
+}
+?>
+
+<section class="box" id="box-users">
     <header>用户管理</header>
+    <div>
+        <b>未付费用户</b>
+        <?php
+          $rsU=$conn->select("user",array("type"=>"no"));
+          lpBeginBlock();?>
+            <button class="btn btn-danger pull-right" onclick="userDelete(<!--ID-->);return false;">删除</button>
+            <button class="btn btn-success pull-right" onclick="userToFree(<!--ID-->);return false;">转为免费试用版</button>
+            <button class="btn btn-success pull-right" onclick="userToExt(<!--ID-->);return false;">转为额外技术支持版</button>
+            <button class="btn btn-success pull-right" onclick="userToStd(<!--ID-->);return false;">转为标准版</button>
+          <?php
+          outputUserTable($conn,$rsU,lpEndBlock());
+        ?>
+    </div>
+    
+    <div>
+        <b>付费用户</b>
+        <?php
+          $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='std' OR `type`='ext') AND `expired`>'%i'",time()+$lpCfgTimeToChina);
+          outputUserTable($conn,$rsU,"");
+        ?>
+    </div>
+    
+    <div>
+        <b>免费试用/到期用户</b>
+        <?php
+          $rsU=$conn->exec("SELECT * FROM `user` WHERE `type`='free' OR `expired`<'%i'",time()+$lpCfgTimeToChina);
+          lpBeginBlock();?>
+            <button class="btn btn-danger pull-right" onclick="userDelete(<!--ID-->);return false;">删除</button>
+            <button class="btn btn-success pull-right" onclick="userToNo(<!--ID-->);return false;">转为未付费</button>
+            <button class="btn btn-success pull-right" onclick="userAlertDelete(<!--ID-->);return false;">删除提醒</button>
+            <button class="btn btn-success pull-right" onclick="userAlert(<!--ID-->);return false;">提醒续费</button>
+          <?php
+          outputUserTable($conn,$rsU,lpEndBlock());
+        ?>
+    </div>
 </section>
 
 
