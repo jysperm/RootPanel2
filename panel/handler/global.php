@@ -39,6 +39,8 @@ function makeLog($uname,$content)
     
     $row["uname"]=$uname;
     $row["time"]=time()+$lpCfgTimeToChina;
+    $row["ua"]=$_SERVER["HTTP_USER_AGENT"];
+    $row["ip"]=lpTools::getIP();;
     $row["content"]=$content;
 
     $conn->insert("log",$row);

@@ -25,7 +25,26 @@ $a["rpSidebar"]=lpEndBlock();
 lpBeginBlock();?>
 
 <script type="text/javascript">
+  function userAddTime(uname)
+  {
+    $.post("/commit/admin/",{"do":"addtime","uname":uname,"day":prompt("请输入要延时的天数")},function(data){
+      if(data.status=="ok")
+          window.location.reload();
+      else
+          alert(data.msg);
+    },"json");
+    return false;
+  }
   
+  function userLog(uname)
+  {
+    $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
+      $("#logView .rp-title").html(uname);
+      $("#logView .rp-body").html(data);
+      $("#logView").modal();
+    },"html");
+    return false;
+  }
 </script>
 
 <?php
@@ -34,6 +53,16 @@ $a["endOfBody"]=lpEndBlock();
 $conn=new lpMySQL;
 $rsL=$conn->select("log",array(),"time",-1,100,false);
 ?>
+
+<div class="modal hide" id="logView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel"><span class="rp-title"></span>的日志</h3>
+  </div>
+  <div class="modal-body rp-body">
+    
+  </div>
+</div>
 
 <section class="box" id="box-index">
     <header>概述</header>
@@ -67,10 +96,10 @@ function outputUserTable($conn,$rsU,$buttun)
         </tr>
         <tr>
           <td colspan="6">
-            <button class="btn btn-success pull-right" onclick="userLog(<?= $rsU->id;?>);return false;">日志</button>
-            <button class="btn btn-success pull-right" onclick="userLoginAs(<?= $rsU->id;?>);return false;">登录为</button>
-            <button class="btn btn-success pull-right" onclick="userAddTime(<?= $rsU->id;?>);return false;">延时</button>
-            <?= str_replace("<!--ID-->",$rsU->id,$buttun);?>
+            <button class="btn btn-success pull-right" onclick="userLog('<?= $rsU->uname;?>');return false;">日志</button>
+            <button class="btn btn-success pull-right" onclick="userLoginAs('<?= $rsU->uname;?>');return false;">登录为</button>
+            <button class="btn btn-success pull-right" onclick="userAddTime('<?= $rsU->uname;?>');return false;">延时</button>
+            <?= str_replace("<!--UNAME-->",$rsU->uname,$buttun);?>
           </td>
         </tr>
       <? endwhile; ?>
@@ -87,10 +116,10 @@ function outputUserTable($conn,$rsU,$buttun)
         <?php
           $rsU=$conn->select("user",array("type"=>"no"));
           lpBeginBlock();?>
-            <button class="btn btn-danger pull-right" onclick="userDelete(<!--ID-->);return false;">删除</button>
-            <button class="btn btn-success pull-right" onclick="userToFree(<!--ID-->);return false;">转为免费试用版</button>
-            <button class="btn btn-success pull-right" onclick="userToExt(<!--ID-->);return false;">转为额外技术支持版</button>
-            <button class="btn btn-success pull-right" onclick="userToStd(<!--ID-->);return false;">转为标准版</button>
+            <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
+            <button class="btn btn-success pull-right" onclick="userToFree('<!--UNAME-->');return false;">转为免费试用版</button>
+            <button class="btn btn-success pull-right" onclick="userToExt('<!--UNAME-->');return false;">转为额外技术支持版</button>
+            <button class="btn btn-success pull-right" onclick="userToStd('<!--UNAME-->');return false;">转为标准版</button>
           <?php
           outputUserTable($conn,$rsU,lpEndBlock());
         ?>
@@ -107,12 +136,12 @@ function outputUserTable($conn,$rsU,$buttun)
     <div>
         <b>免费试用/到期用户</b>
         <?php
-          $rsU=$conn->exec("SELECT * FROM `user` WHERE `type`='free' OR `expired`<'%i'",time()+$lpCfgTimeToChina);
+          $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
           lpBeginBlock();?>
-            <button class="btn btn-danger pull-right" onclick="userDelete(<!--ID-->);return false;">删除</button>
-            <button class="btn btn-success pull-right" onclick="userToNo(<!--ID-->);return false;">转为未付费</button>
-            <button class="btn btn-success pull-right" onclick="userAlertDelete(<!--ID-->);return false;">删除提醒</button>
-            <button class="btn btn-success pull-right" onclick="userAlert(<!--ID-->);return false;">提醒续费</button>
+            <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
+            <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
+            <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
+            <button class="btn btn-success pull-right" onclick="userAlert('<!--UNAME-->');return false;">续费提醒</button>
           <?php
           outputUserTable($conn,$rsU,lpEndBlock());
         ?>
