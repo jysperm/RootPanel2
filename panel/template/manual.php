@@ -7,8 +7,9 @@ $a["title"] = "用户手册";
 lpBeginBlock();?>
 
 <li class="active"><a href="#file-access"><i class="icon-chevron-right"></i> 文件权限</a></li>
-<li class="active"><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
-<li class="active"><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
+<li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
+<li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
+<li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
 
 <?php
 $a["rpSidebar"]=lpEndBlock();
@@ -40,11 +41,33 @@ $a["endOfBody"]=lpEndBlock();
       <h4 class="alert-heading">注意!</h4>
       <p>如果你将文件设置为比770更宽松的权限，将导致同主机的其他用户可以读写你的文件，这样非常危险！！</p>
     </div>
-    你可以使用下面的命令，将自己的所有文件的权限设置为770：
+    你可以使用下面的命令，将自己的所有文件的权限设置为770：<br />
     <code>
       <i class="icon-chevron-right"></i>chmod -R 770 ~
     </code>
   </p>
+</section>
+
+<section id="service">
+  <div class="page-header">
+    <h1>客服</h1>
+  </div>
+  <p class="lead">
+    客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>
+  <hr />
+    在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等
+  </p>
+  <p class="lead">
+    标准版中，与我们无关的问题(例如某个软件如何使用),是否详细解答要看客服的心情.<br />
+    对于额外技术支持版,我们会尽最大努力为用户解决问题.
+  </p>
+  <div class="alert alert-error" style="margin-top:10px;">
+      <h4 class="alert-heading">注意!</h4>
+      <p>
+        向客服发送邮件时请附上你的密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
+        <code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
+      </p>
+    </div>
 </section>
 
 <section id="ssh-sftp">
@@ -52,7 +75,7 @@ $a["endOfBody"]=lpEndBlock();
     <h1>访问SSH和SFTP</h1>
   </div>
   <p class="lead">
-    Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名，和服务器域名)：
+    Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名，和服务器域名)：<br />
     <code>
       <i class="icon-chevron-right"></i>ssh 用户名@rp.jybox.net
     </code>
@@ -69,13 +92,12 @@ $a["endOfBody"]=lpEndBlock();
   </div>
   <p class="lead">
     <b>企业邮箱</b>推荐腾讯的企业邮箱服务，免费、专业：<a href="http://exmail.qq.com/">http://exmail.qq.com</a>
-    <hr />
+    <hr class="small" />
     <b>CDN</b>推荐CloudFlare的免费CDN加速：<a href="https://www.cloudflare.com/">https://www.cloudflare.com</a>
-    <hr />
+    <hr class="small" />
     <b>翻墙</b>推荐基于GAE的GoAgent，开源、速度理想：<a href="https://code.google.com/p/goagent/">https://code.google.com/p/goagent</a>
-    <hr />
+    <hr class="small" />
     <b>备份</b>推荐基于Dropbox，免费、速度理想：<a href="https://www.dropbox.com/">https://www.dropbox.com</a>
-    <hr />
   </p>
 </section>
 

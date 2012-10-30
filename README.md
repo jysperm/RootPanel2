@@ -28,14 +28,20 @@
 
     cd /
     git clone git://github.com/jybox/RootPanel.git
+	cd /RootPanel
+	git submodule update --init
     
 ### 软件包设置
 
     a2enmod rewrite
     cp -r /usr/share/phpmyadmin /RootPanel/panel/
     
-    chown -R rpadmin:rpadmin RootPanel
-    chmod -R 770 RootPanel
+    chown -R rpadmin:rpadmin /RootPanel
+    chmod -R 770 /RootPanel
+	
+	mkdir -p /root/log
+	
+	证书/私钥分别放在`/RootPanel/rp.jybox.net.crt`/`/RootPanel/rp.jybox.net.key`
     
 ### 配置文件
 
@@ -54,6 +60,7 @@
     cp nginx/sites-enabled/default /etc/nginx/sites-enabled/default
     cp /etc/nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost.old
     cp nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
+	
     
 ### 重启服务器
 
@@ -68,6 +75,11 @@
 ### 设置站点
 
 * 登录网站，注册`rpadmin`，该用户为管理员.
+
+## 待办
+
+* PHP配置文件
+* Git匿名链接
 
 
 
