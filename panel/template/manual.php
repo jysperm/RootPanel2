@@ -9,6 +9,7 @@ lpBeginBlock();?>
 <li class="active"><a href="#file-access"><i class="icon-chevron-right"></i> 文件权限</a></li>
 <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
 <li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
+<li><a href="#data-backup"><i class="icon-chevron-right"></i> 数据备份</a></li>
 <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
 
 <?php
@@ -81,8 +82,17 @@ $a["endOfBody"]=lpEndBlock();
     </code>
     Winodws下，可使用开源软件Putty连接SSH，Putty官网：<a href="http://www.putty.org/">http://www.putty.org</a>
     <hr />
-    SFTP是经过加密的SFTP，大部分FTP软件均支持SFTP，我们推荐使用FileZilla,它是开源而跨平台的，<br />
+    SFTP是经过加密的FTP，大部分FTP软件均支持SFTP，我们推荐使用FileZilla,它是开源而跨平台的：<br />
     FileZilla官网：<a href="http://filezilla-project.org/">http://filezilla-project.org</a>
+  </p>
+</section>
+
+<section id="data-backup">
+  <div class="page-header">
+    <h1>数据备份</h1>
+  </div>
+  <p class="lead">
+    一般情况下，每隔4-7天，我们会对所有数据进行一次备份。会备份到一些知名网盘，如Dropbox/百度网盘等。
   </p>
 </section>
 
