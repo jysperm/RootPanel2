@@ -45,6 +45,16 @@ lpBeginBlock();?>
     },"html");
     return false;
   }
+  
+  function userLog(uname)
+  {
+    $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
+      $("#logView .rp-title").html(uname);
+      $("#logView .rp-body").html(data);
+      $("#logView").modal();
+    },"html");
+    return false;
+  }
 </script>
 
 <?php
@@ -83,7 +93,7 @@ function outputUserTable($conn,$rsU,$buttun)
       <? while($rsU->read()): ?>
         <tr>
           <td><span title="<?= $rsU->id;?>"><?= $rsU->email;?></span></td>
-          <td><span title="<?= $rsU->lastloginua . " " . $rsU->lastloginip;?>"><?= $rsU->uname;?></span></td>
+          <td><span title="<?= str_replace("\"","",$rsU->lastloginua) . " " . $rsU->lastloginip;?>"><?= $rsU->uname;?></span></td>
           <td><span title="<?= gmdate("Y.m.d H:i:s",$rsU->regtime);?>"><?= lpTools::niceTime($rsU->regtime);?></span></td>
           <td><span title="<?= gmdate("Y.m.d H:i:s",$rsU->lastlogintime);?>"><?= lpTools::niceTime($rsU->lastlogintime);?></span></td>
           <td>
@@ -161,7 +171,7 @@ function outputUserTable($conn,$rsU,$buttun)
         <tbody>
           <? while($rsL->read()): ?>
             <tr>
-              <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= $rsL->content;?></td>
+              <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlentities($rsL->content);?></td>
             </tr> 
           <? endwhile; ?>
         </tbody>

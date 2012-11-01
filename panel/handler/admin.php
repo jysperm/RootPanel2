@@ -44,7 +44,7 @@ class Admin extends lpPage
                   <tbody>
                     <? while($rsL->read()): ?>
                       <tr>
-                        <td><?= $rsL->id;?></td><td><span title="<?= $rsL->ua;?>"><?= $rsL->ip;?></span></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= $rsL->content;?></td>
+                        <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->lastloginua);?>"><?= $rsL->ip;?></span></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlentities($rsL->content);?></td>
                       </tr> 
                     <? endwhile; ?>
                   </tbody>
