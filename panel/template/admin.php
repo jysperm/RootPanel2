@@ -45,16 +45,20 @@ lpBeginBlock();?>
     },"html");
     return false;
   }
-  /*
-  function userLoginAs(uname)
+  
+  function userDelete(uname)
   {
-    $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
-      $("#logView .rp-title").html(uname);
-      $("#logView .rp-body").html(data);
-      $("#logView").modal();
-    },"html");
+    if(confirm("你确定要删除？"))
+    {
+      $.post("/commit/admin/",{"do":"delete","uname":uname},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+      },"json");
+    }
     return false;
-  }*/
+  }
 </script>
 
 <?php
@@ -148,7 +152,6 @@ function outputUserTable($conn,$rsU,$buttun)
         <?php
           $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
           lpBeginBlock();?>
-            <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
             <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
             <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
             <button class="btn btn-success pull-right" onclick="userAlert('<!--UNAME-->');return false;">续费提醒</button>

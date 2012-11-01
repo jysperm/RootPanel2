@@ -67,6 +67,23 @@ class Admin extends lpPage
                 <?php
                 return true;
             break;
+            case "delete":
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                if($rs->type="no")
+                {
+                    $conn->delete("user",array("uname"=>$_POST["uname"]));
+                    $r["status"]="ok";
+                    echo json_encode($r);
+                }
+                else
+                {
+                    $r["status"]="error";
+                    $r["msg"]="请先转为未付费";
+                    echo json_encode($r);
+                }
+                return true;
+            break;
             default:
                 echo "参数错误";
                 return true;
