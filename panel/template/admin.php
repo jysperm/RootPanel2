@@ -45,8 +45,8 @@ lpBeginBlock();?>
     },"html");
     return false;
   }
-  
-  function userLog(uname)
+  /*
+  function userLoginAs(uname)
   {
     $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
       $("#logView .rp-title").html(uname);
@@ -54,7 +54,7 @@ lpBeginBlock();?>
       $("#logView").modal();
     },"html");
     return false;
-  }
+  }*/
 </script>
 
 <?php
@@ -107,7 +107,7 @@ function outputUserTable($conn,$rsU,$buttun)
         <tr>
           <td colspan="6">
             <button class="btn btn-success pull-right" onclick="userLog('<?= $rsU->uname;?>');return false;">日志</button>
-            <button class="btn btn-success pull-right" onclick="userLoginAs('<?= $rsU->uname;?>');return false;">登录为</button>
+            <a class="btn btn-success pull-right" href="/commit/admin/?do=loginas&uname=<?= $rsU->uname;?>&passwd=<?= lpAuth::cookieHash($rsU->passwd);?>">登录为</a>
             <button class="btn btn-success pull-right" onclick="userAddTime('<?= $rsU->uname;?>');return false;">延时</button>
             <?= str_replace("<!--UNAME-->",$rsU->uname,$buttun);?>
           </td>
@@ -171,7 +171,7 @@ function outputUserTable($conn,$rsU,$buttun)
         <tbody>
           <? while($rsL->read()): ?>
             <tr>
-              <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlentities($rsL->content);?></td>
+              <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
             </tr> 
           <? endwhile; ?>
         </tbody>

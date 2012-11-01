@@ -4,6 +4,21 @@ require_once("handler/global.php");
 
 class Admin extends lpPage
 {
+    public function get()
+    {
+        if(!isset($_GET["do"]) || $_GET["do"]!="loginas" || !isset($_GET["uname"]) || !isset($_GET["passwd"]))
+        {
+            echo "参数不全";
+            return true;
+        }
+        else
+        {
+            lpAuth::login($_GET["uname"],$_GET["passwd"],false,false,true);
+            $this->gotoUrl("/panel/");
+            return true;
+        }
+    }
+    
     public function post()
     {
         global $lpCfgTimeToChina;
@@ -44,7 +59,7 @@ class Admin extends lpPage
                   <tbody>
                     <? while($rsL->read()): ?>
                       <tr>
-                        <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->lastloginua);?>"><?= $rsL->ip;?></span></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlentities($rsL->content);?></td>
+                        <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->lastloginua);?>"><?= $rsL->ip;?></span></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
                       </tr> 
                     <? endwhile; ?>
                   </tbody>
