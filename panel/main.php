@@ -56,6 +56,11 @@ lpMVC::bind('^/pay/?',function(){
     return "";
 });
 
+lpMVC::bind('^/request-free/?',function(){
+    require_once("template/request-free.php");
+    return "";
+});
+
 lpMVC::bind('^/manual/?',function(){
     require_once("template/manual.php");
     return "";

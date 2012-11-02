@@ -54,7 +54,8 @@ $a["endOfBody"]=lpEndBlock();
     <h1>客服</h1>
   </div>
   <p class="lead">
-    客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>
+    客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code><br />
+    客服(精英王子)：熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.
   <hr />
     在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等
   </p>
@@ -63,12 +64,12 @@ $a["endOfBody"]=lpEndBlock();
     对于额外技术支持版,我们会尽最大努力为用户解决问题.
   </p>
   <div class="alert alert-error" style="margin-top:10px;">
-      <h4 class="alert-heading">注意!</h4>
-      <p>
-        向客服发送邮件时请附上你的密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
-        <code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
-      </p>
-    </div>
+    <h4 class="alert-heading">注意!</h4>
+    <p>
+      向客服发送邮件时请附上你的密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
+      <code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
+    </p>
+  </div>
 </section>
 
 <section id="ssh-sftp">
