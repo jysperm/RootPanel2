@@ -59,6 +59,28 @@ lpBeginBlock();?>
     }
     return false;
   }
+  
+  function userAlert(uname)
+  {
+    $.post("/commit/admin/",{"do":"alert","uname":uname},function(data){
+        if(data.status=="ok")
+            alert(data.status);
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
+  
+  function userDelete(uname)
+  {
+    $.post("/commit/admin/",{"do":"alertdelete","uname":uname},function(data){
+        if(data.status=="ok")
+            alert(data.status);
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
 </script>
 
 <?php

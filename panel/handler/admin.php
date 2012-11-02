@@ -21,7 +21,7 @@ class Admin extends lpPage
     
     public function post()
     {
-        global $lpCfgTimeToChina;
+        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost;
         
         if(!lpAuth::login() || lpAuth::getUName()!="rpadmin")
         {
@@ -84,10 +84,60 @@ class Admin extends lpPage
                 }
                 return true;
             break;
+            case "alert":
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机到期提醒 - {$rs->uname}将于". lpTools::niceTime($rs->expired) . "到期"; 
+                $mailbody =  "RP主机到期提醒 - {$rs->uname}将于". lpTools::niceTime($rs->expired) . "到期"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
+            case "alertdelete":
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机删除提醒 - {$rs->uname}已于". lpTools::niceTime($rs->expired) . "到期"; 
+                $mailbody =  "RP主机删除提醒 - {$rs->uname}已于". lpTools::niceTime($rs->expired) . "到期"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
             default:
                 echo "参数错误";
                 return true;
         }
+        
+        return true;
     }
 }
 
