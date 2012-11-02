@@ -43,6 +43,7 @@ class Admin extends lpPage
                 $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
                 $rs->read();
                 $conn->update("user",array("uname"=>$_POST["uname"]),array("expired"=> (intval($rs->expired) + (intval($_POST["day"])*3600*24))));
+                makeLog($_POST["uname"],"被增加了{$_POST["day"]}天的使用时长");
                 $r["status"]="ok";
                 echo json_encode($r);
                 return true;
@@ -73,6 +74,7 @@ class Admin extends lpPage
                 if($rs->type="no")
                 {
                     $conn->delete("user",array("uname"=>$_POST["uname"]));
+                    makeLog($_POST["uname"],"被删除");
                     $r["status"]="ok";
                     echo json_encode($r);
                 }
@@ -104,6 +106,8 @@ class Admin extends lpPage
                 $smtp->debug = false;//是否显示发送的调试信息 
                 $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
                 
+                makeLog($_POST["uname"],$mailbody);
+                
                 $r["status"]="ok";
                 echo json_encode($r);
                 return true;
@@ -127,6 +131,8 @@ class Admin extends lpPage
                 $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
                 $smtp->debug = false;//是否显示发送的调试信息 
                 $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                makeLog($_POST["uname"],$mailbody);
                 
                 $r["status"]="ok";
                 echo json_encode($r);
