@@ -71,7 +71,7 @@ lpBeginBlock();?>
     return false;
   }
   
-  function userDelete(uname)
+  function userAlertDelete(uname)
   {
     $.post("/commit/admin/",{"do":"alertdelete","uname":uname},function(data){
         if(data.status=="ok")
