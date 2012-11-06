@@ -21,7 +21,7 @@ class Admin extends lpPage
     
     public function post()
     {
-        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost;
+        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost,$lpROOT;
         
         if(!lpAuth::login() || lpAuth::getUName()!="rpadmin")
         {
@@ -86,7 +86,7 @@ class Admin extends lpPage
                 }
                 return true;
             break;
-            case "alert":
+            case "alertpay":
                 $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
                 $rs->read();
                 
@@ -133,6 +133,126 @@ class Admin extends lpPage
                 $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
                 
                 makeLog($_POST["uname"],$mailbody);
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
+            case "tostd":
+                shell_exec("{$lpROOT}/../core/creat-account.php {$_POST['uname']}");
+                
+                $conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"std"));
+                
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机开通提醒 "; 
+                $mailbody =  "RRP主机开通提醒 std"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                makeLog($_POST["uname"],"被开通为标准付费用户");
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
+            case "toext":
+                shell_exec("{$lpROOT}/../core/creat-account.php {$_POST['uname']}");
+                
+                $conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"ext"));
+                
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机开通提醒 "; 
+                $mailbody =  "RRP主机开通提醒 ext"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                makeLog($_POST["uname"],"被开通为额外技术支持用户");
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
+            case "tofree":
+                shell_exec("{$lpROOT}/../core/creat-account.php {$_POST['uname']}");
+                
+                $conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"free"));
+                
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机开通提醒 "; 
+                $mailbody =  "RRP主机开通提醒 free"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                makeLog($_POST["uname"],"被开通为免费试用用户");
+                
+                $r["status"]="ok";
+                echo json_encode($r);
+                return true;
+            break;
+            case "tono":
+                shell_exec("{$lpROOT}/../core/delete-account.php {$_POST['uname']} sure");
+                
+                $conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"no"));
+                
+                $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
+                $rs->read();
+                
+                $smtpserver = $rpCfgMailHost;//SMTP服务器 
+                $smtpserverport = 25;//SMTP服务器端口 
+                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
+                $smtpemailto = $rs->email;//发送给谁 
+                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
+                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                
+                
+                $mailsubject =  "RP主机删除提醒 "; 
+                $mailbody =  "RRP主机删除提醒"; 
+                $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+                
+                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+                $smtp->debug = false;//是否显示发送的调试信息 
+                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                
+                makeLog($_POST["uname"],"被删除用户");
                 
                 $r["status"]="ok";
                 echo json_encode($r);

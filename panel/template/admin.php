@@ -60,9 +60,9 @@ lpBeginBlock();?>
     return false;
   }
   
-  function userAlert(uname)
+  function userAlertPay(uname)
   {
-    $.post("/commit/admin/",{"do":"alert","uname":uname},function(data){
+    $.post("/commit/admin/",{"do":"alertpay","uname":uname},function(data){
         if(data.status=="ok")
             alert(data.status);
         else
@@ -81,6 +81,51 @@ lpBeginBlock();?>
     },"json");
     return false;
   }
+  
+  function userToStd(uname)
+  {
+    $.post("/commit/admin/",{"do":"tostd","uname":uname},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
+  
+  function userToExt(uname)
+  {
+    $.post("/commit/admin/",{"do":"toext","uname":uname},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
+  
+  function userToFree(uname)
+  {
+    $.post("/commit/admin/",{"do":"tofree","uname":uname},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
+  
+  function userToNo(uname)
+  {
+    $.post("/commit/admin/",{"do":"tono","uname":uname},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
+  
 </script>
 
 <?php
@@ -176,7 +221,7 @@ function outputUserTable($conn,$rsU,$buttun)
           lpBeginBlock();?>
             <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
             <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
-            <button class="btn btn-success pull-right" onclick="userAlert('<!--UNAME-->');return false;">续费提醒</button>
+            <button class="btn btn-success pull-right" onclick="userAlertPay('<!--UNAME-->');return false;">续费提醒</button>
           <?php
           outputUserTable($conn,$rsU,lpEndBlock());
         ?>
