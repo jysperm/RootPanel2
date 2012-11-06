@@ -16,6 +16,7 @@ $a["header"]=lpEndBlock();
 lpBeginBlock();?>
 
 <li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
+<li><a href="#box-account"><i class="icon-chevron-right"></i> 账户</a></li>
 <li><a href="#box-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
 <li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
@@ -120,6 +121,17 @@ lpBeginBlock();?>
       $("#editWebsite").modal();
     },"html");
   }));
+  
+  function sshPasswd()
+  {
+    $.post("/commit/virtualhost/",{"do":"sshpasswd","passwd":$("#sshpasswd").val()},function(data){
+        if(data.status=="ok")
+            alert(data.status);
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
 </script>
 
 <?php
@@ -153,6 +165,14 @@ $rsU->read();
         账户类型：<?= $uiUserType[$rsU->type] ?><br />
         到期时间：<span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span><br />
         <a class="btn btn-success" href="/pay/"> 续费</a>
+    <div>
+</section>
+
+<section class="box" id="box-account">
+    <header>账户</header>
+    <div>
+        <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
+        <button class="btn btn-success" onclick="sshPasswd();return false;">修改SSH密码</button>
     <div>
 </section>
 

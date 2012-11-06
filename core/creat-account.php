@@ -5,6 +5,6 @@ if(!isset($argv[1]))
 $uname=$argv[1];
 
 shell_exec("sudo useradd {$uname} -m");
-shell_exec("usermod -G {$uname} -a www-data");
+shell_exec("sudo usermod -G {$uname} -a www-data");
 
 ?>
