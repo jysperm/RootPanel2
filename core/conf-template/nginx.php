@@ -1,11 +1,12 @@
 <?php
     $phps=explode(" ",trim(str_replace("  "," ",$v["php"])));
     $cgis=explode(" ",trim(str_replace("  "," ",$v["cgi"])));
+    $scripts=implode("|",array_merge($phps,$cgis));
     $statics=implode("|",explode(" ",trim(str_replace("  "," ",$v["static"]))));
     $alias=json_decode($v["alias"],true);
 ?>
 server {
-    listen <?= $v["isssl"]?80:433; ?>;
+    listen <?= $v["isssl"]?433:80; ?>;
     server_name <?= $v["domains"]; ?>;
     
     <? if($v["isssl"]): ?>
@@ -39,24 +40,18 @@ server {
         
         <? if($v["type"]=="only"): ?>
         location / {
-            try_files $uri $uri/ <?= $v["is404"]?"@apache":"=404";
+            try_files $uri $uri/ <?= $v["is404"]?"@apache":"=404"?>;
         }
             
-            <? if($v["is404"]): ?
+            <? if($v["is404"]): ?>
             location = / {
                 proxy_pass http://127.0.0.1:8080;
             }
             <? endif; ?>
-            <? foreach($phps as $i): ?>
-            location ~ \.<?= $i;?>$ {
+            location ~ \.(<?= $scripts;?>)$ {
                 proxy_pass http://127.0.0.1:8080;
             }
-            <? endforeach; ?>
-            <? foreach($cgis as $i): ?>
-            location ~ \.<?= $i;?>$ {
-                proxy_pass http://127.0.0.1:8080;
-            }
-            <? endforeach; ?>
+            
         <? endif; ?>
         
         <? if($v["type"]=="unless"): ?>

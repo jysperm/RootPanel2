@@ -14,6 +14,8 @@ $conn=new lpMySQL;
 $rsU=$conn->select("user",array("uname"=>$uname));
 $rsV=$conn->select("virtualhost",array("uname"=>$uname));
 
+// Nginx
+
 $out="# " . gmdate("Y.m.d H:i:s",time() + $lpCfgTimeToChina) . "\n";
 while($rsV->read())
 {
@@ -23,6 +25,7 @@ while($rsV->read())
     $tmp->parse("conf-template/nginx.php",$a);
     $out.=lpEndBlock();
 }
+$out.=$rsU->extconfnginx."\n";
 
 echo $out;
 
