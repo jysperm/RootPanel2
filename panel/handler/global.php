@@ -51,7 +51,7 @@ $uiTemplate=array("web"=>"常规Web(PHP等CGI)",
                   "python"=>"Python(WSGI模式)");
 $uiHander=array("web"=>"Web根目录",
                 "proxy"=>"反向代理URL",
-                "python"=>"Web根目录");
+                "python"=>"根目录处理器");
 $uiType=array("all"=>"全部转到Apache",
               "only"=>"仅转发指定的URL(一般是脚本文件)",
               "unless"=>"不转发指定的URL(一般是静态文件)");

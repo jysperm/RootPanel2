@@ -60,6 +60,8 @@
     cp nginx/sites-enabled/default /etc/nginx/sites-enabled/default
     cp /etc/nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost.old
     cp nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
+    cp /etc/sudoers /etc/sudoers.old
+    cp sudoers /etc/sudoers
 	
     
 ### 重启服务器
@@ -79,9 +81,6 @@
 ## 待办
 
 * PHP配置文件
-* Git匿名链接
-
-
 
     
 
