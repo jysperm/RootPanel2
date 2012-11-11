@@ -6,15 +6,22 @@
     $phps=join(" .",explode(" ",trim(str_replace("  "," ",$v["php"]))));
     if(count($phps))
         $phps=join(" .",explode(" ",".".$phps));
+    $alias=json_decode($v["alias"],true);
+    
+    $apacheerror=$v["apacheerror"];
+    $apacheaccess=$v["apacheaccess"];
+    $uname=$v["uname"];
 ?>
 
 <VirtualHost *:8080>
     ServerName <?= $domains[0]; ?>
-    ServerAlias <?= $v["domains"]; ?>s
+    
+    ServerAlias <?= $v["domains"]; ?>
   
     
     DirectoryIndex <?= $v["indexs"]; ?>
-    Options <?= $v["autoindex"]?"+":"-"; ?>Indexes
+    
+    Options <?= $v["autoindex"]?"+":"-"; ?>Indexes +ExecCGI
 
     <? if($v["template"]=="python"): ?>
     WSGIScriptAlias / <?= $v["root"]; ?>
@@ -27,11 +34,16 @@
     <? endforeach; ?>
 
     AddHandler cgi-script <?= $cgis; ?>
+    
     AddHandler application/x-httpd-php <?= $phps; ?>
   
-    ErrorLog <?= $v["apacheerror"]; ?>
+    ErrorLog <?= $apacheerror;?>
+    
     LogLevel warn
-    CustomLog <?= $v["apacheaccess"]; ?> combined
+    
+    CustomLog <?= $apacheaccess; ?> combined
       
-    AssignUserId <?= $v["uname"]; ?> <?= $v["uname"]; ?>
+    AssignUserId <?= $uname; ?> <?= $uname; ?>
+    
 </VirtualHost>
+
