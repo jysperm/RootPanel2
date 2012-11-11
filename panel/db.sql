@@ -48,6 +48,5 @@ CREATE TABLE IF NOT EXISTS `virtualhost` (
   `is404` int(11) NOT NULL,
   `static` text NOT NULL,
   `ison` int(11) NOT NULL,
-  `lastconf` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

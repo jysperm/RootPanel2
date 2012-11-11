@@ -132,6 +132,17 @@ lpBeginBlock();?>
     },"json");
     return false;
   }
+  
+  function mysqlPasswd()
+  {
+    $.post("/commit/virtualhost/",{"do":"mysqlpasswd","passwd":$("#mysqlpasswd").val()},function(data){
+        if(data.status=="ok")
+            alert(data.status);
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
 </script>
 
 <?php
@@ -173,6 +184,10 @@ $rsU->read();
     <div>
         <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
         <button class="btn btn-success" onclick="sshPasswd();return false;">修改SSH密码</button>
+    <div>
+    <div>
+        <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
+        <button class="btn btn-success" onclick="mysqlPasswd();return false;">修改MySQL密码</button>
     <div>
 </section>
 

@@ -28,8 +28,8 @@
 
     cd /
     git clone git://github.com/jybox/RootPanel.git
-	cd /RootPanel
-	git submodule update --init
+    cd /RootPanel
+    git submodule update --init
     
 ### 软件包设置
 
@@ -38,10 +38,10 @@
     
     chown -R rpadmin:rpadmin /RootPanel
     chmod -R 770 /RootPanel
-	
-	mkdir -p /root/log
-	
-	证书/私钥分别放在`/RootPanel/rp.jybox.net.crt`/`/RootPanel/rp.jybox.net.key`
+  
+    mkdir -p /root/log
+    
+    证书/私钥分别放在`/RootPanel/rp.jybox.net.crt`/`/RootPanel/rp.jybox.net.key`
     
 ### 配置文件
 
@@ -62,7 +62,7 @@
     cp nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
     cp /etc/sudoers /etc/sudoers.old
     cp sudoers /etc/sudoers
-	
+  
     
 ### 重启服务器
 
@@ -73,6 +73,7 @@
 
     在PHPMyAdmin导入 `panel/db.sql`
     在 `panel/config.php` 修改数据库连接信息，建议数据库名使用`rpadmin`
+    赋予rpadmin用户全局权限
     
 ### 设置站点
 
