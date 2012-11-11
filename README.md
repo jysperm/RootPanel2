@@ -45,24 +45,20 @@
     
 ### 配置文件
 
-    cd RootPanel/etc
-    cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.old
+    cd /RootPanel/etc
+    
     cp apache2/apache2.conf /etc/apache2/apache2.conf
-    cp /etc/apache2/ports.conf /etc/apache2/ports.conf.old
     cp apache2/ports.conf /etc/apache2/ports.conf
-    cp /etc/apache2/sites-enabled/000-default /etc/apache2/sites-enabled/000-default.old
+    rm -r /etc/apache2/sites-enabled/*
     cp apache2/sites-enabled/000-default /etc/apache2/sites-enabled/000-default
-    cp /etc/apache2/sites-enabled/00000-rphost /etc/apache2/sites-enabled/00000-rphost.old
     cp apache2/sites-enabled/00000-rphost /etc/apache2/sites-enabled/00000-rphost
-    cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old
+    
     cp nginx/nginx.conf /etc/nginx/nginx.conf
-    cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.old
+    rm -r /etc/nginx/sites-enabled/*
     cp nginx/sites-enabled/default /etc/nginx/sites-enabled/default
-    cp /etc/nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost.old
     cp nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
-    cp /etc/sudoers /etc/sudoers.old
+
     cp sudoers /etc/sudoers
-  
     
 ### 重启服务器
 
