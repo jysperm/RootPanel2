@@ -6,7 +6,7 @@
     $alias=json_decode($v["alias"],true);
 ?>
 server {
-    listen <?= $v["isssl"]?433:80; ?>;
+    listen <?= $v["isssl"]?443:80; ?><?= $v["isssl"]?" ssl":""; ?>;
     server_name <?= $v["domains"]; ?>;
     
     <? if($v["isssl"]): ?>

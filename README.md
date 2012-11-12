@@ -69,7 +69,7 @@
 
     在PHPMyAdmin导入 `panel/db.sql`
     在 `panel/config.php` 修改数据库连接信息，建议数据库名使用`rpadmin`
-    赋予rpadmin用户全局权限
+    赋予rpadmin用户全局权限,将rpadmin的`type`改为`std`
     
 ### 设置站点
 
