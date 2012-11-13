@@ -69,11 +69,11 @@
 
     在PHPMyAdmin导入 `panel/db.sql`
     在 `panel/config.php` 修改数据库连接信息，建议数据库名使用`rpadmin`
-    赋予rpadmin用户全局权限,将rpadmin的`type`改为`std`
+    赋予rpadmin用户全局权限
     
 ### 设置站点
 
-* 登录网站，注册`rpadmin`和`root`，该用户为管理员.
+* 登录网站，注册`rpadmin`和`root`，并将他们的`type`改为`std`，`rpadmin`用户为管理员.
 
 ## 待办
 

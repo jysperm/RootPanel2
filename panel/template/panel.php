@@ -143,6 +143,17 @@ lpBeginBlock();?>
     },"json");
     return false;
   }
+
+  function panelPasswd()
+  {
+    $.post("/commit/virtualhost/",{"do":"panelpasswd","passwd":$("#panelpasswd").val()},function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+    return false;
+  }
 </script>
 
 <?php
@@ -188,6 +199,10 @@ $rsU->read();
     <div>
         <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
         <button class="btn btn-success" onclick="mysqlPasswd();return false;">修改MySQL密码</button>
+    <div>
+    <div>
+        <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd" />
+        <button class="btn btn-success" onclick="panelPasswd();return false;">修改面板(即该网页)密码</button>
     <div>
 </section>
 

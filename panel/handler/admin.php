@@ -194,7 +194,7 @@ class Admin extends lpPage
                 $mailer=new lpSmtpMail();
 
                 $mailTitle="RP主机开删除提醒 "; 
-                $mailBody=$mailTitle 
+                $mailBody=$mailTitle;
                 
                 $mailer->send($rs->email,$mailTitle,$mailBody,"HTML");
                 

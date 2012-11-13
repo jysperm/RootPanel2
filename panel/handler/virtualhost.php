@@ -473,6 +473,25 @@ class VirtualHost extends lpPage
                     return true;
                 }
             break;
+            case "panelpasswd":
+                if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
+                {
+                    $uname=lpAuth::getUName();
+
+                    $conn->update("user",array("uname"=>$uname),array("passwd"=>lpAuth::DBHash($uname,$_POST["passwd"])));
+                    
+                    $r["status"]="ok";
+                    echo json_encode($r);
+                    return true;
+                }
+                else
+                {
+                    $r["msg"]="密码不合法";
+                    $r["status"]="error";
+                    echo json_encode($r);
+                    return true;
+                }
+            break;
             default:
                 echo "参数错误";
                 return true;
