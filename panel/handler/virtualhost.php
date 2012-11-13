@@ -270,21 +270,12 @@ class VirtualHost extends lpPage
         switch($_POST["do"])
         {
             case "request":
-                $smtpserver = $rpCfgMailHost;//SMTP服务器 
-                $smtpserverport = 25;//SMTP服务器端口 
-                $smtpusermail = $rpCfgMailEMail;//SMTP服务器的用户邮箱 
-                $smtpemailto = "m@jybox.net";//发送给谁 
-                $smtpuser = $rpCfgMailUser;//SMTP服务器的用户帐号 
-                $smtppass = $rpCfgMailPasswd;//SMTP服务器的用户密码 
+                $mailer=new lpSmtpMail();
+
+                $mailTitle="RP主机试用申请" . lpAuth::getUName(); 
+                $mailBody=$_POST["content"];
                 
-                
-                $mailsubject =  "RP主机试用申请" . lpAuth::getUName(); 
-                $mailbody =  $_POST["content"]; 
-                $mailtype = "TXT";//邮件格式（HTML/TXT）,TXT为文本邮件 
-                
-                $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
-                $smtp->debug = false;//是否显示发送的调试信息 
-                $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+                $mailer->send("m@jybox.net",$mailTitle,$mailBody);
                 
                 makeLog(lpAuth::getUName(),"填写试用申请" . $_POST["content"]);
                 
