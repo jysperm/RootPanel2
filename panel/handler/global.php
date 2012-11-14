@@ -21,6 +21,7 @@ function isAllowPanel($uname)
 {
     global $rpAdminUsers;
   
+    $conn=new lpMySQL;
     $rs=$conn->select("user",array("uname"=>$uname));
     if($rs->read())
         if($rs->type!="no" && !in_array($uname,$rpAdminUsers))
