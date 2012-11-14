@@ -1,6 +1,6 @@
 <?php
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina,$rpAdminUsers;
+global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
 
 $tmp = new lpTemplate;
 
@@ -152,7 +152,7 @@ $rsL=$conn->select("log",array(),"time",-1,100,false);
 <?php
 function outputUserTable($conn,$rsU,$buttun)
 {
-    global $uiTemplate,$uiHander,$uiType,$uiUserType;
+    global $uiTemplate,$uiHander,$uiType,$uiUserType,$rpAdminUsers;
 ?>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -161,7 +161,8 @@ function outputUserTable($conn,$rsU,$buttun)
       </tr>
     </thead>
     <tbody>
-      <? while($rsU->read()): ?>
+      <? while($rsU->read()):
+          if(!in_array($rsU->uname,$rpAdminUsers)):?>
         <tr>
           <td><span title="<?= $rsU->id;?>"><?= $rsU->email;?></span></td>
           <td><span title="<?= str_replace("\"","",$rsU->lastloginua) . " " . $rsU->lastloginip;?>"><?= $rsU->uname;?></span></td>
@@ -183,7 +184,7 @@ function outputUserTable($conn,$rsU,$buttun)
             <?= str_replace("<!--UNAME-->",$rsU->uname,$buttun);?>
           </td>
         </tr>
-      <? endwhile; ?>
+      <? endif;endwhile; ?>
     </tbody>
   </table>
 <?php
@@ -196,8 +197,6 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>未付费用户</b>
         <?php
           $rsU=$conn->select("user",array("type"=>"no"));
-          if(!in_array($rsU->uname,$rpAdminUsers))
-          {
             lpBeginBlock();?>
               <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
               <button class="btn btn-success pull-right" onclick="userToFree('<!--UNAME-->');return false;">转为免费试用版</button>
@@ -205,7 +204,6 @@ function outputUserTable($conn,$rsU,$buttun)
               <button class="btn btn-success pull-right" onclick="userToStd('<!--UNAME-->');return false;">转为标准版</button>
             <?php
             outputUserTable($conn,$rsU,lpEndBlock());
-          }
         ?>
     </div>
     
@@ -213,8 +211,7 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>付费用户</b>
         <?php
           $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='std' OR `type`='ext') AND `expired`>'%i'",time()+$lpCfgTimeToChina);
-          if(!in_array($rsU->uname,$rpAdminUsers))
-              outputUserTable($conn,$rsU,"");
+          outputUserTable($conn,$rsU,"");
         ?>
     </div>
     
@@ -222,15 +219,12 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>免费试用/到期用户</b>
         <?php
           $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
-          if(!in_array($rsU->uname,$rpAdminUsers))
-          {
               lpBeginBlock();?>
                 <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
                 <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
                 <button class="btn btn-success pull-right" onclick="userAlertPay('<!--UNAME-->');return false;">续费提醒</button>
               <?php
               outputUserTable($conn,$rsU,lpEndBlock());
-          }
         ?>
     </div>
 </section>
