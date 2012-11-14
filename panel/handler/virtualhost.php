@@ -251,7 +251,7 @@ class VirtualHost extends lpPage
   
     public function post()
     {
-        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost;
+        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost,$lpROOT;
         
         if(!lpAuth::login())
         {
