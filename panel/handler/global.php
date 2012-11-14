@@ -17,6 +17,18 @@ function gotoUrl($url)
     header("Location: {$url}");
 }
 
+function isAllowPanel($uname)
+{
+    global $rpAdminUsers;
+  
+    $rs=$conn->select("user",array("uname"=>$uname));
+    if($rs->read())
+        if($rs->type!="no" && !in_array($uname,$rpAdminUsers))
+            return true;
+
+    return false
+}
+
 function checkFileName($filename)
 {
     $user=lpAuth::getUName();

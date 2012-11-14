@@ -1,6 +1,6 @@
 <?php
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
+global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina,$rpAdminUsers;
 
 $tmp = new lpTemplate;
 
@@ -196,13 +196,16 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>未付费用户</b>
         <?php
           $rsU=$conn->select("user",array("type"=>"no"));
-          lpBeginBlock();?>
-            <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
-            <button class="btn btn-success pull-right" onclick="userToFree('<!--UNAME-->');return false;">转为免费试用版</button>
-            <button class="btn btn-success pull-right" onclick="userToExt('<!--UNAME-->');return false;">转为额外技术支持版</button>
-            <button class="btn btn-success pull-right" onclick="userToStd('<!--UNAME-->');return false;">转为标准版</button>
-          <?php
-          outputUserTable($conn,$rsU,lpEndBlock());
+          if(!in_array($rsU->uname,$rpAdminUsers))
+          {
+            lpBeginBlock();?>
+              <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
+              <button class="btn btn-success pull-right" onclick="userToFree('<!--UNAME-->');return false;">转为免费试用版</button>
+              <button class="btn btn-success pull-right" onclick="userToExt('<!--UNAME-->');return false;">转为额外技术支持版</button>
+              <button class="btn btn-success pull-right" onclick="userToStd('<!--UNAME-->');return false;">转为标准版</button>
+            <?php
+            outputUserTable($conn,$rsU,lpEndBlock());
+          }
         ?>
     </div>
     
@@ -210,7 +213,8 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>付费用户</b>
         <?php
           $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='std' OR `type`='ext') AND `expired`>'%i'",time()+$lpCfgTimeToChina);
-          outputUserTable($conn,$rsU,"");
+          if(!in_array($rsU->uname,$rpAdminUsers))
+              outputUserTable($conn,$rsU,"");
         ?>
     </div>
     
@@ -218,12 +222,15 @@ function outputUserTable($conn,$rsU,$buttun)
         <b>免费试用/到期用户</b>
         <?php
           $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
-          lpBeginBlock();?>
-            <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
-            <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
-            <button class="btn btn-success pull-right" onclick="userAlertPay('<!--UNAME-->');return false;">续费提醒</button>
-          <?php
-          outputUserTable($conn,$rsU,lpEndBlock());
+          if(!in_array($rsU->uname,$rpAdminUsers))
+          {
+              lpBeginBlock();?>
+                <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
+                <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
+                <button class="btn btn-success pull-right" onclick="userAlertPay('<!--UNAME-->');return false;">续费提醒</button>
+              <?php
+              outputUserTable($conn,$rsU,lpEndBlock());
+          }
         ?>
     </div>
 </section>

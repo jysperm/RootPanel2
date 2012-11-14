@@ -73,7 +73,7 @@
     
 ### 设置站点
 
-* 登录网站，注册`rpadmin`和`root`，并将他们的`type`改为`std`，`rpadmin`用户为管理员.
+* 登录网站，注册`rpadmin`，`rpadmin`用户为管理员.
 
 ## 待办
 

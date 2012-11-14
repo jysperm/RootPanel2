@@ -16,9 +16,7 @@ lpMVC::bind('^/panel/?',function(){
         exit();
     }
         
-    $conn=new lpMySQL;
-    $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
-    if($rs->read() && $rs->type!="no")
+    if(isAllowPanel(lpAuth::getUName()))
     {
         lpTemplate::parseFile("template/panel.php");
     }
@@ -31,7 +29,9 @@ lpMVC::bind('^/panel/?',function(){
 });
 
 lpMVC::bind('^/admin/?',function(){
-    if(!lpAuth::login() || lpAuth::getUName()!="rpadmin")
+    global $rpAdminUsers;
+    
+    if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
     {
         gotoUrl("/login/");
         exit();

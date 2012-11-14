@@ -1,7 +1,5 @@
 <?php
 
-require_once("handler/global.php");
-
 class VirtualHost extends lpPage
 {
     var $msg;
@@ -248,20 +246,53 @@ class VirtualHost extends lpPage
         
         return true;
     }
+    
+    private function doRequest()
+    {
+        global $rpAdminEmail;
+        
+        $mailer=new lpSmtpMail();
+
+        $mailTitle="RP主机试用申请" . lpAuth::getUName(); 
+        $mailBody=$_POST["content"];
+        
+        $mailer->send($rpAdminEmail,$mailTitle,$mailBody);
+        
+        makeLog(lpAuth::getUName(),"填写试用申请" . $_POST["content"]);
+    }
+    
+    private function doGet()
+    {
+        if(!isset($_POST["id"]))
+        {
+            echo "参数不全";
+            return true;
+        }
+        else
+        {
+            $uname=lpAuth::getUName();
+            $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
+            if($rs->uname==$uname && isAllowPanel($uname))
+            {
+                  $tmp=new lpTemplate;
+                  $tmp->parse("template/edit-website.php",array("rs"=>$rs->rawArray()));
+                  return true;
+            }
+            else
+            {
+                echo "id不存在或ID不合法";
+                return true;
+            }
+        }
+    }
   
     public function post()
     {
-        global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost,$lpROOT;
+        global $lpCfgTimeToChina,$lpROOT,$rpAdminEmail;
         
-        if(!lpAuth::login())
+        if(!lpAuth::login() || !isset($_POST["do"]))
         {
-            echo "未登录";
-            return true;
-        }
-      
-        if(!isset($_POST["do"]))
-        {
-            echo "参数不全";
+            echo "未登录或参数不全";
             return true;
         }
         
@@ -270,42 +301,12 @@ class VirtualHost extends lpPage
         switch($_POST["do"])
         {
             case "request":
-                $mailer=new lpSmtpMail();
-
-                $mailTitle="RP主机试用申请" . lpAuth::getUName(); 
-                $mailBody=$_POST["content"];
-                
-                $mailer->send("m@jybox.net",$mailTitle,$mailBody);
-                
-                makeLog(lpAuth::getUName(),"填写试用申请" . $_POST["content"]);
-                
+                $this->doRequest();
                 $r["status"]="ok";
                 echo json_encode($r);
                 return true;
-                
             case "get": //获取编辑表单
-                if(!isset($_POST["id"]))
-                {
-                    echo "参数不全";
-                    return true;
-                }
-                else
-                {
-                    $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
-                    $rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
-                    $rsU->read();
-                    if($rs->read() && $rs->uname==lpAuth::getUName() && $rsU->type!="no")
-                    {
-                          $tmp=new lpTemplate;
-                          $tmp->parse("template/edit-website.php",array("rs"=>$rs->rawArray()));
-                          return true;
-                    }
-                    else
-                    {
-                        echo "id不存在或ID不合法";
-                        return true;
-                    }
-                }
+                return $this->doGet();
             case "edit": //提交编辑
                 if(!isset($_POST["id"]))
                 {

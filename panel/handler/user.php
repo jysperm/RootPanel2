@@ -13,7 +13,7 @@ class Signup extends lpPage
 
     public function post()
     {
-        global $lpCfgTimeToChina;
+        global $lpCfgTimeToChina,$rpNotAllowReg;
         
         if(!isset($_POST["uname"]) or !isset($_POST["email"]))
         {
@@ -33,13 +33,19 @@ class Signup extends lpPage
             $this->msg=lpEndBlock();
             return false;
         }
+        
+        if(in_array($_POST["uname"],$rpNotAllowReg))
+        {
+            $this->msg="帐号已存在";
+            return false;
+        }
 
         $conn=new lpMySQL;
 
         $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
         if($rs->read())
         {
-            $this->msg="帐号已存在";
+            $this->msg="该用户名不允许注册";
             return false;
         }
 
