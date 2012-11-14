@@ -26,7 +26,7 @@ function isAllowPanel($uname)
         if($rs->type!="no" && !in_array($uname,$rpAdminUsers))
             return true;
 
-    return false
+    return false;
 }
 
 function checkFileName($filename)
