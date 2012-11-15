@@ -274,6 +274,7 @@ class VirtualHost extends lpPage
         {
             $uname=lpAuth::getUName();
             $rs=$conn->select("virtualhost",array("id"=>$_POST["id"]));
+			$rs->read();
             if($rs->uname==$uname && isAllowPanel($uname))
             {
                   $tmp=new lpTemplate;
