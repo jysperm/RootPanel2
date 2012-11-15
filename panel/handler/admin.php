@@ -23,7 +23,7 @@ class Admin extends lpPage
     {
         global $lpCfgTimeToChina,$rpCfgMailUser,$rpCfgMailPasswd,$rpCfgMailEMail,$rpCfgMailHost,$lpROOT,$rpAdminUsers;
         
-        if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers)
+        if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
         {
             echo "未登录或不是管理员";
             return true;
