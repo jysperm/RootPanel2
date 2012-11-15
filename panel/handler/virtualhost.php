@@ -263,6 +263,8 @@ class VirtualHost extends lpPage
     
     private function doGet()
     {
+		$conn=new lpMySQL;
+		
         if(!isset($_POST["id"]))
         {
             echo "参数不全";
