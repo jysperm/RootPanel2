@@ -76,14 +76,14 @@ $a["endOfBody"]=lpEndBlock();
       <h3>标准版</h3>
       <p>每月8元，每季度19元.</p>
       <p>
-        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=14519431757">去淘宝付款</a>
+        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=16169509767">去淘宝付款</a>
       </p>
     </div>
     <div class="span4">
       <h3>额外技术支持版</h3>
       <p>每月15元，每季度35元</p>
       <p>
-        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=17840272225">去淘宝付款</a>
+        <a class="btn btn-success" href="http://item.taobao.com/item.htm?id=21047624871">去淘宝付款</a>
       </p>
     </div>
   </div>
