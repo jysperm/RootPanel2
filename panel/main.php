@@ -56,6 +56,11 @@ lpMVC::bind('^/pay/?',function(){
     return "";
 });
 
+lpMVC::bind('^/borad/?',function(){
+    require_once("template/borad.php");
+    return "";
+});
+
 lpMVC::bind('^/request-free/?',function(){
     require_once("template/request-free.php");
     return "";
