@@ -25,7 +25,7 @@ while($rsV->read())
     lpBeginBlock();
     $tmp = new lpTemplate;
     $a["v"]=$rsV->rawArray();
-    $tmp->parse("conf-template/nginx.php",$a);
+    $tmp->parse("./conf-template/nginx.php",$a);
     $out.=lpEndBlock();
 }
 $out.=$rsU->extconfnginx."\n";
@@ -43,7 +43,7 @@ while($rsV->read())
     lpBeginBlock();
     $tmp = new lpTemplate;
     $a["v"]=$rsV->rawArray();
-    $tmp->parse("conf-template/apache2.php",$a);
+    $tmp->parse("./conf-template/apache2.php",$a);
     $out.=lpEndBlock();
 }
 $out.=$rsU->extconfapache."\n";

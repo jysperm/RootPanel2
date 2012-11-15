@@ -6,7 +6,7 @@ $rpDomain="rp.jybox.net";
 $rpAdminEmail="m@jybox.net";
 
 $rpAdminUsers=array("rpadmin");
-$rpNotAllowReg=array("root");
+$rpNotAllowReg=array("root","default");
 
 $lpUrl="/LightPHP/";
 $lpCfgCallback="cbLogin";
