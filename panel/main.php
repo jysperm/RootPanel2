@@ -56,8 +56,8 @@ lpMVC::bind('^/pay/?',function(){
     return "";
 });
 
-lpMVC::bind('^/borad/?',function(){
-    require_once("template/borad.php");
+lpMVC::bind('^/news/?',function(){
+    require_once("template/news.php");
     return "";
 });
 
