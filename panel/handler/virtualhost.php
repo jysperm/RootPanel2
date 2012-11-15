@@ -333,7 +333,7 @@ class VirtualHost extends lpPage
                         makeLog(lpAuth::getUName(),"修改了站点{$rs->id}，原配置为：{$cfgOld},新配置为{$cfgNew}");
                         $conn->update("virtualhost",array("id"=>$_POST["id"]),$row);
                         
-                        shell_exec("{$lpROOT}/../core/web-conf-maker.php {$_POST['uname']}");
+                        shell_exec("{$lpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
                         
                         $r["status"]="ok";
                         echo json_encode($r);
@@ -376,7 +376,7 @@ class VirtualHost extends lpPage
                         $conn->insert("virtualhost",$row);
                         makeLog(lpAuth::getUName(),"创建了站点{$conn->insertId()}，配置为：{$cfgNew}");
                         
-                        shell_exec("{$lpROOT}/../core/web-conf-maker.php {$_POST['uname']}");
+                        shell_exec("{$lpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
                         
                         $r["status"]="ok";
                         echo json_encode($r);
