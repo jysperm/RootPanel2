@@ -42,7 +42,7 @@ if(lpAuth::login())
             <ul class="nav pull-right">
               <? if(lpAuth::login()): ?>
                 <li><a><?= lpAuth::getUName();?></a></li>
-                <? if($rs->type=="no" || $rs->type=="free"): ?>
+                <? if(!isAllowPanel(lpAuth::getUName())): ?>
                   <li><a href="/request-free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
                 <? endif; ?>
                 <li><a href="/panel/"><i class="icon-list-alt icon-white"></i>管理面板</a></li>

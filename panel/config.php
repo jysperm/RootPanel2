@@ -8,6 +8,9 @@ $rpAdminEmail="m@jybox.net";
 $rpAdminUsers=array("rpadmin");
 $rpNotAllowReg=array("root","default");
 
+$rpBuyStdUrl="http://item.taobao.com/item.htm?id=16169509767";
+$rpBuyExtUrl="http://item.taobao.com/item.htm?id=21047624871";
+
 $lpUrl="/LightPHP/";
 $lpCfgCallback="cbLogin";
 

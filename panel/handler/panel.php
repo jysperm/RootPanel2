@@ -4,6 +4,8 @@ class Panel extends lpPage
 {
     public function get()
     {
+        global $rpAdminUsers;
+        
         if(!lpAuth::login())
         {
             gotoUrl("/login/");
@@ -15,46 +17,56 @@ class Panel extends lpPage
         }
         else
         {
+            if(in_array(lpAuth::getUName(),$rpAdminUsers))
+            {
+                gotoUrl("/admin/");
+                exit();
+            }
             gotoUrl("/pay/");
         }
     }
 }
 
-class Request extends lpAction
+class RequestAction extends lpAction
 {
-    private function request()
+    public function request()
     {
         global $rpAdminEmail;
         
         if(!lpAuth::login())
-            lpMVC::exit("未登录");
+            lpMVC::quit("未登录");
         if(!isset($_POST["content"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
         
         $mailer=new lpSmtpMail();
+        $conn=new lpMySQL;
+        $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
+        $rs->read();
 
-        $mailTitle="RP主机试用申请" . lpAuth::getUName(); 
-        $mailBody=$_POST["content"];
+        $mailTitle=lpAuth::getUName() . "-RP主机试用申请"; 
+        $mailBody="{$rs->email}\n\n" . $_POST["content"];
         
         $mailer->send($rpAdminEmail,$mailTitle,$mailBody);
         
         makeLog(lpAuth::getUName(),"填写试用申请" . $_POST["content"]);
+        
+        echo json_encode(array("status"=>"ok"));
     }
 }
 
 class VirtualHost extends lpAction
 {
-    var $conn=new lpMySQL;
+    private $conn;
     
     var $msg;
     var $row;
     
     public function _Init()
     {
-        if(!lpAuth::login() || !isAllowPanel(lpAuth::getUName())))
+        $this->conn=new lpMySQL;
+        if(!lpAuth::login() || !isAllowPanel(lpAuth::getUName()))
         {
-            echo "未登录或未付费";
-            exit();
+            lpMVC::quit("未登录或未付费");
         }
     }
 
@@ -63,7 +75,7 @@ class VirtualHost extends lpAction
         global $rpROOT;
         
         if(!isset($_POST["id"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
         
         $uname=lpAuth::getUName();
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
@@ -74,7 +86,7 @@ class VirtualHost extends lpAction
         }
         else
         {
-            lpMVC::exit("站点ID不存在或站点不属于你");
+            lpMVC::quit("站点ID不存在或站点不属于你");
         }
     }
 
@@ -89,7 +101,7 @@ class VirtualHost extends lpAction
     public function delete()
     {
         if(!isset($_POST["id"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
         
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
         if($rs->read() && $rs->uname==lpAuth::getUName())
@@ -100,7 +112,7 @@ class VirtualHost extends lpAction
             $this->conn->delete("virtualhost",array("id"=>$_POST["id"]));
             shell_exec("{$rpROOT}/../core/web-conf-maker.php {$_POST['uname']}");
           
-            echo json_encode(array("status"=>""ok));
+            echo json_encode(array("status"=>"ok"));
         }
         else
         {
@@ -113,7 +125,7 @@ class VirtualHost extends lpAction
         global $lpCfgTimeToChina;
         
         if(!isset($_POST["id"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
         
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
         if($rs->read() && $rs->uname==lpAuth::getUName())
@@ -130,7 +142,7 @@ class VirtualHost extends lpAction
                 $this->conn->update("virtualhost",array("id"=>$_POST["id"]),$row);
                 shell_exec("{$rpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
                 
-                echo json_encode(array("status"=>""ok));
+                echo json_encode(array("status"=>"ok"));
             }
             else
             {
@@ -156,12 +168,12 @@ class VirtualHost extends lpAction
             $row["lastchange"]=time()+$lpCfgTimeToChina;
             $cfgNew=json_encode($row);
             
-            makeLog(lpAuth::getUName(),"创建了站点{$conn->insertId()}，配置为：{$cfgNew}");
+            makeLog(lpAuth::getUName(),"创建了站点{$this->conn->insertId()}，配置为：{$cfgNew}");
             
             $this->conn->insert("virtualhost",$row);
             shell_exec("{$rpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
             
-            echo json_encode(array("status"=>""ok));
+            echo json_encode(array("status"=>"ok"));
         }
         else
         {
@@ -172,14 +184,14 @@ class VirtualHost extends lpAction
     public function sshpasswd()
     {
         if(!isset($_POST["passwd"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
             
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {
             $unmae=lpAuth::getUName();
             shell_exec("echo '{$unmae}:{$_POST['passwd']}' | sudo chpasswd");
             
-            echo json_encode(array("status"=>""ok));
+            echo json_encode(array("status"=>"ok"));
         }
         else
         {
@@ -190,15 +202,15 @@ class VirtualHost extends lpAction
     public function mysqlpasswd()
     {
         if(!isset($_POST["passwd"]))
-            lpMVC::exit("参数不全");
+            lpMVC::quit("参数不全");
             
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {
             $uname=lpAuth::getUName();
             
-            $conn->exec("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');",$uname,$_POST["passwd"]);
+            $this->conn->exec("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');",$uname,$_POST["passwd"]);
             
-            echo json_encode(array("status"=>""ok));
+            echo json_encode(array("status"=>"ok"));
         }
         else
         {
@@ -212,9 +224,9 @@ class VirtualHost extends lpAction
         {
             $uname=lpAuth::getUName();
 
-            $conn->update("user",array("uname"=>$uname),array("passwd"=>lpAuth::DBHash($uname,$_POST["passwd"])));
+            $this->conn->update("user",array("uname"=>$uname),array("passwd"=>lpAuth::DBHash($uname,$_POST["passwd"])));
             
-            echo json_encode(array("status"=>""ok));
+            echo json_encode(array("status"=>"ok"));
         }
         else
         {
@@ -224,8 +236,6 @@ class VirtualHost extends lpAction
   
     private function checkInput($isNew=false)
     {
-        $conn=new lpMySQL;
-        
         // domains-域名
         // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
         // ^ *DOMAIN( DOMAIN)* *$
@@ -239,9 +249,9 @@ class VirtualHost extends lpAction
         {
             $row["domains"]=strtolower(trim(str_replace("  "," ",$_POST["domains"])));
             if($isNew)
-                $rsD=$conn->exec("SELECT * FROM `virtualhost`");
+                $rsD=$this->conn->exec("SELECT * FROM `virtualhost`");
             else
-                $rsD=$conn->exec("SELECT * FROM `virtualhost` WHERE `id` <> '%i'",$_POST["id"]);
+                $rsD=$this->conn->exec("SELECT * FROM `virtualhost` WHERE `id` <> '%i'",$_POST["id"]);
             while($rsD->read())
             {
                 $tD=explode(" ",$rsD->domains);

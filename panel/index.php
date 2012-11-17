@@ -3,6 +3,8 @@
 require_once("./LightPHP/lp-load.php");
 require_once("./config.php");
 
+global $rpROOT;
+
 $tmp = new lpTemplate;
 
 $a["dontChangeTitle"] = true;
@@ -121,23 +123,9 @@ $a["endOfBody"]=lpEndBlock();
   <div class="page-header">
     <h1>资源参数</h1>
   </div>
-  <table class="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>机房</th><th><a href="#" rel="popover" data-content="最小保证即任何情况下都可以保证这么多的资源，如果服务器还剩余资源，则所有需要资源的账户均分剩余资源.<br />
-    例如服务器剩余100M内存，有两个用户需要更多内存，则每人分得50M额外内存." data-original-title="最小保证">最小</a>
-    物理内存保证</th><th>最小内存保证</th><th>最小CPU保证</th><th>硬盘</th><th>流量/月</th><th>地址</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Linode东京(默认)</td><td>20M</td><td>40M</td><td>2%</td><td>500M</td><td>15G</td><td><a href="http://rp.jybox.net/">rp.jybox.net</a></td>
-      </tr> 
-      <tr>
-        <td>LocVPS美国西海岸</td><td>25M</td><td>30M</td><td>2%</td><td>700M</td><td>50G</td><td><a href="http://rp2.jybox.net/">rp2.jybox.net</a></td>
-      </tr>
-    </tbody>
-  </table>
+  <?php
+    lpTemplate::parseFile("{$rpROOT}/template/area-list.php");
+  ?>
   <p class="lead">
     注意：你运行的一切服务，都在以上的限制之中，包括但不限于自动备份、脚本、终端程序、PPTP、数据库.
   </p>
@@ -184,7 +172,7 @@ $a["endOfBody"]=lpEndBlock();
     即使如此，我们还是会尽可能地防止无关的人得到以上信息。
   </p>
   <p class="lead">
-    <b>优惠：</b>
+    <b>优惠：</b><br />
     RP主机会不定期推出优惠措施，所有优惠措施均为在原有时长基础上增加时长，而不是降低价格。<br />
     例如标准版如果八折优惠，那么价格仍然是8元每月，但是会增加6天的使用时长。<br />
     额外增加的时长不参与退款。

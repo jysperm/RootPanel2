@@ -1,6 +1,6 @@
 <?php
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
+global $conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
 
 $tmp = new lpTemplate;
 
@@ -60,72 +60,21 @@ lpBeginBlock();?>
     return false;
   }
   
-  function userAlertPay(uname)
+  function commonAct(act,uname,isReload)
   {
-    $.post("/commit/admin/",{"do":"alertpay","uname":uname},function(data){
-        if(data.status=="ok")
-            alert(data.status);
+    $.post("/commit/admin/",{"do":act,"uname":uname},function(data){
+      if(data.status=="ok")
+      {
+        if(isReload)
+          window.location.reload();
         else
-            alert(data.msg);
+          alert(data.status);
+      }
+      else
+        alert(data.msg);
     },"json");
     return false;
   }
-  
-  function userAlertDelete(uname)
-  {
-    $.post("/commit/admin/",{"do":"alertdelete","uname":uname},function(data){
-        if(data.status=="ok")
-            alert(data.status);
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function userToStd(uname)
-  {
-    $.post("/commit/admin/",{"do":"tostd","uname":uname},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function userToExt(uname)
-  {
-    $.post("/commit/admin/",{"do":"toext","uname":uname},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function userToFree(uname)
-  {
-    $.post("/commit/admin/",{"do":"tofree","uname":uname},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function userToNo(uname)
-  {
-    $.post("/commit/admin/",{"do":"tono","uname":uname},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
 </script>
 
 <?php
@@ -150,9 +99,9 @@ $rsL=$conn->select("log",array(),"time",-1,100,false);
 </section>
 
 <?php
-function outputUserTable($conn,$rsU,$buttun)
+function outputUserTable($rsU,$buttun)
 {
-    global $uiTemplate,$uiHander,$uiType,$uiUserType,$rpAdminUsers;
+    global $conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$rpAdminUsers;
 ?>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -178,9 +127,9 @@ function outputUserTable($conn,$rsU,$buttun)
         </tr>
         <tr>
           <td colspan="6">
-            <button class="btn btn-success pull-right" onclick="userLog('<?= $rsU->uname;?>');return false;">日志</button>
-            <a class="btn btn-success pull-right" href="/commit/admin/?do=loginas&uname=<?= $rsU->uname;?>&passwd=<?= lpAuth::cookieHash($rsU->passwd);?>">登录为</a>
-            <button class="btn btn-success pull-right" onclick="userAddTime('<?= $rsU->uname;?>');return false;">延时</button>
+            <button class="btn btn-success pull-right" onclick="userLog('<?= $rsU->uname;?>');">日志</button>
+            <a class="btn btn-success pull-right" href="/commit/loginas/?do=loginas&uname=<?= $rsU->uname;?>&passwd=<?= lpAuth::cookieHash($rsU->passwd);?>">登录为</a>
+            <button class="btn btn-success pull-right" onclick="userAddTime('<?= $rsU->uname;?>');">延时</button>
             <?= str_replace("<!--UNAME-->",$rsU->uname,$buttun);?>
           </td>
         </tr>
@@ -192,62 +141,60 @@ function outputUserTable($conn,$rsU,$buttun)
 ?>
 
 <section class="box" id="box-users">
-    <header>用户管理</header>
-    <div>
-        <b>未付费用户</b>
+  <header>用户管理</header>
+  <div>
+    <b>未付费用户</b>
+    <?php
+      $rsU=$conn->select("user",array("type"=>"no"));
+        lpBeginBlock();?>
+          <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->',true);">删除</button>
+          <button class="btn btn-success pull-right" onclick="commonAct('tofree','<!--UNAME-->',true);">转为免费试用版</button>
+          <button class="btn btn-success pull-right" onclick="commonAct('toext','<!--UNAME-->',true);">转为额外技术支持版</button>
+          <button class="btn btn-success pull-right" onclick="commonAct('tostd','<!--UNAME-->',true);">转为标准版</button>
         <?php
-          $rsU=$conn->select("user",array("type"=>"no"));
-            lpBeginBlock();?>
-              <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->');return false;">删除</button>
-              <button class="btn btn-success pull-right" onclick="userToFree('<!--UNAME-->');return false;">转为免费试用版</button>
-              <button class="btn btn-success pull-right" onclick="userToExt('<!--UNAME-->');return false;">转为额外技术支持版</button>
-              <button class="btn btn-success pull-right" onclick="userToStd('<!--UNAME-->');return false;">转为标准版</button>
-            <?php
-            outputUserTable($conn,$rsU,lpEndBlock());
-        ?>
-    </div>
-    
-    <div>
-        <b>付费用户</b>
-        <?php
-          $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='std' OR `type`='ext') AND `expired`>'%i'",time()+$lpCfgTimeToChina);
-          outputUserTable($conn,$rsU,"");
-        ?>
-    </div>
-    
-    <div>
-        <b>免费试用/到期用户</b>
-        <?php
-          $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
-              lpBeginBlock();?>
-                <button class="btn btn-success pull-right" onclick="userToNo('<!--UNAME-->');return false;">转为未付费</button>
-                <button class="btn btn-success pull-right" onclick="userAlertDelete('<!--UNAME-->');return false;">删除提醒</button>
-                <button class="btn btn-success pull-right" onclick="userAlertPay('<!--UNAME-->');return false;">续费提醒</button>
-              <?php
-              outputUserTable($conn,$rsU,lpEndBlock());
-        ?>
-    </div>
+        outputUserTable($rsU,lpEndBlock());
+    ?>
+  </div>
+  <div>
+      <b>付费用户</b>
+      <?php
+        $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='std' OR `type`='ext') AND `expired`>'%i'",time()+$lpCfgTimeToChina);
+        outputUserTable($rsU,"");
+      ?>
+  </div>
+  <div>
+    <b>免费试用/到期用户</b>
+    <?php
+      $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
+          lpBeginBlock();?>
+            <button class="btn btn-success pull-right" onclick="commonAct('tono','<!--UNAME-->',true);">转为未付费</button>
+            <button class="btn btn-success pull-right" onclick="commonAct('alertdelete','<!--UNAME-->',false);">删除提醒</button>
+            <button class="btn btn-success pull-right" onclick="commonAct('alertpay','<!--UNAME-->',false);">续费提醒</button>
+          <?php
+          outputUserTable($rsU,lpEndBlock());
+    ?>
+  </div>
 </section>
 
 
 <section class="box" id="box-log">
-    <header>日志</header>
-    <div>
-        <table class="table table-striped table-bordered table-condensed">
-        <thead>
+  <header>日志</header>
+  <div>
+      <table class="table table-striped table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>id</th><th>用户</th><th>时间</th><th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <? while($rsL->read()): ?>
           <tr>
-            <th>id</th><th>用户</th><th>时间</th><th>内容</th>
-          </tr>
-        </thead>
-        <tbody>
-          <? while($rsL->read()): ?>
-            <tr>
-              <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
-            </tr> 
-          <? endwhile; ?>
-        </tbody>
-      </table>
-    <div>
+            <td><?= $rsL->id;?></td><td><?= $rsL->uname;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
+          </tr> 
+        <? endwhile; ?>
+      </tbody>
+    </table>
+  <div>
 </section>
   
 <?php

@@ -1,6 +1,7 @@
 <?php
 
 lpLoader("lpTemplate");
+lpLoader("lpMVC");
 
 class Signup extends lpPage
 {
@@ -51,7 +52,7 @@ class Signup extends lpPage
         
         makeLog($_POST["uname"],"注册了帐号");
         
-        $this->gotoUrl("/panel/");
+        gotoUrl("/panel/");
     }
     
     public function procError($str)
@@ -86,7 +87,7 @@ class Login extends lpPage
             $this->procError("请输入账号和密码");
         
         if(lpAuth::login($_POST["uname"],$_POST["passwd"]))
-            $this->gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
+            gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
         else
             $this->procError("用户名或密码错误");
     }
@@ -113,7 +114,7 @@ class Logout extends lpPage
     public function get()
     {
         lpAuth::logout();
-        $this->gotoUrl("/");
+        gotoUrl("/");
     }
 }
 
