@@ -1,5 +1,7 @@
 <?php
 
+global $rpDomain;
+
 $tmp = new lpTemplate;
 
 $a["title"] = "用户手册";
@@ -10,6 +12,12 @@ lpBeginBlock();?>
 <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
 <li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
 <li><a href="#data-backup"><i class="icon-chevron-right"></i> 数据备份</a></li>
+<li><a href="#php"><i class="icon-chevron-right"></i> PHP支持</a></li>
+<li><a href="#website"><i class="icon-chevron-right"></i> Web服务概述</a></li>
+<li><a href="#website-option"><i class="icon-chevron-right"></i> Web服务 选项帮助</a></li>
+<li><a href="#myqsl"><i class="icon-chevron-right"></i> MySQL数据库</a></li>
+<li><a href="#domain"><i class="icon-chevron-right"></i> 域名绑定与解析</a></li>
+<li><a href="#taskinfo-probe"><i class="icon-chevron-right"></i> 进程监视器和探针</a></li>
 <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
 
 <?php
@@ -55,6 +63,7 @@ $a["endOfBody"]=lpEndBlock();
   </div>
   <p class="lead">
     客服邮箱：<code><i class="icon-envelope"></i>m@jybox.net</code> <code><i class="icon-envelope"></i>jyboxnet@gmail.com</code><br />
+    请发送邮件到上述邮箱，请勿使用linux中的mail机制.<br />
     客服(精英王子)：熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.
   <hr />
     在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等
@@ -66,7 +75,7 @@ $a["endOfBody"]=lpEndBlock();
   <div class="alert alert-error" style="margin-top:10px;">
     <h4 class="alert-heading">注意!</h4>
     <p>
-      向客服发送邮件时请附上你的密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
+      向客服发送邮件时请附上你的(面板)密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
       <code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
     </p>
   </div>
@@ -75,6 +84,12 @@ $a["endOfBody"]=lpEndBlock();
 <section id="ssh-sftp">
   <div class="page-header">
     <h1>访问SSH和SFTP</h1>
+  </div>
+  <div class="alert alert-info" style="margin-top:10px;">
+    <h4 class="alert-heading">提示!</h4>
+    <p>
+      首次开通用户，请登录你的管理面板来设置(修改)你的ssh密码.
+    </p>
   </div>
   <p class="lead">
     Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名，和服务器域名)：<br />
@@ -94,6 +109,121 @@ $a["endOfBody"]=lpEndBlock();
   </div>
   <p class="lead">
     一般情况下，每隔4-7天，我们会对所有数据进行一次备份。会备份到一些知名网盘，如Dropbox/百度网盘等。
+  </p>
+</section>
+
+<section id="php">
+  <div class="page-header">
+    <h1>PHP支持</h1>
+  </div>
+  <p class="lead">
+    最大POST文件限制：128M<br />
+    显示错误报告：开<br /><br />
+    其余选项保持默认，未禁用任何功能.
+  </p>
+</section>
+
+<section id="website">
+  <div class="page-header">
+    <h1>Web服务概述</h1>
+  </div>
+  <p class="lead">
+    RP主机使用Nginx+Apache2两层架构，Nginx处理反向代理、静态文件请求，Apache2处理脚本和CGI请求。<br />
+    管理面板上的站点选项本质上是设置Nginx需要把哪些请求转给Apache处理。
+  </p>
+</section>
+
+<section id="website-option">
+  <div class="page-header">
+    <h1>Web服务 选项帮助</h1>
+  </div>
+  <p class="lead">
+    <b>站点ID</b> RP主机内部用来标识站点.
+    <hr />
+    <b>绑定的域名</b> 以空格隔开的域名列表.
+    <hr />
+    <b>站点模板</b> 有三个可选项：
+    <ul>
+      <li><b>常规Web(PHP等CGI)</b> 一般的Web服务器，包括PHP和其他CGI站点</li>
+      <li><b>反向代理</b> 反向代理</li>
+      <li><b>Python(WSGI模式)</b> 使用WSGI模式的PHP站点</li>
+    </ul>
+    <hr />
+    <b>脚本处理策略</b> 只在<code>常规Web(PHP等CGI)</code>有效：
+    <ul>
+      <li><b>全部转到Apache</b> 将全部请求转交给Apache,即整个站点都是动态脚本</li>
+      <li><b>仅转发指定的URL(一般是脚本文件)</b> 只将指定的后缀的URL转到Apache</li>
+      <li><b>不转发指定的URL(一般是静态文件)</b> 只将指定的后缀的URL作为静态文件处理，不转发到Apache</li>
+    </ul>
+    <hr />
+    <b>作为PHP脚本处理的后缀</b> 后缀名，以空格隔开，不包含点
+    <hr />
+    <b>作为CGI脚本处理的后缀</b> 后缀名，以空格隔开，不包含点
+    <hr />
+    <b>将404的请求转发到Apache(多用于URL重写)</b> 是否将不存在的文件请求转交给Apache，通常wordpress就需要这样
+    <hr />
+    <b>静态文件后缀</b> 后缀名，以空格隔开，不包含点
+    <hr />
+    <b>默认首页</b> 对于文件夹，默认显示的文件，以空格隔开
+    <hr />
+    <b>开启自动索引</b> 对于文件夹，如果没有默认首页，是否显示所有文件列表
+    <hr />
+    <b>Alias别名</b> 将某个特殊前缀的URL，绑定到指定目录，前缀和目录用空格隔开，每行一对，如：<br />
+<pre>
+/bbs /home/my/bbs/
+</pre>
+    <hr />
+    <b>日志文件</b> Nginx和Apache2产生的访问日志和错误日志
+    <hr />
+    <b>SSL支持</b> 是否开启SSL支持
+  </p>
+</section>
+
+<section id="mysql">
+  <div class="page-header">
+    <h1>MySQL数据库</h1>
+  </div>
+  <div class="alert alert-info" style="margin-top:10px;">
+    <h4 class="alert-heading">提示!</h4>
+    <p>
+      首次开通用户，请登录你的管理面板来设置(修改)你的MySQL密码.<br />
+      默认是没有数据库的，请登录Phpmyadmin自行创建数据库.
+    </p>
+  </div>
+  <p class="lead">
+    Web管理后台：<a href="/phpmyadmin">Phpmyadmin</a>
+  </p>
+</section>
+
+<section id="domain">
+  <div class="page-header">
+    <h1>域名绑定与解析</h1>
+  </div>
+  <p class="lead">
+    <b>绑定你自己的域名</b><br />
+    将域名用CNAME解析到<code><?= $rpDomain;?></code>,然后即可在管理面板为你的网站绑定域名，多个域名在填写时以空格隔开。<br />
+    在域名前可以加<code>*.</code>实现泛域名解析，如<code>*.xxoo.xo</code>
+    <hr />
+    <b>绑定三级域名</b><br />
+    你可以随意绑定<code><?= $rpDomain;?></code>下的三级域名，如<code>xxoo.<?= $rpDomain;?></code>,只要其他人没有使用，你就可以绑定。
+    <hr />
+    <b>域名纠纷</b><br />
+    每个域名只能被一个网站绑定，如果其他人绑定了属于你的域名，请联系客服，客服会帮助你解决纠纷。
+  </p>
+</section>
+
+
+<section id="taskinfo-probe">
+  <div class="page-header">
+    <h1>进程监视器和探针</h1>
+  </div>
+  <p class="lead">
+    <ul>
+      <li><a href="/taskinfo.php">进程监视器</a></li>
+      <li><a href="/probe.php">PHP探针</a></li>
+      <li><a href="/mobile.php">PHP探针手机版</a></li>
+      <li><a href="/top.php">top监视器</a></li>
+    </ul>
   </p>
 </section>
 
