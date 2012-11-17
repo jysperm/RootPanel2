@@ -4,22 +4,18 @@ lpLoader("lpTemplate");
 
 class Signup extends lpPage
 {
-    private $msg;
-    
     public function get()
     {
-        return lpTemplate::parseFile("template/signup.php");
+        global $rpROOT;
+        return lpTemplate::parseFile("{$rpROOT}/template/signup.php");
     }
 
     public function post()
     {
-        global $lpCfgTimeToChina,$rpNotAllowReg;
+        global $lpCfgTimeToChina,$rpNotAllowReg,$rpROOT;
         
         if(!isset($_POST["uname"]) or !isset($_POST["email"]))
-        {
-            $this->msg="请将信息填写完整";
-            return false;
-        }
+            $this->procError("请将信息填写完整");
         
         if(!preg_match('/[A-Za-z][A-Za-z0-9_]+/u',$_POST["uname"]) or
            !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/',$_POST["email"]))
@@ -30,24 +26,17 @@ class Signup extends lpPage
                 <li>邮箱务必为正确的邮箱地址</li>
               </ul>
             <?php
-            $this->msg=lpEndBlock();
-            return false;
+            $this->procError(lpEndBlock());
         }
         
         if(in_array($_POST["uname"],$rpNotAllowReg))
-        {
-            $this->msg="帐号已存在";
-            return false;
-        }
+            $this->procError("该用户名不允许注册");
 
         $conn=new lpMySQL;
 
         $rs=$conn->select("user",array("uname"=>$_POST["uname"]));
         if($rs->read())
-        {
-            $this->msg="该用户名不允许注册";
-            return false;
-        }
+            $this->procError("帐号已存在");
 
         $row["uname"]=$_POST["uname"];
         $row["passwd"]=lpAuth::DBHash($_POST["uname"],$_POST["passwd"]);
@@ -63,62 +52,59 @@ class Signup extends lpPage
         makeLog($_POST["uname"],"注册了帐号");
         
         $this->gotoUrl("/panel/");
-        return true;
     }
     
-    public function procError()
+    public function procError($str)
     {
+        global $rpROOT;
+        
         $this->httpCode=400;
         
         $tmp=new lpTemplate;
         
-        $a["errorMsg"]=$this->msg;
+        $a["errorMsg"]=$str;
         $a["uname"]=$_POST["uname"];
         $a["email"]=$_POST["email"];
             
-        $tmp->parse("template/signup.php",$a);
+        $tmp->parse("{$rpROOT}/template/signup.php",$a);
+        
+        exit();
     }
 }
 
 class Login extends lpPage
 {
-    private $msg;
-        
     public function get()
     {
-        return lpTemplate::parseFile("template/login.php");
+        global $rpROOT;
+        return lpTemplate::parseFile("{$rpROOT}/template/login.php");
     }
     
     public function post()
     {
         if(!isset($_POST["uname"]) or !isset($_POST["passwd"]))
-        {
-            $this->msg="请输入账号和密码";
-            return false;
-        }
+            $this->procError("请输入账号和密码");
         
         if(lpAuth::login($_POST["uname"],$_POST["passwd"]))
-        {
             $this->gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
-                return true;
-        }
         else
-        {
-            $this->msg="用户名或密码错误";
-            return false;
-        }
+            $this->procError("用户名或密码错误");
     }
     
-    public function procError()
+    public function procError($str)
     {
+        global $rpROOT;
+        
         $this->httpCode=400;
         
         $tmp=new lpTemplate;
         
-        $a["errorMsg"]=$this->msg;
+        $a["errorMsg"]=$str;
         $a["uname"]=$_POST["uname"];
             
-        $tmp->parse("template/login.php",$a);
+        $tmp->parse("{$rpROOT}/template/login.php",$a);
+        
+        exit();
     }
 }
 
@@ -128,8 +114,6 @@ class Logout extends lpPage
     {
         lpAuth::logout();
         $this->gotoUrl("/");
-        
-        return true;
     }
 }
 

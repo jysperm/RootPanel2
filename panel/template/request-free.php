@@ -34,7 +34,7 @@ lpBeginBlock();?>
         alert("你根本没填啊亲！");
         return;
     }
-    $.post("/commit/virtualhost/",{"do":"request","content":$("#content").val()},function(data){
+    $.post("/commit/request/",{"do":"request","content":$("#content").val()},function(data){
       if(data.status=="ok")
           alert("发送成功，请耐心等待回复");
       else

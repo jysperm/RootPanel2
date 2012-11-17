@@ -2,7 +2,7 @@
 
 global $uiTemplate,$uiHander,$uiType,$uiUserType;
 
-$tmp = new lpTemplate;
+$tmp=new lpTemplate;
 
 $a["mainClass"] = "main50";
 $a["title"] = "控制面板主页";

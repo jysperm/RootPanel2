@@ -2,96 +2,32 @@
 
 require_once("LightPHP/lp-load.php");
 require_once("config.php");
-require_once("handler/global.php");
 
-lpMVC::bind('^/$',function(){
-    require_once("index.php");
-    return "";
-});
+require_once("{$rpROOT}/handler/global.php");
+require_once("{$rpROOT}/handler/user.php");
+require_once("{$rpROOT}/handler/panel.php");
+require_once("{$rpROOT}/handler/admin.php");
 
-lpMVC::bind('^/panel/?',function(){
-    if(!lpAuth::login())
-    {
-        gotoUrl("/login/");
-        exit();
-    }
-        
-    if(isAllowPanel(lpAuth::getUName()))
-    {
-        lpTemplate::parseFile("template/panel.php");
-    }
-    else
-    {
-        gotoUrl("/pay/");
-    }
-    
-    return "";
-});
 
-lpMVC::bind('^/admin/?',function(){
-    global $rpAdminUsers;
-    
-    if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
-    {
-        gotoUrl("/login/");
-        exit();
-    }
-        
-    lpTemplate::parseFile("template/admin.php");
-    return "";
-});
+lpMVC::bindFile('^/$',"{$rpROOT}/index.php");
 
-lpMVC::bind('^/commit/virtualhost/?',function(){
-    require_once("handler/virtualhost.php");
-    return new VirtualHost;
-});
+lpMVC::bingPage('^/login/?',new Login);
+lpMVC::bingPage('^/logout/?',new Logout);
+lpMVC::bingPage('^/signup/?',new Signup);
 
-lpMVC::bind('^/commit/admin/?',function(){
-    require_once("handler/admin.php");
-    return new Admin;
-});
+lpMVC::bingPage('^/admin/?',new AdminPage);
+lpMVC::bindPage('^/panel/?',new Panel);
 
-lpMVC::bind('^/pay/?',function(){
-    require_once("template/pay.php");
-    return "";
-});
+lpMVC::bindFile('^/pay/?',"{$rpROOT}/template/pay.php");
+lpMVC::bindFile('^/news/?',"{$rpROOT}/template/news.php");
+lpMVC::bindFile('^/request-free/?',"{$rpROOT}/template/request-free.php");
+lpMVC::bindFile('^/manual/?',"{$rpROOT}/template/manual.php");
 
-lpMVC::bind('^/news/?',function(){
-    require_once("template/news.php");
-    return "";
-});
+lpMVC::bindAction('^/commit/virtualhost/?',new VirtualHost,"do");
+lpMVC::bindAction('^/commit/request/?',new Request,"do");
+lpMVC::bindAction('^/commit/loginas/?',new LoginAs,"do");
+lpMVC::bindAction('^/commit/admin/?',new AdminAction,"do");
 
-lpMVC::bind('^/request-free/?',function(){
-    require_once("template/request-free.php");
-    return "";
-});
-
-lpMVC::bind('^/manual/?',function(){
-    require_once("template/manual.php");
-    return "";
-});
-
-lpMVC::bind('^/login/?',function()
-{
-    require_once("handler/user.php");
-    return new Login;
-});
-
-lpMVC::bind('^/logout/?',function()
-{
-    require_once("handler/user.php");
-    return new Logout;
-});
-
-lpMVC::bind('^/signup/?',function()
-{
-    require_once("handler/user.php");
-    return new Signup;
-});
-
-lpMVC::onDefault(function()
-{
-    return "404 - 不存在对应的处理器";
-});
+echo '<meta charset="utf-8">404 - 不存在对应的处理器';
 
 ?>

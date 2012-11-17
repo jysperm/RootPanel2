@@ -17,6 +17,14 @@ function gotoUrl($url)
     header("Location: {$url}");
 }
 
+function jsonError($str)
+{
+    $r["msg"]=$str;
+    $r["status"]="error";
+    echo json_encode($r);
+    exit();
+}
+
 function isAllowPanel($uname)
 {
     global $rpAdminUsers;

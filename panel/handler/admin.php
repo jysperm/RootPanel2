@@ -1,23 +1,40 @@
 <?php
 
-require_once("handler/global.php");
-
-class Admin extends lpPage
+class LoginAs extends lpAction
 {
-    public function get()
+    public function loginas()
     {
-        if(!isset($_GET["do"]) || $_GET["do"]!="loginas" || !isset($_GET["uname"]) || !isset($_GET["passwd"]))
+        if(!isset($_GET["uname"]) || !isset($_GET["passwd"]))
         {
-            echo "参数不全";
-            return true;
+            lpMVC::exit("参数不全");
         }
         else
         {
             lpAuth::login($_GET["uname"],$_GET["passwd"],false,false,true);
             $this->gotoUrl("/panel/");
-            return true;
         }
     }
+}
+
+class AdminPage extends lpPage
+{
+    public function get()
+    {
+        global $rpAdminUsers;
+    
+        if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
+        {
+            gotoUrl("/login/");
+            exit();
+        }
+            
+        lpTemplate::parseFile("template/admin.php");
+    }
+}
+
+class Admin extends lpPage
+{
+    
     
     public function post()
     {

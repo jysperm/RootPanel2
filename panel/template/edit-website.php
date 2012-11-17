@@ -1,30 +1,8 @@
 <?php
-  global $rpDomain,$uiTemplate,$uiHander,$uiType;
+  global $uiTemplate,$uiHander,$uiType,$rpNewVirtualHost;
 
   if(isset($new) && $new)
-  {
-      $rs['id']="XXOO";
-      $id=substr(md5(time()),0,8);
-      $rs["domains"]="{$id}.{$rpDomain}";
-      $rs["template"]="web";
-      $rs["type"]="only";
-      $rs["php"]="php";
-      $rs["cgi"]="";
-      $rs["static"]="css js jpg gif png ico zip rar exe";
-      $rs["indexs"]="index.php index.html index.htm";
-      $rs["autoindex"]=1;
-      $rs["is404"]=1;
-      $uname=lpAuth::getUName();
-      $rs["root"]="/home/{$uname}/web/";
-      $rs["alias"]="{}";
-      $rs["nginxaccess"]="/home/{$uname}/nginx.access.log";
-      $rs["nginxerror"]="/home/{$uname}/nginx.error.log";
-      $rs["apacheaccess"]="/home/{$uname}/apache.access.log";
-      $rs["apacheerror"]="/home/{$uname}/apache.error.log";
-      $rs["isssl"]=0;
-      $rs["sslkey"]="";
-      $rs["sslcrt"]="";
-  }
+      $rs=$rpNewVirtualHost;
 ?>
 
 <form class="rp-form">
