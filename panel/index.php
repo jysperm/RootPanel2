@@ -2,8 +2,7 @@
 
 require_once("./LightPHP/lp-load.php");
 require_once("./config.php");
-
-global $rpROOT;
+require_once("{$rpROOT}/hander/global.php");
 
 $tmp = new lpTemplate;
 

@@ -11,7 +11,7 @@
   
     ErrorLog /root/log/apache.error.log
     LogLevel warn
-    CustomLog /root/log/apache.access.log combined
+    CustomLog /root/log/apache.access.log vhost_combined
       
     AssignUserId rpadmin rpadmin
 </VirtualHost>

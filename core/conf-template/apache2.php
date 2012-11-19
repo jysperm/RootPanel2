@@ -60,7 +60,7 @@
     
     LogLevel warn
     
-    CustomLog <?= $apacheaccess; ?> combined
+    CustomLog <?= $apacheaccess; ?> vhost_combined
       
     AssignUserId <?= $uname; ?> <?= $uname; ?>
     

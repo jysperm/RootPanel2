@@ -137,7 +137,7 @@ $a["endOfBody"]=lpEndBlock();
 apache2-mpm-itk apache2-dev php5 php5-cgi php5-cli libapache2-mod-php5
 php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
 nginx mysql-server mysql-client phpmyadmin memcached
-screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools
+screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools curl
 python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
 g++ gcc qt4-dev-tools clang
 </pre>
