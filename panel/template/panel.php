@@ -30,7 +30,7 @@ lpBeginBlock();?>
   {
       if(confirm("你确定要删除？"))
       {
-          $.post("/commit/virtualhost/",{"do":"delete","id":websiteId},function(data){
+          $.post("/commit/panel/",{"do":"delete","id":websiteId},function(data){
             if(data.status=="ok")
                 window.location.reload();
             else
@@ -43,7 +43,7 @@ lpBeginBlock();?>
   function editWebsite(websiteId)
   {
       $("#editWebsite .rp-title").html("编辑站点");
-      $.post("/commit/virtualhost/",{"do":"get","id":websiteId},function(data){
+      $.post("/commit/panel/",{"do":"get","id":websiteId},function(data){
         $("#editWebsite .rp-body").html(data);
         
         $("#editWebsite #opweb").click(function(){
@@ -63,7 +63,6 @@ lpBeginBlock();?>
             $("#editWebsite .rp-root-name").html("Web根目录");
             $("#editWebsite .div-python").show();
         });
-        
         
         $("#editWebsite #opall").click(function(){
             $("#editWebsite .div-only").hide();
@@ -85,7 +84,7 @@ lpBeginBlock();?>
             postdata=$("#editWebsite .rp-form").serializeArray();
             postdata.push({name:"id",value:websiteId});
             postdata.push({name:"do",value:"edit"});
-            $.post("/commit/virtualhost/", postdata,function(data){
+            $.post("/commit/panel/", postdata,function(data){
                 if(data.status=="ok")
                     window.location.reload();
                 else
@@ -102,14 +101,14 @@ lpBeginBlock();?>
   
   $($("#new-website").click(function(){
     $("#editWebsite .rp-title").html("新增站点");
-    $.post("/commit/virtualhost/",{"do":"getnew"},function(data){
+    $.post("/commit/panel/",{"do":"getnew"},function(data){
       $("#editWebsite .rp-body").html(data);
       
       $("#editWebsite .rp-ok").unbind('click');
       $("#editWebsite .rp-ok").click(function(){
           postdata=$("#editWebsite .rp-form").serializeArray();
-          postdata.push({name:"do",value:"new"});
-          $.post("/commit/virtualhost/", postdata,function(data){
+          postdata.push({name:"do",value:"add"});
+          $.post("/commit/panel/", postdata,function(data){
               if(data.status=="ok")
                   window.location.reload();
               else
@@ -122,35 +121,18 @@ lpBeginBlock();?>
     },"html");
   }));
   
-  function sshPasswd()
+  function changePasswd(name,isReload)
   {
-    $.post("/commit/virtualhost/",{"do":"sshpasswd","passwd":$("#sshpasswd").val()},function(data){
-        if(data.status=="ok")
-            alert(data.status);
+    $.post("/commit/panel/",{"do":name,"passwd":$("#"+name).val()},function(data){
+      if(data.status=="ok")
+      {
+        if(isReload)
+          window.location.reload();
         else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function mysqlPasswd()
-  {
-    $.post("/commit/virtualhost/",{"do":"mysqlpasswd","passwd":$("#mysqlpasswd").val()},function(data){
-        if(data.status=="ok")
-            alert(data.status);
-        else
-            alert(data.msg);
-    },"json");
-    return false;
-  }
-
-  function panelPasswd()
-  {
-    $.post("/commit/virtualhost/",{"do":"panelpasswd","passwd":$("#panelpasswd").val()},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
+          alert(data.status);
+      }
+      else
+        alert(data.msg);
     },"json");
     return false;
   }
@@ -194,15 +176,15 @@ $rsU->read();
     <header>账户</header>
     <div>
         <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
-        <button class="btn btn-success" onclick="sshPasswd();return false;">修改SSH密码</button>
+        <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH密码</button>
     <div>
     <div>
         <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
-        <button class="btn btn-success" onclick="mysqlPasswd();return false;">修改MySQL密码</button>
+        <button class="btn btn-success" onclick="changePasswd('mysqlpasswd',false);">修改MySQL密码</button>
     <div>
     <div>
         <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd" />
-        <button class="btn btn-success" onclick="panelPasswd();return false;">修改面板(即该网页)密码</button>
+        <button class="btn btn-success" onclick="changePasswd('panelpasswd',true);">修改面板(即该网页)密码</button>
     <div>
 </section>
 
@@ -235,7 +217,7 @@ $rsU->read();
             <? case "only": ?>
               PHP: <?= $rs->php;?><br />
               CGI: <?= $rs->cgi;?><br />
-              <i class="<?= ($rs->is404)?"icon-ok":"icon-remove";?>"></i>不存在的路径(404)
+              <i class="<?= ($rs->is404)?"icon-ok":"icon-remove";?>"></i>转发不存在的路径(404)
             <? break;
             case "unless": ?>
               静态文件: <?= $rs->static;?>
@@ -244,7 +226,7 @@ $rsU->read();
           <hr />
           <div>
             默认首页：<?= $rs->indexs;?><br />
-            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
+            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>自动索引页面
           </div>
           <hr />
         <? break;
@@ -253,7 +235,7 @@ $rsU->read();
         case "python": ?>
           <div>
             默认首页：<?= $rs->indexs;?><br />
-            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>已开启自动索引页面
+            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>自动索引页面
           </div>
           <hr />
       <? endswitch; ?>
@@ -281,7 +263,7 @@ $rsU->read();
     </div>
     <hr />
     <div>
-      <i class="<?= ($rs->isssl)?"icon-ok":"icon-remove";?>"></i>已开启SSL<br />
+      <i class="<?= ($rs->isssl)?"icon-ok":"icon-remove";?>"></i>SSL<br />
       key：<?= $rs->sslkey;?><br />
       crt：<?= $rs->sslcrt;?>
     </div>

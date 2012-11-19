@@ -4,8 +4,8 @@
 </Directory>
 
 <VirtualHost *:8080>
-    ServerName rp.jybox.net
-    ServerAlias rp.jybox.net
+    ServerName rp2.jybox.net
+    ServerAlias rp2.jybox.net
   
     DocumentRoot /RootPanel/panel
   

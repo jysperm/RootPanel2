@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:8080>
   ServerAdmin m@jybox.net
 
   DocumentRoot /var/www

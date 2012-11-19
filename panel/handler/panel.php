@@ -4,6 +4,8 @@ class Panel extends lpPage
 {
     public function get()
     {
+        global $rpROOT;
+        
         global $rpAdminUsers;
         
         if(!lpAuth::login())
@@ -13,7 +15,7 @@ class Panel extends lpPage
         }
         if(isAllowPanel(lpAuth::getUName()))
         {
-            lpTemplate::parseFile("template/panel.php");
+            lpTemplate::parseFile("{$rpROOT}/template/panel.php");
         }
         else
         {
@@ -100,6 +102,8 @@ class VirtualHost extends lpAction
     
     public function delete()
     {
+        global $rpROOT;
+      
         if(!isset($_POST["id"]))
             lpMVC::quit("参数不全");
         
@@ -110,7 +114,7 @@ class VirtualHost extends lpAction
             makeLog(lpAuth::getUName(),"删除了站点{$rs->id}，配置为{$cfgOld}");
             
             $this->conn->delete("virtualhost",array("id"=>$_POST["id"]));
-            shell_exec("{$rpROOT}/../core/web-conf-maker.php {$_POST['uname']}");
+            shell_exec("{$rpROOT}/../core/web-conf-maker.php {$rs->uname}");
           
             echo json_encode(array("status"=>"ok"));
         }
@@ -122,7 +126,7 @@ class VirtualHost extends lpAction
     
     public function edit()
     {
-        global $lpCfgTimeToChina;
+        global $lpCfgTimeToChina,$rpROOT;
         
         if(!isset($_POST["id"]))
             lpMVC::quit("参数不全");
@@ -155,9 +159,9 @@ class VirtualHost extends lpAction
         }
     }
     
-    public function newhost()
+    public function add()
     {
-        global $lpCfgTimeToChina;
+        global $lpCfgTimeToChina,$rpROOT;
         
         if($this->checkInput(true))
         {
@@ -191,6 +195,8 @@ class VirtualHost extends lpAction
             $unmae=lpAuth::getUName();
             shell_exec("echo '{$unmae}:{$_POST['passwd']}' | sudo chpasswd");
             
+            makeLog(lpAuth::getUName(),"修改了SSH密码");
+            
             echo json_encode(array("status"=>"ok"));
         }
         else
@@ -210,6 +216,8 @@ class VirtualHost extends lpAction
             
             $this->conn->exec("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');",$uname,$_POST["passwd"]);
             
+            makeLog(lpAuth::getUName(),"修改了MySQL密码");
+            
             echo json_encode(array("status"=>"ok"));
         }
         else
@@ -225,6 +233,8 @@ class VirtualHost extends lpAction
             $uname=lpAuth::getUName();
 
             $this->conn->update("user",array("uname"=>$uname),array("passwd"=>lpAuth::DBHash($uname,$_POST["passwd"])));
+            
+            makeLog(lpAuth::getUName(),"修改了面板密码");
             
             echo json_encode(array("status"=>"ok"));
         }

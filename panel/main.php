@@ -23,7 +23,7 @@ lpMVC::bindFile('^/news/?',"{$rpROOT}/template/news.php");
 lpMVC::bindFile('^/request-free/?',"{$rpROOT}/template/request-free.php");
 lpMVC::bindFile('^/manual/?',"{$rpROOT}/template/manual.php");
 
-lpMVC::bindAction('^/commit/virtualhost/?',new VirtualHost,"do");
+lpMVC::bindAction('^/commit/panel/?',new VirtualHost,"do");
 lpMVC::bindAction('^/commit/request/?',new RequestAction,"do");
 lpMVC::bindAction('^/commit/loginas/?',new LoginAsAction,"do",false);
 lpMVC::bindAction('^/commit/admin/?',new AdminAction,"do");

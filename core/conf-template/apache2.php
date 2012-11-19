@@ -1,11 +1,26 @@
+<? if($v["template"]!="proxy"): ?>
 <?php
     $domains=explode(" ",trim(str_replace("  "," ",$v["domains"])));
-    $cgis=join(" .",explode(" ",trim(str_replace("  "," ",$v["cgi"]))));
-    if(count($cgis))
+    
+    if($v["cgi"])
+    {
+        $cgis=join(" .",explode(" ",trim(str_replace("  "," ",$v["cgi"]))));
         $cgis=join(" .",explode(" ",".".$cgis));
-    $phps=join(" .",explode(" ",trim(str_replace("  "," ",$v["php"]))));
-    if(count($phps))
+    }
+    else
+    {
+        $cgis=false;
+    }
+    if($v["php"])
+    {
+        $phps=join(" .",explode(" ",trim(str_replace("  "," ",$v["php"]))));
         $phps=join(" .",explode(" ",".".$phps));
+    }
+    else
+    {
+        $phps=false;
+    }
+        
     $alias=json_decode($v["alias"],true);
     
     $apacheerror=$v["apacheerror"];
@@ -33,9 +48,13 @@
     Alias <?= $k;?> <?= $v;?>
     <? endforeach; ?>
 
+    <? if($cgis): ?>
     AddHandler cgi-script <?= $cgis; ?>
+    <? endif; ?>
     
+    <? if($phps): ?>
     AddHandler application/x-httpd-php <?= $phps; ?>
+    <? endif; ?>
   
     ErrorLog <?= $apacheerror;?>
     
@@ -46,4 +65,4 @@
     AssignUserId <?= $uname; ?> <?= $uname; ?>
     
 </VirtualHost>
-
+<? endif; ?>

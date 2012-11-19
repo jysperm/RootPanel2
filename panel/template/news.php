@@ -1,5 +1,7 @@
 ﻿<?php
 
+global $rpNewsUrl;
+
 $tmp = new lpTemplate;
 
 $a["title"] = "公告";
@@ -28,7 +30,7 @@ $a["endOfBody"]=lpEndBlock();
 
 
 <section id="news">
-  <?= file_get_contents("https://raw.github.com/gist/4078878/borad.html");?>
+  <?= file_get_contents($rpNewsUrl);?>
 </section>
 
 <?php

@@ -1,10 +1,10 @@
 server {
     listen 80 default_server;
     listen 443 ssl;
-    server_name rp.jybox.net;
+    server_name rp2.jybox.net;
     
-    ssl_certificate      /RootPanel/rp.jybox.net.crt;
-    ssl_certificate_key  /RootPanel/rp.jybox.net.key;
+    ssl_certificate      /RootPanel/rp2.jybox.net.crt;
+    ssl_certificate_key  /RootPanel/rp2.jybox.net.key;
 
     root /RootPanel/panel;
     index index.html index.php;

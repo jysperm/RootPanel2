@@ -17,6 +17,7 @@
     apt-get install nginx mysql-server mysql-client phpmyadmin memcached
     apt-get install screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools
     apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
+    apt-get install g++ gcc qt4-dev-tools clang
     
     pip install django tornado
     
@@ -31,7 +32,7 @@
     cd /RootPanel
     git submodule update --init
     
-### 软件包设置
+### 系统设置
 
     a2enmod rewrite
     cp -r /usr/share/phpmyadmin /RootPanel/panel/
@@ -41,7 +42,11 @@
   
     mkdir -p /root/log
     
-    证书/私钥分别放在`/RootPanel/rp.jybox.net.crt`/`/RootPanel/rp.jybox.net.key`
+    hostname rp2.jybox.net
+    echo "rp2.jybox.net" > /etc/hostname
+    echo "127.0.0.1 rp2.jybox.net" > /etc/hosts
+    
+    证书/私钥分别放在`/RootPanel/rp2.jybox.net.crt`/`/RootPanel/rp2.jybox.net.key`
     
 ### 配置文件
 
@@ -55,8 +60,11 @@
     
     cp nginx/nginx.conf /etc/nginx/nginx.conf
     rm -r /etc/nginx/sites-enabled/*
-    cp nginx/sites-enabled/default /etc/nginx/sites-enabled/default
     cp nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
+    
+    cp php5/cli/conf.d/ming.ini /etc/php5/cli/conf.d/ming.ini
+    cp php5/php.ini /etc/php5/apache/php.ini
+    cp php5/php.ini /etc/php5/cgi/php.ini
 
     cp sudoers /etc/sudoers
     

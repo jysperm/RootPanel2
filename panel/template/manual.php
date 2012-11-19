@@ -13,6 +13,7 @@ lpBeginBlock();?>
 <li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
 <li><a href="#data-backup"><i class="icon-chevron-right"></i> 数据备份</a></li>
 <li><a href="#php"><i class="icon-chevron-right"></i> PHP支持</a></li>
+<li><a href="#os-packets"><i class="icon-chevron-right"></i> 操作系统和软件包</a></li>
 <li><a href="#website"><i class="icon-chevron-right"></i> Web服务概述</a></li>
 <li><a href="#website-option"><i class="icon-chevron-right"></i> Web服务 选项帮助</a></li>
 <li><a href="#myqsl"><i class="icon-chevron-right"></i> MySQL数据库</a></li>
@@ -75,8 +76,8 @@ $a["endOfBody"]=lpEndBlock();
   <div class="alert alert-error" style="margin-top:10px;">
     <h4 class="alert-heading">注意!</h4>
     <p>
-      向客服发送邮件时请附上你的(面板)密码，以便确认身份。如果客服向你索要敏感信息，请注意一定要回复到
-      <code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
+      向客服发送邮件时请附上你的(面板)密码，以便确认身份。<br />
+      如果客服向你索要敏感信息，请注意一定要回复到<code><i class="icon-envelope"></i>m@jybox.net</code>或<code><i class="icon-envelope"></i>jyboxnet@gmail.com</code>.
     </p>
   </div>
 </section>
@@ -94,8 +95,8 @@ $a["endOfBody"]=lpEndBlock();
   <p class="lead">
     Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名，和服务器域名)：<br />
     <code>
-      <i class="icon-chevron-right"></i>ssh 用户名@rp.jybox.net
-    </code>
+      <i class="icon-chevron-right"></i>ssh 用户名@<?= $rpDomain;?>
+    </code><br />
     Winodws下，可使用开源软件Putty连接SSH，Putty官网：<a href="http://www.putty.org/">http://www.putty.org</a>
     <hr />
     SFTP是经过加密的FTP，大部分FTP软件均支持SFTP，我们推荐使用FileZilla,它是开源而跨平台的：<br />
@@ -120,6 +121,31 @@ $a["endOfBody"]=lpEndBlock();
     最大POST文件限制：128M<br />
     显示错误报告：开<br /><br />
     其余选项保持默认，未禁用任何功能.
+  </p>
+</section>
+
+<section id="os-packets">
+  <div class="page-header">
+    <h1>操作系统和软件包</h1>
+  </div>
+  <p class="lead">
+    <b>服务器操作系统 Ubuntu Server 12.04LTS</b>
+    <br />
+    <b>以下来自Ubuntu软件仓库，均为最新版</b>
+    <br />
+<pre>
+apache2-mpm-itk apache2-dev php5 php5-cgi php5-cli libapache2-mod-php5
+php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
+nginx mysql-server mysql-client phpmyadmin memcached
+screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools
+python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
+g++ gcc qt4-dev-tools clang
+</pre>
+    <b>以下来自pip软件仓库，均为最新版</b>
+    <br />
+<pre>
+django tornado
+</pre>
   </p>
 </section>
 
@@ -231,15 +257,15 @@ $a["endOfBody"]=lpEndBlock();
   <div class="page-header">
     <h1>第三方服务推荐</h1>
   </div>
-  <p class="lead">
+  <div>
     <b>企业邮箱</b>推荐腾讯的企业邮箱服务，免费、专业：<a href="http://exmail.qq.com/">http://exmail.qq.com</a>
     <hr class="small" />
     <b>CDN</b>推荐CloudFlare的免费CDN加速：<a href="https://www.cloudflare.com/">https://www.cloudflare.com</a>
     <hr class="small" />
     <b>翻墙</b>推荐基于GAE的GoAgent，开源、速度理想：<a href="https://code.google.com/p/goagent/">https://code.google.com/p/goagent</a>
     <hr class="small" />
-    <b>备份</b>推荐基于Dropbox，免费、速度理想：<a href="https://www.dropbox.com/">https://www.dropbox.com</a>
-  </p>
+    <b>备份</b>推荐Dropbox，免费、速度理想：<a href="https://www.dropbox.com/">https://www.dropbox.com</a>
+  </div>
 </section>
 
 <?php

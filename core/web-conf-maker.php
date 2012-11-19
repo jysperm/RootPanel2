@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 
-require_once("../LightPHP/lp-load.php");
-require_once("../panel/config.php");
+require_once("/RootPanel/LightPHP/lp-load.php");
+require_once("/RootPanel/panel/config.php");
 
 lpLoader("lpLock");
 lpLoader("lpTemplate");
@@ -25,13 +25,13 @@ while($rsV->read())
     lpBeginBlock();
     $tmp = new lpTemplate;
     $a["v"]=$rsV->rawArray();
-    $tmp->parse("./conf-template/nginx.php",$a);
+    $tmp->parse("{$rpROOT}/../core/conf-template/nginx.php",$a);
     $out.=lpEndBlock();
 }
 $out.=$rsU->extconfnginx."\n";
 
-file_put_contents("./temp",$out);
-shell_exec("sudo cp ./temp /etc/nginx/sites-enabled/{$uname}");
+file_put_contents("{$rpROOT}/temp",$out);
+shell_exec("sudo cp {$rpROOT}/temp /etc/nginx/sites-enabled/{$uname}");
 shell_exec("sudo chown root:root /etc/nginx/sites-enabled/{$uname}");
 shell_exec("sudo chmod 700 /etc/nginx/sites-enabled/{$uname}");
 
@@ -43,15 +43,16 @@ while($rsV->read())
     lpBeginBlock();
     $tmp = new lpTemplate;
     $a["v"]=$rsV->rawArray();
-    $tmp->parse("./conf-template/apache2.php",$a);
+    $tmp->parse("{$rpROOT}/../core/conf-template/apache2.php",$a);
     $out.=lpEndBlock();
 }
 $out.=$rsU->extconfapache."\n";
 
-file_put_contents("./temp",$out);
-shell_exec("sudo cp ./temp /etc/apache2/sites-enabled/{$uname}");
+file_put_contents("{$rpROOT}/../temp",$out);
+shell_exec("sudo cp {$rpROOT}/../temp /etc/apache2/sites-enabled/{$uname}");
 shell_exec("sudo chown root:root /etc/apache2/sites-enabled/{$uname}");
 shell_exec("sudo chmod 700 /etc/apache2/sites-enabled/{$uname}");
+shell_exec("rm {$rpROOT}/../temp");
 
 shell_exec("sudo service nginx reload");
 shell_exec("sudo service apache2 reload");

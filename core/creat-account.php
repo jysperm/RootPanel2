@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 
-require_once("../LightPHP/lp-load.php");
-require_once("../panel/config.php");
+require_once("/RootPanel/LightPHP/lp-load.php");
+require_once("/RootPanel/panel/config.php");
 
 function create_password($pw_length = 8)
 {

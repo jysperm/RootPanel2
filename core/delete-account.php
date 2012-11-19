@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 
-require_once("../LightPHP/lp-load.php");
-require_once("../panel/config.php");
+require_once("/RootPanel/LightPHP/lp-load.php");
+require_once("/RootPanel/panel/config.php");
 
 
 if(!isset($argv[1]) || !isset($argv[2]) || $argv[2]!="sure")
