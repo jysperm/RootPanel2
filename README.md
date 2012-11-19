@@ -36,9 +36,6 @@
 
     a2enmod rewrite
     cp -r /usr/share/phpmyadmin /RootPanel/panel/
-    
-    chown -R rpadmin:rpadmin /RootPanel
-    chmod -R 770 /RootPanel
   
     mkdir -p /root/log
     
@@ -67,6 +64,11 @@
     cp php5/php.ini /etc/php5/cgi/php.ini
 
     cp sudoers /etc/sudoers
+    
+### 系统设置
+    
+    chown -R rpadmin:rpadmin /RootPanel
+    chmod -R 770 /RootPanel
     
 ### 重启服务器
 
