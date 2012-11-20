@@ -129,7 +129,7 @@ lpBeginBlock();?>
         if(isReload)
           window.location.reload();
         else
-          alert(data.status);
+          alert(data.status?data.status:data);
       }
       else
         alert(data.msg);
