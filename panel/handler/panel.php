@@ -192,10 +192,10 @@ class VirtualHost extends lpAction
             
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {
-            $unmae=lpAuth::getUName();
-            shell_exec("echo '{$unmae}:{$_POST['passwd']}' | sudo chpasswd");
+            $uname=lpAuth::getUName();
+            shell_exec("echo '{$uname}:{$_POST['passwd']}' | sudo chpasswd");
             
-            makeLog(lpAuth::getUName(),"修改了SSH密码");
+            makeLog($uname,"修改了SSH密码");
             
             echo json_encode(array("status"=>"ok"));
         }
