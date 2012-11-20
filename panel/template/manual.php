@@ -16,7 +16,7 @@ lpBeginBlock();?>
 <li><a href="#os-packets"><i class="icon-chevron-right"></i> 操作系统和软件包</a></li>
 <li><a href="#website"><i class="icon-chevron-right"></i> Web服务概述</a></li>
 <li><a href="#website-option"><i class="icon-chevron-right"></i> Web服务 选项帮助</a></li>
-<li><a href="#myqsl"><i class="icon-chevron-right"></i> MySQL数据库</a></li>
+<li><a href="#mysql"><i class="icon-chevron-right"></i> MySQL数据库</a></li>
 <li><a href="#domain"><i class="icon-chevron-right"></i> 域名绑定与解析</a></li>
 <li><a href="#taskinfo-probe"><i class="icon-chevron-right"></i> 进程监视器和探针</a></li>
 <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
