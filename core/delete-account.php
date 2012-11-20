@@ -18,9 +18,9 @@ $conn->exec("DROP USER '%s'@'localhost';",$uname);
 $dbs=$conn->getDBs();
 foreach($dbs as $i)
 {
-    if(substr($i,0,strlen($uname))==$uname)
+    if(substr($i,0,strlen($uname)+1)==($uname."_"))
     {
-        $conn->exec("DROP DATABASE `%s`;",$i);
+        $conn->exec("DROP DATABASE `%t`;",$i);
     }
 }
 
