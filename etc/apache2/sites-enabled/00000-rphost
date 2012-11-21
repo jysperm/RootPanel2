@@ -4,6 +4,11 @@
 </Directory>
 
 ExtendedStatus On
+<Location /server-status>
+	SetHandler server-status
+	Order deny,allow
+	Allow from all
+</Location>
 
 <VirtualHost *:8080>
     ServerName rp2.jybox.net
@@ -14,10 +19,6 @@ ExtendedStatus On
     ErrorLog /root/log/apache.error.log
     LogLevel warn
     CustomLog /root/log/apache.access.log vhost_combined
-	
-	<Location /server-status>
-		SetHandler server-status
-	</Location>
       
     AssignUserId rpadmin rpadmin
 </VirtualHost>
