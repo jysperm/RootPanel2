@@ -3,13 +3,6 @@
     AllowOverride All
 </Directory>
 
-ExtendedStatus On
-<Location /server-status>
-	SetHandler server-status
-	Order deny,allow
-	Allow from all
-</Location>
-
 <VirtualHost *:8080>
     ServerName rp2.jybox.net
     ServerAlias rp2.jybox.net
@@ -23,3 +16,15 @@ ExtendedStatus On
     AssignUserId rpadmin rpadmin
 </VirtualHost>
 
+ExtendedStatus On
+
+<VirtualHost *:8080>
+    ServerName 0status.rp2.jybox.net
+    ServerAlias 0status.jybox.net
+  
+    <Location /server-status>
+		SetHandler server-status
+		Order deny,allow
+		Allow from all
+	</Location>
+</VirtualHost>
