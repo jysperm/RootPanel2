@@ -17,10 +17,6 @@ ExtendedStatus On
 	
 	<Location /server-status>
 		SetHandler server-status
-		Order deny,allow
-		Deny from all
-		Allow from 60.195.252.106
-		# Allow from 60.195.249.83
 	</Location>
       
     AssignUserId rpadmin rpadmin
