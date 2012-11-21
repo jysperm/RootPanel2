@@ -77,6 +77,11 @@
 
 * /etc/snmp/snmpd.conf
 * /RootPanel/panel/config.php
+
+### 监控
+
+* Apache2 http://0status.rp2.jybox.net/server-status
+* Nginx http://0status.rp2.jybox.net/nginx-status
     
 ### 设置站点
 
