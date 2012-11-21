@@ -3,6 +3,8 @@
     AllowOverride All
 </Directory>
 
+ExtendedStatus On
+
 <VirtualHost *:8080>
     ServerName rp2.jybox.net
     ServerAlias rp2.jybox.net
@@ -13,7 +15,6 @@
     LogLevel warn
     CustomLog /root/log/apache.access.log vhost_combined
 	
-	ExtendedStatus On
 	<Location /server-status>
 		SetHandler server-status
 		Order deny,allow
