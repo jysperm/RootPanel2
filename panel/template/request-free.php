@@ -36,9 +36,14 @@ lpBeginBlock();?>
     }
     $.post("/commit/request/",{"do":"request","content":$("#content").val()},function(data){
       if(data.status=="ok")
+	  {
           alert("发送成功，请耐心等待回复");
+		  window.location.href="/";
+	  }
       else
+	  {
           alert(data.msg);
+	  }
     },"json");
   }));
   

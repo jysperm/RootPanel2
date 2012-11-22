@@ -70,7 +70,7 @@ class AdminAction extends lpAction
           <tbody>
             <? while($rsL->read()): ?>
               <tr>
-                <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->lastloginua);?>"><?= $rsL->ip;?></span></td>
+                <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->ua);?>"><?= $rsL->ip;?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
               </tr> 
             <? endwhile; ?>

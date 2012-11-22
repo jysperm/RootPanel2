@@ -9,6 +9,7 @@ $a["title"] = "用户手册";
 lpBeginBlock();?>
 
 <li class="active"><a href="#file-access"><i class="icon-chevron-right"></i> 文件权限</a></li>
+<li><a href="#browser-support"><i class="icon-chevron-right"></i> 浏览器支持</a></li>
 <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
 <li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
 <li><a href="#data-backup"><i class="icon-chevron-right"></i> 数据备份</a></li>
@@ -58,6 +59,15 @@ $a["endOfBody"]=lpEndBlock();
   </p>
 </section>
 
+<section id="browser-support">
+  <div class="page-header">
+    <h1>浏览器支持</h1>
+  </div>
+  <p class="lead">
+    该管理面板支持IE9、Chrome最新版、Firefox最新版、Opera最新版、Android/iOS浏览器.
+  </p>
+</section>
+
 <section id="service">
   <div class="page-header">
     <h1>客服</h1>
@@ -67,7 +77,8 @@ $a["endOfBody"]=lpEndBlock();
     请发送邮件到上述邮箱，请勿使用linux中的mail机制.<br />
     客服(精英王子)：熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.
   <hr />
-    在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等
+    在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等.<br /><br />
+	如果出现纠纷，你的邮箱将是最终认定账户所属权的依据。
   </p>
   <p class="lead">
     标准版中，与我们无关的问题(例如某个软件如何使用),是否详细解答要看客服的心情.<br />
@@ -93,7 +104,7 @@ $a["endOfBody"]=lpEndBlock();
     </p>
   </div>
   <p class="lead">
-    Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名，和服务器域名)：<br />
+    Linux/Mac下，可直接在终端使用下列命令连接到RP主机的SSH(替换下面的用户名)：<br />
     <code>
       <i class="icon-chevron-right"></i>ssh 用户名@<?= $rpDomain;?>
     </code><br />
