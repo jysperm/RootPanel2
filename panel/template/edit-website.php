@@ -50,7 +50,7 @@
           将404的请求转发到Apache(多用于URL重写)
         </label>
       </div>
-      <div class="div-unless<?= ($rs->type!="unless")?" hide":"";?>">
+      <div class="div-unless<?= ($rs["type"]!="unless")?" hide":"";?>">
         静态文件后缀:<input type="text" class="input-xxlarge" id="static" name="static" value="<?= trim(str_replace("  "," ",$rs["static"]));?>" />
       </div>
       默认首页：<input type="text" class="input-xxlarge" id="indexs" name="indexs" value="<?= trim(str_replace("  "," ",$rs["indexs"]));?>" />

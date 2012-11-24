@@ -171,28 +171,28 @@ $rsU->read();
 </div>
 
 <section class="box" id="box-index">
-    <header>概述</header>
-    <div>
-        账户类型：<?= $uiUserType[$rsU->type] ?><br />
-        到期时间：<span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span><br />
-        <a class="btn btn-success" href="/pay/"> 续费</a>
-    <div>
+  <header>概述</header>
+  <div>
+    账户类型：<?= $uiUserType[$rsU->type] ?><br />
+    到期时间：<span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span><br />
+    <a class="btn btn-success" href="/pay/"> 续费</a>
+  <div>
 </section>
 
 <section class="box" id="box-account">
-    <header>账户</header>
-    <div>
-        <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
-        <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH密码</button>
-    <div>
-    <div>
-        <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
-        <button class="btn btn-success" onclick="changePasswd('mysqlpasswd',false);">修改MySQL密码</button>
-    <div>
-    <div>
-        <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd" />
-        <button class="btn btn-success" onclick="changePasswd('panelpasswd',true);">修改面板(即该网页)密码</button>
-    <div>
+  <header>账户</header>
+  <div>
+    <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
+    <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH密码</button>
+  <div>
+  <div>
+    <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
+    <button class="btn btn-success" onclick="changePasswd('mysqlpasswd',false);">修改MySQL密码</button>
+  <div>
+  <div>
+    <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd" />
+    <button class="btn btn-success" onclick="changePasswd('panelpasswd',true);">修改面板(即该网页)密码</button>
+  <div>
 </section>
 
 <section class="box" id="box-website">
