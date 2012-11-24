@@ -22,11 +22,11 @@ $rsV=$conn->select("virtualhost",array("uname"=>$uname));
 $out="# " . gmdate("Y.m.d H:i:s",time() + $lpCfgTimeToChina) . "\n";
 while($rsV->read())
 {
-    lpBeginBlock();
-    $tmp = new lpTemplate;
-    $a["v"]=$rsV->rawArray();
-    $tmp->parse("{$rpROOT}/../core/conf-template/nginx.php",$a);
-    $out.=lpEndBlock();
+    lpTemplate::beginBlock();
+    $tmp = new lpTemplate("{$rpROOT}/../core/conf-template/nginx.php");
+    $tmp->v=$rsV->rawArray();
+    $tmp->output();
+    $out.=lpTemplate::endBlock();
 }
 $out.=$rsU->extconfnginx."\n";
 
@@ -40,11 +40,11 @@ $rsV=$conn->select("virtualhost",array("uname"=>$uname));
 $out="# " . gmdate("Y.m.d H:i:s",time() + $lpCfgTimeToChina) . "\n";
 while($rsV->read())
 {
-    lpBeginBlock();
-    $tmp = new lpTemplate;
-    $a["v"]=$rsV->rawArray();
-    $tmp->parse("{$rpROOT}/../core/conf-template/apache2.php",$a);
-    $out.=lpEndBlock();
+    lpTemplate::beginBlock();
+    $tmp = new lpTemplate("{$rpROOT}/../core/conf-template/apache2.php");
+    $tmp->v=$rsV->rawArray();
+    $tmp->output();
+    $out.=lpTemplate::endBlock();
 }
 $out.=$rsU->extconfapache."\n";
 
