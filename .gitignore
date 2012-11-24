@@ -25,4 +25,4 @@ qrc_*.cpp
 *.suo
 
 /panel/temp
-
+.lock
