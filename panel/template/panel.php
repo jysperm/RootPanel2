@@ -40,44 +40,49 @@ lpTemplate::beginBlock();?>
       return false;
   }
   
+  function bindSwitch()
+  {
+  		$("#editWebsite #opweb").click(function(){
+    			$("#editWebsite .div-web").show();
+    			$("#editWebsite .rp-root-name").html("Web根目录");
+    			$("#editWebsite .div-python").hide();
+  		});
+
+  		$("#editWebsite #opproxy").click(function(){
+    			$("#editWebsite .div-web").hide();
+    			$("#editWebsite .rp-root-name").html("反向代理URL");
+    			$("#editWebsite .div-python").hide();
+  		});
+
+  		$("#editWebsite #oppython").click(function(){
+    			$("#editWebsite .div-web").hide();
+    			$("#editWebsite .rp-root-name").html("Web根目录");
+    			$("#editWebsite .div-python").show();
+  		});
+
+  		$("#editWebsite #opall").click(function(){
+    			$("#editWebsite .div-only").hide();
+    			$("#editWebsite .div-unless").hide();
+  		});
+
+  		$("#editWebsite #oponly").click(function(){
+    			$("#editWebsite .div-only").show();
+    			$("#editWebsite .div-unless").hide();
+  		});
+
+  		$("#editWebsite #opunless").click(function(){
+    			$("#editWebsite .div-only").hide();
+    			$("#editWebsite .div-unless").show();
+  		});
+  }
+  
   function editWebsite(websiteId)
   {
       $("#editWebsite .rp-title").html("编辑站点");
       $.post("/commit/panel/",{"do":"get","id":websiteId},function(data){
         $("#editWebsite .rp-body").html(data);
-        
-        $("#editWebsite #opweb").click(function(){
-            $("#editWebsite .div-web").show();
-            $("#editWebsite .rp-root-name").html("Web根目录");
-            $("#editWebsite .div-python").hide();
-        });
-        
-        $("#editWebsite #opproxy").click(function(){
-            $("#editWebsite .div-web").hide();
-            $("#editWebsite .rp-root-name").html("反向代理URL");
-            $("#editWebsite .div-python").hide();
-        });
-        
-        $("#editWebsite #oppython").click(function(){
-            $("#editWebsite .div-web").hide();
-            $("#editWebsite .rp-root-name").html("Web根目录");
-            $("#editWebsite .div-python").show();
-        });
-        
-        $("#editWebsite #opall").click(function(){
-            $("#editWebsite .div-only").hide();
-            $("#editWebsite .div-unless").hide();
-        });
-        
-        $("#editWebsite #oponly").click(function(){
-            $("#editWebsite .div-only").show();
-            $("#editWebsite .div-unless").hide();
-        });
-        
-        $("#editWebsite #opunless").click(function(){
-            $("#editWebsite .div-only").hide();
-            $("#editWebsite .div-unless").show();
-        });
+
+        bindSwitch();
         
         $("#editWebsite .rp-ok").unbind('click');
         $("#editWebsite .rp-ok").click(function(){
@@ -103,6 +108,8 @@ lpTemplate::beginBlock();?>
     $("#editWebsite .rp-title").html("新增站点");
     $.post("/commit/panel/",{"do":"getnew"},function(data){
       $("#editWebsite .rp-body").html(data);
+
+      bindSwitch();
       
       $("#editWebsite .rp-ok").unbind('click');
       $("#editWebsite .rp-ok").click(function(){
@@ -139,7 +146,7 @@ lpTemplate::beginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpTemplate::endBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 $conn=new lpMySQL;
 $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
