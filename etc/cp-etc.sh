@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 cp /RootPanel/etc/apache2/apache2.conf /etc/apache2/apache2.conf
 cp /RootPanel/etc/apache2/ports.conf /etc/apache2/ports.conf
