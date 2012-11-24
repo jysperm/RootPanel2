@@ -1,19 +1,19 @@
-﻿<?php
+﻿<?php if(!isset($lpInTemplate)) die();
 
-global $rpNewsUrl;
+global $rpNewsUrl,$rpROOT;
 
-$tmp = new lpTemplate;
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-$a["title"] = "公告";
+$tmp->title = "公告";
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li class="active"><a href="#news"><i class="icon-chevron-right"></i> 公告</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   $("a[rel=popover]")
@@ -24,7 +24,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 ?>
 
@@ -35,7 +35,7 @@ $a["endOfBody"]=lpEndBlock();
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>
 

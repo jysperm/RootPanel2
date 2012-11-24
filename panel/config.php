@@ -6,7 +6,7 @@ $rpDomain="rp2.jybox.net";
 $rpAdminEmail="m@jybox.net";
 
 $rpAdminUsers=array("rpadmin");
-$rpNotAllowReg=array("root","default");
+$rpNotAllowReg=array("root","default","admin","sudo");
 
 $rpBuyStdUrl="http://item.taobao.com/item.htm?id=16169509767";
 $rpBuyExtUrl="http://item.taobao.com/item.htm?id=21047624871";

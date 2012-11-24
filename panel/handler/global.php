@@ -12,11 +12,6 @@ function cbLogin($user)
     $conn->update("user",array("uname"=>$user),$row);
 }
 
-function gotoUrl($url)
-{
-    header("Location: {$url}");
-}
-
 function jsonError($str)
 {
     $r["msg"]=$str;

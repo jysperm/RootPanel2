@@ -1,10 +1,12 @@
 <?php if(!isset($lpInTemplate)) die();
 
-$tmp=new lpTemplate;
+global $rpROOT;
 
-$a["title"]="注册";
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-lpBeginBlock();?>
+$tmp->title="注册";
+
+lpTemplate::beginBlock();?>
 
 <div class="box well">
     <header>已有帐号？</header>
@@ -12,7 +14,7 @@ lpBeginBlock();?>
 </div>
 
 <?php
-$a["sidebar"]=lpEndBlock();
+$tmp->sidebar=lpTemplate::endBlock();
 
 ?>
 <div class="box well">
@@ -55,7 +57,7 @@ $a["sidebar"]=lpEndBlock();
   </form>
 </div>
 
-<?php lpBeginBlock();?>
+<?php lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
 
@@ -75,8 +77,8 @@ $(document).ready(function(){
 </script>
 
 <?php 
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>

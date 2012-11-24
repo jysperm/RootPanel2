@@ -1,12 +1,12 @@
-<?php
+<?php if(!isset($lpInTemplate)) die();
 
-global $rpDomain;
+global $rpDomain,$rpROOT;
 
-$tmp = new lpTemplate;
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-$a["title"] = "用户手册";
+$tmp->title = "用户手册";
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li class="active"><a href="#file-access"><i class="icon-chevron-right"></i> 文件权限</a></li>
 <li><a href="#browser-support"><i class="icon-chevron-right"></i> 浏览器支持</a></li>
@@ -23,9 +23,9 @@ lpBeginBlock();?>
 <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   $("a[rel=popover]")
@@ -36,7 +36,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 ?>
 
@@ -78,7 +78,7 @@ $a["endOfBody"]=lpEndBlock();
     客服(精英王子)：熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.
   <hr />
     在使用中遇到任何问题，都可以联系客服，例如需要某个运行库而没有安装等等.<br /><br />
-	如果出现纠纷，你的邮箱将是最终认定账户所属权的依据。
+  如果出现纠纷，你的邮箱将是最终认定账户所属权的依据。
   </p>
   <p class="lead">
     标准版中，与我们无关的问题(例如某个软件如何使用),是否详细解答要看客服的心情.<br />
@@ -281,7 +281,7 @@ django tornado
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>
 

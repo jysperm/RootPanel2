@@ -1,10 +1,12 @@
 <?php if(!isset($lpInTemplate)) die();
 
-$tmp=new lpTemplate;
+global $rpROOT;
 
-$a["title"]="登录";
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-lpBeginBlock();?>
+$tmp->title="登录";
+
+lpTemplate::beginBlock();?>
 
 <div class="box well">
     <header>还没有帐号？</header>
@@ -12,7 +14,7 @@ lpBeginBlock();?>
 </div>
 
 <?php
-$a["sidebar"]=lpEndBlock();
+$tmp->sidebar=lpTemplate::endBlock();
 
 ?>
 <div class="box well">
@@ -43,6 +45,6 @@ $a["sidebar"]=lpEndBlock();
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>

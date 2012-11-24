@@ -6,12 +6,12 @@ class LoginAsAction extends lpAction
     {
         if(!isset($_GET["uname"]) || !isset($_GET["passwd"]))
         {
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
         }
         else
         {
             lpAuth::login($_GET["uname"],$_GET["passwd"],false,false,true);
-            gotoUrl("/panel/");
+            lpRoute::gotoUrl("/panel/");
         }
     }
 }
@@ -20,15 +20,15 @@ class AdminPage extends lpPage
 {
     public function get()
     {
-        global $rpAdminUsers;
+        global $rpAdminUsers,$rpROOT;
     
         if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
         {
-            gotoUrl("/login/");
+            lpRoute::gotoUrl("/login/");
             exit();
         }
             
-        lpTemplate::parseFile("template/admin.php");
+        lpTemplate::outputFile("{$rpROOT}/template/admin.php");
     }
 }
 
@@ -42,7 +42,7 @@ class AdminAction extends lpAction
         $this->conn=new lpMySQL;
         
         if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
-            lpMVC::quit("未登录或不是管理员");
+            lpRoute::quit("未登录或不是管理员");
     }
     
     public function addtime()

@@ -1,10 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    RewriteRule ^t.php taskinfo.php [L]
-    RewriteRule ^m.php mobile.php [L]
-    RewriteRule ^p.php probe.php [L]
-    RewriteRule ^o.php top.php [L]
     RewriteRule ^$ /main.php [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

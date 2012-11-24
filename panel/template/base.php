@@ -1,6 +1,8 @@
 <?php if(!isset($lpInTemplate)) die();
 
-if(!isset($dontChangeTitle) || !$dontChangeTitle)
+#//!lpTemplateArgs(dontChangeTitle,title,header,mainClass,rpSidebar,endOfBody)
+
+if(!$dontChangeTitle)
     $title .= " | RP主机，技术宅的虚拟主机";
     
 if(lpAuth::login())
@@ -16,7 +18,7 @@ if(lpAuth::login())
   <head>
     <meta charset="utf-8">
     <title><?= $title;?></title>
-    <?= isset($header)?$header:"";?>
+    <?= $header;?>
     <?= lpTools::linkTo("bootstrap",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-responsive",NULL,false); ?>
     <?= lpTools::linkTo("lp-css"); ?>
@@ -77,7 +79,7 @@ if(lpAuth::login())
     </div>
     <?= lpTools::linkTo("jquery",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
-    <?= isset($endOfBody)?$endOfBody:"";?>
+    <?= $endOfBody;?>
   </body>
 </html>
 

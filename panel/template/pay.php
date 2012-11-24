@@ -1,8 +1,8 @@
-<?php
+<?php if(!isset($lpInTemplate)) die();
 
 global $rpROOT,$rpBuyStdUrl,$rpBuyExtUrl;
 
-$tmp = new lpTemplate;
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
 if(lpAuth::login())
 {
@@ -11,17 +11,17 @@ if(lpAuth::login())
     $rs->read();
 }
 
-$a["title"] = "购买";
+$tmp->title = "购买";
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li class="active"><a href="#pay"><i class="icon-chevron-right"></i> 购买</a></li>
 <li><a href="#position"><i class="icon-chevron-right"></i> 机房列表</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   $("a[rel=popover]")
@@ -32,7 +32,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 ?>
 
@@ -99,13 +99,13 @@ $a["endOfBody"]=lpEndBlock();
     <h1>机房列表</h1>
   </div>
   <?php
-    lpTemplate::parseFile("{$rpROOT}/template/area-list.php");
+    lpTemplate::outputFile("{$rpROOT}/template/area-list.php");
   ?>
 </section>
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>
 

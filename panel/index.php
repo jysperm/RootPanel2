@@ -1,23 +1,23 @@
-<?php
+<?php if(!isset($lpInTemplate)) die();
 
-require_once("./LightPHP/lp-load.php");
-require_once("./config.php");
-require_once("{$rpROOT}/handler/global.php");
+#//!lpTemplateArgs()
 
-$tmp = new lpTemplate;
+global $rpROOT;
 
-$a["dontChangeTitle"] = true;
-$a["title"] = "RP主机，技术宅的虚拟主机";
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-lpBeginBlock();?>
+$tmp->dontChangeTitle = true;
+$tmp->title = "RP主机，技术宅的虚拟主机";
+
+lpTemplate::beginBlock();?>
 
 <meta name="keywords" content="神马终端,RP,RP主机,低价,月付,终端,主机,虚拟主机,vps,网站,建站,php,linode,日本,linux,美国,免备案,python,代理,pptp,c++,python,ssh" />
 <meta name="description" content="RP主机" />
 
 <?php
-$a["header"]=lpEndBlock();
+$tmp->header=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
 <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
@@ -27,9 +27,9 @@ lpBeginBlock();?>
 <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   $("a[rel=popover]")
@@ -45,7 +45,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 ?>
 
@@ -123,7 +123,7 @@ $a["endOfBody"]=lpEndBlock();
     <h1>资源参数</h1>
   </div>
   <?php
-    lpTemplate::parseFile("{$rpROOT}/template/area-list.php");
+    lpTemplate::outputFile("{$rpROOT}/template/area-list.php");
   ?>
   <p class="lead">
     注意：你运行的一切服务，都在以上的限制之中，包括但不限于自动备份、脚本、终端程序、PPTP、数据库.
@@ -180,7 +180,7 @@ $a["endOfBody"]=lpEndBlock();
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>
 

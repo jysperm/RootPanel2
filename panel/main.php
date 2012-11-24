@@ -4,30 +4,29 @@ require_once("LightPHP/lp-load.php");
 require_once("config.php");
 
 require_once("{$rpROOT}/handler/global.php");
-require_once("{$rpROOT}/handler/user.php");
-require_once("{$rpROOT}/handler/panel.php");
-require_once("{$rpROOT}/handler/admin.php");
 
+lpRoute::bindDir('/LightPHP/static/',"{$rpROOT}/LightPHP/static/");
+lpRoute::bindHTMLFile('^/global.css(/|(/\?.*))?$',"{$rpROOT}/global.css");
 
-lpMVC::bindFile('^/$',"{$rpROOT}/index.php");
+lpRoute::bindTemplateFile('^/$',"{$rpROOT}/index.php");
 
-lpMVC::bindPage('^/login/?',new Login);
-lpMVC::bindPage('^/logout/?',new Logout);
-lpMVC::bindPage('^/signup/?',new Signup);
+lpRoute::bindPageFromFile('^/login(/|(/\?.*))?$',"{$rpROOT}/handler/user.php","Login");
+lpRoute::bindPageFromFile('^/logout(/|(/\?.*))?$',"{$rpROOT}/handler/user.php","Logout");
+lpRoute::bindPageFromFile('^/signup(/|(/\?.*))?$',"{$rpROOT}/handler/user.php","Signup");
 
-lpMVC::bindPage('^/admin/?',new AdminPage);
-lpMVC::bindPage('^/panel/?',new Panel);
+lpRoute::bindPageFromFile('^/admin(/|(/\?.*))?$',"{$rpROOT}/handler/admin.php","AdminPage");
+lpRoute::bindPageFromFile('^/panel(/|(/\?.*))?$',"{$rpROOT}/handler/panel.php","Panel");
 
-lpMVC::bindFile('^/pay/?',"{$rpROOT}/template/pay.php");
-lpMVC::bindFile('^/news/?',"{$rpROOT}/template/news.php");
-lpMVC::bindFile('^/request-free/?',"{$rpROOT}/template/request-free.php");
-lpMVC::bindFile('^/manual/?',"{$rpROOT}/template/manual.php");
+lpRoute::bindTemplateFile('^/pay(/|(/\?.*))?$',"{$rpROOT}/template/pay.php");
+lpRoute::bindTemplateFile('^/news(/|(/\?.*))?$',"{$rpROOT}/template/news.php");
+lpRoute::bindTemplateFile('^/request-free(/|(/\?.*))?$',"{$rpROOT}/template/request-free.php");
+lpRoute::bindTemplateFile('^/manual(/|(/\?.*))?$',"{$rpROOT}/template/manual.php");
 
-lpMVC::bindAction('^/commit/panel/?',new VirtualHost,"do");
-lpMVC::bindAction('^/commit/request/?',new RequestAction,"do");
-lpMVC::bindAction('^/commit/loginas/?',new LoginAsAction,"do",false);
-lpMVC::bindAction('^/commit/admin/?',new AdminAction,"do");
+lpRoute::bindActionFromFile('^/commit/panel(/|(/\?.*))?$',"{$rpROOT}/handler/panel.php","VirtualHost","do");
+lpRoute::bindActionFromFile('^/commit/request(/|(/\?.*))?$',"{$rpROOT}/handler/panel.php","RequestAction","do");
+lpRoute::bindActionFromFile('^/commit/loginas(/|(/\?.*))?$',"{$rpROOT}/handler/admin.php","LoginAsAction","do",false);
+lpRoute::bindActionFromFile('^/commit/admin(/|(/\?.*))?$',"{$rpROOT}/handler/admin.php","AdminAction","do");
 
-echo '<meta charset="utf-8">404 - 不存在对应的处理器';
+lpRoute::bindText(NULL,"404 - 不存在对应的处理器");
 
 ?>

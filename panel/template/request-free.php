@@ -1,6 +1,8 @@
-<?php
+<?php if(!isset($lpInTemplate)) die();
 
-$tmp = new lpTemplate;
+global $rpROOT;
+
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
 if(lpAuth::login())
 {
@@ -9,17 +11,17 @@ if(lpAuth::login())
     $rs->read();
 }
 
-$a["title"] = "填写试用申请";
+$tmp->title = "填写试用申请";
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
 <li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   $("a[rel=popover]")
@@ -36,14 +38,14 @@ lpBeginBlock();?>
     }
     $.post("/commit/request/",{"do":"request","content":$("#content").val()},function(data){
       if(data.status=="ok")
-	  {
+    {
           alert("发送成功，请耐心等待回复");
-		  window.location.href="/";
-	  }
+      window.location.href="/";
+    }
       else
-	  {
+    {
           alert(data.msg);
-	  }
+    }
     },"json");
   }));
   
@@ -53,7 +55,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 ?>
 
@@ -127,7 +129,7 @@ $a["endOfBody"]=lpEndBlock();
 
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>
 

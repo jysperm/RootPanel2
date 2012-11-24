@@ -1,28 +1,28 @@
+<?php if(!isset($lpInTemplate)) die();
+
+global $rpROOT,$conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
+
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+
+$tmp->mainClass = "main50";
+$tmp->title = "管理员面板";
+
+lpTemplate::beginBlock();?>
+
+
 <?php
+$tmp->header=lpTemplate::endBlock();
 
-global $conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
-
-$tmp = new lpTemplate;
-
-$a["mainClass"] = "main50";
-$a["title"] = "管理员面板";
-
-lpBeginBlock();?>
-
-
-<?php
-$a["header"]=lpEndBlock();
-
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#box-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
 <li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   function userAddTime(uname)
@@ -78,7 +78,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$tmp->endOfBody=lpTemplate::endBlock();
 
 $conn=new lpMySQL;
 $rsL=$conn->select("log",array(),"time",-1,100,false);
@@ -146,13 +146,13 @@ function outputUserTable($rsU,$buttun)
     <b>未付费用户</b>
     <?php
       $rsU=$conn->select("user",array("type"=>"no"));
-        lpBeginBlock();?>
+        lpTemplate::beginBlock();?>
           <button class="btn btn-danger pull-right" onclick="userDelete('<!--UNAME-->',true);">删除</button>
           <button class="btn btn-success pull-right" onclick="commonAct('tofree','<!--UNAME-->',true);">转为免费试用版</button>
           <button class="btn btn-success pull-right" onclick="commonAct('toext','<!--UNAME-->',true);">转为额外技术支持版</button>
           <button class="btn btn-success pull-right" onclick="commonAct('tostd','<!--UNAME-->',true);">转为标准版</button>
         <?php
-        outputUserTable($rsU,lpEndBlock());
+        outputUserTable($rsU,lpTemplate::endBlock());
     ?>
   </div>
   <div>
@@ -166,12 +166,12 @@ function outputUserTable($rsU,$buttun)
     <b>免费试用/到期用户</b>
     <?php
       $rsU=$conn->exec("SELECT * FROM `user` WHERE (`type`='free' OR `expired`<'%i') AND `type`!='no'",time()+$lpCfgTimeToChina);
-          lpBeginBlock();?>
+          lpTemplate::beginBlock();?>
             <button class="btn btn-success pull-right" onclick="commonAct('tono','<!--UNAME-->',true);">转为未付费</button>
             <button class="btn btn-success pull-right" onclick="commonAct('alertdelete','<!--UNAME-->',false);">删除提醒</button>
             <button class="btn btn-success pull-right" onclick="commonAct('alertpay','<!--UNAME-->',false);">续费提醒</button>
           <?php
-          outputUserTable($rsU,lpEndBlock());
+          outputUserTable($rsU,lpTemplate::endBlock());
     ?>
   </div>
 </section>
@@ -199,6 +199,6 @@ function outputUserTable($rsU,$buttun)
   
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>

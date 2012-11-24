@@ -4,27 +4,25 @@ class Panel extends lpPage
 {
     public function get()
     {
-        global $rpROOT;
-        
-        global $rpAdminUsers;
+        global $rpROOT,$rpAdminUsers;
         
         if(!lpAuth::login())
         {
-            gotoUrl("/login/");
+            lpRoute::gotoUrl("/login/");
             exit();
         }
         if(isAllowPanel(lpAuth::getUName()))
         {
-            lpTemplate::parseFile("{$rpROOT}/template/panel.php");
+            lpTemplate::outputFile("{$rpROOT}/template/panel.php");
         }
         else
         {
             if(in_array(lpAuth::getUName(),$rpAdminUsers))
             {
-                gotoUrl("/admin/");
+                lpRoute::gotoUrl("/admin/");
                 exit();
             }
-            gotoUrl("/pay/");
+            lpRoute::gotoUrl("/pay/");
         }
     }
 }
@@ -36,9 +34,9 @@ class RequestAction extends lpAction
         global $rpAdminEmail;
         
         if(!lpAuth::login())
-            lpMVC::quit("未登录");
+            lpRoute::quit("未登录");
         if(!isset($_POST["content"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
         
         $mailer=new lpSmtpMail();
         $conn=new lpMySQL;
@@ -68,7 +66,7 @@ class VirtualHost extends lpAction
         $this->conn=new lpMySQL;
         if(!lpAuth::login() || !isAllowPanel(lpAuth::getUName()))
         {
-            lpMVC::quit("未登录或未付费");
+            lpRoute::quit("未登录或未付费");
         }
     }
 
@@ -77,18 +75,19 @@ class VirtualHost extends lpAction
         global $rpROOT;
         
         if(!isset($_POST["id"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
         
         $uname=lpAuth::getUName();
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
         if($rs->read() && $rs->uname==$uname)
         {
-              $tmp=new lpTemplate;
-              $tmp->parse("{$rpROOT}/template/edit-website.php",array("rs"=>$rs->rawArray()));
+              $tmp=new lpTemplate("{$rpROOT}/template/edit-website.php");
+              $tmp->rs=$rs->rawArray();
+              $tmp->output();
         }
         else
         {
-            lpMVC::quit("站点ID不存在或站点不属于你");
+            lpRoute::quit("站点ID不存在或站点不属于你");
         }
     }
 
@@ -96,8 +95,9 @@ class VirtualHost extends lpAction
     {
         global $rpROOT;
         
-        $tmp=new lpTemplate;
-        $tmp->parse("{$rpROOT}/template/edit-website.php",array("new"=>true));
+        $tmp=new lpTemplate("{$rpROOT}/template/edit-website.php");
+        $tmp->new=true;
+        $tmp->output();
     }
     
     public function delete()
@@ -105,7 +105,7 @@ class VirtualHost extends lpAction
         global $rpROOT;
       
         if(!isset($_POST["id"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
         
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
         if($rs->read() && $rs->uname==lpAuth::getUName())
@@ -129,7 +129,7 @@ class VirtualHost extends lpAction
         global $lpCfgTimeToChina,$rpROOT;
         
         if(!isset($_POST["id"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
         
         $rs=$this->conn->select("virtualhost",array("id"=>$_POST["id"]));
         if($rs->read() && $rs->uname==lpAuth::getUName())
@@ -188,7 +188,7 @@ class VirtualHost extends lpAction
     public function sshpasswd()
     {
         if(!isset($_POST["passwd"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
             
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {
@@ -208,7 +208,7 @@ class VirtualHost extends lpAction
     public function mysqlpasswd()
     {
         if(!isset($_POST["passwd"]))
-            lpMVC::quit("参数不全");
+            lpRoute::quit("参数不全");
             
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {

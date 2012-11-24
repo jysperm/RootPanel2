@@ -1,19 +1,19 @@
+<?php if(!isset($lpInTemplate)) die();
+
+global $uiTemplate,$uiHander,$uiType,$uiUserType,$rpROOT;
+
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+
+$tmp->mainClass = "main50";
+$tmp->title = "控制面板主页";
+
+lpTemplate::beginBlock();?>
+
+
 <?php
+$tmp->header=lpTemplate::endBlock();
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType;
-
-$tmp=new lpTemplate;
-
-$a["mainClass"] = "main50";
-$a["title"] = "控制面板主页";
-
-lpBeginBlock();?>
-
-
-<?php
-$a["header"]=lpEndBlock();
-
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#box-account"><i class="icon-chevron-right"></i> 账户</a></li>
@@ -21,9 +21,9 @@ lpBeginBlock();?>
 <li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
 <?php
-$a["rpSidebar"]=lpEndBlock();
+$tmp->rpSidebar=lpTemplate::endBlock();
 
-lpBeginBlock();?>
+lpTemplate::beginBlock();?>
 
 <script type="text/javascript">
   function deleteWebsite(websiteId)
@@ -139,7 +139,7 @@ lpBeginBlock();?>
 </script>
 
 <?php
-$a["endOfBody"]=lpEndBlock();
+$a["endOfBody"]=lpTemplate::endBlock();
 
 $conn=new lpMySQL;
 $rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
@@ -299,6 +299,6 @@ $rsU->read();
   
 <?php
 
-$tmp->parse("template/base.php",$a);
+$tmp->output();
 
 ?>

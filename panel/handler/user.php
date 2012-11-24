@@ -1,14 +1,13 @@
 <?php
 
-lpLoader("lpTemplate");
-lpLoader("lpMVC");
+lpLoader("lpPage");
 
 class Signup extends lpPage
 {
     public function get()
     {
         global $rpROOT;
-        return lpTemplate::parseFile("{$rpROOT}/template/signup.php");
+        lpTemplate::outputFile("{$rpROOT}/template/signup.php");
     }
 
     public function post()
@@ -21,13 +20,13 @@ class Signup extends lpPage
         if(!preg_match('/[A-Za-z][A-Za-z0-9_]+/u',$_POST["uname"]) or
            !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/',$_POST["email"]))
         {
-            lpBeginBlock();?>
+            lpTemplate::beginBlock();?>
               <ul>
                 <li>帐号仅可以使用英文、数字、下划线,且第一个字符必须为英文字母</li>
                 <li>邮箱务必为正确的邮箱地址</li>
               </ul>
             <?php
-            $this->procError(lpEndBlock());
+            $this->procError(lpTemplate::endBlock());
         }
         
         if(in_array($_POST["uname"],$rpNotAllowReg))
@@ -52,7 +51,7 @@ class Signup extends lpPage
         
         makeLog($_POST["uname"],"注册了帐号");
         
-        gotoUrl("/panel/");
+        lpRoute::gotoUrl("/panel/");
     }
     
     public function procError($str)
@@ -60,14 +59,13 @@ class Signup extends lpPage
         global $rpROOT;
         
         $this->httpCode=400;
+        $tmp=new lpTemplate("{$rpROOT}/template/signup.php");
         
-        $tmp=new lpTemplate;
-        
-        $a["errorMsg"]=$str;
-        $a["uname"]=$_POST["uname"];
-        $a["email"]=$_POST["email"];
+        $tmp->errorMsg=$str;
+        $tmp->uname=$_POST["uname"];
+        $tmp->email=$_POST["email"];
             
-        $tmp->parse("{$rpROOT}/template/signup.php",$a);
+        $tmp->output();
         
         exit();
     }
@@ -78,7 +76,7 @@ class Login extends lpPage
     public function get()
     {
         global $rpROOT;
-        return lpTemplate::parseFile("{$rpROOT}/template/login.php");
+        lpTemplate::outputFile("{$rpROOT}/template/login.php");
     }
     
     public function post()
@@ -87,7 +85,7 @@ class Login extends lpPage
             $this->procError("请输入账号和密码");
         
         if(lpAuth::login($_POST["uname"],$_POST["passwd"]))
-            gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
+            lpRoute::gotoUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
         else
             $this->procError("用户名或密码错误");
     }
@@ -97,13 +95,12 @@ class Login extends lpPage
         global $rpROOT;
         
         $this->httpCode=400;
+        $tmp=new lpTemplate("{$rpROOT}/template/login.php");
         
-        $tmp=new lpTemplate;
-        
-        $a["errorMsg"]=$str;
-        $a["uname"]=$_POST["uname"];
+        $tmp->errorMsg=$str;
+        $tmp->uname=$_POST["uname"];
             
-        $tmp->parse("{$rpROOT}/template/login.php",$a);
+        $tmp->output();
         
         exit();
     }
@@ -114,7 +111,7 @@ class Logout extends lpPage
     public function get()
     {
         lpAuth::logout();
-        gotoUrl("/");
+        lpRoute::gotoUrl("/");
     }
 }
 
