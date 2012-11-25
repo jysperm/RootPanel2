@@ -18,8 +18,18 @@
     apt-get install screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool
     apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
     apt-get install g++ gcc qt4-dev-tools clang cmake
+    apt-get install libevent-dev libnoise-dev
     
     pip install django tornado
+    
+### Ruby
+
+    \curl -L https://get.rvm.io | bash -s stable --ruby
+    
+重新登录
+
+    rvm install 1.9.3
+    rvm install 1.8.7
     
 ### 创建用户
 

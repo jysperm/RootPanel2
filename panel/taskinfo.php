@@ -1,5 +1,7 @@
 <?php
 
+define("lpOFF_Exception",true);
+
 require_once("./LightPHP/lp-load.php");
 require_once("./config.php");
 
