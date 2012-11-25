@@ -5,6 +5,8 @@
 $rpDomain="rp2.jybox.net";
 $rpAdminEmail="m@jybox.net";
 
+$rpDiskLimitMB=700;
+
 $rpAdminUsers=array("rpadmin");
 $rpNotAllowReg=array("root","default","admin","sudo");
 

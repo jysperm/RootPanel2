@@ -58,5 +58,3 @@ shell_exec("sudo service nginx reload");
 shell_exec("sudo service apache2 reload");
 
 $l=NULL;
-
-?>
