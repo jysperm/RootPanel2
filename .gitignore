@@ -24,3 +24,5 @@ qrc_*.cpp
 #Virtual Studio
 *.suo
 
+/panel/temp
+.lock
