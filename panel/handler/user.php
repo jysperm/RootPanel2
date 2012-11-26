@@ -43,6 +43,7 @@ class Signup extends lpPage
         $row["email"]=$_POST["email"];
         $row["regtime"]=time()+$lpCfgTimeToChina;
         $row["type"]="no";
+        $row["pptppasswd"]="";
         $row["expired"]=time()+$lpCfgTimeToChina-1;
 
         $conn->insert("user",$row);

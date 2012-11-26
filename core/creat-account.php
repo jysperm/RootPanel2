@@ -27,4 +27,3 @@ $conn=new lpMySQL;
 $conn->exec("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';",$uname,create_password(30));
 $conn->exec("GRANT ALL PRIVILEGES ON  `%s\_%%` . * TO  '%s'@'localhost';",$uname,$uname);
 
-?>

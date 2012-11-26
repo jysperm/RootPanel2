@@ -204,6 +204,26 @@ class VirtualHost extends lpAction
             jsonError("密码不合法");
         }
     }
+    
+    public function pptppasswd()
+    {
+        if(!isset($_POST["passwd"]))
+            lpRoute::quit("参数不全");
+            
+        if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
+        {
+            $uname=lpAuth::getUName();
+            shell_exec("sudo /RootPanel/core/pptp-passwd.php");
+            
+            makeLog($uname,"修改了PPTP密码");
+            
+            echo json_encode(array("status"=>"ok"));
+        }
+        else
+        {
+            jsonError("密码不合法");
+        }
+    }
 
     public function mysqlpasswd()
     {

@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `expired` int(10) unsigned NOT NULL,
   `extconfnginx` text NOT NULL,
   `extconfapache` text NOT NULL,
+  `pptppasswd` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

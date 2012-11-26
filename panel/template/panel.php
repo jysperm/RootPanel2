@@ -42,38 +42,38 @@ lpTemplate::beginBlock();?>
   
   function bindSwitch()
   {
-  		$("#editWebsite #opweb").click(function(){
-    			$("#editWebsite .div-web").show();
-    			$("#editWebsite .rp-root-name").html("Web根目录");
-    			$("#editWebsite .div-python").hide();
-  		});
+      $("#editWebsite #opweb").click(function(){
+          $("#editWebsite .div-web").show();
+          $("#editWebsite .rp-root-name").html("Web根目录");
+          $("#editWebsite .div-python").hide();
+      });
 
-  		$("#editWebsite #opproxy").click(function(){
-    			$("#editWebsite .div-web").hide();
-    			$("#editWebsite .rp-root-name").html("反向代理URL");
-    			$("#editWebsite .div-python").hide();
-  		});
+      $("#editWebsite #opproxy").click(function(){
+          $("#editWebsite .div-web").hide();
+          $("#editWebsite .rp-root-name").html("反向代理URL");
+          $("#editWebsite .div-python").hide();
+      });
 
-  		$("#editWebsite #oppython").click(function(){
-    			$("#editWebsite .div-web").hide();
-    			$("#editWebsite .rp-root-name").html("Web根目录");
-    			$("#editWebsite .div-python").show();
-  		});
+      $("#editWebsite #oppython").click(function(){
+          $("#editWebsite .div-web").hide();
+          $("#editWebsite .rp-root-name").html("Web根目录");
+          $("#editWebsite .div-python").show();
+      });
 
-  		$("#editWebsite #opall").click(function(){
-    			$("#editWebsite .div-only").hide();
-    			$("#editWebsite .div-unless").hide();
-  		});
+      $("#editWebsite #opall").click(function(){
+          $("#editWebsite .div-only").hide();
+          $("#editWebsite .div-unless").hide();
+      });
 
-  		$("#editWebsite #oponly").click(function(){
-    			$("#editWebsite .div-only").show();
-    			$("#editWebsite .div-unless").hide();
-  		});
+      $("#editWebsite #oponly").click(function(){
+          $("#editWebsite .div-only").show();
+          $("#editWebsite .div-unless").hide();
+      });
 
-  		$("#editWebsite #opunless").click(function(){
-    			$("#editWebsite .div-only").hide();
-    			$("#editWebsite .div-unless").show();
-  		});
+      $("#editWebsite #opunless").click(function(){
+          $("#editWebsite .div-only").hide();
+          $("#editWebsite .div-unless").show();
+      });
   }
   
   function editWebsite(websiteId)
@@ -192,6 +192,10 @@ $rsU->read();
   <div>
     <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd" />
     <button class="btn btn-success" onclick="changePasswd('panelpasswd',true);">修改面板(即该网页)密码</button>
+  <div>
+    <div>
+    <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd" />
+    <button class="btn btn-success" onclick="changePasswd('pptppasswd',true);">修改PPTP VPN密码</button>
   <div>
 </section>
 
