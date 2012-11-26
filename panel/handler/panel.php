@@ -213,7 +213,7 @@ class VirtualHost extends lpAction
         if(preg_match('/^[A-Za-z0-9\-_]+$/',$_POST["passwd"]))
         {
             $uname=lpAuth::getUName();
-            shell_exec("sudo /RootPanel/core/pptp-passwd.php");
+            shell_exec("sudo {$rpROOT}/../core/pptp-passwd.php");
             
             makeLog($uname,"修改了PPTP密码");
             

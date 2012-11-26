@@ -195,7 +195,7 @@ $rsU->read();
   <div>
     <div>
     <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd" />
-    <button class="btn btn-success" onclick="changePasswd('pptppasswd',true);">修改PPTP VPN密码</button>
+    <button class="btn btn-success" onclick="changePasswd('pptppasswd',false);">修改PPTP VPN密码</button>
   <div>
 </section>
 
