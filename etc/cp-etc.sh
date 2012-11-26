@@ -9,3 +9,4 @@ cp /RootPanel/etc/php5/cli/conf.d/ming.ini /etc/php5/cli/conf.d/ming.ini
 cp /RootPanel/etc/php5/php.ini /etc/php5/apache2/php.ini
 cp /RootPanel/etc/php5/php.ini /etc/php5/cgi/php.ini
 cp /RootPanel/etc/sudoers /etc/sudoers
+cp /RootPanel/etc/security/limits.conf /etc/security/limits.conf

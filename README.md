@@ -5,6 +5,8 @@
 >`Ubuntu Server 12.04 64bit`  
 >ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
 
+### 挂载磁盘
+
 ### 更新软件包
 
     apt-get update
