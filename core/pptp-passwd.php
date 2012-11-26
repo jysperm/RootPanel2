@@ -15,7 +15,8 @@ lpTemplate::beginBlock();
 
 while($rs->read())
 {
-    echo "{$rs->uname} * {$rs->pptppasswd} * \n";
+    if($rs->pptppasswd)
+        echo "{$rs->uname} * {$rs->pptppasswd} * \n";
 }
 
 file_put_contents("{$rpROOT}/temp",lpTemplate::endBlock());
