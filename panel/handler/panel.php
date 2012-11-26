@@ -207,6 +207,8 @@ class VirtualHost extends lpAction
     
     public function pptppasswd()
     {
+        global $rpROOT;
+        
         if(!isset($_POST["passwd"]))
             lpRoute::quit("参数不全");
             
