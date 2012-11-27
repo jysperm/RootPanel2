@@ -3,7 +3,7 @@
     $cgis=explode(" ",trim(str_replace("  "," ",$v["cgi"])));
     $scripts=implode("|",array_merge($phps,$cgis));
     $statics=implode("|",explode(" ",trim(str_replace("  "," ",$v["static"]))));
-	if(substr($scripts,strlen($scripts)-2,1)=="|")
+	if(substr($scripts,strlen($scripts)-1,1)=="|")
 		$scripts=substr($scripts,0,strlen($scripts)-1);
     $alias=json_decode($v["alias"],true);
 ?>
