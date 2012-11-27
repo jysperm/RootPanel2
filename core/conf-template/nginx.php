@@ -3,7 +3,7 @@
     $cgis=explode(" ",trim(str_replace("  "," ",$v["cgi"])));
     $scripts=implode("|",array_merge($phps,$cgis));
     $statics=implode("|",explode(" ",trim(str_replace("  "," ",$v["static"]))));
-	if(substr($scripts,strlen($scripts)-2)=="|")
+	if(substr($scripts,strlen($scripts)-2,1)=="|")
 		$scripts=substr($scripts,0,strlen($scripts)-1);
     $alias=json_decode($v["alias"],true);
 ?>
@@ -50,10 +50,13 @@ server {
                 proxy_pass http://127.0.0.1:8080;
             }
             <? endif; ?>
+			
+			<? if($scripts): ?>
             location ~ \.(<?= $scripts;?>)$ {
                 proxy_pass http://127.0.0.1:8080;
             }
-            
+            <? endif; ?>
+			
         <? endif; ?>
         
         <? if($v["type"]=="unless"): ?>
