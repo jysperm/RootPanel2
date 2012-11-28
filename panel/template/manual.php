@@ -147,7 +147,8 @@ $tmp->endOfBody=lpTemplate::endBlock();
     </p>
   </div>
   <p class="lead">
-    服务器即<code><?= $rpDomain;?></code>，用户名即你的用户名.
+    服务器即<code><?= $rpDomain;?></code>，用户名即你的用户名.<br />
+    设置方法可见(此教程并非本站内容)<a href="https://www.vcupmars.com/config">https://www.vcupmars.com/config</a>
   </p>
 </section>
 
