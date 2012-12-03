@@ -18,7 +18,6 @@ lpRoute::bindPageFromFile('^/admin(/|(/\?.*))?$',"{$rpROOT}/handler/admin.php","
 lpRoute::bindPageFromFile('^/panel(/|(/\?.*))?$',"{$rpROOT}/handler/panel.php","Panel");
 
 lpRoute::bindTemplateFile('^/pay(/|(/\?.*))?$',"{$rpROOT}/template/pay.php");
-lpRoute::bindTemplateFile('^/news(/|(/\?.*))?$',"{$rpROOT}/template/news.php");
 lpRoute::bindTemplateFile('^/request-free(/|(/\?.*))?$',"{$rpROOT}/template/request-free.php");
 lpRoute::bindTemplateFile('^/manual(/|(/\?.*))?$',"{$rpROOT}/template/manual.php");
 

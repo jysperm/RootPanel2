@@ -39,7 +39,7 @@ if(lpAuth::login())
               <li><a href="/"><i class="icon-home icon-white"></i>主页</a></li>
               <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i>购买</a></li>
               <li><a href="/manual/">用户手册</a></li>
-              <li><a href="/news/">公告</a></li>
+              <li><a href="http://rp-bbs.jybox.net">用户论坛</a></li>
             </ul>
             <ul class="nav pull-right">
               <? if(lpAuth::login()): ?>

@@ -13,8 +13,6 @@ $rpNotAllowReg=array("root","default","admin","sudo");
 $rpBuyStdUrl="http://item.taobao.com/item.htm?id=16169509767";
 $rpBuyExtUrl="http://item.taobao.com/item.htm?id=21047624871";
 
-$rpNewsUrl="https://raw.github.com/gist/4078878/borad.html";
-
 $lpUrl="/LightPHP/";
 $lpCfgCallback="cbLogin";
 

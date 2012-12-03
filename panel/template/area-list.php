@@ -8,10 +8,10 @@
   </thead>
   <tbody>
     <tr>
-      <td>Linode东京(默认)</td><td>20M</td><td>40M</td><td>2%</td><td>500M</td><td>15G</td><td><a href="http://rp.jybox.net/">rp.jybox.net</a></td>
+      <td>Linode东京</td><td>20M</td><td>40M</td><td>2%</td><td>500M</td><td>15G</td><td>筹备中</td>
     </tr> 
     <tr>
-      <td>LocVPS美国西海岸</td><td>25M</td><td>30M</td><td>2%</td><td>700M</td><td>50G</td><td><a href="http://rp2.jybox.net/">rp2.jybox.net</a></td>
+      <td>LocVPS美国西海岸(默认)</td><td>25M</td><td>45M</td><td>2%</td><td>700M</td><td>50G</td><td><a href="http://rp2.jybox.net/">rp2.jybox.net</a></td>
     </tr>
   </tbody>
 </table>

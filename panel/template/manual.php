@@ -14,6 +14,7 @@ lpTemplate::beginBlock();?>
 <li><a href="#ssh-sftp"><i class="icon-chevron-right"></i> 访问SSH和SFTP</a></li>
 <li><a href="#data-backup"><i class="icon-chevron-right"></i> 数据备份</a></li>
 <li><a href="#php"><i class="icon-chevron-right"></i> PHP支持</a></li>
+<li><a href="#pptp"><i class="icon-chevron-right"></i> PPTP VPN</a></li>
 <li><a href="#os-packets"><i class="icon-chevron-right"></i> 操作系统和软件包</a></li>
 <li><a href="#website"><i class="icon-chevron-right"></i> Web服务概述</a></li>
 <li><a href="#website-option"><i class="icon-chevron-right"></i> Web服务 选项帮助</a></li>
@@ -135,6 +136,22 @@ $tmp->endOfBody=lpTemplate::endBlock();
   </p>
 </section>
 
+<section id="pptp">
+  <div class="page-header">
+    <h1>PPTP VPN</h1>
+  </div>
+  <div class="alert alert-info" style="margin-top:10px;">
+    <h4 class="alert-heading">提示!</h4>
+    <p>
+      首次开通用户，请登录你的管理面板来设置(修改)你的pptp密码.
+    </p>
+  </div>
+  <p class="lead">
+    服务器即<code><?= $rpDomain;?></code>，用户名即你的用户名.<br />
+    设置方法可见(此教程并非本站内容)<a href="https://www.vcupmars.com/config">https://www.vcupmars.com/config</a>
+  </p>
+</section>
+
 <section id="os-packets">
   <div class="page-header">
     <h1>操作系统和软件包</h1>
@@ -147,15 +164,21 @@ $tmp->endOfBody=lpTemplate::endBlock();
 <pre>
 apache2-mpm-itk apache2-dev php5 php5-cgi php5-cli libapache2-mod-php5
 php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
-nginx mysql-server mysql-client phpmyadmin memcached
-screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools curl
+nginx mysql-server mysql-client phpmyadmin memcached pptpd
+screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool
 python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
-g++ gcc qt4-dev-tools clang
+g++ gcc qt4-dev-tools clang cmake
+libevent-dev libnoise-dev
 </pre>
     <b>以下来自pip软件仓库，均为最新版</b>
     <br />
 <pre>
 django tornado
+</pre>
+    <b>以下来自rvm</b>
+    <br />
+<pre>
+ruby1.8.7 ruby1.9.3
 </pre>
   </p>
 </section>
@@ -182,7 +205,7 @@ django tornado
     <b>站点模板</b> 有三个可选项：
     <ul>
       <li><b>常规Web(PHP等CGI)</b> 一般的Web服务器，包括PHP和其他CGI站点</li>
-      <li><b>反向代理</b> 反向代理</li>
+      <li><b>反向代理</b> 反向代理，通常用于代理本地端口，不适合用于CDN</li>
       <li><b>Python(WSGI模式)</b> 使用WSGI模式的PHP站点</li>
     </ul>
     <hr />
