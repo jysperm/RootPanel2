@@ -79,6 +79,7 @@ if(lpAuth::login())
     </div>
     <?= lpTools::linkTo("jquery",NULL,false); ?>
     <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
+	<script src="//static2.jybox.net/my-website/analyzer.js" type="text/javascript"></script>
     <?= $endOfBody;?>
   </body>
 </html>
