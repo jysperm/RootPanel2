@@ -6,7 +6,7 @@ define("lpOFF_Exception",true);
 require_once("/RootPanel/LightPHP/lp-load.php");
 require_once("/RootPanel/panel/config.php");
 
-//就的快照在前，新的在后
+//旧的快照在前，新的在后
 $psArray = array();
 
 function execPs()
