@@ -94,6 +94,6 @@ foreach($alias as $k => $v)
       SSL支持
     </label>
     SSL Crt(证书)：<input type="text" class="input-xxlarge" id="sslcrt" name="sslcrt" value="<?= $rs["sslcrt"];?>" /><br />
-    SSL Key(私玥)：<input type="text" class="input-xxlarge" id="sslkey" name="sslkey" value="<?= $rs["sslkey"];?>" />
+    SSL Key(私钥)：<input type="text" class="input-xxlarge" id="sslkey" name="sslkey" value="<?= $rs["sslkey"];?>" />
   </div>
 </form>
