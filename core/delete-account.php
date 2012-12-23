@@ -11,6 +11,8 @@ $uname=$argv[1];
 
 shell_exec("sudo userdel -rf {$uname}");
 shell_exec("sudo groupdel {$uname}");
+shell_exec("sudo rm -f /etc/nginx/sites-enabled/{$uname}");
+shell_exec("sudo rm -f /etc/apache2/sites-enabled/{$uname}");
 
 $conn=new lpMySQL;
 $conn->exec("DROP USER '%s'@'localhost';",$uname);
