@@ -130,7 +130,7 @@ function outputUserTable($rsU,$buttun)
             <button class="btn btn-success pull-right" onclick="userLog('<?= $rsU->uname;?>');">日志</button>
             <a class="btn btn-success pull-right" href="/commit/loginas/?do=loginas&uname=<?= $rsU->uname;?>&passwd=<?= lpAuth::cookieHash($rsU->passwd);?>">登录为</a>
             <button class="btn btn-success pull-right" onclick="userAddTime('<?= $rsU->uname;?>');">延时</button>
-			<button class="btn btn-success pull-right" onclick="commonAct('alertpay','<!--UNAME-->',false);">续费提醒</button>
+			<button class="btn btn-success pull-right" onclick="commonAct('alertpay','<?= $rsU->uname;?>',false);">续费提醒</button>
             <?= str_replace("<!--UNAME-->",$rsU->uname,$buttun);?>
           </td>
         </tr>
