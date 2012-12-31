@@ -170,7 +170,6 @@ function outputUserTable($rsU,$buttun)
           lpTemplate::beginBlock();?>
             <button class="btn btn-success pull-right" onclick="commonAct('tono','<!--UNAME-->',true);">转为未付费</button>
             <button class="btn btn-success pull-right" onclick="commonAct('alertdelete','<!--UNAME-->',false);">删除提醒</button>
-            <button class="btn btn-success pull-right" onclick="commonAct('alertpay','<!--UNAME-->',false);">续费提醒</button>
           <?php
           outputUserTable($rsU,lpTemplate::endBlock());
     ?>
