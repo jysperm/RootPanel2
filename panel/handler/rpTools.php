@@ -1,5 +1,45 @@
 <?php
 
+class rpTools
+{
+    const NO = "no";
+
+    static public function gravatarURL($email, $size=80)
+    {
+        global $rpCfg;
+        return $rpCfg["GravaterURL"] . md5(strtolower(trim($email))) . "?s={$size}";
+    }
+
+    static public function makeLog($user, $description, $detail, $by=null)
+    {
+        global $lpApp;
+        $q = new lpDBQuery($lpApp->getDB());
+
+        $row = [
+            "uname" => $user,
+            "time" => time(),
+            "description" => $description,
+            "detail" => $detail,
+            "by" => $by ? $by : $user,
+            "ua" => $_SERVER["HTTP_USER_AGENT"],
+            "ip" => rpTools::getIP()
+        ];
+
+        $q("log")->insert($row);
+    }
+
+    public static function getIP()
+    {
+        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+            return $_SERVER["HTTP_CF_CONNECTING_IP"];
+        elseif(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+            return $_SERVER["HTTP_X_FORWARDED_FOR"];
+        else
+            return $_SERVER["REMOTE_ADDR"];
+    }
+}
+
+/*
 function cbLogin($user)
 {
     global $lpCfgTimeToChina;
@@ -79,3 +119,4 @@ $uiUserType=array("no"=>"未购买",
 
 
 ?>
+*/

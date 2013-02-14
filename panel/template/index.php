@@ -1,0 +1,160 @@
+<?php
+
+global $rpROOT, $rpCfg, $rpM;
+
+$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+
+?>
+
+<? lpTemplate::beginBlock();?>
+    <meta name="keywords" content="神马终端,RP,RP主机,低价,月付,终端,主机,虚拟主机,vps,网站,建站,php,linode,日本,linux,美国,免备案,python,代理,pptp,c++,python,ssh" />
+    <meta name="description" content="RP主机" />
+<? $tmp->header = lpTemplate::endBlock();?>
+
+<? lpTemplate::beginBlock();?>
+    <li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
+    <li><a href="#what-can-it-do"><i class="icon-chevron-right"></i> RP主机能干什么</a></li>
+    <li><a href="#try-and-buy"><i class="icon-chevron-right"></i> 试用和购买</a></li>
+    <li><a href="#resource"><i class="icon-chevron-right"></i> 资源参数</a></li>
+    <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
+    <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
+<? $tmp->sidenav = lpTemplate::endBlock(); ?>
+
+<section id="what-is-rphost">
+  <header>RP主机是什么</header>
+  <p>
+    RP主机是一款为技术宅(Geek)提供的Linux虚拟主机.<br />
+    和大多市面上的卖的虚拟主机相比，RP主机更加自由，你几乎可以在上面搭建所有类型的服务器，事实上，这相当于合租VPS了.<br />
+    而价格又不高，适合搭建个人博客等小规模应用，适合喜欢折腾新鲜技术的技术宅.
+  </p>
+  <p>
+    RP主机实际上就是一台划分了用户的Linux服务器，每个用户都可以干自己想做的事情.<br />
+    当然，会有以root权限运行的监控程序限制你的资源使用，以免影响到其他用户.<br />
+    为了能够使效率最大化，我们将最常用的一些服务(例如Apache、MySQL等)独立出来，以root权限运行，大家共同使用。而不是每个人都单独运行一份.
+  </p>
+</section>
+<section id="what-can-it-do">
+  <header>RP主机能干什么</header>
+  <p>
+    你得到的是一个拥有极大权限的linux用户，你可以
+  </p>
+  <ul>
+    <li><a href="#" rel="popover" data-content="<?= $rpM['site'];?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案</li>
+    <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $rpM['evn'];?>" data-original-title="环境支持">几乎全部</a>编程语言</li>
+    <li>访问MySQL、Mongo、SQLite等各种数据库</li>
+    <li>配置反向代理、SSL版网站</li>
+    <li>在终端运行Python、Ruby、Node、Perl、C/C++程序，并且可以监听端口来进行Socket通讯</li>
+    <li>使用<a href="#" rel="popover" data-content="<?= $rpM['proxy'];?>" data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网</li>
+  </ul>
+</section>
+<section id="try-and-buy">
+  <header>试用和购买</header>
+  <div class="row-fluid products-show">
+    <div class="span4">
+      <header>试用版</header>
+      <div class="description">
+        所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的
+        <a href="#" rel="popover" data-content="<?= $rpM['free'];?>" data-original-title="试用帐号限制">资源限制</a>
+      </div>
+      <p>
+        <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
+        <a class="btn btn-success" href="/request-free/">2. 填写申请</a>
+      </p>
+    </div>
+    <div class="span4">
+      <header>标准版</header>
+      <div class="description">每月8元，每季度19元.</div>
+      <p>
+        <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
+        <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+      </p>
+    </div>
+    <div class="span4">
+      <header>额外技术支持版</header>
+      <div class="description">
+        每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的
+        <a href="#" rel="popover" data-content="<?= $rpM['ext'];?>" data-original-title="技术支持">技术支持</a>.
+      </div>
+      <p>
+        <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
+        <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+      </p>
+    </div>
+  </div>
+  <hr />
+  <p>
+    我们通过淘宝销售，出现质量问题可以直接通过淘宝的流程进行维权。我们支持随时退款，按照剩余天数(加收10%手续费)退款.
+  </p>
+</section>
+<section id="resource">
+  <header>资源参数</header>
+    <?php
+    lpTemplate::outputFile("{$rpROOT}/template/node-list.php");
+    ?>
+  <p>
+    注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、终端程序.
+  </p>
+</section>
+<section id="service">
+  <header>客服</header>
+  <p>
+    RP主机的客服主要以邮件的方式提供，你可以与客服沟通你在使用中遇到的任何问题，例如你需要某个运行库，但服务器没有安装等等.<br />
+    `额外技术支持版`中提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.
+    而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用),视客服心情而定.
+  </p>
+  <p>
+    <? $emails = []; ?>
+    <? foreach($rpCfg["Admins"] as $adminID => $admin): ?>
+      <? $adminInfo = "{$admin['description']}<br />QQ: {$admin['qq']}<br />E-mail: {$admin['email']}";?>
+      <a class="admin" target="_blank" href="<?= $admin["url"];?>" rel="popover" data-content="<?= $adminInfo;?>" data-original-title="客服：<?= $admin["name"];?>">
+        <img alt="<?= $admin["name"];?>" src="<?= rpTools::gravatarURL($admin["email"], 48);?>">
+      </a>
+      <? $emails[]= $admin["email"]; ?>
+      <? $emails = array_merge($emails, $admin["otherEmails"]); ?>
+    <? endforeach; ?>
+  </p>
+  <p>
+    客服邮箱：
+    <? foreach($emails as $email): ?>
+      <code><i class="icon-envelope"></i><?= $email;?></code>
+    <? endforeach; ?>
+  </p>
+  <ul class="left-tabs">
+    <?= $rpM["contact"];?>
+  </ul>
+</section>
+<section id="agreement">
+  <header>政策和约定</header>
+  <p><b>你必须遵守下列约定</b>：</p>
+  <ul>
+    <li>遵守服务器当地的法律</li>
+    <li>禁止放置容易引起GFW封杀的站点</li>
+    <li>禁止放置容易遭到黑客攻击的站点,或故意吸引黑客的攻击</li>
+    <li>禁止放置黑阔基地、色情、私服、垃圾邮件群发、虚假广告、诈骗类型的站点</li>
+    <li>禁止放置大规模采集器生成的垃圾站点</li>
+  </ul>
+  <p>
+    如果无意违反以上约定，即不是以破坏RP主机为目的，警告一到两次.<br />
+    如果故意或频繁违反以上约定，直接封停账户，不做退款.
+  </p>
+  <p><b>数据和隐私</b>：</p>
+  <ul>
+    <li>你绑定的域名不属于隐私，我们会通过浏览器定期审查你的站点，但不会直接查看你的文件</li>
+    <li>你的文件和数据库未经你允许，不会被人工查看。当你发邮件要求客服协助解决问题时，在必要的范围内，客服会查看你的文件以解决问题</li>
+    <li>根据Linux的一些规则，你的部分信息可能会被其他用户获得，例如你的用户名、进程列表等，具体请了解Linux的使用</li>
+    <li>我们每周会向一些知名的网盘备份数据，如Dropbox/百度网盘等等，我们会尽力保证相关帐号的安全</li>
+    <li>上游服务商(网络提供商、VPS运营商)的故障我们无能为力，但会做适度的补偿</li>
+  </ul>
+  <p>
+    以上约定基于隐私和安全的折中考虑，以保证不会因为其他用户的不良站点影响到你.<br />
+    即使如此，我们还是会尽可能地防止无关的人得到以上信息.
+  </p>
+  <p>
+    <b>优惠</b>：<br />
+    RP主机会不定期推出优惠措施，所有优惠措施均为在原有时长基础上增加时长，而不是降低价格。<br />
+    例如标准版如果八折优惠，那么价格仍然是8元每月，但是会增加6天的使用时长。<br />
+    额外增加的时长不参与退款。
+  </p>
+</section>
+
+<? $tmp->output();?>

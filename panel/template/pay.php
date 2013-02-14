@@ -99,7 +99,7 @@ $tmp->endOfBody=lpTemplate::endBlock();
     <h1>机房列表</h1>
   </div>
   <?php
-    lpTemplate::outputFile("{$rpROOT}/template/area-list.php");
+    lpTemplate::outputFile("{$rpROOT}/template/node-list.php");
   ?>
 </section>
 

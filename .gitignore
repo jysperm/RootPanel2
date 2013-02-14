@@ -3,26 +3,10 @@
 
 #Winodws
 Thumbs.db
-*.exe
 
-#C++
-Makefile*
-*.o
+#PhpStorm
+/.idea/*
 
-#Qt
-ui_*.h
-moc_*.cpp
-qrc_*.cpp
-
-#Qt Creator
-*.pro.user
-*.autosave
-/*build*/*
-*/release/*
-*/debug/*
-
-#Virtual Studio
-*.suo
-
+#RootPanel
 /panel/temp
 .lock

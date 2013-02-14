@@ -1,0 +1,183 @@
+/* 全局常规 */
+body {
+    font-family:"WenQuanYi Micro Hei", "WenQuanYi Zen Hei", "Microsoft YaHei", arial,sans-serif;
+    font-size: 16px;
+    border: none !important;
+}
+section {
+    padding-top: 30px;
+    line-height: 30px;
+}
+section li{
+    line-height: 22px;
+}
+section li i {
+    vertical-align: middle !important;
+    margin-top: 0 !important;
+    padding-bottom: 5px !important;
+}
+section header {
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: bold;
+    padding-bottom: 9px;
+    margin: 20px 0 30px;
+    border-bottom: 1px solid #EEE;
+}
+.nav [class^="icon-"], .nav [class*=" icon-"] {
+    margin-top: 4px !important;
+}
+
+/* 客服 */
+a.admin {
+    text-decoration: none;
+}
+ul.left-tabs {
+    list-style: none;
+    margin-left: 0;
+}
+ul.left-tabs li {
+    float: left;
+    margin-right: 20px;
+}
+
+/* 横向三栏展示标题 */
+.span4 header {
+    font-size: 30px;
+}
+/* 横向三栏展示时的固定高度div */
+.span4 div.description
+{
+    height: 90px;
+    font-size: 16px;
+}
+
+/* 错误框 */
+#errorTips {
+    font-size: 15px;
+}
+#errorTips header {
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: bold;
+    padding-bottom: 4px;
+    margin: 10px 0 15px;
+    border-bottom: 1px solid #EEE;
+}
+
+/* 右边栏 */
+.sidebar section header {
+    font-size: 20px;
+}
+
+/* 弹出层 */
+.popover {
+    width: 350px;
+}
+.popover-content {
+    font-size: 14px;
+    font-weight:normal; /* node-list.php 中的弹出层在表格标题上, 会被加粗 */
+}
+.popover-title {
+    font-weight: bold;
+}
+
+/* 左上角Logo */
+.navbar-inner .brand {
+    font-size: 16px;
+}
+
+/* 修饰 */
+.text-small-per50 {
+    font-size: 50%;
+}
+.not-bold {
+    font-weight:normal;
+}
+.list-no-style {
+    list-style: none;
+}
+
+/* 左侧导航栏 */
+
+.sidenav {
+    width: 228px;
+    margin: 30px 0 0;
+    padding: 0;
+    background-color: white;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+}
+.sidenav > li > a {
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    border: 1px solid #E5E5E5;
+}
+.sidenav .icon-chevron-right {
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+    opacity: .25;
+}
+.sidenav.affix {
+    top: 40px;
+}
+.sidenav > li:first-child > a {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+.navbar-inverse .navbar-inner {
+    background-color: #1B1B1B;
+    border-color: #252525;
+}
+
+/* 不同分辨率配置 */
+@media (min-width:1200px) {
+    .sidenav {
+        width: 258px;
+    }
+}
+@media (max-width:980px) {
+    .sidenav {
+        position: static;
+        width: auto;
+        top: 0;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        margin-right: 0;
+    }
+}
+
+/*
+.rp-form textarea {
+  width:85%;
+}
+
+table button.pull-right,table a.pull-right {
+  margin-right:10px;
+}
+
+
+#request textarea {
+  width:95%;
+}
+
+hr.small {
+  margin:3px;
+}
+
+.website hr{
+  margin:3px;
+}
+
+.modal {
+width: 800px;
+}
+
+*/

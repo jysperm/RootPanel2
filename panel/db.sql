@@ -1,12 +1,10 @@
-CREATE TABLE IF NOT EXISTS `log` (
+CREATE TABLE IF NOT EXISTS `lptrackauth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` int(10) unsigned NOT NULL,
-  `uname` text NOT NULL,
-  `content` text NOT NULL,
-  `ua` text NOT NULL,
-  `ip` text NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `token` text NOT NULL,
+  `lastactivitytime` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -15,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `lastlogintime` int(10) unsigned NOT NULL,
   `lastloginip` text NOT NULL,
   `email` text NOT NULL,
+  `qq` text NOT NULL,
   `regtime` int(11) NOT NULL,
   `lastloginua` text NOT NULL,
   `type` text NOT NULL,
@@ -23,7 +22,45 @@ CREATE TABLE IF NOT EXISTS `user` (
   `extconfapache` text NOT NULL,
   `pptppasswd` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` int(10) unsigned NOT NULL,
+  `uname` text NOT NULL,
+  `description` text NOT NULL,
+  `detail` text NOT NULL,
+  `ua` text NOT NULL,
+  `ip` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS `virtualhost` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
