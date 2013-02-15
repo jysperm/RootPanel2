@@ -38,7 +38,7 @@ global $lpApp, $rpCfg;
               <? if($lpApp->auth()->login()): ?>
                 <li><a><?= $lpApp->auth()->getUName();?></a></li>
                 <? if(true): ?>
-                  <li><a href="/request-free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
+                  <li><a href="/pay/free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
                 <? endif; ?>
                 <li><a href="/panel/"><i class="icon-list-alt icon-white"></i>管理面板</a></li>
                 <li><a href="/user/logout/"><i class="icon-off icon-white"></i>注销</a></li>

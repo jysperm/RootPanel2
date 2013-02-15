@@ -1,56 +1,24 @@
 <?php
 
-class Panel extends lpPage
+class rpPanel extends lpHandler
 {
-    public function get()
+    public function __invoke()
     {
+        global $rpROOT, $rpCfg, $lpApp;
+        lpTemplate::outputFile("{$rpROOT}/template/panel.php");
+
         global $rpROOT,$rpAdminUsers;
-        
-        if(!lpAuth::login())
-        {
-            lpRoute::gotoUrl("/login/");
-            exit();
-        }
-        if(isAllowPanel(lpAuth::getUName()))
-        {
-            lpTemplate::outputFile("{$rpROOT}/template/panel.php");
-        }
+
+        if(!$lpApp->auth()->login())
+            $lpApp->goUrl("/user/login/");
+
+        if(rpUser::isAllowToPanel($lpApp->auth()->getUName()))
+            lpTemplate::outputFile("{$rpROOT}/template/rpPanel.php");
         else
-        {
-            if(in_array(lpAuth::getUName(),$rpAdminUsers))
-            {
-                lpRoute::gotoUrl("/admin/");
-                exit();
-            }
-            lpRoute::gotoUrl("/pay/");
-        }
-    }
-}
-
-class RequestAction extends lpAction
-{
-    public function request()
-    {
-        global $rpAdminEmail;
-        
-        if(!lpAuth::login())
-            lpRoute::quit("未登录");
-        if(!isset($_POST["content"]))
-            lpRoute::quit("参数不全");
-        
-        $mailer=new lpSmtpMail();
-        $conn=new lpMySQL;
-        $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
-        $rs->read();
-
-        $mailTitle=lpAuth::getUName() . "-RP主机试用申请"; 
-        $mailBody="{$rs->email}\n\n" . $_POST["content"];
-        
-        $mailer->send($rpAdminEmail,$mailTitle,$mailBody);
-        
-        makeLog(lpAuth::getUName(),"填写试用申请" . $_POST["content"]);
-        
-        echo json_encode(array("status"=>"ok"));
+            if(array_key_exists($lpApp->auth()->getUName(), $rpCfg["Admins"]))
+                $lpApp->goUrl("/admin/");
+            else
+                $lpApp->goUrl("/pay/");
     }
 }
 

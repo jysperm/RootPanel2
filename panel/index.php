@@ -16,7 +16,7 @@ $lpApp->registerAutoload(function($name)
     if(file_exists($path))
         require_once($path);
 },[
-
+    "lppublic" => "lpPublic"
 ]);
 
 $lpApp->registerDefaultPath([

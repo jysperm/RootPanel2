@@ -1,87 +1,66 @@
-<?php if(!isset($lpInTemplate)) die();
+<?php
 
-global $rpROOT;
+global $rpROOT, $lpApp;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-if(lpAuth::login())
-{
-    $conn=new lpMySQL;
-    $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
-    $rs->read();
-}
-
 $tmp->title = "填写试用申请";
+?>
 
-lpTemplate::beginBlock();?>
+<? lpTemplate::beginBlock();?>
+    <li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
+    <li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
+<? $tmp->sidenav=lpTemplate::endBlock();?>
 
-<li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
-<li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
+<? lpTemplate::beginBlock();?>
+  #request textarea {
+    width: 98%;
+  }
+<? $tmp->css = lpTemplate::endBlock();?>
 
-<?php
-$tmp->rpSidebar=lpTemplate::endBlock();
-
-lpTemplate::beginBlock();?>
-
+<?lpTemplate::beginBlock();?>
 <script type="text/javascript">
-  $("a[rel=popover]")
-  .popover({trigger:"hover"})
-  .click(function(e) {
-    e.preventDefault()
-  });
-  
-  $($("#ok").click(function(){
-    if(defaultValue==$("#content").val())
-    {
-        alert("你根本没填啊亲！");
-        return;
-    }
-    $.post("/commit/request/",{"do":"request","content":$("#content").val()},function(data){
-      if(data.status=="ok")
-    {
-          alert("发送成功，请耐心等待回复");
-      window.location.href="/";
-    }
-      else
-    {
-          alert(data.msg);
-    }
-    },"json");
+  $($(function() {
+    defaultValue = $("#content").val();
   }));
-  
-  $(function(){
-    defaultValue=$("#content").val();
+  $(document).ready(function(){
+    $("#form").submit(function()
+    {
+      if(defaultValue == $("#content").val())
+      {
+        alert("你根本没填啊亲！");
+        return false;
+      }
+    });
   });
 </script>
-
-<?php
-$tmp->endOfBody=lpTemplate::endBlock();
-
-?>
+<? $tmp->endOfBody=lpTemplate::endBlock();?>
 
 
 <section id="request">
-  <div class="page-header">
-    <h1>填写试用申请</h1>
-  </div>
-  <? if(!lpAuth::login()):?>
+    <header>填写试用申请</header>
+    <? if(!$lpApp->auth()->login()):?>
   <div class="alert alert-block alert-error fade in">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <h4 class="alert-heading">注意</h4>
     <p>如果你还没在本站注册过帐号，请先注册帐号再填写申请！.</p>
     <p>
-      <a class="btn btn-info" href="/signup/">注册帐号</a>
+      <a class="btn btn-info" href="/user/signup/">注册帐号</a>
     </p>
   </div>
   <? else:?>
-      <? if($rs->type=="no"): ?>
+      <?php
+          $q = new lpDBQuery($lpApp->getDB());
+          $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+      ?>
+    <? if($user["type"] == rpTools::NO): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
         <p>你还没有开通RP主机，请填写申请以获得试用，或直接<a class="btn btn-success" href="/pay/">购买</a></p>
         <p>如果你已经发送了申请，请耐心等待回复(你注册时填写的邮箱)，一般会在24小时内回复，无论申请是否通过</p>
       </div>
-      <? elseif($rs->type=="free"): ?>
+      <? elseif($user["type"] == rpTools::FREE): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
@@ -95,27 +74,27 @@ $tmp->endOfBody=lpTemplate::endBlock();
       </div>
       <? endif;?>
   <? endif;?>
-  <? if(lpAuth::login() && ($rs->type=="no" || $rs->type=="free" )): ?>
-  <p class="lead">
+  <? if($lpApp->auth()->login() && ($user["type"] == rpTools::NO || $user["type"] == rpTools::FREE )): ?>
+  <form class="form-horizontal" id="form" method="post">
 <textarea id="content" name="content" rows="18">
-请先填写下列问卷：
-年龄、职业：
-从何处得知RP主机：
-是否会编程，如果会的话掌握哪些技术：
-你将会用RP主机干什么:
------------------------
-简述为什么你需要这个免费试用(100-300字为宜)：
+# 请先填写下列问卷(100-300字为宜)
+* 年龄, 职业
+* 从何处得知RP主机
+* 是否会编程，如果会的话掌握哪些技术
+* 你将会用RP主机干什么
+* 为什么选择了试用而不是直接购买
+
 </textarea><br />
-    <button id="ok" class="btn btn-success">提交申请</button>
-  </p>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-large">提交申请</button>
+    </div>
+  </form>
   <? endif;?>
 </section>
 
 <section id="limits">
-  <div class="page-header">
-    <h1>试用帐号限制</h1>
-  </div>
-  <p class="lead">
+  <header>试用帐号限制</header>
+  <p>
     CPU时间限制(按天)：500秒(相当于0.6%)<br />
     最小内存保证：10M<br />
     内存竞争系数：0.4(与付费用户竞争内存时的系数)<br />
@@ -127,9 +106,4 @@ $tmp->endOfBody=lpTemplate::endBlock();
   </p>
 </section>
 
-<?php
-
-$tmp->output();
-
-?>
-
+<? $tmp->output();?>

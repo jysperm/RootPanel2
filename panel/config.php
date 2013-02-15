@@ -30,6 +30,9 @@ $rpCfg["MySQLDB"] = [
   "charset" => "utf8"
 ];
 
+$rpCfg["Pay"]["std"] = "http://item.taobao.com/item.htm?id=16169509767";
+$rpCfg["Pay"]["ext"] = "http://item.taobao.com/item.htm?id=21047624871";
+
 // Gravatar基准URL
 //$rpCfg["GravaterURL"] = "http://www.gravatar.com/avatar/";
 $rpCfg["GravaterURL"] = "http://ruby-china.org/avatar/";
@@ -82,21 +85,7 @@ $lpCfg["LightPHP"]["Mode"] = "debug";
 
 
 
-
-
-
-
-
-
 /*
-
-
-
-
-
-
-$rpBuyStdUrl="http://item.taobao.com/item.htm?id=16169509767";
-$rpBuyExtUrl="http://item.taobao.com/item.htm?id=21047624871";
 
 
 

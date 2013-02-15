@@ -38,6 +38,7 @@ $tmp->title = "注册";
         $("#passwd").val($("#passwdtext").val());
     });
   });
+  // 明文密文切换
   $(function(){
     $("#isShowPasswd").click(function(){
       // t; 目标input, s: 源input

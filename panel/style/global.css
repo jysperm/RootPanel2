@@ -27,6 +27,13 @@ section header {
 .nav [class^="icon-"], .nav [class*=" icon-"] {
     margin-top: 4px !important;
 }
+.alert {
+    margin-top: 15px;
+    padding-top: 15px;
+}
+.alert-heading {
+    padding-bottom: 8px;
+}
 
 /* 客服 */
 a.admin {
@@ -161,11 +168,6 @@ ul.left-tabs li {
 
 table button.pull-right,table a.pull-right {
   margin-right:10px;
-}
-
-
-#request textarea {
-  width:95%;
 }
 
 hr.small {

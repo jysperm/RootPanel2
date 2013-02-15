@@ -1,57 +1,35 @@
-<?php if(!isset($lpInTemplate)) die();
+<?php
 
-global $rpROOT,$rpBuyStdUrl,$rpBuyExtUrl;
+global $rpROOT, $rpCfg, $lpApp, $rpM;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-if(lpAuth::login())
-{
-    $conn=new lpMySQL;
-    $rs=$conn->select("user",array("uname"=>lpAuth::getUName()));
-    $rs->read();
-}
-
 $tmp->title = "购买";
-
-lpTemplate::beginBlock();?>
-
-<li class="active"><a href="#pay"><i class="icon-chevron-right"></i> 购买</a></li>
-<li><a href="#position"><i class="icon-chevron-right"></i> 机房列表</a></li>
-
-<?php
-$tmp->rpSidebar=lpTemplate::endBlock();
-
-lpTemplate::beginBlock();?>
-
-<script type="text/javascript">
-  $("a[rel=popover]")
-  .popover({trigger:"hover"})
-  .click(function(e) {
-    e.preventDefault()
-  });
-</script>
-
-<?php
-$tmp->endOfBody=lpTemplate::endBlock();
-
 ?>
 
+<? lpTemplate::beginBlock();?>
+    <li class="active"><a href="#pay"><i class="icon-chevron-right"></i> 购买</a></li>
+    <li><a href="#position"><i class="icon-chevron-right"></i> 机房列表</a></li>
+    <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
+<? $tmp->sidenav = lpTemplate::endBlock();?>
 
 <section id="pay">
-  <div class="page-header">
-    <h1>购买</h1>
-  </div>
-  <? if(!lpAuth::login()):?>
+    <header>购买</header>
+  <? if(!$lpApp->auth()->login()):?>
   <div class="alert alert-block alert-error fade in">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <h4 class="alert-heading">注意</h4>
     <p>如果你还没在本站注册过帐号，请先注册帐号再购买！.</p>
     <p>
-      <a class="btn btn-info" href="/signup/">注册帐号</a>
+      <a class="btn btn-info" href="/user/signup/">注册帐号</a>
     </p>
   </div>
   <? else:?>
-      <? if($rs->type=="no"): ?>
+      <?php
+          $q = new lpDBQuery($lpApp->getDB());
+          $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+      ?>
+      <? if($user["type"] == rpTools::NO): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
@@ -71,27 +49,27 @@ $tmp->endOfBody=lpTemplate::endBlock();
       <h3>试用版</h3>
       <p>免费</p>
       <p>
-        <a class="btn btn-success" href="/request-free/">填写申请</a>
+        <a class="btn btn-success" href="/pay/free/">填写申请</a>
       </p>
     </div>
     <div class="span4">
       <h3>标准版</h3>
       <p>每月8元，每季度19元.</p>
       <p>
-        <a class="btn btn-success" href="<?= $rpBuyStdUrl;?>">去淘宝付款</a>
+        <a class="btn btn-success" href="<?= $rpCfg["Pay"]["std"];?>">去淘宝付款</a>
       </p>
     </div>
     <div class="span4">
       <h3>额外技术支持版</h3>
       <p>每月15元，每季度35元</p>
       <p>
-        <a class="btn btn-success" href="<?= $rpBuyExtUrl;?>">去淘宝付款</a>
+        <a class="btn btn-success" href="<?= $rpCfg["Pay"]["ext"];?>">去淘宝付款</a>
       </p>
     </div>
   </div>
   <hr />
-  <p class="lead">
-    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名<code><?= lpAuth::getUName();?></code></b>，你还可以在下方的机房列表中选择你想要的机房.
+  <p>
+    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名<code><?= $lpApp->auth()->getUName()?></code></b>，你还可以在下方的机房列表中选择你想要的机房.
   </p>
 </section>
 <section id="position">
@@ -103,9 +81,7 @@ $tmp->endOfBody=lpTemplate::endBlock();
   ?>
 </section>
 
-<?php
+<?= $rpM["agreement"];?>
 
-$tmp->output();
-
-?>
+<? $tmp->output();?>
 

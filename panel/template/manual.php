@@ -25,16 +25,6 @@ $tmp->title = "用户手册";
     <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
 <? $tmp->sidenav = lpTemplate::endBlock();?>
 
-<? lpTemplate::beginBlock();?>
-    .alert {
-      margin-top: 15px;
-      padding-top: 15px;
-    }
-    .alert-heading {
-      padding-bottom: 8px;
-    }
-<? $tmp->css = lpTemplate::endBlock();?>
-
 <section id="file-access">
   <header>文件权限</header>
   <p>

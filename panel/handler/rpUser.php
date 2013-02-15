@@ -19,6 +19,18 @@ class rpUser extends lpHandler
         };
     }
 
+    static function isAllowToPanel($user)
+    {
+        global $lpApp, $rpCfg;
+
+        $q = new lpDBQuery($lpApp->getDB());
+        $r = $q("user")->where(["uname" => $user])->top();
+        if($r["type"] != rpTools::NO && !array_key_exists($user, $rpCfg["Admins"]))
+            return true;
+        else
+            return false;
+    }
+
     public function signup()
     {
         if(!$this->isPost())
