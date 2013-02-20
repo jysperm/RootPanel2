@@ -21,6 +21,8 @@ $rpCfg["Admins"] = [
 // 禁止注册的用户名列表
 $rpCfg["DenyUNames"] = ["root"];
 
+$rpCfg["LogPerPage"] = 50;
+
 // 数据库连接信息
 $rpCfg["MySQLDB"] = [
   "host" => "localhost",

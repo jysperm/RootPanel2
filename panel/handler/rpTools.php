@@ -33,47 +33,45 @@ class rpTools
 
     public static function getIP()
     {
-        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
-            return $_SERVER["HTTP_CF_CONNECTING_IP"];
-        elseif(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
             return $_SERVER["HTTP_X_FORWARDED_FOR"];
         else
             return $_SERVER["REMOTE_ADDR"];
     }
+
+    public static function niceTime($time)
+    {
+        $timeDiff = time()-$time;
+        if($timeDiff < -3600*24)
+            return round($timeDiff/(-3600*24)) . " 天后";
+        elseif($timeDiff < -3600)
+            return round($timeDiff/(-3600)) . " 小时后";
+        elseif($timeDiff < -60)
+            return round($timeDiff/-60) . " 分后";
+        elseif($timeDiff < 0)
+            return -$timeDiff . " 秒后";
+        elseif($timeDiff < 60)
+            return $timeDiff . " 秒前";
+        elseif($timeDiff < 3600)
+            return round($timeDiff/60) . " 分前";
+        elseif($timeDiff < 3600*24)
+            return round($timeDiff/(3600)) . " 小时前";
+        elseif($timeDiff < 3600*24*7)
+            return round($timeDiff/(3600*24)) . " 天前";
+        elseif($timeDiff > (strtotime(gmdate("Y",time()))+3600*11))
+            return gmdate("m",$time) . " 月 " . gmdate("d",$time) . " 日";
+        else
+            return gmdate("Y.m.d", $time);
+    }
 }
 
 /*
-function cbLogin($user)
-{
-    global $lpCfgTimeToChina;
-
-    $row["lastlogintime"]=time()+$lpCfgTimeToChina;
-    $row["lastloginip"]=lpTools::getIP();
-    $row["lastloginua"]=$_SERVER["HTTP_USER_AGENT"];
-    
-    $conn=new lpMySQL;
-    $conn->update("user",array("uname"=>$user),$row);
-}
-
 function jsonError($str)
 {
     $r["msg"]=$str;
     $r["status"]="error";
     echo json_encode($r);
     exit();
-}
-
-function isAllowPanel($uname)
-{
-    global $rpAdminUsers;
-  
-    $conn=new lpMySQL;
-    $rs=$conn->select("user",array("uname"=>$uname));
-    if($rs->read())
-        if($rs->type!="no" && !in_array($uname,$rpAdminUsers))
-            return true;
-
-    return false;
 }
 
 function checkFileName($filename)
@@ -90,21 +88,6 @@ function checkFileName($filename)
     return false;
 }
 
-function makeLog($uname,$content)
-{
-    global $lpCfgTimeToChina;
-  
-    $conn=new lpMySQL;
-    
-    $row["uname"]=$uname;
-    $row["time"]=time()+$lpCfgTimeToChina;
-    $row["ua"]=$_SERVER["HTTP_USER_AGENT"];
-    $row["ip"]=lpTools::getIP();;
-    $row["content"]=$content;
-
-    $conn->insert("log",$row);
-}
-
 $uiTemplate=array("web"=>"常规Web(PHP等CGI)",
                   "proxy"=>"反向代理",
                   "python"=>"Python(WSGI模式)");
@@ -114,12 +97,6 @@ $uiHander=array("web"=>"Web根目录",
 $uiType=array("all"=>"全部转到Apache",
               "only"=>"仅转发指定的URL(一般是脚本文件)",
               "unless"=>"不转发指定的URL(一般是静态文件)");
-              
-$uiUserType=array("no"=>"未购买",
-                  "free"=>"免费试用版",
-                  "std"=>"标准付费版",
-                  "ext"=>"额外技术支持版");
-
 
 ?>
 */

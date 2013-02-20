@@ -1,30 +1,46 @@
-<?php if(!isset($lpInTemplate)) die();
+<?php
 
-global $uiTemplate,$uiHander,$uiType,$uiUserType,$rpROOT;
+global $rpROOT, $rpM, $rpCfg, $lpApp;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
-
-$tmp->mainClass = "main50";
 $tmp->title = "控制面板主页";
 
-lpTemplate::beginBlock();?>
+$q = new lpDBQuery($lpApp->getDB());
+$user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+$logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->limit(30)->select();
+$hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limit(30)->select();
 
+?>
 
-<?php
-$tmp->header=lpTemplate::endBlock();
+<? lpTemplate::beginBlock();?>
+    <li class="active"><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
+    <li><a href="#section-account"><i class="icon-chevron-right"></i> 账户</a></li>
+    <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
+    <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
+    <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
+<? $tmp->sidenav = lpTemplate::endBlock();?>
 
-lpTemplate::beginBlock();?>
+<? lpTemplate::beginBlock();?>
+  .input-xxlarge {
+    width: 250px;
+  }
+  #section-account button {
+    margin-bottom: 10px;
+  }
+  .box {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 0 0 1px #DDD;
+    -moz-box-shadow: 0 0 0 1px #ddd;
+    box-shadow: 0 0 0 1px #DDD;
+    overflow: hidden;
+    padding: 14px;
+  }
+<? $tmp->css = lpTemplate::endBlock();?>
 
-<li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
-<li><a href="#box-account"><i class="icon-chevron-right"></i> 账户</a></li>
-<li><a href="#box-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
-<li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
-
-<?php
-$tmp->rpSidebar=lpTemplate::endBlock();
-
-lpTemplate::beginBlock();?>
-
+<? lpTemplate::beginBlock();?>
 <script type="text/javascript">
   function deleteWebsite(websiteId)
   {
@@ -145,45 +161,36 @@ lpTemplate::beginBlock();?>
   }
 </script>
 
-<?php
-$tmp->endOfBody=lpTemplate::endBlock();
-
-$conn=new lpMySQL;
-$rs=$conn->select("virtualhost",array("uname"=>lpAuth::getUName()));
-$rsL=$conn->select("log",array("uname"=>lpAuth::getUName()),"time",-1,30,false);
-$rsU=$conn->select("user",array("uname"=>lpAuth::getUName()));
-$rsU->read();
-
-?>
+<? $tmp->endOfBody = lpTemplate::endBlock();?>
 
 <div class="modal hide" id="editWebsite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel" class="rp-title"></h3>
+    <h3 id="myModalLabel" class="dialog-title"></h3>
   </div>
-  <div class="modal-body rp-body">
+  <div class="modal-body dialog-body">
     
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
-    <button class="btn btn-primary rp-ok">保存</button>
+    <button class="btn btn-primary dialog-ok">保存</button>
   </div>
 </div>
 
-<section class="box" id="box-index">
+<section id="section-index">
   <header>概述</header>
-  <div>
-    账户类型：<?= $uiUserType[$rsU->type] ?><br />
-    到期时间：<span title="<?= gmdate("Y.m.d H:i:s",$rsU->expired);?>"><?= lpTools::niceTime($rsU->expired);?></span><br />
+  <p>
+    账户类型：<?= $rpM["uiUserType"][$user["type"]] ?><br />
+    到期时间：<span title="<?= gmdate("Y.m.d H:i:s", $user["expired"]);?>"><?= rpTools::niceTime($user["expired"]);?></span>
     <a class="btn btn-success" href="/pay/"> 续费</a>
-  <div>
+  </p>
 </section>
 
-<section class="box" id="box-account">
+<section id="section-account">
   <header>账户</header>
   <div>
     <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd" />
-    <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH密码</button>
+    <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH/SFTP密码</button>
   <div>
   <div>
     <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd" />
@@ -197,110 +204,54 @@ $rsU->read();
     <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd" />
     <button class="btn btn-success" onclick="changePasswd('pptppasswd',false);">修改PPTP VPN密码</button>
   <div>
+  <hr />
+  <div>
+    <a href="#" rel="tooltip" title="<?= $rpM["extconfHelp"];?>">额外</a>的Nginx配置文件： 0字节(<a href="#">查看</a>).<br />
+    额外的Apache2配置文件： 0字节(<a href="#">查看</a>).
+  </div>
 </section>
 
-<section class="box" id="box-website">
+<section id="section-website">
 <header>Web站点管理</header>
-<? while($rs->read()): ?>
-  <div class="box website" id="website<?= $rs->id;?>">
-    <div>站点ID：<span class="label"><?= $rs->id;?></span></div>
-    <hr />
-    <div>
-      绑定的域名：
-      <?php 
-        $domains=explode(" ",trim(str_replace("  "," ",$rs->domains)));
-        foreach($domains as $v)
-        {
-          echo "<span class='label'>{$v}</span>  ";
-        }
-      ?>
-    </div>
-    <hr />
+  <p>
+
+  </p>
+  <? while($hosts->read()): ?>
     <div class="box">
-      <header>模板：<?= $uiTemplate[$rs->template];?></header>
-      <? switch($rs->template): 
-        case "web": ?>
-          <div><i class="icon-ok"></i><?= $uiType[$rs->type];?></div>
-          <div>
-          <? switch($rs->type):
-            case "all":
-            break; ?>
-            <? case "only": ?>
-              PHP: <?= $rs->php;?><br />
-              CGI: <?= $rs->cgi;?><br />
-              <i class="<?= ($rs->is404)?"icon-ok":"icon-remove";?>"></i>转发不存在的路径(404)
-            <? break;
-            case "unless": ?>
-              静态文件: <?= $rs->static;?>
-          <? endswitch; ?>
-          </div>
-          <hr />
-          <div>
-            默认首页：<?= $rs->indexs;?><br />
-            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>自动索引页面
-          </div>
-          <hr />
-        <? break;
-        case "proxy":
-        break;
-        case "python": ?>
-          <div>
-            默认首页：<?= $rs->indexs;?><br />
-            <i class="<?= ($rs->autoindex)?"icon-ok":"icon-remove";?>"></i>自动索引页面
-          </div>
-          <hr />
-      <? endswitch; ?>
       <div>
-        <?= $uiHander[$rs->template];?>：<?= $rs->root;?></span>
+        <a href="#" rel="tooltip" title="<?= $rpM["isonHelp"];?>">是否开启</a>：<span class="label"><?= $hosts["ison"]?"是":"否";?></span> |
+        <a href="#" rel="tooltip" title="<?= $rpM["idHelp"];?>">站点ID</a>：<span class="label"><?= $hosts["id"];?></span> |
+        <a href="#" rel="tooltip" title="<?= $rpM["domainHelp"];?>">域名</a>：<span class="label"><?= $hosts["domains"];?></span>
       </div>
+      <div>
+        <a href="#" rel="tooltip" title="<?= $rpM["typeHelp"];?>">站点类型</a>：<span class="label"><?= $rpM["uiHostType"][$hosts["type"]];?></span> |
+        <a href="#" rel="tooltip" title="<?= $rpM["sourceHelp"];?>">数据源</a>： <span class="label"><?= $hosts["source"];?></span>
+      </div>
+      <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"];?>);return false;">删除</button>
+      <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $hosts["id"];?>);return false;">修改</button>
     </div>
-    <hr />
-    <div>
-      Alias别名：
-      <?php
-        $alias=json_decode($rs->alias,true);
-        foreach($alias as $k => $v)
-        {
-            echo "$k : $v";
-        }
-      ?>
-    </div>
-    <hr />
-    <div>
-      nginx access日志：<?= $rs->nginxaccess;?><br />
-      nginx error日志：<?= $rs->nginxerror;?><br />
-      apache access日志：<?= $rs->apacheaccess;?><br />
-      apache error日志：<?= $rs->apacheerror;?>
-    </div>
-    <hr />
-    <div>
-      <i class="<?= ($rs->isssl)?"icon-ok":"icon-remove";?>"></i>SSL<br />
-      key：<?= $rs->sslkey;?><br />
-      crt：<?= $rs->sslcrt;?>
-    </div>
-    <hr />
-    <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $rs->id;?>);return false;">删除</button>
-    <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $rs->id;?>);return false;">编辑</button>
-  </div>
-<? endwhile; ?>
-  <div class="box website">
+  <? endwhile; ?>
+  <div class="box">
     <button id="new-website" class="btn btn-success pull-right">添加站点</button>
   </div>
 </section>
 
-<section class="box" id="box-log">
+<section id="section-log">
     <header>日志</header>
+    <p>以下为最新30条的摘要 (<a href="/panel/logs/">详细日志</a>).</p>
     <div>
         <table class="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
-            <th>id</th><th>时间</th><th>内容</th>
+            <th>id</th><th>时间</th><th>摘要</th>
           </tr>
         </thead>
         <tbody>
-          <? while($rsL->read()): ?>
+          <? while($logs->read()): ?>
             <tr>
-              <td><?= $rsL->id;?></td><td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= $rsL->content;?></td>
+              <td><?= $logs["id"];?></td>
+              <td><span title="<?= gmdate("Y.m.d H:i:s", $logs["time"]);?>"><?= rpTools::niceTime($logs["time"]);?></span></td>
+              <td><?= htmlentities($logs["description"]);?></td>
             </tr> 
           <? endwhile; ?>
         </tbody>
@@ -308,8 +259,4 @@ $rsU->read();
     <div>
 </section>
   
-<?php
-
-$tmp->output();
-
-?>
+<? $tmp->output();?>

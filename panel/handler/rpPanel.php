@@ -4,21 +4,38 @@ class rpPanel extends lpHandler
 {
     public function __invoke()
     {
-        global $rpROOT, $rpCfg, $lpApp;
-        lpTemplate::outputFile("{$rpROOT}/template/panel.php");
+        global $rpROOT;
 
-        global $rpROOT,$rpAdminUsers;
+        $this->auth();
+
+        lpTemplate::outputFile("{$rpROOT}/template/panel.php");
+    }
+
+    private function auth()
+    {
+        global  $rpCfg, $lpApp;
 
         if(!$lpApp->auth()->login())
-            $lpApp->goUrl("/user/login/");
+            $lpApp->goUrl("/user/login/", true);
 
-        if(rpUser::isAllowToPanel($lpApp->auth()->getUName()))
-            lpTemplate::outputFile("{$rpROOT}/template/rpPanel.php");
-        else
+        if(!rpUser::isAllowToPanel($lpApp->auth()->getUName()))
             if(array_key_exists($lpApp->auth()->getUName(), $rpCfg["Admins"]))
-                $lpApp->goUrl("/admin/");
+                $lpApp->goUrl("/admin/", true);
             else
-                $lpApp->goUrl("/pay/");
+                $lpApp->goUrl("/pay/", true);
+    }
+
+    public function logs($page=null)
+    {
+        global $rpROOT;
+
+        $this->auth();
+
+        $page = intval($page);
+
+        $tmp = new lpTemplate("{$rpROOT}/template/logs.php");
+        $tmp->page = $page?:1;
+        $tmp->output();
     }
 }
 

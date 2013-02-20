@@ -44,7 +44,8 @@ $tmp->title = "用户手册";
 <section id="browser-support">
   <header>浏览器支持</header>
   <p>
-    该管理面板支持IE9/IE10、Chrome最新版、Firefox最新版、Opera最新版.<br />
+    该管理面板支持IE10、Chrome、Firefox、Opera.<br />
+    对IE9有不完整支持.<br />
     在Android/iOS等移动平台，因为屏幕分辨率太小，显示效果欠佳.
   </p>
 </section>
@@ -105,7 +106,7 @@ $tmp->title = "用户手册";
       <i class="icon-chevron-right"></i>ssh 用户名@<?= $rpDomain;?>
     </code>
     <br />
-    Winodws下，可使用开源软件Putty连接SSH，Putty官网：<a href="http://www.putty.org/">http://www.putty.org</a>
+    Winodws下，可使用开源软件Putty连接SSH，Putty官网：<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">http://www.chiark.greenend.org.uk/~sgtatham/putty/</a>
     <hr />
     SFTP是经过加密的FTP，大部分FTP软件均支持SFTP，我们推荐使用FileZilla,它是开源而跨平台的：<br />
     FileZilla官网：<a href="http://filezilla-project.org/">http://filezilla-project.org</a>

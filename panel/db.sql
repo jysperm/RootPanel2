@@ -30,56 +30,24 @@ CREATE TABLE IF NOT EXISTS `log` (
   `uname` text NOT NULL,
   `description` text NOT NULL,
   `detail` text NOT NULL,
+  `by` text NOT NULL,
   `ua` text NOT NULL,
   `ip` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE IF NOT EXISTS `virtualhost` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uname` text NOT NULL,
-  `template` text NOT NULL,
   `domains` text NOT NULL,
   `lastchange` int(10) unsigned NOT NULL,
-  `time` int(10) unsigned NOT NULL,
   `alias` text NOT NULL,
   `indexs` text NOT NULL,
   `autoindex` int(11) NOT NULL,
-  `apacheaccess` text NOT NULL,
-  `apacheerror` text NOT NULL,
-  `nginxaccess` text NOT NULL,
-  `nginxerror` text NOT NULL,
   `isssl` int(11) NOT NULL,
   `sslcrt` text NOT NULL,
   `sslkey` text NOT NULL,
-  `root` text NOT NULL,
+  `source` text NOT NULL,
   `type` text NOT NULL,
   `php` text NOT NULL,
   `cgi` text NOT NULL,
@@ -87,4 +55,4 @@ CREATE TABLE IF NOT EXISTS `virtualhost` (
   `static` text NOT NULL,
   `ison` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

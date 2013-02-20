@@ -9,6 +9,7 @@ global $lpApp, $rpCfg;
     <meta charset="utf-8">
     <title><?= isset($title) ? "{$title} | RP主机，技术宅的虚拟主机" : "RP主机，技术宅的虚拟主机";?></title>
       <?= isset($header)?$header:"";?>
+    <link rel="shortcut icon" type="image/x-icon" href="/style/icon.png" />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap.css' rel='stylesheet' type='text/css' />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
     <link href="/style/global.css" rel="stylesheet" type="text/css" />
@@ -28,10 +29,10 @@ global $lpApp, $rpCfg;
           <a class="brand" href="/"><?= $rpCfg["NodeName"];?></a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="/"><i class="icon-home icon-white"></i>主页</a></li>
               <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i>购买</a></li>
               <li><a href="/public/manual/">用户手册</a></li>
               <li><a href="/public/review/">客户评价</a></li>
+              <li><a href="/public/sites/">站点展示</a></li>
               <li><a href="http://rp-bbs.jybox.net">用户论坛</a></li>
             </ul>
             <ul class="nav pull-right">
@@ -60,7 +61,7 @@ global $lpApp, $rpCfg;
             </ul>
           </div>
         <? endif; ?>
-        <div class="span9">
+        <div class="<?= !isset($sidebar) && !isset($sidenav) ? "span12" : "span9";?>">
           <?= $lpContents;?>
         </div>
         <? if(isset($sidebar)): ?>
@@ -74,13 +75,12 @@ global $lpApp, $rpCfg;
     <script type='text/javascript' src='/LightPHP/lp-style/bootstrap-2.2.2/js/bootstrap.js'></script>
 	<script type="text/javascript" src="//static2.jybox.net/my-website/analyzer.js"></script>
     <script type="text/javascript">
-      $("a[rel=popover-link]").popover({trigger:"hover", html:true, placement:"top"});
-      $("a[rel=popover]").popover({trigger:"hover", html:true, placement:"top"}).click(function(e){
-        e.preventDefault();
-      });
-      $("a[rel=popover-click]").popover({html:true, placement:"top"}).click(function(e){
-        e.preventDefault();
-      }).show();
+      $("a[rel=tooltip]").tooltip({trigger:"hover", html:true, placement:"top"});
+      $("a[rel=popover]").popover({trigger:"hover", html:true, placement:"top"});
+      $("a[rel=popover-click]").popover({html:true, placement:"top"}).show();
+      $('a[href=#]').click(function (e) {
+        e.preventDefault()
+      })
       <?= isset($js)?$js:"";?>
     </script>
     <!--[if lte IE 8]>

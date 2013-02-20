@@ -6,4 +6,4 @@
     RewriteRule (.*) /index.php [L]
 </IfModule>
 
-DirectoryIndex index.html index.php
+DirectoryIndex index.html index.php 

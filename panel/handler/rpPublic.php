@@ -13,4 +13,10 @@ class rpPublic extends lpHandler
         global $rpROOT;
         lpTemplate::outputFile("{$rpROOT}/template/manual.php");
     }
+
+    public function sites()
+    {
+        global $rpROOT;
+        lpTemplate::outputFile("{$rpROOT}/template/sites.php");
+    }
 }
