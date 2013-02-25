@@ -2,22 +2,10 @@
 
 class rpUser extends lpHandler
 {
-    static function initCallBack()
-    {
-        global $lpApp;
-
-        $lpApp->auth()->cbSucceed = function()
-        {
-            global $lpApp;
-
-            $row["lastlogintime"] = time();
-            $row["lastloginip"] = rpTools::getIP();
-            $row["lastloginua"] = $_SERVER["HTTP_USER_AGENT"];
-
-            $q = new lpDBQuery($lpApp->getDB());
-            $q("user")->where(["uname" => $lpApp->auth()->getUName()])->update($row);
-        };
-    }
+    const NO = "no";
+    const STD = "std";
+    const EXT = "ext";
+    const FREE = "free";
 
     static function isAllowToPanel($user)
     {
@@ -25,7 +13,7 @@ class rpUser extends lpHandler
 
         $q = new lpDBQuery($lpApp->getDB());
         $r = $q("user")->where(["uname" => $user])->top();
-        if($r["type"] != rpTools::NO && !array_key_exists($user, $rpCfg["Admins"]))
+        if($r["type"] != rpUser::NO && !array_key_exists($user, $rpCfg["Admins"]))
             return true;
         else
             return false;

@@ -3,36 +3,9 @@
 define("lpMode", "debug");
 require_once("LightPHP/lp-load.php");
 require_once("config.php");
+require_once("$rpROOT/template/messages.php");
+require_once("{$rpROOT}/handler/rpApp.php");
 
-$lpApp = lpApp::helloWorld();
+rpApp::helloWorld();
 
-$lpApp->registerDatabase(new lpMySQLDBDrive($rpCfg["MySQLDB"]));
-$lpApp->registerAuthTool(new lpTrackAuth);
-
-$lpApp->registerAutoload(function($name)
-{
-    global $rpROOT;
-    $path = "{$rpROOT}/handler/{$name}.php";
-    if(file_exists($path))
-        require_once($path);
-},[
-    "lppublic" => "lpPublic"
-]);
-
-$lpApp->registerDefaultPath([
-    "template" => "{$rpROOT}/template"
-]);
-
-$lpApp::$defaultHandlerName = "rpIndex";
-$lpApp::$handlerPerfix = "rp";
-
-rpUser::initCallBack();
-
-$lpApp->bindLambda(null, $lpApp::$defaultFilter);
-
-
-
-
-
-
-
+rpApp::bindLambda(null, new lpDefaultFilter("rpIndex", "rpH"));

@@ -7,8 +7,8 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 ?>
 
 <? lpTemplate::beginBlock();?>
-    <meta name="keywords" content="神马终端,RP,RP主机,低价,月付,终端,主机,虚拟主机,vps,网站,建站,php,linode,日本,linux,美国,免备案,python,代理,pptp,c++,python,ssh" />
-    <meta name="description" content="RP主机" />
+    <meta name="keywords" content="<?= $rpL["index.keywords"];?>" />
+    <meta name="description" content="<?= $rpL["index.description"];?>" />
 <? $tmp->header = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>

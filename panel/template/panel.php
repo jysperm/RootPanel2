@@ -1,6 +1,8 @@
 <?php
 
-global $rpROOT, $rpM, $rpCfg, $lpApp;
+global $rpROOT, $rpM, $rpCfg, $lpApp, $rpVHostType, $rpVHostType;
+
+require_once("{$rpROOT}/handler/vhost-types.php");
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 $tmp->title = "控制面板主页";
@@ -41,7 +43,10 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
 <? $tmp->css = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
+<script type='text/javascript' src='/script/panel.js'></script>
+
 <script type="text/javascript">
+
   function deleteWebsite(websiteId)
   {
       if(confirm("你确定要删除？"))
@@ -120,29 +125,7 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
       return false;
   }
   
-  $($("#new-website").click(function(){
-    $("#editWebsite .rp-title").html("新增站点");
-    $.post("/commit/panel/",{"do":"getnew"},function(data){
-      $("#editWebsite .rp-body").html(data);
 
-      bindSwitch();
-      
-      $("#editWebsite .rp-ok").unbind('click');
-      $("#editWebsite .rp-ok").click(function(){
-          postdata=$("#editWebsite .rp-form").serializeArray();
-          postdata.push({name:"do",value:"add"});
-          $.post("/commit/panel/", postdata,function(data){
-              if(data.status=="ok")
-                  window.location.reload();
-              else
-                  alert(data.msg);
-          },"json");
-          return false;
-      });
-      
-      $("#editWebsite").modal();
-    },"html");
-  }));
   
   function changePasswd(name,isReload)
   {
@@ -224,7 +207,7 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
         <a href="#" rel="tooltip" title="<?= $rpM["domainHelp"];?>">域名</a>：<span class="label"><?= $hosts["domains"];?></span>
       </div>
       <div>
-        <a href="#" rel="tooltip" title="<?= $rpM["typeHelp"];?>">站点类型</a>：<span class="label"><?= $rpM["uiHostType"][$hosts["type"]];?></span> |
+        <a href="#" rel="tooltip" title="<?= $rpM["typeHelp"];?>">站点类型</a>：<span class="label"><?= $rpVHostType[$hosts["type"]]["name"];?></span> |
         <a href="#" rel="tooltip" title="<?= $rpM["sourceHelp"];?>">数据源</a>： <span class="label"><?= $hosts["source"];?></span>
       </div>
       <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"];?>);return false;">删除</button>

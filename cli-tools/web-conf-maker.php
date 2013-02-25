@@ -23,7 +23,7 @@ $out="# " . gmdate("Y.m.d H:i:s",time() + $lpCfgTimeToChina) . "\n";
 while($rsV->read())
 {
     lpTemplate::beginBlock();
-    $tmp = new lpTemplate("{$rpROOT}/../core/conf-template/nginx.php");
+    $tmp = new lpTemplate("{$rpROOT}/../cli-tools/conf-template/nginx.php");
     $tmp->v=$rsV->rawArray();
     $tmp->output();
     $out.=lpTemplate::endBlock();
@@ -41,7 +41,7 @@ $out="# " . gmdate("Y.m.d H:i:s",time() + $lpCfgTimeToChina) . "\n";
 while($rsV->read())
 {
     lpTemplate::beginBlock();
-    $tmp = new lpTemplate("{$rpROOT}/../core/conf-template/apache2.php");
+    $tmp = new lpTemplate("{$rpROOT}/../cli-tools/conf-template/apache2.php");
     $tmp->v=$rsV->rawArray();
     $tmp->output();
     $out.=lpTemplate::endBlock();

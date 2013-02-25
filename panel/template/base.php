@@ -1,21 +1,18 @@
 <?php
 
-global $lpApp, $rpCfg;
+global $rpCfg;
 
 ?>
 <!DOCTYPE html>
 <html lang="zh">
   <head>
     <meta charset="utf-8">
-    <title><?= isset($title) ? "{$title} | RP主机，技术宅的虚拟主机" : "RP主机，技术宅的虚拟主机";?></title>
+    <title><?= isset($title) ? "{$title} | " : "";?>RP主机，技术宅的虚拟主机</title>
       <?= isset($header)?$header:"";?>
     <link rel="shortcut icon" type="image/x-icon" href="/style/icon.png" />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap.css' rel='stylesheet' type='text/css' />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
     <link href="/style/global.css" rel="stylesheet" type="text/css" />
-    <style type="text/css">
-      <?= isset($css)?$css:"";?>
-    </style>
   </head>
   <body data-spy="scroll" data-target=".sidenav-bar" screen_capture_injected="true" class="well">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,8 +33,8 @@ global $lpApp, $rpCfg;
               <li><a href="http://rp-bbs.jybox.net">用户论坛</a></li>
             </ul>
             <ul class="nav pull-right">
-              <? if($lpApp->auth()->login()): ?>
-                <li><a><?= $lpApp->auth()->getUName();?></a></li>
+              <? if(rpAuth::login()): ?>
+                <li><a><?= rpAuth::uname();?></a></li>
                 <? if(true): ?>
                   <li><a href="/pay/free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
                 <? endif; ?>
@@ -81,12 +78,10 @@ global $lpApp, $rpCfg;
       $('a[href=#]').click(function (e) {
         e.preventDefault()
       })
-      <?= isset($js)?$js:"";?>
     </script>
     <!--[if lte IE 8]>
-      <script type='text/javascript' src='/style/kill-ie6.js'></script>
+      <script type='text/javascript' src='/script/kill-ie6.js'></script>
     <![endif]-->
     <?= isset($endOfBody)?$endOfBody:"";?>
   </body>
 </html>
-

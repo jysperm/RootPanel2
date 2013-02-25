@@ -18,9 +18,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `lastloginua` text NOT NULL,
   `type` text NOT NULL,
   `expired` int(10) unsigned NOT NULL,
-  `extconfnginx` text NOT NULL,
-  `extconfapache` text NOT NULL,
-  `pptppasswd` text NOT NULL,
+  `settings` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -41,18 +39,10 @@ CREATE TABLE IF NOT EXISTS `virtualhost` (
   `uname` text NOT NULL,
   `domains` text NOT NULL,
   `lastchange` int(10) unsigned NOT NULL,
-  `alias` text NOT NULL,
-  `indexs` text NOT NULL,
-  `autoindex` int(11) NOT NULL,
-  `isssl` int(11) NOT NULL,
-  `sslcrt` text NOT NULL,
-  `sslkey` text NOT NULL,
+  `general` text NOT NULL,
   `source` text NOT NULL,
   `type` text NOT NULL,
-  `php` text NOT NULL,
-  `cgi` text NOT NULL,
-  `is404` int(11) NOT NULL,
-  `static` text NOT NULL,
+  `settings` text NOT NULL,
   `ison` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

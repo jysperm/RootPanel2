@@ -133,7 +133,7 @@ class AdminAction extends lpAction
     {
         global $rpROOT;
       
-        shell_exec("{$rpROOT}/../core/creat-account.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli-tools/creat-account.php {$_POST['uname']}");
         
         $this->conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"std"));
         
@@ -156,7 +156,7 @@ class AdminAction extends lpAction
     {
         global $rpROOT;
         
-        shell_exec("{$rpROOT}/../core/creat-account.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli-tools/creat-account.php {$_POST['uname']}");
         
         $this->conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"ext"));
         
@@ -179,7 +179,7 @@ class AdminAction extends lpAction
     {
         global $rpROOT;
         
-        shell_exec("{$rpROOT}/../core/creat-account.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli-tools/creat-account.php {$_POST['uname']}");
         
         $this->conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"free"));
         
@@ -202,7 +202,7 @@ class AdminAction extends lpAction
     {
         global $rpROOT;
         
-        shell_exec("{$rpROOT}/../core/delete-account.php {$_POST['uname']} sure");
+        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']} sure");
         
         $this->conn->update("user",array("uname"=>$_POST["uname"]),array("type"=>"no"));
         

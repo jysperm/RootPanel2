@@ -76,15 +76,6 @@ class VirtualHost extends lpAction
         }
     }
 
-    public function getnew()
-    {
-        global $rpROOT;
-        
-        $tmp=new lpTemplate("{$rpROOT}/template/edit-website.php");
-        $tmp->new=true;
-        $tmp->output();
-    }
-    
     public function delete()
     {
         global $rpROOT;
@@ -99,7 +90,7 @@ class VirtualHost extends lpAction
             makeLog(lpAuth::getUName(),"删除了站点{$rs->id}，配置为{$cfgOld}");
             
             $this->conn->delete("virtualhost",array("id"=>$_POST["id"]));
-            shell_exec("{$rpROOT}/../core/web-conf-maker.php {$rs->uname}");
+            shell_exec("{$rpROOT}/../cli-tools/web-conf-maker.php {$rs->uname}");
           
             echo json_encode(array("status"=>"ok"));
         }
@@ -129,7 +120,7 @@ class VirtualHost extends lpAction
                 makeLog(lpAuth::getUName(),"修改了站点{$rs->id}，原配置为：{$cfgOld},新配置为{$cfgNew}");
                 
                 $this->conn->update("virtualhost",array("id"=>$_POST["id"]),$row);
-                shell_exec("{$rpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
+                shell_exec("{$rpROOT}/../cli-tools/web-conf-maker.php " . lpAuth::getUName());
                 
                 echo json_encode(array("status"=>"ok"));
             }
@@ -160,7 +151,7 @@ class VirtualHost extends lpAction
             makeLog(lpAuth::getUName(),"创建了站点{$this->conn->insertId()}，配置为：{$cfgNew}");
             
             $this->conn->insert("virtualhost",$row);
-            shell_exec("{$rpROOT}/../core/web-conf-maker.php " . lpAuth::getUName());
+            shell_exec("{$rpROOT}/../cli-tools/web-conf-maker.php " . lpAuth::getUName());
             
             echo json_encode(array("status"=>"ok"));
         }
@@ -203,7 +194,7 @@ class VirtualHost extends lpAction
             
             $this->conn->update("user",array("uname"=>$uname),array("pptppasswd"=>$_POST["passwd"]));
             
-            shell_exec("sudo {$rpROOT}/../core/pptp-passwd.php");
+            shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
             
             makeLog($uname,"修改了PPTP密码");
             

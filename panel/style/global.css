@@ -89,6 +89,24 @@ ul.left-tabs li {
     font-weight: bold;
 }
 
+/* 对话框 */
+
+.modal {
+    width: 800px;
+}
+.modal .control-label {
+    width: 80px;
+}
+.modal .controls {
+    margin-left: 100px;
+}
+.modal textarea {
+    width: 550px;
+}
+.modal input[type=text] {
+    width: 300px;
+}
+
 /* 左上角Logo */
 .navbar-inner .brand {
     font-size: 16px;

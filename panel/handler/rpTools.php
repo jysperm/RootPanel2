@@ -2,11 +2,6 @@
 
 class rpTools
 {
-    const NO = "no";
-    const STD = "std";
-    const EXT = "ext";
-    const FREE = "free";
-
     static public function gravatarURL($email, $size=80)
     {
         global $rpCfg;

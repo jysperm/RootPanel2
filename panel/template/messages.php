@@ -4,16 +4,16 @@ global $rpCfg, $rpM;
 
 $adminQQ = array_values($rpCfg["Admins"])[0]["qq"];
 
-$rpM["qqButtun"] = <<< EOF
+$rpM["qqButtun"] = <<< HTML
 
 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$adminQQ}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{$adminQQ}:41" alt="QQ {$adminQQ}" title="QQ {$adminQQ}"></a>
 
-EOF;
+HTML;
 
 
 /* ----- index.php ----- */
 
-$rpM["free"] = <<< EOF
+$rpM["free"] = <<< HTML
 
 CPU时间限制(按天)：500秒(相当于0.6%)<br />
 最小内存保证：10M<br />
@@ -22,13 +22,13 @@ CPU时间限制(按天)：500秒(相当于0.6%)<br />
 流量限制(按天)：300M<br />
 流量限制(按月)：3G<br />
 
-EOF;
+HTML;
 
 $rpM["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
 
 $rpM["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
 
-$rpM["proxy"] = <<< EOF
+$rpM["proxy"] = <<< HTML
 
 <ul>
 <li>Secure Shell</li>
@@ -37,9 +37,9 @@ $rpM["proxy"] = <<< EOF
 <li>ShadowSocks</li>
 </ul>
 
-EOF;
+HTML;
 
-$rpM["site"] = <<< EOF
+$rpM["site"] = <<< HTML
 
 可以运行几乎所有常见的建站系统：<br />
 
@@ -55,9 +55,9 @@ $rpM["site"] = <<< EOF
 <li>写不下了...</li>
 </ul>
 
-EOF;
+HTML;
 
-$rpM["agreement"] = <<< EOF
+$rpM["agreement"] = <<< HTML
 
 <section id="agreement">
   <header>政策和约定</header>
@@ -93,83 +93,83 @@ $rpM["agreement"] = <<< EOF
   </p>
 </section>
 
-EOF;
+HTML;
 
 /* ----- signup.php ----- */
 
-$rpM["contact"] = <<< EOF
+$rpM["contact"] = <<< HTML
 
 <li>QQ群 12959991</li>
 <li><a target="_blank" href="http://rp-bbs.jybox.net">用户论坛</a></li>
 <li>{$rpM["qqButtun"]}</li>
 <li><a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&uid=jy%E7%B2%BE%E8%8B%B1%E7%8E%8B%E5%AD%90&site=cntaobao&s=1&charset=utf-8" ><img border="0" src="http://amos.alicdn.com/online.aw?v=2&uid=jy%E7%B2%BE%E8%8B%B1%E7%8E%8B%E5%AD%90&site=cntaobao&s=1&charset=utf-8" alt="阿里旺旺" /></a></li>
 
-EOF;
+HTML;
 
-$rpM["signupRule"] = <<< EOF
+$rpM["signupRule"] = <<< HTML
 
 <ul>
   <li>帐号仅可以使用英文、数字、下划线,且第一个字符必须为英文字母</li>
   <li>邮箱务必为正确的邮箱地址</li>
 </ul>
 
-EOF;
+HTML;
 
 /* ----- login.php ----- */
 
 $adminEMail = array_values($rpCfg["Admins"])[0]["email"];
 
-$rpM["resetPasswdEMail"] = <<< EOF
+$rpM["resetPasswdEMail"] = <<< HTML
 
 请用你的注册邮箱，向客服邮箱<code><i class="icon-envelope"></i>{$adminEMail}</code>发送邮件.
 
-EOF;
+HTML;
 
-$rpM["resetPasswdQQ"] = <<< EOF
+$rpM["resetPasswdQQ"] = <<< HTML
 
 使用你设置的QQ, 联系客服 {$rpM["qqButtun"]}.
 
-EOF;
+HTML;
 
 /* ----- pay-free.php ----- */
 
-$rpM["requstSendOk"] = <<< EOF
+$rpM["requstSendOk"] = <<< HTML
 
 <script type="text/javascript">
     alert("发送成功，请耐心等待回复，不要重复发送...");
     window.location.href = "/";
 </script>
 
-EOF;
+HTML;
 
 /* ----- node-list.php ----- */
 
-$rpM["minRes"] = <<< EOF
+$rpM["minRes"] = <<< HTML
 
 最小保证即任何情况下都可以保证这么多的资源，如果服务器还剩余资源，则所有需要资源的账户均分剩余资源.<br />
 例如服务器剩余100M内存，有两个用户需要更多内存，则每人分得50M额外内存.
 
-EOF;
+HTML;
 
-$rpM["rp1"] = <<< EOF
+$rpM["rp1"] = <<< HTML
 
 总所周知Linode是业界良心，质量和稳定性都有保证，且日本线路到大陆比较近.<br />
 但Linode流量较少，且该区域受到工信部重点关照，时常访问不畅.
 
-EOF;
+HTML;
 
-$rpM["rp2"] = <<< EOF
+$rpM["rp2"] = <<< HTML
 
 这个节点资源较多，无论是硬盘、内存、流量都较大.<br />
 到大陆的速度也可以接受，而且该区域目前还未受到特殊关照.
 
-EOF;
+HTML;
 
-$rpM["rp3"] = <<< EOF
+$rpM["rp3"] = <<< HTML
 
 目前该节点用于进行面板和相关自动化脚本的测试，不接受付费用户.
 
-EOF;
+HTML;
 
 /* ----- panel.php ----- */
 
@@ -185,14 +185,6 @@ $rpM["uiUserType"] = [
     "free" => "免费试用版",
     "std" => "标准付费版",
     "ext" => "额外技术支持版"
-];
-
-$rpM["uiHostType"] = [
-    "apache2" => "Apache",
-    "static" => "Nginx纯静态",
-    "uwsgi" => "uWSGI(Python)",
-    "phpfpm" => "PHP-FPM",
-    "proxy" => "反向代理"
 ];
 
 /* ----- logs.php ----- */
