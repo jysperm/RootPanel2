@@ -17,7 +17,7 @@ class rpPay extends lpHandler
         }
         else
         {
-            global $lpApp, $rpCfg, $rpROOT, $rpM;
+            global $lpApp, $rpCfg, $rpROOT, $msg;
 
             if(!$lpApp->auth()->login())
                 die("未登录");
@@ -41,7 +41,7 @@ class rpPay extends lpHandler
 
             $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-            echo $rpM["requstSendOk"];
+            echo $msg["requstSendOk"];
 
             $tmp->output();
         }

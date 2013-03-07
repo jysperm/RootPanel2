@@ -8,24 +8,6 @@ class rpTools
         return $rpCfg["GravaterURL"] . md5(strtolower(trim($email))) . "?s={$size}";
     }
 
-    static public function makeLog($user, $description, $detail, $by=null)
-    {
-        global $lpApp;
-        $q = new lpDBQuery($lpApp->getDB());
-
-        $row = [
-            "uname" => $user,
-            "time" => time(),
-            "description" => $description,
-            "detail" => $detail,
-            "by" => $by ? $by : $user,
-            "ua" => $_SERVER["HTTP_USER_AGENT"],
-            "ip" => rpTools::getIP()
-        ];
-
-        $q("log")->insert($row);
-    }
-
     public static function getIP()
     {
         if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))

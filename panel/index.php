@@ -1,11 +1,11 @@
 <?php
 
-define("lpMode", "debug");
-require_once("LightPHP/lp-load.php");
-require_once("config.php");
-require_once("$rpROOT/template/messages.php");
-require_once("{$rpROOT}/handler/rpApp.php");
+$rpROOT = dirname(__FILE__);
+const lpMode = "debug";
+const DefaultLanguage = "zh_CN";
 
+require_once("{$rpROOT}/LightPHP/lp-load.php");
+require_once("{$rpROOT}/include/rpApp.php");
 rpApp::helloWorld();
 
-rpApp::bindLambda(null, new lpDefaultFilter("rpIndex", "rpH"));
+rpApp::bind(null, new lpDefaultFilter("rpIndexHandler", new lpDefaultHandlerNameFilter("rp")));

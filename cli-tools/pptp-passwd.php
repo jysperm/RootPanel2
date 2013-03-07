@@ -2,7 +2,7 @@
 <?php
 
 require_once("/RootPanel/LightPHP/lp-load.php");
-require_once("/RootPanel/panel/config.php");
+require_once("/RootPanel/panel/main-config.php");
 
 lpLoader("lpLock");
 

@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpM;
+global $rpROOT, $rpCfg, $msg;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -12,7 +12,7 @@ $tmp->title = "客户评价";
   <header>咨询</header>
   <ul class="nav-list">
     <li>邮件 <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
-      <?= $rpM["contact"];?>
+      <?= $msg["contact"];?>
   </ul>
 </section>
 <? $tmp->sidebar=lpTemplate::endBlock();?>

@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $rpM;
+global $rpROOT, $rpCfg, $msg;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -14,8 +14,8 @@ $tmp->title = "登录";
 </section>
 <section>
   <header>忘记密码？</header>
-  <a href="#" class="btn btn-info reset-email" rel="popover-click" data-content='<?= $rpM['resetPasswdEMail'];?>' data-original-title="通过邮件找回">通过邮件找回</a><br />
-  <a href="#" class="btn btn-info reset-qq" rel="popover-click" data-content='<?= $rpM['resetPasswdQQ'];?>' data-original-title="通过QQ找回"> 通过QQ找回</a>
+  <a href="#" class="btn btn-info reset-email" rel="popover-click" data-content='<?= $msg['resetPasswdEMail'];?>' data-original-title="通过邮件找回">通过邮件找回</a><br />
+  <a href="#" class="btn btn-info reset-qq" rel="popover-click" data-content='<?= $msg['resetPasswdQQ'];?>' data-original-title="通过QQ找回"> 通过QQ找回</a>
 </section>
 <? $tmp->sidebar=lpTemplate::endBlock();?>
 
@@ -47,7 +47,7 @@ $tmp->title = "登录";
       <div class="control-group">
         <label class="control-label" for="uname">帐号</label>
         <div class="controls">
-          <input type="text" class="input-xlarge" id="uname" name="uname" value="<?= isset($uname) ? $uname : $lpApp->auth()->getUName();?>" required="required" />
+          <input type="text" class="input-xlarge" id="uname" name="uname" value="<?= isset($uname) ? $uname : rpAuth::uname();?>" required="required" />
         </div>
       </div>
       <div class="control-group">

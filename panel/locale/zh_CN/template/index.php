@@ -1,15 +1,61 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpM;
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+global $rpROOT, $rpCfg, $rpL;
+
+$base = new lpTemplate("{$rpROOT}/template/base.php");
+
+$msg["free"] = <<< HTML
+
+CPU时间限制(按天)：500秒(相当于0.6%)<br />
+最小内存保证：10M<br />
+内存竞争系数：0.4(与付费用户竞争内存时的系数)<br />
+硬盘限制：300M<br />
+流量限制(按天)：300M<br />
+流量限制(按月)：3G<br />
+
+HTML;
+
+$msg["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
+
+$msg["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
+
+$msg["proxy"] = <<< HTML
+
+<ul>
+<li>Secure Shell</li>
+<li>Virtual Private Network</li>
+<li>(Point to Point Tunneling Protocol)</li>
+<li>ShadowSocks</li>
+</ul>
+
+HTML;
+
+$msg["site"] = <<< HTML
+
+可以运行几乎所有常见的建站系统：<br />
+
+<ul>
+<li>WordPress 博客</li>
+<li>PHPWind 论坛</li>
+<li>Discuz! X 论坛</li>
+<li>Typecho 博客</li>
+<li>Drupal CMS</li>
+<li>Anwsion 问答</li>
+<li>MediaWiki 维基</li>
+<li>ECShop 网店</li>
+<li>写不下了...</li>
+</ul>
+
+HTML;
 
 ?>
 
 <? lpTemplate::beginBlock();?>
-    <meta name="keywords" content="<?= $rpL["index.keywords"];?>" />
-    <meta name="description" content="<?= $rpL["index.description"];?>" />
-<? $tmp->header = lpTemplate::endBlock();?>
+    <meta name="keywords" content="神马终端,RP,RP主机,低价,月付,终端,主机,虚拟主机,vps,网站,建站,php,linode,日本,linux,美国,免备案,python,代理,pptp,c++,python,ssh" />
+    <meta name="description" content="RP主机是一款为技术宅(Geek)提供的Linux虚拟主机, 实际上就是一台划分了用户的Linux服务器，每个用户都可以干自己想做的事情." />
+<? $base->header = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
     <li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
@@ -18,7 +64,7 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
     <li><a href="#resource"><i class="icon-chevron-right"></i> 资源参数</a></li>
     <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
     <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
-<? $tmp->sidenav = lpTemplate::endBlock(); ?>
+<? $base->sidenav = lpTemplate::endBlock(); ?>
 
 <section id="what-is-rphost">
   <header>RP主机是什么</header>
@@ -39,12 +85,12 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
     你得到的是一个拥有极大权限的linux用户，你可以
   </p>
   <ul>
-    <li><a href="#" rel="popover" data-content="<?= $rpM['site'];?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案</li>
-    <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $rpM['evn'];?>" data-original-title="环境支持">几乎全部</a>编程语言</li>
+    <li><a href="#" rel="popover" data-content="<?= $msg['site'];?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案</li>
+    <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $msg['evn'];?>" data-original-title="环境支持">几乎全部</a>编程语言</li>
     <li>访问MySQL、Mongo、SQLite等各种数据库</li>
     <li>配置反向代理、SSL版网站</li>
     <li>在终端运行Python、Ruby、Node、Perl、C/C++程序，并且可以监听端口来进行Socket通讯</li>
-    <li>使用<a href="#" rel="popover" data-content="<?= $rpM['proxy'];?>" data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网</li>
+    <li>使用<a href="#" rel="popover" data-content="<?= $msg['proxy'];?>" data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网</li>
   </ul>
 </section>
 <section id="try-and-buy">
@@ -54,7 +100,7 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
       <header>试用版</header>
       <div class="description">
         所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的
-        <a href="#" rel="popover" data-content="<?= $rpM['free'];?>" data-original-title="试用帐号限制">资源限制</a>
+        <a href="#" rel="popover" data-content="<?= $msg['free'];?>" data-original-title="试用帐号限制">资源限制</a>
       </div>
       <p>
         <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
@@ -73,7 +119,7 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
       <header>额外技术支持版</header>
       <div class="description">
         每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的
-        <a href="#" rel="popover" data-content="<?= $rpM['ext'];?>" data-original-title="技术支持">技术支持</a>.
+        <a href="#" rel="popover" data-content="<?= $msg['ext'];?>" data-original-title="技术支持">技术支持</a>.
       </div>
       <p>
         <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
@@ -120,10 +166,10 @@ $tmp = new lpTemplate("{$rpROOT}/template/base.php");
     <? endforeach; ?>
   </p>
   <ul class="left-tabs">
-    <?= $rpM["contact"];?>
+      <?= $rpL["contact.list"];?>
   </ul>
 </section>
 
-<?= $rpM["agreement"];?>
+<? lpTemplate::outputFile("{$rpROOT}/locale/{$rpCfg['lang']}/template/agreement.php");?>
 
-<? $tmp->output();?>
+<? $base->output();?>

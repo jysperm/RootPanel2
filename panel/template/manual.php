@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpM;
+global $rpROOT, $rpCfg, $msg;
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
@@ -88,7 +88,7 @@ $tmp->title = "用户手册";
       <? endforeach; ?>
   </p>
   <ul class="left-tabs">
-      <?= $rpM["contact"];?>
+      <?= $msg["contact"];?>
   </ul>
 </section>
 

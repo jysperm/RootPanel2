@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpM;
+global $rpROOT, $rpCfg, $msg;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -12,7 +12,7 @@ $tmp->title = "优质站点展示";
   <header>咨询</header>
   <ul class="nav-list">
     <li>邮件 <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
-      <?= $rpM["contact"];?>
+      <?= $msg["contact"];?>
   </ul>
 </section>
 <? $tmp->sidebar=lpTemplate::endBlock();?>
@@ -52,7 +52,7 @@ $tmp->title = "优质站点展示";
     <ul class="thumbnails">
       <li class="span4">
         <div class="thumbnail">
-          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $rpM["img300x200"];?>">
+          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $msg["img300x200"];?>">
           <div class="caption">
             <h3>等待入住</h3>
             <p>所有RP主机用户均可申请</p>
@@ -61,7 +61,7 @@ $tmp->title = "优质站点展示";
       </li>
       <li class="span4">
         <div class="thumbnail">
-          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $rpM["img300x200"];?>">
+          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $msg["img300x200"];?>">
           <div class="caption">
             <h3>等待入住</h3>
             <p>所有RP主机用户均可申请</p>
@@ -70,7 +70,7 @@ $tmp->title = "优质站点展示";
       </li>
       <li class="span4">
         <div class="thumbnail">
-          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $rpM["img300x200"];?>">
+          <img alt="300x200" style="width: 300px; height: 200px;" src="<?= $msg["img300x200"];?>">
           <div class="caption">
             <h3>等待入住</h3>
             <p>所有RP主机用户均可申请</p>

@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpM, $rpCfg, $lpApp, $rpVHostType, $rpVHostType;
+global $rpROOT, $msg, $rpCfg, $lpApp, $rpVHostType, $rpVHostType;
 
 require_once("{$rpROOT}/handler/vhost-types.php");
 
@@ -163,7 +163,7 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
 <section id="section-index">
   <header>概述</header>
   <p>
-    账户类型：<?= $rpM["uiUserType"][$user["type"]] ?><br />
+    账户类型：<?= $msg["uiUserType"][$user["type"]] ?><br />
     到期时间：<span title="<?= gmdate("Y.m.d H:i:s", $user["expired"]);?>"><?= rpTools::niceTime($user["expired"]);?></span>
     <a class="btn btn-success" href="/pay/"> 续费</a>
   </p>
@@ -189,7 +189,7 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
   <div>
   <hr />
   <div>
-    <a href="#" rel="tooltip" title="<?= $rpM["extconfHelp"];?>">额外</a>的Nginx配置文件： 0字节(<a href="#">查看</a>).<br />
+    <a href="#" rel="tooltip" title="<?= $msg["extconfHelp"];?>">额外</a>的Nginx配置文件： 0字节(<a href="#">查看</a>).<br />
     额外的Apache2配置文件： 0字节(<a href="#">查看</a>).
   </div>
 </section>
@@ -202,13 +202,13 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
   <? while($hosts->read()): ?>
     <div class="box">
       <div>
-        <a href="#" rel="tooltip" title="<?= $rpM["isonHelp"];?>">是否开启</a>：<span class="label"><?= $hosts["ison"]?"是":"否";?></span> |
-        <a href="#" rel="tooltip" title="<?= $rpM["idHelp"];?>">站点ID</a>：<span class="label"><?= $hosts["id"];?></span> |
-        <a href="#" rel="tooltip" title="<?= $rpM["domainHelp"];?>">域名</a>：<span class="label"><?= $hosts["domains"];?></span>
+        <a href="#" rel="tooltip" title="<?= $msg["isonHelp"];?>">是否开启</a>：<span class="label"><?= $hosts["ison"]?"是":"否";?></span> |
+        <a href="#" rel="tooltip" title="<?= $msg["idHelp"];?>">站点ID</a>：<span class="label"><?= $hosts["id"];?></span> |
+        <a href="#" rel="tooltip" title="<?= $msg["domainHelp"];?>">域名</a>：<span class="label"><?= $hosts["domains"];?></span>
       </div>
       <div>
-        <a href="#" rel="tooltip" title="<?= $rpM["typeHelp"];?>">站点类型</a>：<span class="label"><?= $rpVHostType[$hosts["type"]]["name"];?></span> |
-        <a href="#" rel="tooltip" title="<?= $rpM["sourceHelp"];?>">数据源</a>： <span class="label"><?= $hosts["source"];?></span>
+        <a href="#" rel="tooltip" title="<?= $msg["typeHelp"];?>">站点类型</a>：<span class="label"><?= $rpVHostType[$hosts["type"]]["name"];?></span> |
+        <a href="#" rel="tooltip" title="<?= $msg["sourceHelp"];?>">数据源</a>： <span class="label"><?= $hosts["source"];?></span>
       </div>
       <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"];?>);return false;">删除</button>
       <button class="btn btn-info pull-right" style="margin-right:10px;" onclick="editWebsite(<?= $hosts["id"];?>);return false;">修改</button>

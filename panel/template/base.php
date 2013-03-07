@@ -4,7 +4,7 @@ global $rpCfg;
 
 ?>
 <!DOCTYPE html>
-<html lang="zh">
+<html>
   <head>
     <meta charset="utf-8">
     <title><?= isset($title) ? "{$title} | " : "";?>RP主机，技术宅的虚拟主机</title>

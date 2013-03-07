@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $rpM;
+global $rpROOT, $rpCfg, $lpApp, $msg;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -81,7 +81,7 @@ $tmp->title = "购买";
   ?>
 </section>
 
-<?= $rpM["agreement"];?>
+<?= $msg["agreement"];?>
 
 <? $tmp->output();?>
 

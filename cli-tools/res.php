@@ -4,7 +4,7 @@
 define("lpOFF_Exception",true);
 
 require_once("/RootPanel/LightPHP/lp-load.php");
-require_once("/RootPanel/panel/config.php");
+require_once("/RootPanel/panel/main-config.php");
 
 //旧的快照在前，新的在后
 $psArray = array();

@@ -1,10 +1,8 @@
 <?php
 
-$rpROOT = dirname(__FILE__);
+global $rpL;
 
-// 该节点的节点名称, 节点ID(须与 $rpCfg["NodeList"]对应 )
-$rpCfg["NodeName"] = "rp3 (LocVps美国测试节点)";
-$rpCfg["NodeID"] = "rp3";
+$rpCfg["DefaultLanguage"] = "zh_CN";
 
 // 管理员(客服)列表
 $rpCfg["Admins"] = [
@@ -19,18 +17,9 @@ $rpCfg["Admins"] = [
 ];
 
 // 禁止注册的用户名列表
-$rpCfg["DenyUNames"] = ["root"];
+$rpCfg["NotAllowSignup"] = ["root"];
 
 $rpCfg["LogPerPage"] = 50;
-
-// 数据库连接信息
-$rpCfg["MySQLDB"] = [
-  "host" => "localhost",
-  "dbname" => "mydb",
-  "user" => "root",
-  "passwd" => "passwd",
-  "charset" => "utf8"
-];
 
 $rpCfg["Pay"]["std"] = "http://item.taobao.com/item.htm?id=16169509767";
 $rpCfg["Pay"]["ext"] = "http://item.taobao.com/item.htm?id=21047624871";
@@ -48,7 +37,7 @@ $rpCfg["NodeList"] = [
     "rp1" => [
         "domain" => "rp.jybox.net",
         "name" => "Linode东京",
-        "description" => $rpM["rp1"],
+        "description" => $rpL["Node.rp1"],
         "PhyMemory" => 20,
         "memory" => 40,
         "cpu" => 0.02,
@@ -58,7 +47,7 @@ $rpCfg["NodeList"] = [
     "rp2" => [
         "domain" => "rp2.jybox.net",
         "name" => "LocVPS美国西海岸(默认)",
-        "description" => $rpM["rp2"],
+        "description" => $rpL["Node.rp2"],
         "PhyMemory" => 25,
         "memory" => 50,
         "cpu" => 0.02,
@@ -68,7 +57,7 @@ $rpCfg["NodeList"] = [
     "rp3" => [
         "domain" => "rp3.jybox.net",
         "name" => "测试节点",
-        "description" => $rpM["rp3"],
+        "description" => $rpL["Node.rp3"],
         "PhyMemory" => 20,
         "memory" => 40,
         "cpu" => 0.02,

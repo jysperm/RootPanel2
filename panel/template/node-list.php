@@ -1,13 +1,13 @@
 <?php
 
-global $rpROOT, $rpM, $rpCfg;
+global $rpROOT, $msg, $rpCfg;
 
 ?>
 
 <table class="table table-striped table-bordered table-condensed">
   <thead>
   <tr>
-    <th>机房</th><th><a href="#" rel="popover" data-content="<?= $rpM['minRes'];?>" data-original-title="最小保证">最小</a>物理内存保证</th>
+    <th>机房</th><th><a href="#" rel="popover" data-content="<?= $msg['minRes'];?>" data-original-title="最小保证">最小</a>物理内存保证</th>
     <th>最小内存保证</th><th>最小CPU保证</th><th>硬盘</th><th>流量/月</th><th>域名</th>
   </tr>
   </thead>

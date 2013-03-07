@@ -2,7 +2,7 @@
 
 class rpAuth extends lpTrackAuth
 {
-    static protected function succeedCallback()
+    static public function succeedCallback()
     {
         $row["lastlogintime"] = time();
         $row["lastloginip"] = rpTools::getIP();

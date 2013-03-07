@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $rpM;
+global $rpROOT, $rpCfg, $lpApp, $msg;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 $tmp->title = $titile = "详细日志 #{$page}";
@@ -23,9 +23,9 @@ $logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", 
   <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-      <th style="width: 40px;"><a href="#" rel="tooltip" title="<?= $rpM["logidHelp"];?>">ID</a></th>
-      <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $rpM["byHelp"];?>">操作者</a></th>
-      <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $rpM["ipuaHelp"];?>">IP/UA</a></th>
+      <th style="width: 40px;"><a href="#" rel="tooltip" title="<?= $msg["logidHelp"];?>">ID</a></th>
+      <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $msg["byHelp"];?>">操作者</a></th>
+      <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $msg["ipuaHelp"];?>">IP/UA</a></th>
       <th style="width: 60px;">时间</th>
       <th style="width: 100px;">摘要</th>
       <th>详情</th>
