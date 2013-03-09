@@ -7,7 +7,7 @@ class rpUserHandler extends lpHandler
         if(!$this->isPost())
         {
             global $rpROOT;
-            lpTemplate::outputFile("{$rpROOT}/template/signup.php");
+            lpTemplate::outputFile("{$rpROOT}/template/user/signup.php");
         }
         else
         {
@@ -16,7 +16,7 @@ class rpUserHandler extends lpHandler
             $procError = function($str)
             {
                 global $rpROOT;
-                $tmp = new lpTemplate("{$rpROOT}/template/signup.php");
+                $tmp = new lpTemplate("{$rpROOT}/template/user/signup.php");
 
                 $tmp->setValues([
                     "errorMsg" => $str,
@@ -57,7 +57,7 @@ class rpUserHandler extends lpHandler
             rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]);
 
             $user["passwd"] = null;
-            rpLog::log($_POST["uname"], "log.type.signup", json_encode($user));
+            rpLog::log($_POST["uname"], "log.type.signup", [], json_encode($user));
 
             rpApp::goUrl("/panel/");
         }
@@ -68,7 +68,7 @@ class rpUserHandler extends lpHandler
         if(!$this->isPost())
         {
             global $rpROOT;
-            lpTemplate::outputFile("{$rpROOT}/template/login.php");
+            lpTemplate::outputFile("{$rpROOT}/template/user/login.php");
         }
         else
         {
@@ -77,7 +77,7 @@ class rpUserHandler extends lpHandler
             $procError = function($str)
             {
                 global $rpROOT;
-                $tmp = new lpTemplate("{$rpROOT}/template/login.php");
+                $tmp = new lpTemplate("{$rpROOT}/template/user/login.php");
 
                 $tmp->setValues([
                     "errorMsg" => $str,

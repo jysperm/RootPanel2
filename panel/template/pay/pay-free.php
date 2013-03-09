@@ -2,21 +2,24 @@
 
 global $rpROOT, $lpApp;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "填写试用申请";
+$base->title = "填写试用申请";
 ?>
 
 <? lpTemplate::beginBlock();?>
     <li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
     <li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
-<? $tmp->sidenav=lpTemplate::endBlock();?>
+    <li><a href="#rule"><i class="icon-chevron-right"></i> 审核原则</a></li>
+<? $base->sidenav=lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
+<style type="text/css">
   #request textarea {
     width: 98%;
   }
-<? $tmp->css = lpTemplate::endBlock();?>
+</style>
+<? $base->header = lpTemplate::endBlock();?>
 
 <?lpTemplate::beginBlock();?>
 <script type="text/javascript">
@@ -34,12 +37,12 @@ $tmp->title = "填写试用申请";
     });
   });
 </script>
-<? $tmp->endOfBody=lpTemplate::endBlock();?>
+<? $base->endOfBody=lpTemplate::endBlock();?>
 
 
 <section id="request">
     <header>填写试用申请</header>
-    <? if(!$lpApp->auth()->login()):?>
+    <? if(!rpAuth::login()):?>
   <div class="alert alert-block alert-error fade in">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <h4 class="alert-heading">注意</h4>
@@ -50,17 +53,16 @@ $tmp->title = "填写试用申请";
   </div>
   <? else:?>
       <?php
-          $q = new lpDBQuery($lpApp->getDB());
-          $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+          $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
       ?>
-    <? if($user["type"] == rpTools::NO): ?>
+    <? if($user["type"] == rpUser::NO): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
         <p>你还没有开通RP主机，请填写申请以获得试用，或直接<a class="btn btn-success" href="/pay/">购买</a></p>
         <p>如果你已经发送了申请，请耐心等待回复(你注册时填写的邮箱)，一般会在24小时内回复，无论申请是否通过</p>
       </div>
-      <? elseif($user["type"] == rpTools::FREE): ?>
+      <? elseif($user["type"] == rpUser::FREE): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
@@ -74,10 +76,10 @@ $tmp->title = "填写试用申请";
       </div>
       <? endif;?>
   <? endif;?>
-  <? if($lpApp->auth()->login() && ($user["type"] == rpTools::NO || $user["type"] == rpTools::FREE )): ?>
+  <? if(rpAuth::login() && ($user["type"] == rpUser::NO || $user["type"] == rpUser::FREE )): ?>
   <form class="form-horizontal" id="form" method="post">
 <textarea id="content" name="content" rows="18">
-# 请先填写下列问卷(100-300字为宜)
+## 请先填写下列问卷(100-300字为宜)
 * 年龄, 职业
 * 从何处得知RP主机
 * 是否会编程，如果会的话掌握哪些技术
@@ -101,9 +103,18 @@ $tmp->title = "填写试用申请";
     硬盘限制：300M<br />
     流量限制(按天)：300M<br />
     流量限制(按月)：3G<br /><br />
-    
+
     不提供客服支持，不担保数据的安全，可能随时被删除(尽可能做到事先通知).
   </p>
 </section>
 
-<? $tmp->output();?>
+<section id="rule">
+  <header>免费版审核原则</header>
+  <ul>
+    <li>用途符合RP主机的<a href="/#agreement">政策和约定</a>, 没有擦边内容</li>
+    <li>能够为互联网创造价值(如写博客), 而不是单纯利己</li>
+    <li>确实有困难无法购买付费版</li>
+  </ul>
+</section>
+
+<? $base->output();?>

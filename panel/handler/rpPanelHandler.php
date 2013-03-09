@@ -1,6 +1,6 @@
 <?php
 
-class rpPanel extends lpHandler
+class rpPanelHandler extends lpHandler
 {
     public function __invoke()
     {
@@ -8,21 +8,21 @@ class rpPanel extends lpHandler
 
         $this->auth();
 
-        lpTemplate::outputFile("{$rpROOT}/template/panel.php");
+        lpTemplate::outputFile("{$rpROOT}/template/panel/index.php");
     }
 
     private function auth()
     {
-        global  $rpCfg, $lpApp;
+        global  $rpCfg;
 
-        if(!$lpApp->auth()->login())
-            $lpApp->goUrl("/user/login/", true);
+        if(!rpAuth::login())
+            rpApp::goUrl("/user/login/", true);
 
-        if(!rpUser::isAllowToPanel($lpApp->auth()->getUName()))
-            if(array_key_exists($lpApp->auth()->getUName(), $rpCfg["Admins"]))
-                $lpApp->goUrl("/admin/", true);
+        if(!rpUser::isAllowToPanel(rpAuth::uname()))
+            if(array_key_exists(rpAuth::uname(), $rpCfg["Admins"]))
+                rpApp::goUrl("/admin/", true);
             else
-                $lpApp->goUrl("/pay/", true);
+                rpApp::goUrl("/pay/", true);
     }
 
     public function logs($page=null)
@@ -33,8 +33,8 @@ class rpPanel extends lpHandler
 
         $page = intval($page);
 
-        $tmp = new lpTemplate("{$rpROOT}/template/logs.php");
-        $tmp->page = $page?:1;
+        $tmp = new lpTemplate("{$rpROOT}/template/panel/logs.php");
+        $tmp->page = $page ?: 1;
         $tmp->output();
     }
 }

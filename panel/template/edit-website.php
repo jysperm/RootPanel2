@@ -2,7 +2,7 @@
 
 global $rpCfg, $lpApp, $rpROOT, $rpVHostType;
 
-require_once("{$rpROOT}/handler/vhost-types.php");
+require_once("{$rpROOT}/handler/vhost.php");
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 

@@ -1,9 +1,9 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $msg;
+global $rpROOT, $rpCfg, $msg;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
-$tmp->title = $titile = "详细日志 #{$page}";
+$base = new lpTemplate("{$rpROOT}/template/base.php");
+$base->title = $titile = "详细日志 #{$page}";
 
 $q = new lpDBQuery($lpApp->getDB());
 $allPage = ceil($q("log")->where(["uname" => $lpApp->auth()->getUName()])->select()->num() / $rpCfg["LogPerPage"]);
@@ -15,10 +15,10 @@ $logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", 
     table-layout:fixed;
     word-break:break-all;
   }
-<? $tmp->css = lpTemplate::endBlock();?>
+<? $base->css = lpTemplate::endBlock();?>
 
 <section>
-  <a href="/panel/" style="margin-top: 30px;" class="btn btn-info pull-right">返回面板</a>
+  <a href="/panel" style="margin-top: 30px;" class="btn btn-info pull-right">返回面板</a>
   <header>详细日志 <span class="text-small-per50 not-bold">#<?= $page;?> (共<?= $allPage;?>)</span></header>
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -61,4 +61,4 @@ $logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", 
   </div>
 </section>
 
-<? $tmp->output();?>
+<? $base->output();?>

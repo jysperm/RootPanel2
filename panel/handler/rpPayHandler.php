@@ -1,11 +1,11 @@
 <?php
 
-class rpPay extends lpHandler
+class rpPayHandler extends lpHandler
 {
     public function __invoke()
     {
         global $rpROOT;
-        lpTemplate::outputFile("{$rpROOT}/template/pay.php");
+        lpTemplate::outputFile("{$rpROOT}/template/pay/pay.php");
     }
 
     public function free()
@@ -13,23 +13,21 @@ class rpPay extends lpHandler
         if(!$this->isPost())
         {
             global $rpROOT;
-            lpTemplate::outputFile("{$rpROOT}/template/pay-free.php");
+            lpTemplate::outputFile("{$rpROOT}/template/pay/pay-free.php");
         }
         else
         {
-            global $lpApp, $rpCfg, $rpROOT, $msg;
+            global $rpCfg, $rpROOT, $msg;
 
-            if(!$lpApp->auth()->login())
+            if(!rpAuth::login())
                 die("未登录");
             if(!isset($_POST["content"]))
                 die("参数不全");
 
-            $q = new lpDBQuery($lpApp->getDB());
-
             $_POST["content"] = htmlentities($_POST["content"]);
 
             $mailer = new lpSmtp();
-            $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+            $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
 
 
             $mailTitle = $user["uname"] . "-RP主机试用申请({$rpCfg["NodeID"]})";

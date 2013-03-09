@@ -2,9 +2,9 @@
 
 global $rpROOT, $rpCfg, $msg;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "登录";
+$base->title = "登录";
 ?>
 
 <? lpTemplate::beginBlock();?>
@@ -17,13 +17,15 @@ $tmp->title = "登录";
   <a href="#" class="btn btn-info reset-email" rel="popover-click" data-content='<?= $msg['resetPasswdEMail'];?>' data-original-title="通过邮件找回">通过邮件找回</a><br />
   <a href="#" class="btn btn-info reset-qq" rel="popover-click" data-content='<?= $msg['resetPasswdQQ'];?>' data-original-title="通过QQ找回"> 通过QQ找回</a>
 </section>
-<? $tmp->sidebar=lpTemplate::endBlock();?>
+<? $base->sidebar=lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
+<style type="text/css">
   a[class*=btn] {
     width: 85px;
   }
-<? $tmp->css = lpTemplate::endBlock();?>
+</style>
+<? $base->header = lpTemplate::endBlock();?>
 
 <?php lpTemplate::beginBlock();?>
 <script type="text/javascript">
@@ -34,7 +36,7 @@ $tmp->title = "登录";
     $(".reset-qq").popover('hide');
   });
 </script>
-<? $tmp->endOfBody=lpTemplate::endBlock();?>
+<? $base->endOfBody=lpTemplate::endBlock();?>
 
 <section>
   <header>登录</header>
@@ -63,4 +65,4 @@ $tmp->title = "登录";
   </form>
 </section>
 
-<? $tmp->output();?>
+<? $base->output();?>

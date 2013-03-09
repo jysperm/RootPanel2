@@ -42,7 +42,7 @@ $rpCfg["NodeList"] = [
         "memory" => 40,
         "cpu" => 0.02,
         "disk" => 500,
-        "traffic" => 15,
+        "traffic" => 100,
     ],
     "rp2" => [
         "domain" => "rp2.jybox.net",

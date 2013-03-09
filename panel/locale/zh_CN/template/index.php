@@ -104,7 +104,7 @@ HTML;
       </div>
       <p>
         <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-        <a class="btn btn-success" href="/request-free/">2. 填写申请</a>
+        <a class="btn btn-success" href="/pay/free/">2. 填写申请</a>
       </p>
     </div>
     <div class="span4">

@@ -15,7 +15,7 @@ $tmp->title = "购买";
 
 <section id="pay">
     <header>购买</header>
-  <? if(!$lpApp->auth()->login()):?>
+  <? if(!rpAuth::login()):?>
   <div class="alert alert-block alert-error fade in">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <h4 class="alert-heading">注意</h4>
@@ -26,10 +26,9 @@ $tmp->title = "购买";
   </div>
   <? else:?>
       <?php
-          $q = new lpDBQuery($lpApp->getDB());
-          $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
+          $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
       ?>
-      <? if($user["type"] == rpTools::NO): ?>
+      <? if($user["type"] == rpUser::NO): ?>
       <div class="alert alert-block alert-success fade in">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4 class="alert-heading">提示</h4>
@@ -69,7 +68,7 @@ $tmp->title = "购买";
   </div>
   <hr />
   <p>
-    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名<code><?= $lpApp->auth()->getUName()?></code></b>，你还可以在下方的机房列表中选择你想要的机房.
+    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名<code><?= rpAuth::uname();?></code></b>，你还可以在下方的机房列表中选择你想要的机房.
   </p>
 </section>
 <section id="position">
@@ -81,7 +80,7 @@ $tmp->title = "购买";
   ?>
 </section>
 
-<?= $msg["agreement"];?>
+<? lpTemplate::outputFile("{$rpROOT}/locale/{$rpCfg['lang']}/template/agreement.php");?>
 
 <? $tmp->output();?>
 

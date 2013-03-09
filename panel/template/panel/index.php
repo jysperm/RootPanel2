@@ -1,11 +1,11 @@
 <?php
 
-global $rpROOT, $msg, $rpCfg, $lpApp, $rpVHostType, $rpVHostType;
+global $rpROOT, $msg, $rpCfg, $rpVHostType, $rpVHostType;
 
-require_once("{$rpROOT}/handler/vhost-types.php");
+require_once("{$rpROOT}/handler/vhost.php");
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
-$tmp->title = "控制面板主页";
+$base = new lpTemplate("{$rpROOT}/template/base.php");
+$base->title = "控制面板主页";
 
 $q = new lpDBQuery($lpApp->getDB());
 $user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
@@ -20,9 +20,10 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
     <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
     <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
     <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
-<? $tmp->sidenav = lpTemplate::endBlock();?>
+<? $base->sidenav = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
+<style type="text/css">
   .input-xxlarge {
     width: 250px;
   }
@@ -40,7 +41,8 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
     overflow: hidden;
     padding: 14px;
   }
-<? $tmp->css = lpTemplate::endBlock();?>
+</style>
+<? $base->header = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
 <script type='text/javascript' src='/script/panel.js'></script>
@@ -144,7 +146,7 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
   }
 </script>
 
-<? $tmp->endOfBody = lpTemplate::endBlock();?>
+<? $base->endOfBody = lpTemplate::endBlock();?>
 
 <div class="modal hide" id="editWebsite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -242,4 +244,4 @@ $hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limi
     <div>
 </section>
   
-<? $tmp->output();?>
+<? $base->output();?>

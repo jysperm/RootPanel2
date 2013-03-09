@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` int(10) unsigned NOT NULL,
   `type` text NOT NULL,
+  `info` text NOT NULL,
   `uname` text NOT NULL,
   `detail` text NOT NULL,
   `by` text NOT NULL,
