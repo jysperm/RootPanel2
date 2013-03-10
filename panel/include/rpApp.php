@@ -43,6 +43,7 @@ trait rpAppInit
             $lang = DefaultLanguage;
 
         $translations = [
+            "log",
             "user",
             "global",
             "messages",
@@ -72,6 +73,7 @@ class rpApp extends lpApp
         self::initAutoload();
         self::initTranslation();
 
+        require_once("{$rpROOT}/rp-config.php");
         require_once("{$rpROOT}/main-config.php");
         require_once("{$rpROOT}/node-config.php");
 

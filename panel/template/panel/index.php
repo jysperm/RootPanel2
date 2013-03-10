@@ -2,15 +2,14 @@
 
 global $rpROOT, $msg, $rpCfg, $rpVHostType, $rpVHostType;
 
-require_once("{$rpROOT}/handler/vhost.php");
+require_once("{$rpROOT}/include/vhost/vhost.php");
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
 
-$q = new lpDBQuery($lpApp->getDB());
-$user = $q("user")->where(["uname" => $lpApp->auth()->getUName()])->top();
-$logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->limit(30)->select();
-$hosts = $q("virtualhost")->where(["uname" => $lpApp->auth()->getUName()])->limit(30)->select();
+$user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
+$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->limit(30)->select();
+$hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 
 ?>
 

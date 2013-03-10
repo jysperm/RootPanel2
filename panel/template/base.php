@@ -8,11 +8,11 @@ global $rpCfg;
   <head>
     <meta charset="utf-8">
     <title><?= isset($title) ? "{$title} | " : "";?>RP主机，技术宅的虚拟主机</title>
-      <?= isset($header)?$header:"";?>
     <link rel="shortcut icon" type="image/x-icon" href="/style/icon.png" />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap.css' rel='stylesheet' type='text/css' />
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
     <link href="/style/global.css" rel="stylesheet" type="text/css" />
+    <?= isset($header)?$header:"";?>
   </head>
   <body data-spy="scroll" data-target=".sidenav-bar" screen_capture_injected="true" class="well">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -67,10 +67,13 @@ global $rpCfg;
           </div>
         <? endif; ?>
       </div>
+      <div class="pull-right">
+        <script type="text/javascript" src="//static2.jybox.net/my-website/analyzer.js"></script>
+        <?= "RootPanel {$rpCfg["Version"]["main"]} {$rpCfg["Version"]["time"]} {$rpCfg["Version"]["type"]}";?>
+      </div>
     </div>
     <script type='text/javascript' src='/LightPHP/lp-style/jquery-1.9.1/jquery.js'></script>
     <script type='text/javascript' src='/LightPHP/lp-style/bootstrap-2.2.2/js/bootstrap.js'></script>
-	<script type="text/javascript" src="//static2.jybox.net/my-website/analyzer.js"></script>
     <script type="text/javascript">
       $("a[rel=tooltip]").tooltip({trigger:"hover", html:true, placement:"top"});
       $("a[rel=popover]").popover({trigger:"hover", html:true, placement:"top"});

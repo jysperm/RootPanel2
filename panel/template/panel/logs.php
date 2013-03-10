@@ -1,21 +1,22 @@
 <?php
 
-global $rpROOT, $rpCfg, $msg;
+global $rpROOT, $rpCfg, $msg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "详细日志 #{$page}";
 
-$q = new lpDBQuery($lpApp->getDB());
-$allPage = ceil($q("log")->where(["uname" => $lpApp->auth()->getUName()])->select()->num() / $rpCfg["LogPerPage"]);
-$logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", false)->limit($rpCfg["LogPerPage"])->skip(($page-1) * $rpCfg["LogPerPage"])->select();
+$allPage = ceil(rpApp::q("log")->where(["uname" => rpAuth::uname()])->select()->num() / $rpCfg["LogPerPage"]);
+$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit($rpCfg["LogPerPage"])->skip(($page-1) * $rpCfg["LogPerPage"])->select();
 ?>
 
 <? lpTemplate::beginBlock();?>
+<style type="text/css">
   table {
     table-layout:fixed;
     word-break:break-all;
   }
-<? $base->css = lpTemplate::endBlock();?>
+</style>
+<? $base->header = lpTemplate::endBlock();?>
 
 <section>
   <a href="/panel" style="margin-top: 30px;" class="btn btn-info pull-right">返回面板</a>
@@ -38,7 +39,10 @@ $logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", 
       <td><?= $logs["by"];?></td>
       <td><span title="<?= htmlentities($logs["ua"]);?>"><?= $logs["ip"];?></span></td>
       <td><span title="<?= gmdate("Y.m.d H:i:s", $logs["time"]);?>"><?= rpTools::niceTime($logs["time"]);?></span></td>
-      <td><?= htmlentities($logs["description"]);?></td>
+      <? $args = json_decode($logs["info"]);
+        array_unshift($args, $rpL[$logs["type"]]);
+        ?>
+      <td><?= htmlentities(call_user_func_array("sprintf", $args));?></td>
       <td><?= nl2br(htmlentities($logs["detail"]));?></td>
     </tr>
         <? endwhile; ?>
@@ -46,17 +50,17 @@ $logs = $q("log")->where(["uname" => $lpApp->auth()->getUName()])->sort("time", 
   </table>
   <div class="pagination pagination-centered">
     <ul>
-      <? for($i=$page-3 ; $i<$page ; $i++): ?>
+        <? for($i=$page-3 ; $i<$page ; $i++): ?>
         <? if($i > 0): ?>
         <li><a href="/panel/logs/<?= $i;?>/"><?= $i;?></a></li>
-        <? endif;?>
-      <? endfor;?>
+            <? endif;?>
+        <? endfor;?>
       <li class="active"><a href="#"><?= $page;?></a></li>
-      <? for($i=$page+1 ; $i<=$page+3 ; $i++): ?>
+        <? for($i=$page+1 ; $i<=$page+3 ; $i++): ?>
         <? if($i <= $allPage): ?>
         <li><a href="/panel/logs/<?= $i;?>/"><?= $i;?></a></li>
             <? endif;?>
-      <? endfor;?>
+        <? endfor;?>
     </ul>
   </div>
 </section>

@@ -64,6 +64,7 @@ class lpPDODBDrive extends lpDBDrive
         $this->config = $config;
 
         $this->connect = new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]);
+        $this->connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }
 
     public function __destruct()
@@ -78,14 +79,12 @@ class lpPDODBDrive extends lpDBDrive
 
         array_walk($sqlColumns, function(&$v)
         {
-            $v = $this->escape($v);
             $v = "`{$v}`";
         });
 
         array_walk($sqlValues, function(&$v)
         {
             $v = $this->escape($v);
-            $v = "'{$v}'";
         });
 
         $sqlColumns = implode(", ", $sqlColumns);
@@ -111,7 +110,7 @@ class lpPDODBDrive extends lpDBDrive
 
         if(isset($config[$this::OrderBy]))
         {
-            $orderBy = $this->escape($config[$this::OrderBy]);
+            $orderBy = $config[$this::OrderBy];
 
             $sql .=" ORDER BY `{$orderBy}` ";
 

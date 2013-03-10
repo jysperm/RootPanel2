@@ -7,8 +7,8 @@ $rpCfg["NodeID"] = "rp3";
 $rpCfg["MySQLDB"] = [
     "type" => "mysql",
     "host" => "localhost",
-    "dbname" => "mydb",
-    "user" => "root",
+    "dbname" => "rpadmin",
+    "user" => "rpadmin",
     "passwd" => "passwd",
     "charset" => "utf8"
 ];

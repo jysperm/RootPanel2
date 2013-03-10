@@ -49,7 +49,7 @@ class rpUserHandler extends lpHandler
                 "qq" => $_POST["qq"],
                 "regtime" => time(),
                 "type" => rpUser::NO,
-                "pptppasswd" => "",
+                "settings" => json_encode(["pptppasswd" => ""]),
                 "expired" => time() - 1
             ];
 

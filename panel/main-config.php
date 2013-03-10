@@ -2,8 +2,6 @@
 
 global $rpL;
 
-$rpCfg["DefaultLanguage"] = "zh_CN";
-
 // 管理员(客服)列表
 $rpCfg["Admins"] = [
     "rpadmin" => [
@@ -18,8 +16,6 @@ $rpCfg["Admins"] = [
 
 // 禁止注册的用户名列表
 $rpCfg["NotAllowSignup"] = ["root"];
-
-$rpCfg["LogPerPage"] = 50;
 
 $rpCfg["Pay"]["std"] = "http://item.taobao.com/item.htm?id=16169509767";
 $rpCfg["Pay"]["ext"] = "http://item.taobao.com/item.htm?id=21047624871";
@@ -66,6 +62,3 @@ $rpCfg["NodeList"] = [
     ]
 ];
 
-// ----- 覆盖LightPHP的配置
-
-$lpCfg["LightPHP"]["Mode"] = "debug";

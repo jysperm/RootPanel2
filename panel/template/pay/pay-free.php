@@ -8,9 +8,9 @@ $base->title = "填写试用申请";
 ?>
 
 <? lpTemplate::beginBlock();?>
-    <li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
-    <li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
-    <li><a href="#rule"><i class="icon-chevron-right"></i> 审核原则</a></li>
+<li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
+<li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
+<li><a href="#rule"><i class="icon-chevron-right"></i> 审核原则</a></li>
 <? $base->sidenav=lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock();?>
@@ -41,7 +41,7 @@ $base->title = "填写试用申请";
 
 
 <section id="request">
-    <header>填写试用申请</header>
+  <header>填写试用申请</header>
     <? if(!rpAuth::login()):?>
   <div class="alert alert-block alert-error fade in">
     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -51,47 +51,43 @@ $base->title = "填写试用申请";
       <a class="btn btn-info" href="/user/signup/">注册帐号</a>
     </p>
   </div>
-  <? else:?>
-      <?php
-          $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
-      ?>
+    <? else:?>
+    <?php
+    $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
+    ?>
     <? if($user["type"] == rpUser::NO): ?>
-      <div class="alert alert-block alert-success fade in">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4 class="alert-heading">提示</h4>
-        <p>你还没有开通RP主机，请填写申请以获得试用，或直接<a class="btn btn-success" href="/pay/">购买</a></p>
-        <p>如果你已经发送了申请，请耐心等待回复(你注册时填写的邮箱)，一般会在24小时内回复，无论申请是否通过</p>
-      </div>
-      <? elseif($user["type"] == rpUser::FREE): ?>
-      <div class="alert alert-block alert-success fade in">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4 class="alert-heading">提示</h4>
-        <p>你已经获得RP主机试用资格了，不过你还可以继续填写申请以获得延期</p>
-      </div>
-      <? else:?>
-      <div class="alert alert-block alert-success fade in">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4 class="alert-heading">提示</h4>
-        <p>你在开玩笑吧？你都已经购买付费版了，还申请个毛啊</p>
-      </div>
-      <? endif;?>
-  <? endif;?>
-  <? if(rpAuth::login() && ($user["type"] == rpUser::NO || $user["type"] == rpUser::FREE )): ?>
+    <div class="alert alert-block alert-success fade in">
+      <h4 class="alert-heading">提示</h4>
+      <p>你还没有开通RP主机，请填写申请以获得试用，或直接 <a class="btn btn-success" href="/pay/">购买</a></p>
+      <p>如果你已经发送了申请，请耐心等待回复(你注册时填写的邮箱)，一般会在24小时内回复，无论申请是否通过.</p>
+    </div>
+        <? elseif($user["type"] == rpUser::FREE): ?>
+    <div class="alert alert-block alert-success fade in">
+      <h4 class="alert-heading">提示</h4>
+      <p>你已经获得RP主机试用资格了，不过你还可以继续填写申请以获得延期</p>
+    </div>
+        <? else:?>
+    <div class="alert alert-block alert-success fade in">
+      <h4 class="alert-heading">提示</h4>
+      <p>你在开玩笑吧？你都已经购买付费版了，还申请个毛啊</p>
+    </div>
+        <? endif;?>
+    <? endif;?>
+    <? if(rpAuth::login() && ($user["type"] == rpUser::NO || $user["type"] == rpUser::FREE )): ?>
   <form class="form-horizontal" id="form" method="post">
-<textarea id="content" name="content" rows="18">
-## 请先填写下列问卷(100-300字为宜)
-* 年龄, 职业
-* 从何处得知RP主机
-* 是否会编程，如果会的话掌握哪些技术
-* 你将会用RP主机干什么
-* 为什么选择了试用而不是直接购买
-
-</textarea><br />
+    <textarea id="content" name="content" rows="18">
+      ## 请先填写下列问卷(100-300字为宜)
+      * 年龄, 职业
+      * 从何处得知RP主机
+      * 是否会编程，如果会的话掌握哪些技术
+      * 你将会用RP主机干什么
+      * 为什么选择了试用而不是直接购买
+    </textarea><br />
     <div class="form-actions">
       <button type="submit" class="btn btn-primary btn-large">提交申请</button>
     </div>
   </form>
-  <? endif;?>
+    <? endif;?>
 </section>
 
 <section id="limits">
