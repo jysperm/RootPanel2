@@ -1,49 +1,4 @@
-# RootPanel
-## 使用
-### 操作系统
 
->`Ubuntu Server 12.04 64bit`  
->ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
-
-### 挂载磁盘
-
-### 更新软件包
-
-    apt-get update
-    apt-get upgrade
-    
-### 安装软件包
-
-    apt-get install apache2-mpm-itk apache2-dev php5 php5-cgi php5-cli libapache2-mod-php5
-    apt-get install php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
-    apt-get install nginx mysql-server mysql-client phpmyadmin memcached pptpd
-    apt-get install screen git wget zip unzip iftop rar unrar axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool
-    apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv
-    apt-get install g++ gcc qt4-dev-tools clang cmake
-    apt-get install libevent-dev libnoise-dev
-    
-    pip install django tornado
-    
-### Ruby
-
-    \curl -L https://get.rvm.io | bash -s stable --ruby
-    
-重新登录
-
-    rvm install 1.9.3
-    rvm install 1.8.7
-    
-### 创建用户
-
-    adduser rpadmin
-    usermod -G rpadmin -a www-data
-
-### 克隆代码库
-
-    cd /
-    git clone git://github.com/jybox/RootPanel.git
-    cd /RootPanel
-    git submodule update --init
     
 ### 系统设置
 

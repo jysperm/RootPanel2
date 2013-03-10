@@ -166,7 +166,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
   <p>
     账户类型：<?= $msg["uiUserType"][$user["type"]] ?><br />
     到期时间：<span title="<?= gmdate("Y.m.d H:i:s", $user["expired"]);?>"><?= rpTools::niceTime($user["expired"]);?></span>
-    <a class="btn btn-success" href="/pay/"> 续费</a>
+    <a class="btn btn-success btn-inline" href="/pay/"> 续费</a>
   </p>
 </section>
 

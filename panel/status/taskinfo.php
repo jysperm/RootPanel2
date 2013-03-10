@@ -11,8 +11,8 @@ require_once("./main-config.php");
   <head>
     <meta charset="utf-8">
     <title>进程信息-RP主机</title>
-    <?= lpTools::linkTo("bootstrap",NULL,false); ?>
-    <?= lpTools::linkTo("bootstrap-responsive",NULL,false); ?>
+    <?= lpTools::linkTo("bootstrap",null,false); ?>
+    <?= lpTools::linkTo("bootstrap-responsive",null,false); ?>
     <?= lpTools::linkTo("lp-css"); ?>
     <style>
       hr
@@ -254,8 +254,8 @@ EOF;
             </div>
           </section>
     </div>
-    <?= lpTools::linkTo("jquery",NULL,false); ?>
-    <?= lpTools::linkTo("bootstrap-js",NULL,false); ?>
+    <?= lpTools::linkTo("jquery",null,false); ?>
+    <?= lpTools::linkTo("bootstrap-js",null,false); ?>
     <script src="http://hm.baidu.com/h.js?77016691cd5a049005dba568b5164b59" type="text/javascript"></script>
   </body>
 </html>

@@ -21,7 +21,7 @@ $tmp->title = "购买";
     <h4 class="alert-heading">注意</h4>
     <p>如果你还没在本站注册过帐号，请先注册帐号再购买！.</p>
     <p>
-      <a class="btn btn-info" href="/user/signup/">注册帐号</a>
+      <a class="btn btn-info btn-inline" href="/user/signup/">注册帐号</a>
     </p>
   </div>
     <? else:?>
@@ -67,7 +67,7 @@ $tmp->title = "购买";
   </div>
   <hr />
   <p>
-    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名 <code><?= rpAuth::uname();?></code></b>，你还可以在下方的机房列表中选择你想要的机房.
+    您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名 <span style="color: red;"><?= rpAuth::uname();?></span></b>，你还可以在下方的机房列表中选择你想要的机房.
   </p>
 </section>
 
