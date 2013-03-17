@@ -6,8 +6,7 @@ trait rpAppInit
     {
         global $rpROOT;
 
-        spl_autoload_register(function($name) use($rpROOT)
-        {
+        spl_autoload_register(function ($name) use ($rpROOT) {
             $map = [
                 "rppublic" => "rpPublic",
                 "rppay" => "rpPay",
@@ -23,37 +22,13 @@ trait rpAppInit
                 "{$rpROOT}/handler/{$name}.php"
             ];
 
-            foreach($paths as $path)
-            {
-                if(file_exists($path))
-                {
+            foreach($paths as $path) {
+                if(file_exists($path)) {
                     require_once($path);
                     return;
                 }
             }
         });
-    }
-
-    static public function initTranslation()
-    {
-        global $rpROOT,$rpCfg;
-
-        $lang = isset($_COOKIE["language"]) ? $_COOKIE["language"] : DefaultLanguage;
-        if(!$lang  || !is_dir("{$rpROOT}/locale/{$lang}"))
-            $lang = DefaultLanguage;
-
-        $translations = [
-            "log",
-            "user",
-            "global",
-            "messages",
-            "node-list"
-        ];
-
-        foreach($translations as $file)
-            require_once("{$rpROOT}/locale/{$lang}/{$file}.php");
-
-        $rpCfg["lang"] = $lang;
     }
 }
 
@@ -66,23 +41,23 @@ class rpApp extends lpApp
 {
     use rpAppInit;
 
+    static private $locale;
+
     static public function helloWorld()
     {
         global $rpCfg, $rpROOT;
 
         self::initAutoload();
-        self::initTranslation();
+        self::$locale = new lpLocale("{$rpROOT}/locale");
 
         require_once("{$rpROOT}/rp-config.php");
         require_once("{$rpROOT}/main-config.php");
         require_once("{$rpROOT}/node-config.php");
 
-        require_once("{$rpROOT}/locale/{$rpCfg["lang"]}/contant.php");
-
         self::registerDatabase(new lpPDODBDrive($rpCfg["MySQLDB"]));
     }
 
-    static public function q($table=null)
+    static public function q($table = null)
     {
         $q = new lpDBQuery(self::getDB());
         if($table)

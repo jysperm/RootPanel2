@@ -1,6 +1,6 @@
 <?php
 
-$rpCfg["Version"]["main"] = "2.0A";
+$rpCfg["Version"]["main"] = "2.0.0 D";
 $rpCfg["Version"]["time"] = "2013.3.10";
 $rpCfg["Version"]["type"] = "官方版";
 

@@ -1,10 +1,9 @@
 <?php
 
 /**
-*   该文件包含 lpTrachAuth 的类定义.
-*
-*   @package LightPHP
-*/
+ *   该文件包含 lpTrachAuth 的类定义.
+ * @package LightPHP
+ */
 
 /*
 *   跟踪验证.
@@ -26,16 +25,12 @@ class lpTrackAuth extends lpAuthDrive
         return self::hash(self::hash($user) . self::hash($passwd));
     }
 
-    static public function getPasswd($uname, $conn=null)
+    static public function getPasswd($uname)
     {
         global $lpCfg;
         $cfg = $lpCfg["lpTrackAuth"]["GetPasswd"]["Default"];
 
-        if(!$conn)
-            $conn = lpApp::getDB();
-        $q = new lpDBQuery($conn);
-
-        return $q($cfg["table"])->where([$cfg["user"] => $uname])->top()[$cfg["passwd"]];
+        return rpApp::q($cfg["table"])->where([$cfg["user"] => $uname])->top()[$cfg["passwd"]];
     }
 
     static public function auth($user, $passwd)
@@ -45,16 +40,14 @@ class lpTrackAuth extends lpAuthDrive
         if(array_key_exists("raw", $passwd))
             $passwd = ["db" => self::dbHash($user, $passwd["raw"])];
 
-        if(array_key_exists("db", $passwd))
-        {
+        if(array_key_exists("db", $passwd)) {
             if(self::getPasswd($user) == $passwd["db"])
                 return true;
             else
                 return false;
         }
 
-        if(array_key_exists("token", $passwd))
-        {
+        if(array_key_exists("token", $passwd)) {
             $cfg = $lpCfg["lpTrackAuth"]["Default"];
 
             $q = new lpDBQuery(lpApp::getDB());
@@ -82,7 +75,7 @@ class lpTrackAuth extends lpAuthDrive
         return $token;
     }
 
-    static public function login($user=null, $passwd=null)
+    static public function login($user = null, $passwd = null)
     {
         if(isset($_SESSION["lp_isauth"]) && $_SESSION["lp_isauth"])
             return true;
@@ -90,8 +83,7 @@ class lpTrackAuth extends lpAuthDrive
         global $lpCfg;
         $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
 
-        if(!$user || !$passwd)
-        {
+        if(!$user || !$passwd) {
             if(!$user && isset($_COOKIE[$cookieName["user"]]))
                 $user = $_COOKIE[$cookieName["user"]];
 
@@ -104,8 +96,7 @@ class lpTrackAuth extends lpAuthDrive
             $passwd = ["token" => $passwd];
         }
 
-        if(self::auth($user, $passwd))
-        {
+        if(self::auth($user, $passwd)) {
             if(isset($passwd["raw"]))
                 $passwd = ["db" => self::hash($user, $passwd["raw"])];
 
@@ -122,10 +113,8 @@ class lpTrackAuth extends lpAuthDrive
             $_SESSION["lp_isauth"] = true;
 
             return true;
-        }
-        else
-        {
-            setcookie($cookieName["passwd"], null, time()-1, "/");
+        } else {
+            setcookie($cookieName["passwd"], null, time() - 1, "/");
             $_SESSION["lp_isauth"] = false;
             return false;
         }
@@ -151,8 +140,8 @@ class lpTrackAuth extends lpAuthDrive
         $q = new lpDBQuery(lpApp::getDB());
         $q($cfg["table"])->delete([$cfg["user"] => self::uname()]);
 
-        setcookie($cookieName["user"], null, time()-1, "/");
-        setcookie($cookieName["passwd"], null, time()-1, "/");
+        setcookie($cookieName["user"], null, time() - 1, "/");
+        setcookie($cookieName["passwd"], null, time() - 1, "/");
 
         $_SESSION["lp_isauth"] = false;
     }
