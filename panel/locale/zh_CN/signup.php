@@ -1,9 +1,5 @@
 <?php
 
-global $rpL;
-
-/* ----- 注册 ----- */
-
 $rpL["signup.tips.incomplete"] = "请将信息填写完整";
 $rpL["signup.tips.notAllowSignup"] = "该用户名不允许注册";
 $rpL["signup.tips.userExists"] = "该用户名已存在";
@@ -31,8 +27,3 @@ $rpL["signup.tmp.passwd"] = "密码";
 $rpL["signup.tmp.isRaw"] = "明文";
 $rpL["signup.tmp.qq"] = "QQ";
 $rpL["signup.tmp.qqTips"] = "RP主机的QQ客服将会依据该项辨别你的身份，可以留空";
-
-/* ----- 登录 ----- */
-
-$rpL["login.tips.noInput"] = "请输入账号和密码";
-$rpL["login.tips.passwdError"] = "用户名或密码错误";

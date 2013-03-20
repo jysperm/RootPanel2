@@ -4,17 +4,15 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        if(!$this->isPost())
-        {
+        lpLocale::i()->load(["global", "signup", "contant"]);
+
+        if(!$this->isPost()) {
             global $rpROOT;
             lpTemplate::outputFile("{$rpROOT}/template/user/signup.php");
-        }
-        else
-        {
+        } else {
             global $rpCfg, $rpL;
 
-            $procError = function($str)
-            {
+            $procError = function ($str) {
                 global $rpROOT;
                 $tmp = new lpTemplate("{$rpROOT}/template/user/signup.php");
 
@@ -33,7 +31,8 @@ class rpUserHandler extends lpHandler
                 $procError($rpL["signup.tips.incomplete"]);
 
             if(!preg_match('/[A-Za-z][A-Za-z0-9_]+/u', $_POST["uname"]) or
-                !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/', $_POST["email"]))
+                !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/', $_POST["email"])
+            )
                 $procError($rpL["signup.rule"]);
 
             if(in_array($_POST["uname"], $rpCfg["NotAllowSignup"]))
@@ -65,17 +64,15 @@ class rpUserHandler extends lpHandler
 
     public function login()
     {
-        if(!$this->isPost())
-        {
+        lpLocale::i()->load(["global", "login"]);
+
+        if(!$this->isPost()) {
             global $rpROOT;
             lpTemplate::outputFile("{$rpROOT}/template/user/login.php");
-        }
-        else
-        {
+        } else {
             global $rpL;
 
-            $procError = function($str)
-            {
+            $procError = function ($str) {
                 global $rpROOT;
                 $tmp = new lpTemplate("{$rpROOT}/template/user/login.php");
 
@@ -92,7 +89,7 @@ class rpUserHandler extends lpHandler
                 $procError($rpL["login.tips.noInput"]);
 
             if(rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]))
-                rpApp::goUrl(isset($_GET["next"])?$_GET["next"]:"/panel/");
+                rpApp::goUrl(isset($_GET["next"]) ? $_GET["next"] : "/panel/");
             else
                 $procError($rpL["login.tips.passwdError"]);
         }

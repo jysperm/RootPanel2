@@ -8,6 +8,7 @@ cp /RootPanel/etc/php5/php.ini /etc/php5/fpm/php.ini
 cp /RootPanel/etc/sudoers /etc/sudoers
 cp /RootPanel/etc/security/limits.conf /etc/security/limits.conf
 cp /RootPanel/etc/sysctl.conf /etc/sysctl.conf
+sysctl -p
 cp /RootPanel/etc/pptpd.conf /etc/pptpd.conf
 cp /RootPanel/etc/ppp/pptpd-options /etc/ppp/pptpd-options
 
@@ -17,7 +18,6 @@ cp /RootPanel/etc/apache2/ports.conf /etc/apache2/ports.conf
 
 /RootPanel/etc/make.php
 
-
 cp /RootPanel/etc/apache2/sites-enabled/00000-rphost /etc/apache2/sites-enabled/00000-rphost
 cp /RootPanel/etc/nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/00000-rphost
 
@@ -25,4 +25,4 @@ cp /RootPanel/etc/nginx/sites-enabled/00000-rphost /etc/nginx/sites-enabled/0000
 
 
 
-sysctl -p
+
