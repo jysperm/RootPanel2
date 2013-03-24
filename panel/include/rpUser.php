@@ -9,12 +9,17 @@ class rpUser
 
     static function isAllowToPanel($user)
     {
-        global $lpApp, $rpCfg;
-
         $r = rpApp::q("user")->where(["uname" => $user])->top();
-        if($r["type"] != rpUser::NO && !array_key_exists($user, $rpCfg["Admins"]))
+        if($r["type"] != rpUser::NO && !self::isAdmin($user))
             return true;
         else
             return false;
+    }
+
+    static function isAdmin($user)
+    {
+        global $rpCfg;
+
+        return array_key_exists($user, $rpCfg["Admins"]);
     }
 }

@@ -1,33 +1,5 @@
 <?php
 
-global $rpL;
-
-// 管理员(客服)列表
-$rpCfg["Admins"] = [
-    "rpadmin" => [
-        "name" => "精英王子",
-        "description" => "会卖萌的技术宅，熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.",
-        "email" => "m@jybox.net",
-        "qq" => "184300584",
-        "otherEmails" => ["jyboxnet@gmail.com"],
-        "url" => "http://jyprince.me/"
-    ]
-];
-
-// 禁止注册的用户名列表
-$rpCfg["NotAllowSignup"] = ["root"];
-
-$rpCfg["Pay"]["std"] = "http://item.taobao.com/item.htm?id=16169509767";
-$rpCfg["Pay"]["ext"] = "http://item.taobao.com/item.htm?id=21047624871";
-
-// Gravatar基准URL
-//$rpCfg["GravaterURL"] = "http://www.gravatar.com/avatar/";
-$rpCfg["GravaterURL"] = "http://ruby-china.org/avatar/";
-
-// 多说站点ID
-$rpCfg["duoshuoID"] = "rphost";
-
-// 所有节点列表
 // 描述, 名称, 物理内存(MiB), 内存(MiB), CPU(%), 硬盘(MiB), 流量(GiB/月)
 $rpCfg["NodeList"] = [
     "rp1" => [
@@ -61,4 +33,3 @@ $rpCfg["NodeList"] = [
         "traffic" => 30
     ]
 ];
-
