@@ -48,12 +48,15 @@ class rpApp extends lpApp
         global $rpCfg, $rpROOT;
 
         self::initAutoload();
-        self::$locale = new lpLocale("{$rpROOT}/locale");
 
         require_once("{$rpROOT}/config/rp-config.php");
+
+        self::$locale = new lpLocale("{$rpROOT}/locale");
+
         require_once("{$rpROOT}/config/main-config.php");
         require_once("{$rpROOT}/config/node-config.php");
-        require_once("{$rpROOT}/config/admin-config.php");
+        require_once("{$rpROOT}/config/node-list.php");
+        require_once("{$rpROOT}/config/admin-list.php");
 
         self::registerDatabase(new lpPDODBDrive($rpCfg["MySQLDB"]));
     }

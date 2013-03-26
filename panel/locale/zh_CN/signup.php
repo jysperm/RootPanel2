@@ -20,10 +20,8 @@ $rpL["signup.tmp.service"] = "咨询";
 
 $rpL["signup.tmp.signingNow"] = "你正在注册的是：";
 
-$rpL["signup.tmp.account"] = "帐号";
 $rpL["signup.tmp.accountTips"] = "你可以使用英文、数字、下划线作为帐号,第一个字符必须为英文字母";
 $rpL["signup.tmp.emailTips"] = "邮箱是与你联系的重要途径，请务必使用正确的邮箱，并经常检查邮件";
-$rpL["signup.tmp.passwd"] = "密码";
 $rpL["signup.tmp.isRaw"] = "明文";
 $rpL["signup.tmp.qq"] = "QQ";
 $rpL["signup.tmp.qqTips"] = "RP主机的QQ客服将会依据该项辨别你的身份，可以留空";

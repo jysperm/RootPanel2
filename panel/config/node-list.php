@@ -1,5 +1,9 @@
 <?php
 
+global $rpL;
+
+lpLocale::i()->load(["node-list"]);
+
 // 描述, 名称, 物理内存(MiB), 内存(MiB), CPU(%), 硬盘(MiB), 流量(GiB/月)
 $rpCfg["NodeList"] = [
     "rp1" => [

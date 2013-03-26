@@ -1,7 +1,5 @@
 <?php
 
-global $rpL;
-
 $rpL["Node.rp1"] = <<< HTML
 
 总所周知Linode是业界良心，质量和稳定性都有保证，且日本线路到大陆比较近.<br />
