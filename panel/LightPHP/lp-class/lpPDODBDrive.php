@@ -303,7 +303,7 @@ class lpPDODBInquiryDrive extends lpDBInquiryDrive
             if(!$this->where)
                 $this->where = "({$k} {$operator} {$value})";
             else
-                $this->where = "({$this->where} AND (`{$k}`` {$operator} {$value}))";
+                $this->where = "({$this->where} AND (`{$k}` {$operator} {$value}))";
         }
     }
 
@@ -337,7 +337,7 @@ class lpPDODBInquiryDrive extends lpDBInquiryDrive
             if(!$this->where)
                 $this->where = "({$k} {$operator} {$value})";
             else
-                $this->where = "({$this->where} OR (`{$k}`` {$operator} {$value}))";
+                $this->where = "({$this->where} OR (`{$k}` {$operator} {$value}))";
         }
     }
 

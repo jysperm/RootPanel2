@@ -8,10 +8,7 @@ trait rpAppInit
 
         spl_autoload_register(function ($name) use ($rpROOT) {
             $map = [
-                "rppublic" => "rpPublic",
-                "rppay" => "rpPay",
-                "rppanel" => "rpPanel",
-                "rppanelaction" => "rpPanelAction"
+
             ];
 
             if(in_array($name, array_keys($map)))
@@ -59,6 +56,8 @@ class rpApp extends lpApp
         require_once("{$rpROOT}/config/admin-list.php");
 
         self::registerDatabase(new lpPDODBDrive($rpCfg["MySQLDB"]));
+
+        lpLocale::i()->load(["global"]);
     }
 
     static public function q($table = null)

@@ -1,13 +1,13 @@
 <?php
 
-global $rpCfg;
+global $rpCfg, $rpL;
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title><?= isset($title) ? "{$title} | " : "";?>RP主机，技术宅的虚拟主机</title>
+    <title><?= isset($title) ? "{$title} | " : "";?><?= $rpL["global.titleSuffix"];?></title>
     <link rel="shortcut icon" type="image/x-icon" href="/style/icon.png"/>
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap.css' rel='stylesheet' type='text/css'/>
     <link href='/LightPHP/lp-style/bootstrap-2.2.2/css/bootstrap-responsive.css' rel='stylesheet' type='text/css'/>
@@ -27,23 +27,28 @@ global $rpCfg;
 
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i>购买</a></li>
-                    <li><a href="/public/manual/">用户手册</a></li>
-                    <li><a href="/public/review/">客户评价</a></li>
-                    <li><a href="/public/sites/">站点展示</a></li>
-                    <li><a href="http://rp-bbs.jybox.net">用户论坛</a></li>
+                    <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i><?= $rpL["global.buy"];?></a></li>
+                    <li><a href="/public/manual/"><?= $rpL["global.manual"];?></a></li>
+                    <li><a href="/public/review/"><?= $rpL["global.review"];?></a></li>
+                    <li><a href="/public/sites/"><?= $rpL["global.sites"];?></a></li>
+                    <li><a href="http://rp-bbs.jybox.net"><?= $rpL["global.bbs"];?></a></li>
                 </ul>
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
                         <li><a><?= rpAuth::uname();?></a></li>
-                        <? if(true): ?>
-                            <li><a href="/pay/free/"><i class="icon-gift icon-white"></i>申请试用</a></li>
+                        <? if(!rpUser::isAllowToPanel(rpAuth::uname())): ?>
+                            <li><a href="/pay/free/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"];?>
+                                </a></li>
                         <? endif; ?>
-                        <li><a href="/panel/"><i class="icon-list-alt icon-white"></i>管理面板</a></li>
-                        <li><a href="/user/logout/"><i class="icon-off icon-white"></i>注销</a></li>
+                        <li><a href="/panel/"><i class="icon-list-alt icon-white"></i><?= $rpL["global.panel"];?></a>
+                        </li>
+                        <li><a href="/user/logout/"><i class="icon-off icon-white"></i><?= $rpL["global.logout"];?></a>
+                        </li>
                     <? else: ?>
-                        <li><a href="/user/signup/"><i class="icon-edit icon-white"></i>注册</a></li>
-                        <li><a href="/user/login/"><i class="icon-user icon-white"></i>登录</a></li>
+                        <li><a href="/user/signup/"><i class="icon-edit icon-white"></i><?= $rpL["global.signup"];?></a>
+                        </li>
+                        <li><a href="/user/login/"><i class="icon-user icon-white"></i><?= $rpL["global.login"];?></a>
+                        </li>
                     <? endif; ?>
                 </ul>
             </div>

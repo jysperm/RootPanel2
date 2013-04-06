@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $msg;
+global $rpROOT, $rpCfg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -9,15 +9,17 @@ $base->title = $rpL["global.login"];
 
 <? lpTemplate::beginBlock(); ?>
 <section>
-    <header>还没有帐号？</header>
-    <a href="/user/signup/" class="btn btn-success">点击这里注册</a>
+    <header><?= $rpL["login.view.isDontHaveAccount"];?></header>
+    <a href="/user/signup/" class="btn btn-success"><?= $rpL["login.view.clickToSignup"];?></a>
 </section>
 <section>
-    <header><?= $rpL["login.tmp.isForgetPasswd"];?></header>
-    <a href="#" class="btn btn-info reset-email" rel="popover-click" data-content='<?= $msg['resetPasswdEMail']; ?>'
-       data-original-title="通过邮件找回">通过邮件找回</a><br/>
-    <a href="#" class="btn btn-info reset-qq" rel="popover-click" data-content='<?= $msg['resetPasswdQQ']; ?>'
-       data-original-title="通过QQ找回"> 通过QQ找回</a>
+    <header><?= $rpL["login.view.isForgetPasswd"];?></header>
+    <a href="#" class="btn btn-info reset-email" rel="popover-click"
+       data-content='<?= $rpL["login.popover.resetPasswdEMail"]; ?>'
+       data-original-title="<?= $rpL["login.view.forgetPasswd.email"]; ?>"><?= $rpL["login.view.forgetPasswd.email"];?></a><br/>
+    <a href="#" class="btn btn-info reset-qq" rel="popover-click"
+       data-content='<?= $rpL["login.popover.resetPasswdQQ"]; ?>'
+       data-original-title="<?= $rpL["login.view.forgetPasswd.qq"]; ?>"> <?= $rpL["login.view.forgetPasswd.qq"];?></a>
 </section>
 <? $base->sidebar = lpTemplate::endBlock(); ?>
 

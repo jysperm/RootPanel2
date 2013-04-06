@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $msg;
+global $rpROOT, $rpCfg, $tooltip;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
@@ -12,7 +12,7 @@ $tmp->title = "优质站点展示";
         <header>咨询</header>
         <ul class="nav-list">
             <li>邮件 <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
-            <?= $msg["contact"];?>
+            <?= $tooltip["contact"];?>
         </ul>
     </section>
 <? $tmp->sidebar = lpTemplate::endBlock(); ?>

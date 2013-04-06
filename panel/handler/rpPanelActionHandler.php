@@ -18,8 +18,21 @@ class rpPanelActionHandler extends lpHandler
     {
         global $rpROOT;
 
-        $tmp = new lpTemplate("{$rpROOT}/template/edit-website.php");
+        $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
         $tmp->setValue("new", true);
         $tmp->output();
+    }
+
+    public function getExtConfig($type)
+    {
+        $this->auth();
+
+        if(!in_array($type, ["apache2", "nginx"]))
+            die("参数错误");
+
+        $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
+        $config = json_decode($user["settings"], true)["{$type}extconfig"];
+
+        echo "<pre>{$config}</pre>";
     }
 }

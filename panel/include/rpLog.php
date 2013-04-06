@@ -2,14 +2,14 @@
 
 class rpLog
 {
-    static public function log($user, $type, $info, $detail, $by=null)
+    static public function log($user, $type, $info, $detail, $by = null)
     {
         $row = [
             "uname" => $user,
             "time" => time(),
             "type" => $type,
             "info" => json_encode($info),
-            "detail" => $detail,
+            "detail" => json_encode($detail),
             "by" => $by ? $by : $user,
             "ua" => $_SERVER["HTTP_USER_AGENT"],
             "ip" => rpTools::getIP()

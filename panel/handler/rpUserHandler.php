@@ -4,7 +4,7 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        lpLocale::i()->load(["global", "signup", "contant"]);
+        lpLocale::i()->load(["signup", "contant"]);
 
         if(!$this->isPost()) {
             global $rpROOT;
@@ -48,7 +48,7 @@ class rpUserHandler extends lpHandler
                 "qq" => $_POST["qq"],
                 "regtime" => time(),
                 "type" => rpUser::NO,
-                "settings" => json_encode(["pptppasswd" => ""]),
+                "settings" => json_encode(["pptppasswd" => "", "nginxextconfig" => "", "apache2extconfig" => ""]),
                 "expired" => time() - 1
             ];
 
@@ -56,7 +56,9 @@ class rpUserHandler extends lpHandler
             rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]);
 
             $user["passwd"] = null;
-            rpLog::log($_POST["uname"], "log.type.signup", [], json_encode($user));
+            unset($user["settings"]);
+            unset($user["expired"]);
+            rpLog::log($_POST["uname"], "log.type.signup", [], $user);
 
             rpApp::goUrl("/panel/");
         }
@@ -64,7 +66,7 @@ class rpUserHandler extends lpHandler
 
     public function login()
     {
-        lpLocale::i()->load(["global", "login"]);
+        lpLocale::i()->load(["contant", "login"]);
 
         if(!$this->isPost()) {
             global $rpROOT;

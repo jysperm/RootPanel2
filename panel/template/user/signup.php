@@ -9,11 +9,11 @@ $base->title = $rpL["global.signup"];
 
 <? lpTemplate::beginBlock(); ?>
 <section>
-    <header><?= $rpL["signup.tmp.isHasAccount"];?></header>
-    <a href="/user/login/" class="btn btn-success"><?= $rpL["signup.tmp.clickToLogin"];?></a>
+    <header><?= $rpL["signup.view.isHasAccount"];?></header>
+    <a href="/user/login/" class="btn btn-success"><?= $rpL["signup.view.clickToLogin"];?></a>
 </section>
 <section>
-    <header><?= $rpL["signup.tmp.service"];?></header>
+    <header><?= $rpL["signup.view.service"];?></header>
     <ul class="nav-list">
         <li><?= $rpL["global.email"];?> <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
         <?= $rpL["contact.list"];?>
@@ -54,7 +54,7 @@ $base->title = $rpL["global.signup"];
 
 <section>
     <header><?= $rpL["global.signup"];?> <span
-            class="text-small-per50 not-bold"><?= $rpL["signup.tmp.signingNow"];?><?= $rpCfg["NodeName"];?></span>
+            class="text-small-per50 not-bold"><?= $rpL["signup.view.signingNow"];?><?= $rpCfg["NodeName"];?></span>
     </header>
     <form class="form-horizontal" id="form" method="post">
         <div id="errorTips" class="alert alert-error<?= isset($errorMsg) ? "" : " hide"; ?>">
@@ -69,7 +69,7 @@ $base->title = $rpL["global.signup"];
                     <input type="text" class="input-xlarge" id="uname" name="uname"
                            value="<?= isset($uname) ? $uname : ""; ?>" required="required"/>
 
-                    <p class="help-block"><?= $rpL["signup.tmp.accountTips"];?></p>
+                    <p class="help-block"><?= $rpL["signup.view.accountTips"];?></p>
                 </div>
             </div>
             <div class="control-group">
@@ -79,7 +79,7 @@ $base->title = $rpL["global.signup"];
                     <input type="text" class="input-xlarge" id="email" name="email"
                            value="<?= isset($email) ? $email : ""; ?>" required="required"/>
 
-                    <p class="help-block"><?= $rpL["signup.tmp.emailTips"];?></p>
+                    <p class="help-block"><?= $rpL["signup.view.emailTips"];?></p>
                 </div>
             </div>
             <div class="control-group">
@@ -89,16 +89,16 @@ $base->title = $rpL["global.signup"];
                     <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required"/>
                     <input type="password" class="input-xlarge hide" id="passwd" name="passwd"/>
                     <button id="isShowPasswd" type="button" class="btn active"
-                            data-toggle="button"><?= $rpL["signup.tmp.isRaw"];?></button>
+                            data-toggle="button"><?= $rpL["signup.view.isRaw"];?></button>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="qq"><?= $rpL["signup.tmp.qq"];?></label>
+                <label class="control-label" for="qq"><?= $rpL["signup.view.qq"];?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="qq" name="qq" value="<?= isset($qq) ? $qq : ""; ?>"/>
 
-                    <p class="help-block"><?= $rpL["signup.tmp.qqTips"];?></p>
+                    <p class="help-block"><?= $rpL["signup.view.qqTips"];?></p>
                 </div>
             </div>
             <div class="form-actions">

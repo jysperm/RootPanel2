@@ -11,3 +11,12 @@ $rpL["pay-free.tmp.request"] = <<< HTML
 * 为什么选择了试用而不是直接购买
 
 HTML;
+
+$rpL["pay-free.success"] = <<< HTML
+
+<script type="text/javascript">
+    alert("发送成功，请耐心等待回复，不要重复发送...");
+    window.location.href = "/";
+</script>
+
+HTML;

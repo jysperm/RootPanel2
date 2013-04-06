@@ -10,14 +10,13 @@ class rpPayHandler extends lpHandler
 
     public function free()
     {
-        if(!$this->isPost())
-        {
+        lpLocale::i()->load(["pay-free"]);
+
+        if(!$this->isPost()) {
             global $rpROOT;
             lpTemplate::outputFile("{$rpROOT}/template/pay/pay-free.php");
-        }
-        else
-        {
-            global $rpCfg, $rpROOT, $msg;
+        } else {
+            global $rpCfg, $rpROOT, $rpL;
 
             if(!rpAuth::login())
                 die("未登录");
@@ -29,17 +28,16 @@ class rpPayHandler extends lpHandler
             $mailer = new lpSmtp();
             $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
 
-
             $mailTitle = $user["uname"] . "-RP主机试用申请({$rpCfg["NodeID"]})";
             $mailBody = "{$user["email"]}\n\n{$_POST['content']}";
 
             $mailer->send(array_values($rpCfg["Admins"])[0]["email"], $mailTitle, $mailBody);
 
-            rpTools::makeLog($user["uname"], "填写试用申请", $_POST['content']);
+            rpLog::log($user["uname"], "log.type.freeRequest", [], ["content" => $_POST['content']]);
 
             $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-            echo $msg["requstSendOk"];
+            echo $rpL["pay-free.success"];
 
             $tmp->output();
         }

@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $msg, $rpCfg, $rpVHostType, $rpVHostType;
+global $rpROOT, $rpL, $rpCfg, $rpVHostType;
 
 require_once("{$rpROOT}/include/vhost/vhost.php");
 
@@ -15,7 +15,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 
 <? lpTemplate::beginBlock(); ?>
 <li class="active"><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
-<li><a href="#section-access"><i class="icon-chevron-right"></i> 访问</a></li>
+<li><a href="#section-access"><i class="icon-chevron-right"></i> 远程访问</a></li>
 <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
 <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
@@ -27,125 +27,26 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
         width: 250px;
     }
 
-    #section-account button {
+    #section-access button {
         margin-bottom: 10px;
-    }
-
-    .box {
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        margin-bottom: 20px;
-        -webkit-box-shadow: 0 0 0 1px #DDD;
-        -moz-box-shadow: 0 0 0 1px #ddd;
-        box-shadow: 0 0 0 1px #DDD;
-        overflow: hidden;
-        padding: 14px;
     }
 </style>
 <? $base->header = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
-<script type='text/javascript' src='/script/panel.js'></script>
-
-<script type="text/javascript">
-
-    function deleteWebsite(websiteId) {
-        if (confirm("你确定要删除？")) {
-            $.post("/commit/panel/", {"do": "delete", "id": websiteId}, function (data) {
-                if (data.status == "ok")
-                    window.location.reload();
-                else
-                    alert(data.msg);
-            }, "json");
-        }
-        return false;
-    }
-
-    function bindSwitch() {
-        $("#editWebsite #opweb").click(function () {
-            $("#editWebsite .div-web").show();
-            $("#editWebsite .rp-root-name").html("Web根目录");
-            $("#editWebsite .div-python").hide();
-        });
-
-        $("#editWebsite #opproxy").click(function () {
-            $("#editWebsite .div-web").hide();
-            $("#editWebsite .rp-root-name").html("反向代理URL");
-            $("#editWebsite .div-python").hide();
-        });
-
-        $("#editWebsite #oppython").click(function () {
-            $("#editWebsite .div-web").hide();
-            $("#editWebsite .rp-root-name").html("Web根目录");
-            $("#editWebsite .div-python").show();
-        });
-
-        $("#editWebsite #opall").click(function () {
-            $("#editWebsite .div-only").hide();
-            $("#editWebsite .div-unless").hide();
-        });
-
-        $("#editWebsite #oponly").click(function () {
-            $("#editWebsite .div-only").show();
-            $("#editWebsite .div-unless").hide();
-        });
-
-        $("#editWebsite #opunless").click(function () {
-            $("#editWebsite .div-only").hide();
-            $("#editWebsite .div-unless").show();
-        });
-    }
-
-    function editWebsite(websiteId) {
-        $("#editWebsite .rp-title").html("编辑站点");
-        $.post("/commit/panel/", {"do": "get", "id": websiteId}, function (data) {
-            $("#editWebsite .rp-body").html(data);
-
-            bindSwitch();
-
-            $("#editWebsite .rp-ok").unbind('click');
-            $("#editWebsite .rp-ok").click(function () {
-                postdata = $("#editWebsite .rp-form").serializeArray();
-                postdata.push({name: "id", value: websiteId});
-                postdata.push({name: "do", value: "edit"});
-                $.post("/commit/panel/", postdata, function (data) {
-                    if (data.status == "ok")
-                        window.location.reload();
-                    else
-                        alert(data.msg);
-                }, "json");
-                return false;
-            });
-
-            $("#editWebsite").modal();
-        }, "html");
-
-        return false;
-    }
-
-
-    function changePasswd(name, isReload) {
-        $.post("/commit/panel/", {"do": name, "passwd": $("#" + name).val()}, function (data) {
-            if (data.status == "ok") {
-                if (isReload)
-                    window.location.reload();
-                else
-                    alert(data.status);
-            }
-            else
-                alert(data.msg);
-        }, "json");
-        return false;
-    }
+<script type='text/javascript'>
+    var rpL = new Array();
+    rpL["panel.newSite"] = '<?= $rpL["panel.js.newSite"];?>';
+    rpL["panel.viewNginxExtConfig"] = '<?= $rpL["panel.js.viewNginxExtConfig"];?>';
+    rpL["panel.viewApache2ExtConfig"] = '<?= $rpL["panel.js.viewApache2ExtConfig"];?>';
 </script>
-
+<script type='text/javascript' src='/script/panel.js'></script>
 <? $base->endOfBody = lpTemplate::endBlock(); ?>
 
-<div class="modal hide" id="editWebsite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal hide" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel" class="dialog-title"></h3>
+        <h3 id="dialogLabel" class="dialog-title"></h3>
     </div>
     <div class="modal-body dialog-body">
 
@@ -159,7 +60,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 <section id="section-index">
     <header>概述</header>
     <p>
-        账户类型：<?= $msg["uiUserType"][$user["type"]] ?><br/>
+        账户类型：<?= $rpL["global.userType"][$user["type"]] ?><br/>
         到期时间：<span
             title="<?= gmdate("Y.m.d H:i:s", $user["expired"]); ?>"><?= rpTools::niceTime($user["expired"]);?></span>
         <a class="btn btn-success btn-inline" href="/pay/"> 续费</a>
@@ -167,23 +68,23 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 </section>
 
 <section id="section-access">
-    <header>访问</header>
+    <header>远程访问</header>
     <div>
         <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('sshpasswd',false);">修改SSH/SFTP密码</button>
+        <button class="btn btn-success" onclick="changePasswd('sshpasswd', false);">修改SSH/SFTP密码</button>
     </div>
     <div>
         <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('mysqlpasswd',false);">修改MySQL密码</button>
+        <button class="btn btn-success" onclick="changePasswd('mysqlpasswd', false);">修改MySQL密码</button>
     </div>
     <div>
         <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('panelpasswd',true);">修改面板(即该网页)密码
+        <button class="btn btn-success" onclick="changePasswd('panelpasswd', true);">修改面板(即该网页)密码
         </button>
     </div>
     <div>
         <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('pptppasswd',false);">修改PPTP
+        <button class="btn btn-success" onclick="changePasswd('pptppasswd', false);">修改PPTP
             VPN密码
         </button>
     </div>
@@ -192,24 +93,25 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 <section id="section-website">
     <header>Web站点管理</header>
     <div>
-        <a href="#" rel="tooltip" title="<?= $msg["extconfHelp"]; ?>">额外</a>的Nginx配置文件： 0字节(<a href="#">查看</a>).<br/>
-        额外的Apache2配置文件： 0字节(<a href="#">查看</a>).
+        <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.extConfig"]; ?>">额外</a>的Nginx配置文件： 0字节(<a
+            id="nginx-extConfig" href="#">查看</a>).<br/>
+        额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).
     </div>
     <hr/>
     <? while($hosts->read()): ?>
         <div class="box">
             <div>
-                <a href="#" rel="tooltip" title="<?= $msg["isonHelp"]; ?>">是否开启</a>：<span
+                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>">是否开启</a>：<span
                     class="label"><?= $hosts["ison"] ? "是" : "否";?></span> |
-                <a href="#" rel="tooltip" title="<?= $msg["idHelp"]; ?>">站点ID</a>：<span
+                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a>：<span
                     class="label"><?= $hosts["id"];?></span> |
-                <a href="#" rel="tooltip" title="<?= $msg["domainHelp"]; ?>">域名</a>：<span
+                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.domain"]; ?>">域名</a>：<span
                     class="label"><?= $hosts["domains"];?></span>
             </div>
             <div>
-                <a href="#" rel="tooltip" title="<?= $msg["typeHelp"]; ?>">站点类型</a>：<span
+                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>">站点类型</a>：<span
                     class="label"><?= $rpVHostType[$hosts["type"]]["name"];?></span> |
-                <a href="#" rel="tooltip" title="<?= $msg["sourceHelp"]; ?>">数据源</a>： <span
+                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a>： <span
                     class="label"><?= $hosts["source"];?></span>
             </div>
             <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"]; ?>);return false;">删除
@@ -244,7 +146,10 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
                     <td><span
                             title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]);?></span>
                     </td>
-                    <td><?= htmlentities($logs["description"]);?></td>
+                    <? $args = json_decode($logs["info"]);
+                    array_unshift($args, $rpL[$logs["type"]]);
+                    ?>
+                    <td><?= htmlentities(call_user_func_array("sprintf", $args));?></td>
                 </tr>
             <? endwhile; ?>
             </tbody>

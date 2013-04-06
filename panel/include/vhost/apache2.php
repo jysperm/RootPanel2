@@ -10,16 +10,26 @@ $rpVHostType["apache2"] = [
         $sUnless = $old["settings"]["type"] == "unless" ? "checked='checked'" : "";
         return <<< HTML
 
-<label class="radio">
-  <input type="radio" name="vhost-apache2-type" id="vhost-apache2-type" value="only" {$sOnly} />
-  只将特定的后缀交给Apache处理
-</label>
-<label class="radio">
-  <input type="radio" name="vhost-apache2-type" id="vhost-apache2-type" value="unless" {$sUnless} />
-  不将特定的后缀交给Apache处理
-</label>
-特定后缀(不含点, 多个以空格隔开)：
-<input type="text" class="input-xxlarge" id="vhost-apache2-extension" name="vhost-apache2-extension" value="{$old["settings"]["extension"]}"/>
+<div class="control-group">
+  <label class="control-label" for="indexs">&raquo;</label>
+  <div class="controls">
+    <label class="radio">
+      <input type="radio" name="vhost-apache2-type" id="vhost-apache2-type" value="only" {$sOnly} />
+      只将特定的后缀交给Apache处理
+    </label>
+    <label class="radio">
+      <input type="radio" name="vhost-apache2-type" id="vhost-apache2-type" value="unless" {$sUnless} />
+      不将特定的后缀交给Apache处理
+    </label>
+  </div>
+</div>
+<div class="control-group">
+  <label class="control-label" for="indexs">特定后缀</label>
+  <div class="controls">
+    <input type="text" class="input-xxlarge" id="vhost-apache2-extension" name="vhost-apache2-extension" value="{$old["settings"]["extension"]}"/>
+  </div>
+</div>
+
 
 HTML;
     },

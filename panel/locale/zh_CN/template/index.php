@@ -6,7 +6,7 @@ global $rpROOT, $rpCfg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$msg["free"] = <<< HTML
+$tooltip["free"] = <<< HTML
 
 CPU时间限制(按天)：500秒(相当于0.6%)<br />
 最小内存保证：10M<br />
@@ -17,11 +17,11 @@ CPU时间限制(按天)：500秒(相当于0.6%)<br />
 
 HTML;
 
-$msg["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
+$tooltip["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
 
-$msg["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
+$tooltip["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
 
-$msg["proxy"] = <<< HTML
+$tooltip["proxy"] = <<< HTML
 
 <ul>
 <li>Secure Shell</li>
@@ -32,7 +32,7 @@ $msg["proxy"] = <<< HTML
 
 HTML;
 
-$msg["site"] = <<< HTML
+$tooltip["site"] = <<< HTML
 
 可以运行几乎所有常见的建站系统：<br />
 
@@ -87,15 +87,16 @@ HTML;
             你得到的是一个拥有极大权限的linux用户，你可以
         </p>
         <ul>
-            <li><a href="#" rel="popover" data-content="<?= $msg['site']; ?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案
+            <li><a href="#" rel="popover" data-content="<?= $tooltip['site']; ?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案
             </li>
-            <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $msg['evn']; ?>"
+            <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $tooltip['evn']; ?>"
                                                    data-original-title="环境支持">几乎全部</a>编程语言
             </li>
             <li>访问MySQL、Mongo、SQLite等各种数据库</li>
             <li>配置反向代理、SSL版网站</li>
             <li>在终端运行Python、Ruby、Node、Perl、C/C++程序，并且可以监听端口来进行Socket通讯</li>
-            <li>使用<a href="#" rel="popover" data-content="<?= $msg['proxy']; ?>" data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
+            <li>使用<a href="#" rel="popover" data-content="<?= $tooltip['proxy']; ?>"
+                     data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
             </li>
         </ul>
     </section>
@@ -106,7 +107,8 @@ HTML;
                 <header>试用版</header>
                 <div class="description">
                     所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的
-                    <a href="#" rel="popover" data-content="<?= $msg['free']; ?>" data-original-title="试用帐号限制">资源限制</a>
+                    <a href="#" rel="popover" data-content="<?= $tooltip['free']; ?>"
+                       data-original-title="试用帐号限制">资源限制</a>
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
@@ -125,7 +127,7 @@ HTML;
                 <header>额外技术支持版</header>
                 <div class="description">
                     每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的
-                    <a href="#" rel="popover" data-content="<?= $msg['ext']; ?>" data-original-title="技术支持">技术支持</a>.
+                    <a href="#" rel="popover" data-content="<?= $tooltip['ext']; ?>" data-original-title="技术支持">技术支持</a>.
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
