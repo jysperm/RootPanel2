@@ -19,6 +19,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
 <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
+<li><a href="/ticket/"><i class="icon-share"></i> 工单</a></li>
 <? $base->sidenav = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
