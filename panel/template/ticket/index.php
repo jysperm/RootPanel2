@@ -6,7 +6,7 @@ $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "工单 #{$page}";
 
 $allPage = ceil(rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->select()->num() / $rpCfg["TKPerPage"]);
-$tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" => 0])->sort("time", false)->limit($rpCfg["TKPerPage"])->skip(($page - 1) * $rpCfg["TKPerPage"])->select();
+$tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto" => 0])->sort("time", false)->limit($rpCfg["TKPerPage"])->skip(($page - 1) * $rpCfg["TKPerPage"])->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -27,6 +27,20 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" =
 </style>
 <? $base->header = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
+<script type='text/javascript'>
+    $($("form").submit(function () {
+        $.post("/ticket/new/", $("form").serializeArray(), function (data) {
+            if (data.status == "ok")
+                window.location.reload();
+            else
+                alert(data.msg);
+        }, "json");
+        return false;
+    }));
+</script>
+<? $base->endOfBody = lpTemplate::endBlock(); ?>
+
 <section id="section-list">
     <header>工单列表</header>
     <table class="table table-striped table-bordered table-condensed">
@@ -41,12 +55,17 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" =
         </thead>
         <tbody>
         <? while($tks->read()): ?>
+            <?php
+            $settings = json_decode($tks["settings"], true);
+            ?>
             <tr>
                 <td><?= $tks["id"];?></td>
-                <td><?= $tkss["type"];?></td>
-                <td><?= $tkss["status"];?></td>
-                <td><?= $tkss["lastchange"];?></td>
-                <td><?= $tkss["title"];?></td>
+                <td><?= $rpL[$settings["type"]];?></td>
+                <td><?= $rpL[$settings["status"]];?></td>
+                <td><span
+                        title="<?= gmdate("Y.m.d H:i:s", $settings["lastchange"]); ?>"><?= rpTools::niceTime($settings["lastchange"]);?></span>
+                </td>
+                <td><a href="/ticket/view/<?= $tks["id"]; ?>/"><?= $settings["title"];?></a></td>
             </tr>
         <? endwhile; ?>
         </tbody>
@@ -55,13 +74,13 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" =
         <ul>
             <? for($i = $page - 3; $i < $page; $i++): ?>
                 <? if($i > 0): ?>
-                    <li><a href="/ticket/view/<?= $i; ?>/"><?= $i;?></a></li>
+                    <li><a href="/ticket/list/<?= $i; ?>/"><?= $i;?></a></li>
                 <? endif; ?>
             <? endfor;?>
             <li class="active"><a href="#"><?= $page;?></a></li>
             <? for($i = $page + 1; $i <= $page + 3; $i++): ?>
                 <? if($i <= $allPage): ?>
-                    <li><a href="/ticket/view/<?= $i; ?>/"><?= $i;?></a></li>
+                    <li><a href="/ticket/list/<?= $i; ?>/"><?= $i;?></a></li>
                 <? endif; ?>
             <? endfor;?>
         </ul>
@@ -81,6 +100,20 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" =
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label" for="type">类型</label>
+
+            <div class="controls">
+                <label class="radio">
+                    <select id="type" name="type">
+                        <? foreach(["pay", "miao", "panel", "web", "linux", "runtime"] as $i): ?>
+                            <option
+                                value="ticket.type.<?= $i; ?>" <?= $i == "miao" ? 'selected="selected"' : "";?>><?= $rpL["ticket.type.{$i}"];?></option>
+                        <? endforeach;?>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label" for="content">内容</label>
 
             <div class="controls">
@@ -88,6 +121,9 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["reply" =
                     <textarea id="content" name="content" rows="10"></textarea><br/>
                 </label>
             </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">创建</button>
         </div>
     </form>
 </section>

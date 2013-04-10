@@ -1,6 +1,6 @@
 <?php
 
-
+global $rpCfg;
 
 $rpCfg["Admins"] = [
     "rpadmin" => [
