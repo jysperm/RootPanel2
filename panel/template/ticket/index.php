@@ -30,7 +30,7 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto"
 <? lpTemplate::beginBlock(); ?>
 <script type='text/javascript'>
     $($("form").submit(function () {
-        $.post("/ticket/new/", $("form").serializeArray(), function (data) {
+        $.post("/ticket/create/", $("form").serializeArray(), function (data) {
             if (data.status == "ok")
                 window.location.reload();
             else
