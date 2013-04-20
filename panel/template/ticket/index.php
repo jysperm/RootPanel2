@@ -5,12 +5,14 @@ global $rpROOT, $rpL, $rpCfg;
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "工单 #{$page}";
 
-$allPage = ceil(rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->select()->num() / $rpCfg["TKPerPage"]);
-$tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto" => 0])->sort("time", false)->limit($rpCfg["TKPerPage"])->skip(($page - 1) * $rpCfg["TKPerPage"])->select();
+$rows = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->select()->num();
+$dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
+
+$tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit($rpCfg["TKPerPage"])->skip($dPage->getPos())->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-<li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> 工单列表 #<?= $page;?></a></li>
+<li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> 工单列表 #<?= $page; ?></a></li>
 <li><a href="#section-new"><i class="icon-chevron-right"></i> 创建工单</a></li>
 <? $base->sidenav = lpTemplate::endBlock(); ?>
 
@@ -42,7 +44,7 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto"
 <? $base->endOfBody = lpTemplate::endBlock(); ?>
 
 <section id="section-list">
-    <header>工单列表</header>
+    <header>工单列表 #<?= $page; ?></header>
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
@@ -55,34 +57,21 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto"
         </thead>
         <tbody>
         <? while($tks->read()): ?>
-            <?php
-            $settings = json_decode($tks["settings"], true);
-            ?>
             <tr>
-                <td><?= $tks["id"];?></td>
-                <td><?= $rpL[$settings["type"]];?></td>
-                <td><?= $rpL[$settings["status"]];?></td>
+                <td><?= $tks["id"]; ?></td>
+                <td><?= $rpL["ticket.types"][$tks["type"]]; ?></td>
+                <td><?= $rpL[$tks["status"]]; ?></td>
                 <td><span
-                        title="<?= gmdate("Y.m.d H:i:s", $settings["lastchange"]); ?>"><?= rpTools::niceTime($settings["lastchange"]);?></span>
+                        title="<?= gmdate("Y.m.d H:i:s", $tks["lastchange"]); ?>"><?= rpTools::niceTime($tks["lastchange"]); ?></span>
                 </td>
-                <td><a href="/ticket/view/<?= $tks["id"]; ?>/"><?= $settings["title"];?></a></td>
+                <td><a href="/ticket/view/<?= $tks["id"]; ?>/"><?= $tks["title"]; ?></a></td>
             </tr>
         <? endwhile; ?>
         </tbody>
     </table>
     <div class="pagination pagination-centered">
         <ul>
-            <? for($i = $page - 3; $i < $page; $i++): ?>
-                <? if($i > 0): ?>
-                    <li><a href="/ticket/list/<?= $i; ?>/"><?= $i;?></a></li>
-                <? endif; ?>
-            <? endfor;?>
-            <li class="active"><a href="#"><?= $page;?></a></li>
-            <? for($i = $page + 1; $i <= $page + 3; $i++): ?>
-                <? if($i <= $allPage): ?>
-                    <li><a href="/ticket/list/<?= $i; ?>/"><?= $i;?></a></li>
-                <? endif; ?>
-            <? endfor;?>
+            <?= $dPage->getOutput(new rpDividePageMaker); ?>
         </ul>
     </div>
 </section>
@@ -95,7 +84,7 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto"
 
             <div class="controls">
                 <label class="radio">
-                    <input type="text" class="input-xxlarge" id="title" name="title"/>
+                    <input type="text" class="input-xxlarge" id="title" name="title" required="required"/>
                 </label>
             </div>
         </div>
@@ -105,10 +94,10 @@ $tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->where(["replyto"
             <div class="controls">
                 <label class="radio">
                     <select id="type" name="type">
-                        <? foreach(["pay", "miao", "panel", "web", "linux", "runtime"] as $i): ?>
+                        <? foreach($rpL["ticket.types"] as $k => $v): ?>
                             <option
-                                value="ticket.type.<?= $i; ?>" <?= $i == "miao" ? 'selected="selected"' : "";?>><?= $rpL["ticket.type.{$i}"];?></option>
-                        <? endforeach;?>
+                                value="<?= $k; ?>" <?= $k == "miao" ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
+                        <? endforeach; ?>
                     </select>
                 </label>
             </div>

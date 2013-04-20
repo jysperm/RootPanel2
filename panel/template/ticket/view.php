@@ -5,19 +5,37 @@ global $rpROOT, $rpL, $rpCfg;
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "工单 #{$tk["id"]}";
 
-$tk["settings"] = json_decode($tk["settings"], true);
-$replys = rpApp::q("Ticket")->where(["replyto" => $tk["id"]])->select();
+$replys = rpApp::q("TicketReply")->where(["replyto" => $tk["id"]])->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-    <li class="active"><a href="/ticket/"><i class="icon-share"></i> 返回工单</a></li>
-    <li><a href="/panel/"><i class="icon-share"></i> 返回面板</a></li>
+    <li><a href="#content"><i class="icon-chevron-right"></i> 内容</a></li>
+    <li><a href="#replys"><i class="icon-chevron-right"></i> 回复</a></li>
+    <li><a href="#operation"><i class="icon-chevron-right"></i> 操作</a></li>
+    <li class="active"><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
+    <li><a href="/panel/"><i class="icon-arrow-left"></i> 返回面板</a></li>
 <? $base->sidenav = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <style type="text/css">
         textarea {
             width: 530px;
+        }
+
+        .box {
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            -webkit-box-shadow: 0 0 0 1px #DDD;
+            -moz-box-shadow: 0 0 0 1px #ddd;
+            box-shadow: 0 0 0 1px #DDD;
+            overflow: hidden;
+            padding: 14px;
+        }
+
+        .box hr {
+            margin: 3px;
         }
     </style>
 <? $base->header = lpTemplate::endBlock(); ?>
@@ -36,29 +54,36 @@ $replys = rpApp::q("Ticket")->where(["replyto" => $tk["id"]])->select();
     </script>
 <? $base->endOfBody = lpTemplate::endBlock(); ?>
 
-    <section>
-        <header>工单 #<?= $tk["id"];?></header>
+    <section id="content">
+        <header>工单 #<?= $tk["id"]; ?></header>
         <p>
-            <?= $tk["content"];?>
+            <?= $tk["content"]; ?>
         </p>
+        <hr style="margin: 3px;"/>
+        <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
+        | <?= $tk["uname"]; ?>
     </section>
 
-    <section>
-        <header>回复 (<?= $replys->num();?>)</header>
+    <section id="replys">
+        <header>回复 (<?= $replys->num(); ?>)</header>
         <? while($replys->read()): ?>
-            <p>
-                <?= $replys["content"];?>
-            </p>
+            <div class="box">
+                <?= $replys["content"]; ?>
+                <hr/>
+                <span
+                    title="<?= gmdate("Y.m.d H:i:s", $replys["time"]); ?>"><?= rpTools::niceTime($replys["time"]); ?></span>
+                | <?= $replys["uname"]; ?>
+            </div>
         <? endwhile; ?>
     </section>
 
-    <section>
+    <section id="operation">
         <header>操作</header>
-        <? if($tk["settings"]["status"] != "ticket.status.closed" && !$tk["settings"]["onlyclosebyadmin"]): ?>
+        <? if($tk["status"] != "ticket.status.closed" && !$tk["onlyclosebyadmin"]): ?>
             <button class="btn btn-danger" id="deleteTK">关闭工单</button>
             <hr/>
-        <? endif;?>
-        <? if($tk["settings"]["status"] != "ticket.status.closed"): ?>
+        <? endif; ?>
+        <? if($tk["status"] != "ticket.status.closed"): ?>
             <form class="form-horizontal">
                 <div class="control-group">
                     <label class="control-label" for="content">回复内容</label>
@@ -73,7 +98,7 @@ $replys = rpApp::q("Ticket")->where(["replyto" => $tk["id"]])->select();
                     <button type="submit" class="btn btn-primary btn-large">创建回复</button>
                 </div>
             </form>
-        <? endif;?>
+        <? endif; ?>
     </section>
 
 <? $base->output(); ?>

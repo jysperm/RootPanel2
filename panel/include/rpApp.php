@@ -67,5 +67,15 @@ class rpApp extends lpApp
             return $q($table);
         return $q;
     }
+}
 
+class rpDividePageMaker
+{
+    public function __invoke($page, $curPage)
+    {
+        if($curPage == $page || $page == lpDividePage::splitter)
+            return "<li class='active'><a href='#'>{$page}</a></li>";
+        else
+            return "<li><a href='/ticket/list/{$page}/'>{$page}</a></li>";
+    }
 }

@@ -32,20 +32,16 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        $settings = [
+        $ticket = [
+            "time" => time(),
+            "uname" => rpAuth::uname(),
             "title" => $_POST["title"],
-            "onlyclosebyadmin" => false,
+            "onlyclosebyadmin" => 0,
             "type" => $_POST["type"],
             "status" => "ticket.status.open",
             "lastchange" => time(),
-            "lastreply" => rpAuth::uname()
-        ];
-
-        $ticket = [
-            "replyto" => 0,
-            "time" => time(),
-            "uname" => rpAuth::uname(),
-            "settings" => json_encode($settings),
+            "replys" => 0,
+            "lastreply" => rpAuth::uname(),
             "content" => $_POST["content"]
         ];
 
@@ -62,18 +58,17 @@ class rpTicketHandler extends lpHandler
         $tk = rpApp::q("Ticket")->where(["id" => $id])->top();
         if($tk["uname"] != rpAuth::uname())
             die("该工单不属于你");
-        if(!$tk || $tk["replyto"] != 0)
+        if(!$tk)
             die("工单ID无效");
 
-        $ticket = [
+        $reply = [
             "replyto" => $id,
             "time" => time(),
             "uname" => rpAuth::uname(),
-            "settings" => json_encode([]),
             "content" => $_POST["content"]
         ];
 
-        rpApp::q("Ticket")->insert($ticket);
+        rpApp::q("TicketReply")->insert($reply);
 
         echo json_encode(["status" => "ok"]);
     }
@@ -87,7 +82,7 @@ class rpTicketHandler extends lpHandler
         $tk = rpApp::q("Ticket")->where(["id" => $id])->top();
         if($tk["uname"] != rpAuth::uname())
             die("该工单不属于你");
-        if(!$tk || $tk["replyto"] != 0)
+        if(!$tk)
             die("工单ID无效");
 
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");
