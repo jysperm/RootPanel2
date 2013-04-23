@@ -29,8 +29,14 @@ class rpTicketHandler extends lpHandler
 
     public function create()
     {
+        lpLocale::i()->load(["ticket"]);
+        global $rpL;
+
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
+
+        if(!in_array($_POST["type"], array_keys($rpL["ticket.types"])))
+            die("类型不合法");
 
         $ticket = [
             "time" => time(),
@@ -42,10 +48,13 @@ class rpTicketHandler extends lpHandler
             "lastchange" => time(),
             "replys" => 0,
             "lastreply" => rpAuth::uname(),
-            "content" => $_POST["content"]
+            "content" => nl2br(htmlentities($_POST["content"]))
         ];
 
         rpApp::q("Ticket")->insert($ticket);
+
+        $id = rpApp::getDB()->operator("lastInsertID");
+        rpLog::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
         echo json_encode(["status" => "ok"]);
     }
@@ -65,10 +74,12 @@ class rpTicketHandler extends lpHandler
             "replyto" => $id,
             "time" => time(),
             "uname" => rpAuth::uname(),
-            "content" => $_POST["content"]
+            "content" => nl2br(htmlentities($_POST["content"]))
         ];
 
         rpApp::q("TicketReply")->insert($reply);
+
+        rpLog::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
 
         echo json_encode(["status" => "ok"]);
     }

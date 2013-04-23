@@ -1,5 +1,7 @@
 <?php
 
+global $rpL;
+
 $rpL["signup.tips.incomplete"] = "请将信息填写完整";
 $rpL["signup.tips.notAllowSignup"] = "该用户名不允许注册";
 $rpL["signup.tips.userExists"] = "该用户名已存在";

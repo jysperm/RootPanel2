@@ -9,10 +9,10 @@ $replys = rpApp::q("TicketReply")->where(["replyto" => $tk["id"]])->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-    <li><a href="#content"><i class="icon-chevron-right"></i> 内容</a></li>
+    <li class="active"><a href="#content"><i class="icon-chevron-right"></i> 内容</a></li>
     <li><a href="#replys"><i class="icon-chevron-right"></i> 回复</a></li>
     <li><a href="#operation"><i class="icon-chevron-right"></i> 操作</a></li>
-    <li class="active"><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
+    <li><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
     <li><a href="/panel/"><i class="icon-arrow-left"></i> 返回面板</a></li>
 <? $base->sidenav = lpTemplate::endBlock(); ?>
 

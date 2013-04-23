@@ -2,6 +2,13 @@
 
 class rpLog
 {
+    /**
+     * @param string     $user       被记录日志的用户名
+     * @param string     $type       日志的类型
+     * @param array      $info       根据日志类型提供的附加信息
+     * @param array      $detail     更多详细信息
+     * @param null       $by         日志的触发者(默认同$user)
+     */
     static public function log($user, $type, $info, $detail, $by = null)
     {
         $row = [
@@ -15,6 +22,6 @@ class rpLog
             "ip" => rpTools::getIP()
         ];
 
-        rpApp::q("log")->insert($row);
+        rpApp::q("Log")->insert($row);
     }
 }

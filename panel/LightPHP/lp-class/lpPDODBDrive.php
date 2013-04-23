@@ -154,7 +154,8 @@ class lpPDODBDrive extends lpDBDrive
     public function operator($name, $args = null)
     {
         switch($name) {
-
+            case "lastInsertID":
+                return $this->connect->lastInsertId();
         }
     }
 

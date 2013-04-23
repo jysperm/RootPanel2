@@ -14,7 +14,6 @@ $logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
     table {
-        table-layout: fixed;
         word-break: break-all;
     }
 </style>
@@ -26,11 +25,12 @@ $logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th style="width: 40px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.logid"]; ?>">ID</a></th>
-            <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.by"]; ?>">操作者</a></th>
-            <th style="width: 70px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.ipua"]; ?>">IP/UA</a></th>
-            <th style="width: 60px;">时间</th>
-            <th style="width: 100px;">摘要</th>
+            <th style="min-width: 50px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.logid"]; ?>">ID</a>
+            </th>
+            <th style="min-width: 90px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.by"]; ?>">操作者</a></th>
+            <th style="min-width: 90px;"><a href="#" rel="tooltip" title="<?= $rpL["logs.tooltip.ipua"]; ?>">IP/UA</a>
+            </th>
+            <th style="min-width: 90px;">时间</th>
             <th>详情</th>
         </tr>
         </thead>
@@ -44,17 +44,21 @@ $logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false
                         title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]); ?></span>
                 </td>
                 <? $args = json_decode($logs["info"]);
-                array_unshift($args, $rpL[$logs["type"]]);
                 ?>
-                <td><?= htmlentities(call_user_func_array("sprintf", $args)); ?></td>
                 <td>
-                    <?php
-                    $detail = json_decode($logs["detail"]);
-                    foreach($detail as $k => $v) {
-                        $v = nl2br(htmlentities($v));
-                        echo "<b>{$k}</b>: {$v}<br />";
-                    }
-                    ?>
+                    <?= vsprintf($rpL[$logs["type"]], $args); ?> |
+                    <a data-toggle="collapse" href="#detail<?= $logs["id"]; ?>">
+                        详细
+                    </a>
+
+                    <div id="detail<?= $logs["id"]; ?>" class="accordion-body collapse">
+                        <?php
+                        $detail = json_decode($logs["detail"]);
+                        foreach($detail as $k => $v) {
+                            echo "<b>{$k}</b>: {$v}<br />";
+                        }
+                        ?>
+                    </div>
                 </td>
             </tr>
         <? endwhile; ?>
