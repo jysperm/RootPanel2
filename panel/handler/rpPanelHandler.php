@@ -19,11 +19,8 @@ class rpPanelHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        if(!rpUser::isAllowToPanel(rpAuth::uname()))
-            if(array_key_exists(rpAuth::uname(), $rpCfg["Admins"]))
-                rpApp::goUrl("/admin/", true);
-            else
-                rpApp::goUrl("/pay/", true);
+        if(array_key_exists(rpAuth::uname(), $rpCfg["Admins"]))
+            rpApp::goUrl("/admin/", true);
     }
 
     public function logs($page = null)
@@ -43,19 +40,6 @@ class rpPanelHandler extends lpHandler
 
 class VirtualHost extends lpAction
 {
-    private $conn;
-
-    var $msg;
-    var $row;
-
-    public function _Init()
-    {
-        $this->conn = new lpMySQL;
-        if(!lpAuth::login() || !isAllowPanel(lpAuth::getUName())) {
-            lpRoute::quit("未登录或未付费");
-        }
-    }
-
     public function get()
     {
         global $rpROOT;
@@ -221,29 +205,7 @@ class VirtualHost extends lpAction
 
     private function checkInput($isNew = false)
     {
-        // domains-域名
-        // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
-        // ^ *DOMAIN( DOMAIN)* *$
-        if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',
-            $_POST["domains"]) || strlen($_POST["domains"]) > 128
-        ) {
-            $this->msg = "域名格式不正确";
-            return false;
-        } else {
-            $row["domains"] = strtolower(trim(str_replace("  ", " ", $_POST["domains"])));
-            if($isNew)
-                $rsD = $this->conn->exec("SELECT * FROM `virtualhost`");
-            else
-                $rsD = $this->conn->exec("SELECT * FROM `virtualhost` WHERE `id` <> '%i'", $_POST["id"]);
-            while($rsD->read()) {
-                $tD = explode(" ", $rsD->domains);
-                $curD = explode(" ", $row["domains"]);
-                if(count(array_intersect($tD, $curD))) {
-                    $this->msg = "以下域名已被其他人绑定，请联系客服：" . join(" ", array_intersect($tD, $curD));
-                    return false;
-                }
-            }
-        }
+
 
         // template模板类型
         if(!in_array($_POST["optemplate"], array("web", "proxy", "python"))) {

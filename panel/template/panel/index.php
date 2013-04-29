@@ -8,15 +8,17 @@ $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
 
 $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
-$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->limit(30)->select();
+$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit(30)->select();
 $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 
 ?>
 
 <? lpTemplate::beginBlock(); ?>
 <li class="active"><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
-<li><a href="#section-access"><i class="icon-chevron-right"></i> 远程访问</a></li>
-<li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
+<? if(rpUser::isAllowToPanel(rpAuth::uname())): ?>
+    <li><a href="#section-access"><i class="icon-chevron-right"></i> 远程访问</a></li>
+    <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
+<? endif; ?>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
 <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
 <li><a href="/ticket/"><i class="icon-share"></i> 工单</a></li>
@@ -63,69 +65,71 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
     <p>
         账户类型：<?= $rpL["global.userType"][$user["type"]] ?><br/>
         到期时间：<span
-            title="<?= gmdate("Y.m.d H:i:s", $user["expired"]); ?>"><?= rpTools::niceTime($user["expired"]);?></span>
+            title="<?= gmdate("Y.m.d H:i:s", $user["expired"]); ?>"><?= rpTools::niceTime($user["expired"]); ?></span>
         <a class="btn btn-success btn-inline" href="/pay/"> 续费</a>
     </p>
 </section>
 
-<section id="section-access">
-    <header>远程访问</header>
-    <div>
-        <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('sshpasswd', false);">修改SSH/SFTP密码</button>
-    </div>
-    <div>
-        <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('mysqlpasswd', false);">修改MySQL密码</button>
-    </div>
-    <div>
-        <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('panelpasswd', true);">修改面板(即该网页)密码
-        </button>
-    </div>
-    <div>
-        <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd"/>
-        <button class="btn btn-success" onclick="changePasswd('pptppasswd', false);">修改PPTP
-            VPN密码
-        </button>
-    </div>
-</section>
-
-<section id="section-website">
-    <header>Web站点管理</header>
-    <div>
-        <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.extConfig"]; ?>">额外</a>的Nginx配置文件： 0字节(<a
-            id="nginx-extConfig" href="#">查看</a>).<br/>
-        额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).
-    </div>
-    <hr/>
-    <? while($hosts->read()): ?>
-        <div class="box">
-            <div>
-                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>">是否开启</a>：<span
-                    class="label"><?= $hosts["ison"] ? "是" : "否";?></span> |
-                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a>：<span
-                    class="label"><?= $hosts["id"];?></span> |
-                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.domain"]; ?>">域名</a>：<span
-                    class="label"><?= $hosts["domains"];?></span>
-            </div>
-            <div>
-                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>">站点类型</a>：<span
-                    class="label"><?= $rpVHostType[$hosts["type"]]["name"];?></span> |
-                <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a>： <span
-                    class="label"><?= $hosts["source"];?></span>
-            </div>
-            <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"]; ?>);return false;">删除
-            </button>
-            <button class="btn btn-info pull-right" style="margin-right:10px;"
-                    onclick="editWebsite(<?= $hosts["id"]; ?>);return false;">修改
+<? if(rpUser::isAllowToPanel(rpAuth::uname())): ?>
+    <section id="section-access">
+        <header>远程访问</header>
+        <div>
+            <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd"/>
+            <button class="btn btn-success" onclick="changePasswd('sshpasswd', false);">修改SSH/SFTP密码</button>
+        </div>
+        <div>
+            <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd"/>
+            <button class="btn btn-success" onclick="changePasswd('mysqlpasswd', false);">修改MySQL密码</button>
+        </div>
+        <div>
+            <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd"/>
+            <button class="btn btn-success" onclick="changePasswd('panelpasswd', true);">修改面板(即该网页)密码
             </button>
         </div>
-    <? endwhile; ?>
-    <div class="box">
-        <button id="new-website" class="btn btn-success pull-right">添加站点</button>
-    </div>
-</section>
+        <div>
+            <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd"/>
+            <button class="btn btn-success" onclick="changePasswd('pptppasswd', false);">修改PPTP
+                VPN密码
+            </button>
+        </div>
+    </section>
+
+    <section id="section-website">
+        <header>Web站点管理</header>
+        <div>
+            <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.extConfig"]; ?>">额外</a>的Nginx配置文件： 0字节(<a
+                id="nginx-extConfig" href="#">查看</a>).<br/>
+            额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).
+        </div>
+        <hr/>
+        <? while($hosts->read()): ?>
+            <div class="box">
+                <div>
+                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>">是否开启</a>：<span
+                        class="label"><?= $hosts["ison"] ? "是" : "否"; ?></span> |
+                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a>：<span
+                        class="label"><?= $hosts["id"]; ?></span> |
+                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.domain"]; ?>">域名</a>：<span
+                        class="label"><?= $hosts["domains"]; ?></span>
+                </div>
+                <div>
+                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>">站点类型</a>：<span
+                        class="label"><?= $rpVHostType[$hosts["type"]]["name"]; ?></span> |
+                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a>： <span
+                        class="label"><?= $hosts["source"]; ?></span>
+                </div>
+                <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"]; ?>);return false;">删除
+                </button>
+                <button class="btn btn-info pull-right" style="margin-right:10px;"
+                        onclick="editWebsite(<?= $hosts["id"]; ?>);return false;">修改
+                </button>
+            </div>
+        <? endwhile; ?>
+        <div class="box">
+            <button id="new-website" class="btn btn-success pull-right">添加站点</button>
+        </div>
+    </section>
+<? endif; ?>
 
 <section id="section-log">
     <header>日志</header>
@@ -143,14 +147,14 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
             <tbody>
             <? while($logs->read()): ?>
                 <tr>
-                    <td><?= $logs["id"];?></td>
+                    <td><?= $logs["id"]; ?></td>
                     <td><span
-                            title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]);?></span>
+                            title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]); ?></span>
                     </td>
                     <? $args = json_decode($logs["info"]);
                     array_unshift($args, $rpL[$logs["type"]]);
                     ?>
-                    <td><?= htmlentities(call_user_func_array("sprintf", $args));?></td>
+                    <td><?= call_user_func_array("sprintf", $args); ?></td>
                 </tr>
             <? endwhile; ?>
             </tbody>

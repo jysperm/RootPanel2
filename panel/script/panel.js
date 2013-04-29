@@ -6,7 +6,7 @@ $($("#new-website").click(function () {
         $("#dialog .dialog-ok").unbind('click');
         $("#dialog .dialog-ok").click(function () {
             var postdata = $("#dialog .dialog-form").serializeArray();
-            $.post("/panel-action/get-new-vhost/", postdata, function (data) {
+            $.post("/panel-action/add/", postdata, function (data) {
                 if (data.status == "ok")
                     window.location.reload();
                 else

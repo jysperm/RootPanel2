@@ -44,7 +44,7 @@ if(isset($new) && $new) {
             <label class="control-label">站点ID</label>
 
             <div class="controls">
-                <span class="label"><?= $rs["id"];?></span>
+                <span class="label"><?= $rs["id"]; ?></span>
             </div>
         </div>
         <div class="control-group">
@@ -76,8 +76,8 @@ if(isset($new) && $new) {
                 <? foreach($rpVHostType as $k => $v): ?>
                     <label class="radio">
                         <input type="radio" name="type" id="op<?= $k; ?>"
-                               value="<?= $k; ?>" <?= ($rs["type"] == $k) ? "checked='checked'" : "";?> />
-                        <?= $v["description"];?>
+                               value="<?= $k; ?>" <?= ($rs["type"] == $k) ? "checked='checked'" : ""; ?> />
+                        <?= $v["description"]; ?>
                     </label>
                 <? endforeach; ?>
             </div>
@@ -86,10 +86,10 @@ if(isset($new) && $new) {
     <hr/>
 
     <div class="form-horizontal">
-        <h4 id="title-type"><?= $rpVHostType[$rs["type"]]["name"];?></h4>
+        <h4 id="title-type"><?= $rpVHostType[$rs["type"]]["name"]; ?></h4>
         <? foreach($rpVHostType as $k => $v): ?>
             <div class="setting-<?= $k; ?>">
-                <?= $v["html-setting"](($rs["type"] == $k) ? $rs : ["settings" => $v["default-settings"]()]);?>
+                <?= $v["html-setting"](($rs["type"] == $k) ? $rs : ["settings" => $v["default-settings"]()]); ?>
             </div>
         <? endforeach; ?>
     </div>
@@ -103,12 +103,10 @@ if(isset($new) && $new) {
 
             <div class="controls">
                 <label class="radio">
-                    <textarea id="alias" name="alias" rows="4">
-                        <?php
+                    <textarea id="alias" name="alias" rows="4"><?php
                         foreach($rs["general"]["alias"] as $k => $v)
                             echo "$k $v\n";
-                        ?>
-                    </textarea>
+                        ?></textarea>
                 </label>
             </div>
         </div>

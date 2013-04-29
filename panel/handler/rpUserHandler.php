@@ -38,7 +38,7 @@ class rpUserHandler extends lpHandler
             if(in_array($_POST["uname"], $rpCfg["NotAllowSignup"]))
                 $procError($rpL["signup.tips.notAllowSignup"]);
 
-            if(rpApp::q("user")->where(["uname" => $_POST["uname"]])->top())
+            if(rpUserModel::find(["uname" => $_POST["uname"]]))
                 $procError($rpL["signup.tips.userExists"]);
 
             $user = [
@@ -52,7 +52,7 @@ class rpUserHandler extends lpHandler
                 "expired" => time() - 1
             ];
 
-            rpApp::q("user")->insert($user);
+            rpUserModel::insert($user);
             rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]);
 
             $user["passwd"] = null;

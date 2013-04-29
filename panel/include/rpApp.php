@@ -1,43 +1,7 @@
 <?php
 
-trait rpAppInit
-{
-    static public function initAutoload()
-    {
-        global $rpROOT;
-
-        spl_autoload_register(function ($name) use ($rpROOT) {
-            $map = [
-
-            ];
-
-            if(in_array($name, array_keys($map)))
-                $name = $map[$name];
-
-            $paths = [
-                "{$rpROOT}/include/{$name}.php",
-                "{$rpROOT}/handler/{$name}.php"
-            ];
-
-            foreach($paths as $path) {
-                if(file_exists($path)) {
-                    require_once($path);
-                    return;
-                }
-            }
-        });
-    }
-}
-
-trait rpAppDB
-{
-
-}
-
 class rpApp extends lpApp
 {
-    use rpAppInit;
-
     static private $locale;
 
     static public function helloWorld()
@@ -55,17 +19,37 @@ class rpApp extends lpApp
         require_once("{$rpROOT}/config/node-list.php");
         require_once("{$rpROOT}/config/admin-list.php");
 
-        self::registerDatabase(new lpPDODBDrive($rpCfg["MySQLDB"]));
+        $config = $rpCfg["MySQLDB"];
+        self::registerDatabase(new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]));
 
         lpLocale::i()->load(["global"]);
     }
 
-    static public function q($table = null)
+    static public function initAutoload()
     {
-        $q = new lpDBQuery(self::getDB());
-        if($table)
-            return $q($table);
-        return $q;
+        global $rpROOT;
+
+        spl_autoload_register(function ($name) use ($rpROOT) {
+            $map = [
+
+            ];
+
+            if(in_array($name, array_keys($map)))
+                $name = $map[$name];
+
+            $paths = [
+                "{$rpROOT}/include/{$name}.php",
+                "{$rpROOT}/handler/{$name}.php",
+                "{$rpROOT}/model/{$name}.php"
+            ];
+
+            foreach($paths as $path) {
+                if(file_exists($path)) {
+                    require_once($path);
+                    return;
+                }
+            }
+        });
     }
 }
 

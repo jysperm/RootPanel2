@@ -13,8 +13,18 @@
 
 session_start();
 
-class lpTrackAuth extends lpAuthDrive
+class lpTrackAuth implements lpAuthDrive
 {
+    static public function succeedCallback()
+    {
+
+    }
+
+    static public function getPasswd($uname)
+    {
+
+    }
+
     static public function hash($data)
     {
         return hash("sha256", $data);
@@ -25,36 +35,20 @@ class lpTrackAuth extends lpAuthDrive
         return self::hash(self::hash($user) . self::hash($passwd));
     }
 
-    static public function getPasswd($uname)
-    {
-        global $lpCfg;
-        $cfg = $lpCfg["lpTrackAuth"]["GetPasswd"]["Default"];
-
-        return rpApp::q($cfg["table"])->where([$cfg["user"] => $uname])->top()[$cfg["passwd"]];
-    }
-
     static public function auth($user, $passwd)
     {
-        global $lpCfg;
-
         if(array_key_exists("raw", $passwd))
             $passwd = ["db" => self::dbHash($user, $passwd["raw"])];
 
         if(array_key_exists("db", $passwd)) {
-            if(self::getPasswd($user) == $passwd["db"])
+            if(static::getPasswd($user) == $passwd["db"])
                 return true;
             else
                 return false;
         }
 
         if(array_key_exists("token", $passwd)) {
-            $cfg = $lpCfg["lpTrackAuth"]["Default"];
-
-            $q = new lpDBQuery(lpApp::getDB());
-
-            $r = $q($cfg["table"])->where([$cfg["user"] => $user, $cfg["token"] => $passwd["token"]])->top();
-
-            if($r)
+            if(lpTrackAuthModel::find(["user" => $user, "token" => $passwd["token"]]))
                 return true;
         }
 
@@ -63,21 +57,16 @@ class lpTrackAuth extends lpAuthDrive
 
     static public function creatToken($user)
     {
-        global $lpCfg;
-        $cfg = $lpCfg["lpTrackAuth"]["Default"];
-
         $token = self::hash($user . mt_rand());
 
-        $q = new lpDBQuery(lpApp::getDB());
-
-        $q($cfg["table"])->insert([$cfg["user"] => $user, $cfg["token"] => $token, $cfg["lastactivitytime"] => time()]);
+        lpTrackAuthModel::insert(["user" => $user, "token" => $token, "lastactivitytime" => time()]);
 
         return $token;
     }
 
     static public function login($user = null, $passwd = null)
     {
-        if(isset($_SESSION["lp_isauth"]) && $_SESSION["lp_isauth"])
+        if(isset($_SESSION["lpIsAuth"]) && $_SESSION["lpIsAuth"])
             return true;
 
         global $lpCfg;
@@ -103,19 +92,19 @@ class lpTrackAuth extends lpAuthDrive
             if(isset($passwd["db"]))
                 $passwd = ["token" => self::creatToken($user)];
 
-            self::succeedCallback();
+            static::succeedCallback();
 
             $expire = time() + $lpCfg["lpTrackAuth"]["Limit"];
 
             setcookie($cookieName["user"], $user, $expire, "/");
             setcookie($cookieName["passwd"], $passwd["token"], $expire, "/");
 
-            $_SESSION["lp_isauth"] = true;
+            $_SESSION["lpIsAuth"] = true;
 
             return true;
         } else {
             setcookie($cookieName["passwd"], null, time() - 1, "/");
-            $_SESSION["lp_isauth"] = false;
+            $_SESSION["lpIsAuth"] = false;
             return false;
         }
     }
@@ -134,11 +123,9 @@ class lpTrackAuth extends lpAuthDrive
     static public function logout()
     {
         global $lpCfg;
-        $cfg = $lpCfg["lpTrackAuth"]["Default"];
         $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
 
-        $q = new lpDBQuery(lpApp::getDB());
-        $q($cfg["table"])->delete([$cfg["user"] => self::uname()]);
+        lpTrackAuthModel::delete(["user" => self::uname()]);
 
         setcookie($cookieName["user"], null, time() - 1, "/");
         setcookie($cookieName["passwd"], null, time() - 1, "/");
