@@ -30,8 +30,8 @@ class rpUserHandler extends lpHandler
             if(!isset($_POST["uname"]) or !isset($_POST["email"]))
                 $procError($rpL["signup.tips.incomplete"]);
 
-            if(!preg_match('/[A-Za-z][A-Za-z0-9_]+/u', $_POST["uname"]) or
-                !preg_match('/[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+/', $_POST["email"])
+            if(!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/u', $_POST["uname"]) or
+                !preg_match('/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/', $_POST["email"])
             )
                 $procError($rpL["signup.rule"]);
 
@@ -48,7 +48,7 @@ class rpUserHandler extends lpHandler
                 "qq" => $_POST["qq"],
                 "regtime" => time(),
                 "type" => rpUser::NO,
-                "settings" => json_encode(["pptppasswd" => "", "nginxextconfig" => "", "apache2extconfig" => ""]),
+                "settings" => ["pptppasswd" => "", "nginxextconfig" => "", "apache2extconfig" => ""],
                 "expired" => time() - 1
             ];
 
@@ -58,7 +58,7 @@ class rpUserHandler extends lpHandler
             $user["passwd"] = null;
             unset($user["settings"]);
             unset($user["expired"]);
-            rpLog::log($_POST["uname"], "log.type.signup", [], $user);
+            rpLogModel::log($_POST["uname"], "log.type.signup", [], $user);
 
             rpApp::goUrl("/panel/");
         }

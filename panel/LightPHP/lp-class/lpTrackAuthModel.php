@@ -2,25 +2,30 @@
 
 class lpTrackAuthModel extends lpPDOModel
 {
-    static protected function init()
+    static protected $metaData = null;
+
+    static protected function metaData()
     {
-        self::$db = lpApp::getDB();
+        if(!self::$metaData) {
+            self::$metaData = [
+                "db" => lpApp::getDB(),
+                "table" => "lpTrackAuth",
+                "engine" => "MyISAM",
+                "charset" => "utf8",
+                self::PRIMARY => "id"
+            ];
 
-        self::$struct = [
-            "id" => ["type" => self::AI],
-            "user" => ["type" => self::VARCHAR, "length" => 256],
-            "token" => ["type" => self::TEXT],
-            "lastActivityTime" => ["type" => self::UINT],
-        ];
+            self::$metaData["struct"] = [
+                "id" => ["type" => self::AI],
+                "user" => ["type" => self::VARCHAR, "length" => 256],
+                "token" => ["type" => self::TEXT],
+                "lastActivityTime" => ["type" => self::UINT]
+            ];
 
-        foreach(self::$struct as &$v)
-            $v[self::NOTNULL] = true;
+            foreach(self::$metaData["struct"] as &$v)
+                $v[self::NOTNULL] = true;
+        }
 
-        self::$table = [
-            "table" => "lpTrackAuth",
-            "engine" => "MyISAM",
-            "charset" => "utf8",
-            self::PRIMARY => "id"
-        ];
+        return self::$metaData;
     }
 }

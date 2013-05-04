@@ -6,20 +6,44 @@
  * 使用时需要继承该类并重写 init() 函数,
  * 在其中给 $db, $struct, $table 赋值.
  */
-class lpPDOModel
+
+abstract class lpPDOModel implements ArrayAccess
 {
-    /**
-     * @var PDO 数据库连接
-     */
-    static protected $db = null;
-    /**
-     * @var array 数据表结构
-     */
-    static protected $struct = [];
-    /**
-     * @var array 数据表信息
-     */
-    static protected $table = [];
+    protected $id = null, $data = [];
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+        $this->data = static::find([static::metaData()[self::PRIMARY] => $id]);
+    }
+
+    static public function byID($id)
+    {
+        return new static($id);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if(is_null($offset))
+            $this->data[] = $value;
+        else
+            $this->data[$offset] = $value;
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+    }
 
     /**
      * @var int 默认结果抓取方式
@@ -32,17 +56,15 @@ class lpPDOModel
     const AI = "AUTO INCREMENT";
     const VARCHAR = "VARCHAR";
     const TEXT = "TEXT";
+    const JSON = "JSON";
 
     /* 数据修饰 */
     const PRIMARY = "PRIMARY";
     const NOTNULL = "NOT NULL";
 
-    /**
-     *  请重写该函数, 并在其中给 $db, $struct, $table 赋值.
-     */
-    static protected function init()
+    static protected function metaData()
     {
-
+        return null;
     }
 
     /**
@@ -55,18 +77,15 @@ class lpPDOModel
      */
     static public function select($if = [], $config = [])
     {
-        if(!self::$db)
-            static::init();
+        $meta = static::metaData();
 
-        $where = self::buildWhere($if);
-
-        $table = self::$table["table"];
-        $sql = "SELECT * FROM `{$table}` {$where}";
+        $where = static::buildWhere($if);
+        $sql = "SELECT * FROM `{$meta['table']}` {$where}";
 
         if(isset($config["sort"][0]) && $config["sort"][0]) {
             $orderBy = $config["sort"][0];
 
-            if(!array_key_exists($orderBy, self::$struct))
+            if(!array_key_exists($orderBy, $meta["struct"]))
                 throw new Exception("lpPDOModel: Field name is not in the struct");
 
             $sql .= " ORDER BY `{$orderBy}`";
@@ -83,8 +102,8 @@ class lpPDOModel
         if($limit > -1 && !($skip > -1))
             $sql .= " LIMIT {$limit}";
 
-        $rs = self::$db->query($sql);
-        $rs->setFetchMode(isset($config["mode"]) ? : self::$defaultDataType);
+        $rs = static::getDB()->query($sql);
+        $rs->setFetchMode(isset($config["mode"]) ? : static::$defaultDataType);
         return $rs;
     }
 
@@ -93,12 +112,16 @@ class lpPDOModel
      * @param array $if     条件
      * @param array $config 额外参数
      *
-     * @return array|false  成功返回数组, 失败返回false
+     * @return array|null  成功返回数组, 失败返回null
      */
     static public function find($if = [], $config = [])
     {
         $config = array_merge($config, ["limit" => 1]);
-        return self::select($if, $config)->fetch();
+        $data = static::select($if, $config)->fetch();
+        if($data)
+            return static::jsonDecode($data);
+        else
+            return null;
     }
 
     /**
@@ -110,7 +133,10 @@ class lpPDOModel
      */
     static public function selectArray($if = [], $config = [])
     {
-        return self::select($if, $config)->fetchAll();
+        $rs = static::select($if, $config)->fetchAll();
+        foreach($rs as &$v)
+            $v = static::jsonDecode($v);
+        return $rs;
     }
 
     /**
@@ -121,8 +147,10 @@ class lpPDOModel
      */
     static public function insert($data)
     {
-        if(!self::$db)
-            static::init();
+        $meta = static::metaData();
+        $db = static::getDB();
+
+        $data = static::jsonEncode($data);
 
         $columns = array_keys($data);
         $values = array_values($data);
@@ -131,18 +159,17 @@ class lpPDOModel
             $v = "`{$v}`";
         });
 
-        array_walk($values, function (&$v) {
-            $v = self::$db->quote($v);
+        array_walk($values, function (&$v) use ($db) {
+            $v = $db->quote($v);
         });
 
         $columns = implode(", ", $columns);
         $values = implode(", ", $values);
 
-        $table = self::$table["table"];
-        $sql = "INSERT INTO `{$table}` ({$columns}) VALUES ({$values});";
+        $sql = "INSERT INTO `{$meta['table']}` ({$columns}) VALUES ({$values});";
 
-        self::$db->query($sql);
-        return self::$db->lastInsertId();
+        $db->query($sql);
+        return $db->lastInsertId();
     }
 
     /**
@@ -154,22 +181,24 @@ class lpPDOModel
      */
     static public function update($if, $data)
     {
-        if(!self::$db)
-            static::init();
+        $db = static::getDB();
+        $meta = static::metaData();
 
+        $data = static::jsonEncode($data);
+
+        $sqlSet = [];
         foreach($data as $k => $v) {
-            $k = self::$db->quote($k);
-            $v = self::$db->quote($v);
+            $k = $db->quote($k);
+            $v = $db->quote($v);
             $sqlSet[] = "`{$k}` = {$v}";
         }
 
         $sqlSet = implode(", ", $sqlSet);
-        $where = self::buildWhere($if);
+        $where = static::buildWhere($if);
 
-        $table = self::$table["table"];
-        $sql = "UPDATE `{$table}` SET {$sqlSet} {$where}";
+        $sql = "UPDATE `{$meta['table']}` SET {$sqlSet} {$where}";
 
-        return self::$db->exec($sql);
+        return $db->exec($sql);
     }
 
     /**
@@ -180,23 +209,30 @@ class lpPDOModel
      */
     static public function delete($if)
     {
-        if(!self::$db)
-            static::init();
+        $meta = static::metaData();
 
-        $where = self::buildWhere($if);
-        $sql = "DELETE FROM `{$table}` {$where}";
+        $where = static::buildWhere($if);
+        $sql = "DELETE FROM `{$meta['table']}` {$where}";
 
-        return self::$db->exec($sql);
+        return static::getDB()->exec($sql);
+    }
+
+    /**
+     * @return PDO
+     */
+    static protected function getDB()
+    {
+        return static::metaData()["db"];
     }
 
     static protected function buildWhere($if)
     {
         $where = "";
         foreach($if as $k => $v) {
-            if(!array_key_exists($k, self::$struct))
+            if(!array_key_exists($k, static::metaData()["struct"]))
                 throw new Exception("lpPDOModel: Field name is not in the struct");
 
-            $v = self::$db->quote($v);
+            $v = static::getDB()->quote($v);
 
             if(!$where)
                 $where = "(`{$k}` = {$v})";
@@ -208,5 +244,23 @@ class lpPDOModel
             $where = "WHERE {$where}";
 
         return $where;
+    }
+
+    static protected function jsonEncode($data)
+    {
+        foreach(static::metaData()["struct"] as $k => $v) {
+            if($v["type"] == self::JSON && array_key_exists($k, $data))
+                $data[$k] = json_encode($data[$k]);
+        }
+        return $data;
+    }
+
+    static protected function jsonDecode($data)
+    {
+        foreach(static::metaData()["struct"] as $k => $v) {
+            if($v["type"] == self::JSON && array_key_exists($k, $data))
+                $data[$k] = json_decode($data[$k], true);
+        }
+        return $data;
     }
 }
