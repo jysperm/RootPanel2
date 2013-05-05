@@ -3,13 +3,13 @@
 /**
  * Class lpPDOModel PDO Model
  * 该类提供了简单的PDO数据源的访问,
- * 使用时需要继承该类并重写 init() 函数,
- * 在其中给 $db, $struct, $table 赋值.
+ * 使用时需要继承该类并重写 metaData() 函数, 返回有关数据表的信息.
  */
 
 abstract class lpPDOModel implements ArrayAccess
 {
-    protected $id = null, $data = [];
+    protected $id = null;
+    protected $data = [];
 
     public function __construct($id)
     {
@@ -22,6 +22,7 @@ abstract class lpPDOModel implements ArrayAccess
         return new static($id);
     }
 
+    /* ArrayAccess */
     public function offsetSet($offset, $value)
     {
         if(is_null($offset))
@@ -52,8 +53,8 @@ abstract class lpPDOModel implements ArrayAccess
 
     /* 数据类型 */
     const INT = "INT";
-    const UINT = "UNSIGNED INT";
-    const AI = "AUTO INCREMENT";
+    const UINT = "INT UNSIGNED";
+    const AI = "AUTO_INCREMENT";
     const VARCHAR = "VARCHAR";
     const TEXT = "TEXT";
     const JSON = "JSON";
@@ -215,6 +216,45 @@ abstract class lpPDOModel implements ArrayAccess
         $sql = "DELETE FROM `{$meta['table']}` {$where}";
 
         return static::getDB()->exec($sql);
+    }
+
+    /**
+     *  安装数据表
+     */
+    static public function install()
+    {
+        $meta = static::metaData();
+        $db = static::getDB();
+
+        $sql = "CREATE TABLE IF NOT EXISTS `{$meta['table']}` (";
+
+        foreach($meta["struct"] as $k => $v)
+        {
+            switch($v["type"])
+            {
+                case self::AI:
+                    $type = self::INT . " " . self::AI;
+                    break;
+                case self::JSON:
+                    $type = self::TEXT;
+                    break;
+                case self::VARCHAR:
+                    $type = self::VARCHAR . "({$v['length']})";
+                    break;
+                default:
+                    $type = $v["type"];
+            }
+            if(isset($v[self::NOTNULL]) && $v[self::NOTNULL])
+                $type .= " " . self::NOTNULL;
+
+            if(isset($v["default"]))
+                $type .= " DEFAULT " . $db->quote($v["default"]);
+
+            $sql .= "`{$k}` {$type},";
+        }
+
+        $sql .= " PRIMARY KEY (`{$meta['PRIMARY']}`) ) ENGINE={$meta['engine']} CHARSET={$meta['charset']};";
+        $db->exec($sql);
     }
 
     /**

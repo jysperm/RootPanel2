@@ -25,7 +25,7 @@ class rpUserModel extends lpPDOModel
                 "settings" => ["type" => self::JSON],
                 "regtime" => ["type" => self::UINT],
                 "expired" => ["type" => self::UINT],
-                "lastLoginTime" => ["type" => self::UINT],
+                "lastLoginTime" => ["type" => self::UINT, "default" => 0],
                 "lastLoginIP" => ["type" => self::TEXT],
                 "lastLoginUA" => ["type" => self::TEXT],
             ];
