@@ -1,6 +1,6 @@
 <?php
 
-global $rpL;
+global $rpL, $rpCfg;;
 
 lpLocale::i()->load(["node-list"]);
 

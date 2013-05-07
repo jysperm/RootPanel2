@@ -92,7 +92,7 @@ class lpTrackAuth implements lpAuthDrive
             if(isset($passwd["db"]))
                 $passwd = ["token" => self::creatToken($user)];
 
-            static::succeedCallback();
+
 
             $expire = time() + $lpCfg["lpTrackAuth"]["Limit"];
 
@@ -100,6 +100,8 @@ class lpTrackAuth implements lpAuthDrive
             setcookie($cookieName["passwd"], $passwd["token"], $expire, "/");
 
             $_SESSION["lpIsAuth"] = true;
+
+            static::succeedCallback();
 
             return true;
         } else {
@@ -125,11 +127,13 @@ class lpTrackAuth implements lpAuthDrive
         global $lpCfg;
         $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
 
-        lpTrackAuthModel::delete(["user" => self::uname()]);
+        $token = isset($_COOKIE[$cookieName["passwd"]]) ?: null;
+        if(lpTrackAuthModel::find(["user" => self::uname(), "token" => $token]))
+            lpTrackAuthModel::delete(["token" => $_COOKIE[$cookieName["passwd"]]]);
 
         setcookie($cookieName["user"], null, time() - 1, "/");
         setcookie($cookieName["passwd"], null, time() - 1, "/");
 
-        $_SESSION["lp_isauth"] = false;
+        $_SESSION["lpIsAuth"] = false;
     }
 }

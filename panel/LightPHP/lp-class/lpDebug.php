@@ -34,4 +34,16 @@ class lpDebug
     {
 
     }
+
+    static public function log($info, $type, $file=null)
+    {
+        global $lpROOT;
+
+        if(!$file)
+            $file = "{$lpROOT}/debug.log";
+
+        $time = gmdate("Y.m.d H:i:s");
+
+        file_put_contents($file, "{$time} | {$type} | {$info}\n", FILE_APPEND | LOCK_EX);
+    }
 }

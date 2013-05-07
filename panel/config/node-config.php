@@ -1,5 +1,7 @@
 <?php
 
+global $rpCfg;
+
 $rpCfg["NodeName"] = "rp3测试节点";
 $rpCfg["NodeID"] = "rp3";
 

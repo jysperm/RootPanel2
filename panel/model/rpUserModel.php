@@ -26,12 +26,13 @@ class rpUserModel extends lpPDOModel
                 "regtime" => ["type" => self::UINT],
                 "expired" => ["type" => self::UINT],
                 "lastLoginTime" => ["type" => self::UINT, "default" => 0],
-                "lastLoginIP" => ["type" => self::TEXT],
-                "lastLoginUA" => ["type" => self::TEXT],
+                "lastLoginIP" => ["type" => self::TEXT, self::NOTNULL => false],
+                "lastLoginUA" => ["type" => self::TEXT, self::NOTNULL => false],
             ];
 
             foreach(self::$metaData["struct"] as &$v)
-                $v[self::NOTNULL] = true;
+                if(!isset($v[self::NOTNULL]))
+                    $v[self::NOTNULL] = true;
         }
 
         return self::$metaData;

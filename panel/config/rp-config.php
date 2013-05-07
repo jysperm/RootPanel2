@@ -1,5 +1,7 @@
 <?php
 
+global $rpCfg;
+
 $rpCfg["Version"]["main"] = "2.0.0 D";
 $rpCfg["Version"]["time"] = "2013.3.10";
 $rpCfg["Version"]["type"] = "of";

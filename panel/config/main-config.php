@@ -1,5 +1,7 @@
 <?php
 
+global $rpCfg;
+
 // 禁止注册的用户名列表
 $rpCfg["NotAllowSignup"] = ["root"];
 
