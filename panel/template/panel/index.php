@@ -7,7 +7,7 @@ require_once("{$rpROOT}/include/vhost/vhost.php");
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
 
-$me = rpUserModel::this();
+$me = rpUserModel::me();
 
 ?>
 

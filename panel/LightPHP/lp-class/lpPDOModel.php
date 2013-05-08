@@ -13,8 +13,11 @@ abstract class lpPDOModel implements ArrayAccess
 
     public function __construct($id)
     {
-        $this->id = $id;
-        $this->data = static::find([static::metaData()[self::PRIMARY] => $id]);
+        if($id)
+        {
+            $this->id = $id;
+            $this->data = static::find([static::metaData()[self::PRIMARY] => $id]);
+        }
     }
 
     public function data()
@@ -29,9 +32,12 @@ abstract class lpPDOModel implements ArrayAccess
         return true;
     }
 
-    static public function byID($id)
+    static public function by($k, $v)
     {
-        return new static($id);
+        $i = new static(null);
+        $i->data = static::find([$k => $v]);
+        $i->id = $i->data[static::metaData()[self::PRIMARY]];
+        return $i;
     }
 
     /* ArrayAccess */

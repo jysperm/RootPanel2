@@ -28,9 +28,9 @@ $tmp->title = "购买";
         </div>
     <? else: ?>
         <?php
-        $user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
+        $me = rpUserModel::me();
         ?>
-        <? if($user["type"] == rpUser::NO): ?>
+        <? if($me["type"] == rpUserModel::NO): ?>
             <div class="alert alert-block alert-success fade in">
                 <h4 class="alert-heading">提示</h4>
 
