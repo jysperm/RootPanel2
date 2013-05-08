@@ -7,7 +7,7 @@
 
 interface lpAuthDrive
 {
-    static public function succeedCallback();
+    static public function succeedCallback($user);
 
     static public function auth($user, $passwd);
 

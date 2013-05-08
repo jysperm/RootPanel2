@@ -15,7 +15,7 @@ session_start();
 
 class lpTrackAuth implements lpAuthDrive
 {
-    static public function succeedCallback()
+    static public function succeedCallback($user)
     {
 
     }
@@ -101,7 +101,7 @@ class lpTrackAuth implements lpAuthDrive
 
             $_SESSION["lpIsAuth"] = true;
 
-            static::succeedCallback();
+            static::succeedCallback($user);
 
             return true;
         } else {
@@ -127,7 +127,7 @@ class lpTrackAuth implements lpAuthDrive
         global $lpCfg;
         $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
 
-        $token = isset($_COOKIE[$cookieName["passwd"]]) ?: null;
+        $token = isset($_COOKIE[$cookieName["passwd"]]) ? $_COOKIE[$cookieName["passwd"]] : null;
         if(lpTrackAuthModel::find(["user" => self::uname(), "token" => $token]))
             lpTrackAuthModel::delete(["token" => $_COOKIE[$cookieName["passwd"]]]);
 
