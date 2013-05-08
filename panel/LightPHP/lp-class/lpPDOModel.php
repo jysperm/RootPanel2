@@ -17,6 +17,18 @@ abstract class lpPDOModel implements ArrayAccess
         $this->data = static::find([static::metaData()[self::PRIMARY] => $id]);
     }
 
+    public function data()
+    {
+        return $this->data();
+    }
+
+    public function isNull()
+    {
+        if($this->data)
+            return false;
+        return true;
+    }
+
     static public function byID($id)
     {
         return new static($id);
@@ -71,7 +83,7 @@ abstract class lpPDOModel implements ArrayAccess
     /**
      * 检索数据
      * @param array $if     条件: [<字段1> => <值1>, <字段1> => <值2>]
-     * @param array $config 额外参数: ["sort" => [<排序字段>, <是否为正序>], "skip" => <跳过条数>, "limit" => <检索条数>, "mode" => <抓取方式>]
+     * @param array $config 额外参数: ["sort" => [<排序字段>, <是否为正序>], "skip" => <跳过条数>, "limit" => <检索条数>, "mode" => <抓取方式>, "count" => <只获取结果数>]
      *
      * @return PDOStatement
      * @throws Exception
@@ -81,7 +93,10 @@ abstract class lpPDOModel implements ArrayAccess
         $meta = static::metaData();
 
         $where = static::buildWhere($if);
-        $sql = "SELECT * FROM `{$meta['table']}` {$where}";
+        if(isset($config["count"]) && $config["count"])
+            $sql = "SELECT COUNT(*) FROM `{$meta['table']}` {$where}";
+        else
+            $sql = "SELECT * FROM `{$meta['table']}` {$where}";
 
         if(isset($config["sort"][0]) && $config["sort"][0]) {
             $orderBy = $config["sort"][0];
@@ -141,6 +156,19 @@ abstract class lpPDOModel implements ArrayAccess
         foreach($rs as &$v)
             $v = static::jsonDecode($v);
         return $rs;
+    }
+
+    /**
+     * 获取符合条件的行数
+     * @param array $if
+     * @param array $config
+     *
+     * @return int
+     */
+    static public function count($if = [], $config = [])
+    {
+        $config = array_merge($config, ["count" => true]);
+        return static::select($if, $config)->fetch(PDO::FETCH_ASSOC)["COUNT(*)"];
     }
 
     /**

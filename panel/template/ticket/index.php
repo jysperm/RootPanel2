@@ -5,10 +5,8 @@ global $rpROOT, $rpL, $rpCfg;
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "工单 #{$page}";
 
-$rows = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->select()->num();
+$rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
-
-$tks = rpApp::q("Ticket")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit($rpCfg["TKPerPage"])->skip($dPage->getPos())->select();
 
 if(isset($_GET["template"]))
     $template = in_array($_GET["template"], array_keys($rpL["ticket.template"])) ? $_GET["template"] : null;
@@ -66,17 +64,17 @@ else
             </tr>
             </thead>
             <tbody>
-            <? while($tks->read()): ?>
+            <? foreach(rpTicketModel::select(["uname" => rpAuth::uname()], ["sort" => ["lastchange", false], "limit" => $rpCfg["TKPerPage"], "skip" => $dPage->getPos()]) as $tk): ?>
                 <tr>
-                    <td><?= $tks["id"]; ?></td>
-                    <td><?= $rpL["ticket.types"][$tks["type"]]; ?></td>
-                    <td><?= $rpL[$tks["status"]]; ?></td>
+                    <td><?= $tk["id"]; ?></td>
+                    <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
+                    <td><?= $rpL[$tk["status"]]; ?></td>
                     <td><span
-                            title="<?= gmdate("Y.m.d H:i:s", $tks["lastchange"]); ?>"><?= rpTools::niceTime($tks["lastchange"]); ?></span>
+                            title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
                     </td>
-                    <td><a href="/ticket/view/<?= $tks["id"]; ?>/"><?= $tks["title"]; ?></a></td>
+                    <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 </tr>
-            <? endwhile; ?>
+            <? endforeach; ?>
             </tbody>
         </table>
         <div class="pagination pagination-centered">

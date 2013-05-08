@@ -7,15 +7,13 @@ require_once("{$rpROOT}/include/vhost/vhost.php");
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
 
-$user = rpApp::q("user")->where(["uname" => rpAuth::uname()])->top();
-$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit(30)->select();
-$hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
+$me = rpUserModel::this();
 
 ?>
 
 <? lpTemplate::beginBlock(); ?>
 <li class="active"><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
-<? if(rpUser::isAllowToPanel(rpAuth::uname())): ?>
+<? if($me->isAllowToPanel()): ?>
     <li><a href="#section-access"><i class="icon-chevron-right"></i> 远程访问</a></li>
     <li><a href="#section-website"><i class="icon-chevron-right"></i> Web站点管理</a></li>
 <? endif; ?>
@@ -63,14 +61,14 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
 <section id="section-index">
     <header>概述</header>
     <p>
-        账户类型：<?= $rpL["global.userType"][$user["type"]] ?><br/>
+        账户类型：<?= $rpL["global.userType"][$me["type"]] ?><br/>
         到期时间：<span
-            title="<?= gmdate("Y.m.d H:i:s", $user["expired"]); ?>"><?= rpTools::niceTime($user["expired"]); ?></span>
+            title="<?= gmdate("Y.m.d H:i:s", $me["expired"]); ?>"><?= rpTools::niceTime($me["expired"]); ?></span>
         <a class="btn btn-success btn-inline" href="/pay/"> 续费</a>
     </p>
 </section>
 
-<? if(rpUser::isAllowToPanel(rpAuth::uname())): ?>
+<? if($me->isAllowToPanel()): ?>
     <section id="section-access">
         <header>远程访问</header>
         <div>
@@ -102,7 +100,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
             额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).
         </div>
         <hr/>
-        <? while($hosts->read()): ?>
+        <? foreach(rpVirtualHostModel::select(["uname" => rpAuth::uname()]) as $host): ?>
             <div class="box">
                 <div>
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>">是否开启</a>：<span
@@ -124,7 +122,7 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
                         onclick="editWebsite(<?= $hosts["id"]; ?>);return false;">修改
                 </button>
             </div>
-        <? endwhile; ?>
+        <? endforeach; ?>
         <div class="box">
             <button id="new-website" class="btn btn-success pull-right">添加站点</button>
         </div>
@@ -139,24 +137,24 @@ $hosts = rpApp::q("virtualhost")->where(["uname" => rpAuth::uname()])->select();
         <table class="table table-striped table-bordered table-condensed">
             <thead>
             <tr>
-                <th>id</th>
+                <th>ID</th>
                 <th>时间</th>
                 <th>摘要</th>
             </tr>
             </thead>
             <tbody>
-            <? while($logs->read()): ?>
+            <? foreach(rpLogModel::select(["uname" => rpAuth::uname()], ["sort" => ["time", false], "limit" => 30]) as $log): ?>
                 <tr>
-                    <td><?= $logs["id"]; ?></td>
+                    <td><?= $log["id"]; ?></td>
                     <td><span
-                            title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]); ?></span>
+                            title="<?= gmdate("Y.m.d H:i:s", $log["time"]); ?>"><?= rpTools::niceTime($log["time"]); ?></span>
                     </td>
-                    <? $args = json_decode($logs["info"]);
-                    array_unshift($args, $rpL[$logs["type"]]);
+                    <? $args = json_decode($log["info"]);
+                    array_unshift($args, $rpL[$log["type"]]);
                     ?>
                     <td><?= call_user_func_array("sprintf", $args); ?></td>
                 </tr>
-            <? endwhile; ?>
+            <? endforeach; ?>
             </tbody>
         </table>
         <div>

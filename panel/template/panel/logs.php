@@ -5,10 +5,8 @@ global $rpROOT, $rpCfg, $tooltip, $rpL;
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "详细日志 #{$page}";
 
-$rows = rpApp::q("Log")->where(["uname" => rpAuth::uname()])->select()->num();
+$rows = rpLogModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["LogPerPage"]);
-
-$logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false)->limit($rpCfg["LogPerPage"])->skip($dPage->getPos())->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -35,25 +33,25 @@ $logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false
         </tr>
         </thead>
         <tbody>
-        <? while($logs->read()): ?>
+        <? foreach(rpLogModel::select(["uname" => rpAuth::uname()], ["sort" => ["time", false], "limit" => $rpCfg["LogPerPage"], "skip" => $dPage->getPos()]) as $log): ?>
             <tr>
-                <td><?= $logs["id"]; ?></td>
-                <td><?= $logs["by"]; ?></td>
-                <td><span title="<?= htmlentities($logs["ua"]); ?>"><?= $logs["ip"]; ?></span></td>
+                <td><?= $log["id"]; ?></td>
+                <td><?= $log["by"]; ?></td>
+                <td><span title="<?= htmlentities($log["ua"]); ?>"><?= $log["ip"]; ?></span></td>
                 <td><span
-                        title="<?= gmdate("Y.m.d H:i:s", $logs["time"]); ?>"><?= rpTools::niceTime($logs["time"]); ?></span>
+                        title="<?= gmdate("Y.m.d H:i:s", $log["time"]); ?>"><?= rpTools::niceTime($log["time"]); ?></span>
                 </td>
-                <? $args = json_decode($logs["info"]);
+                <? $args = json_decode($log["info"]);
                 ?>
                 <td>
-                    <?= vsprintf($rpL[$logs["type"]], $args); ?> |
-                    <a data-toggle="collapse" href="#detail<?= $logs["id"]; ?>">
+                    <?= vsprintf($rpL[$log["type"]], $args); ?> |
+                    <a data-toggle="collapse" href="#detail<?= $log["id"]; ?>">
                         详细
                     </a>
 
-                    <div id="detail<?= $logs["id"]; ?>" class="accordion-body collapse">
+                    <div id="detail<?= $log["id"]; ?>" class="accordion-body collapse">
                         <?php
-                        $detail = json_decode($logs["detail"]);
+                        $detail = json_decode($log["detail"]);
                         foreach($detail as $k => $v) {
                             echo "<b>{$k}</b>: {$v}<br />";
                         }
@@ -61,7 +59,7 @@ $logs = rpApp::q("log")->where(["uname" => rpAuth::uname()])->sort("time", false
                     </div>
                 </td>
             </tr>
-        <? endwhile; ?>
+        <? endforeach; ?>
         </tbody>
     </table>
     <div class="pagination pagination-centered">

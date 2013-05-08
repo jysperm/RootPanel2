@@ -5,7 +5,6 @@ global $rpROOT, $rpL, $rpCfg;
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = $titile = "工单 #{$tk["id"]}";
 
-$replys = rpApp::q("TicketReply")->where(["replyto" => $tk["id"]])->select();
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -65,16 +64,16 @@ $replys = rpApp::q("TicketReply")->where(["replyto" => $tk["id"]])->select();
     </section>
 
     <section id="replys">
-        <header>回复 (<?= $replys->num(); ?>)</header>
-        <? while($replys->read()): ?>
+        <header>回复 (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
+        <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
             <div class="box">
-                <?= $replys["content"]; ?>
+                <?= $reply["content"]; ?>
                 <hr/>
                 <span
-                    title="<?= gmdate("Y.m.d H:i:s", $replys["time"]); ?>"><?= rpTools::niceTime($replys["time"]); ?></span>
-                | <?= $replys["uname"]; ?>
+                    title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
+                | <?= $reply["uname"]; ?>
             </div>
-        <? endwhile; ?>
+        <? endforeach; ?>
     </section>
 
     <section id="operation">

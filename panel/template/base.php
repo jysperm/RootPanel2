@@ -36,7 +36,7 @@ global $rpCfg, $rpL;
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
                         <li><a><?= rpAuth::uname(); ?></a></li>
-                        <? if(!rpUserModel::isAllowToPanel(rpAuth::uname())): ?>
+                        <? if(!rpUserModel::this()->isAllowToPanel()): ?>
                             <li><a href="/pay/free/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
                         <? endif; ?>
@@ -60,7 +60,7 @@ global $rpCfg, $rpL;
     <div class="row-fluid">
         <? if(isset($sidenav)): ?>
             <div class="span3 sidenav-bar">
-                <ul data-spy="affix" class="nav nav-list sidenav">
+                <ul data-spy="affix" class="affix nav nav-list sidenav">
                     <?= $sidenav; ?>
                 </ul>
             </div>

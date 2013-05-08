@@ -4,6 +4,11 @@ class rpUserModel extends lpPDOModel
 {
     static protected $metaData = null;
 
+    const NO = "no";
+    const STD = "std";
+    const EXT = "ext";
+    const FREE = "free";
+
     static protected function metaData()
     {
         if(!self::$metaData) {
@@ -43,19 +48,23 @@ class rpUserModel extends lpPDOModel
         return new self(self::find(["uname" => $uname])["id"]);
     }
 
-    static function isAllowToPanel($user)
+    static public function this()
     {
-        $r = self::find(["uname" => $user]);
-        if($r["type"] != rpUser::NO && !self::isAdmin($user))
+        return self::byUName(rpAuth::uname());
+    }
+
+    public function isAllowToPanel()
+    {
+        if($this->data["type"] != self::NO && !$this->isAdmin())
             return true;
         else
             return false;
     }
 
-    static function isAdmin($user)
+    public function isAdmin()
     {
         global $rpCfg;
 
-        return array_key_exists($user, $rpCfg["Admins"]);
+        return array_key_exists($this->data["uname"], $rpCfg["Admins"]);
     }
 }

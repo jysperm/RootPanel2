@@ -51,10 +51,8 @@ class rpTicketHandler extends lpHandler
             "content" => nl2br(htmlentities($_POST["content"]))
         ];
 
-        rpApp::q("Ticket")->insert($ticket);
-
-        $id = rpApp::getDB()->operator("lastInsertID");
-        rpLog::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
+        $id = rpTicketModel::insert($ticket);
+        rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
         echo json_encode(["status" => "ok"]);
     }
@@ -64,11 +62,11 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        $tk = rpApp::q("Ticket")->where(["id" => $id])->top();
+        $tk = new rpTicketModel($id);
+        if($tk->isNull())
+            die("工单ID无效");
         if($tk["uname"] != rpAuth::uname())
             die("该工单不属于你");
-        if(!$tk)
-            die("工单ID无效");
 
         $reply = [
             "replyto" => $id,
@@ -77,9 +75,9 @@ class rpTicketHandler extends lpHandler
             "content" => nl2br(htmlentities($_POST["content"]))
         ];
 
-        rpApp::q("TicketReply")->insert($reply);
+        rpTicketReplyModel::insert($reply);
 
-        rpLog::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
+        rpLogModel::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
 
         echo json_encode(["status" => "ok"]);
     }
@@ -90,11 +88,11 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        $tk = rpApp::q("Ticket")->where(["id" => $id])->top();
+        $tk = new rpTicketModel($id);
+        if($tk->isNull())
+            die("工单ID无效");
         if($tk["uname"] != rpAuth::uname())
             die("该工单不属于你");
-        if(!$tk)
-            die("工单ID无效");
 
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");
         $tmp->tk = $tk;
