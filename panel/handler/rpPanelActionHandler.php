@@ -70,6 +70,7 @@ class rpPanelActionHandler extends lpHandler
      */
     private function checkInput($isNew = false)
     {
+        $types = rpVHostType::loadTypes();
         $data = [];
 
         // domains-域名
@@ -104,5 +105,14 @@ class rpPanelActionHandler extends lpHandler
                     return ["ok" => false, "以下域名已被其他人绑定，请联系客服：" . join(" ", $errDomains)];
             }
         }
+
+        // template模板类型
+        if(!in_array($_POST["type"], array_keys($types))) {
+            $this->msg = "type参数错误";
+            return ["ok" => false, "type参数错误"];
+        }
+        $data["type"] = $_POST["type"];
+
+
     }
 }

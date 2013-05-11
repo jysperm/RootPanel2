@@ -1,6 +1,6 @@
 <?php
 
-class rpPHPFPMType implements  rpVHostType
+class rpPHPFPMType extends rpVHostType
 {
     public function meta()
     {

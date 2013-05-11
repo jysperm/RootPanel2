@@ -205,16 +205,6 @@ class VirtualHost extends lpAction
 
     private function checkInput($isNew = false)
     {
-
-
-        // template模板类型
-        if(!in_array($_POST["optemplate"], array("web", "proxy", "python"))) {
-            $this->msg = "optemplate参数错误";
-            return false;
-        }
-
-        $row["template"] = $_POST["optemplate"];
-
         // Alias别名
         $aliasR = array();
         $alias = explode("\n", $_POST["alias"]);
@@ -239,31 +229,6 @@ class VirtualHost extends lpAction
 
         $row["alias"] = json_encode($aliasR);
 
-        // 日志
-        if(!checkFileName($_POST["nginxaccess"])) {
-            $this->msg = "nginxaccess不正确";
-            return false;
-        }
-
-        if(!checkFileName($_POST["nginxerror"])) {
-            $this->msg = "nginxerror不正确";
-            return false;
-        }
-
-        if(!checkFileName($_POST["apacheaccess"])) {
-            $this->msg = "apacheaccess不正确";
-            return false;
-        }
-
-        if(!checkFileName($_POST["apacheerror"])) {
-            $this->msg = "apacheerror不正确";
-            return false;
-        }
-
-        $row["nginxaccess"] = $_POST["nginxaccess"];
-        $row["nginxerror"] = $_POST["nginxerror"];
-        $row["apacheaccess"] = $_POST["apacheaccess"];
-        $row["apacheerror"] = $_POST["apacheerror"];
 
         // SSL
         if(isset($_POST["isssl"]) && $_POST["isssl"] == "on") {
@@ -399,5 +364,3 @@ class VirtualHost extends lpAction
         return true;
     }
 }
-
-?>

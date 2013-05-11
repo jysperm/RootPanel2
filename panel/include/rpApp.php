@@ -40,7 +40,8 @@ class rpApp extends lpApp
             $paths = [
                 "{$rpROOT}/include/{$name}.php",
                 "{$rpROOT}/handler/{$name}.php",
-                "{$rpROOT}/model/{$name}.php"
+                "{$rpROOT}/model/{$name}.php",
+                "{$rpROOT}/include/vhost/{$name}.php"
             ];
 
             foreach($paths as $path) {

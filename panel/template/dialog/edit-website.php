@@ -1,8 +1,8 @@
 <?php
 
-global $rpCfg, $lpApp, $rpROOT, $rpVHostType;
+global $rpCfg, $lpApp, $rpROOT;
 
-require_once("{$rpROOT}/include/vhost/vhost.php");
+$types = rpVHostType::loadTypes();
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
@@ -21,7 +21,7 @@ if(isset($new) && $new) {
         ],
         "source" => "/home/" . rpAuth::uname() . "/web/",
         "ison" => 1,
-        "settings" => ["server" => ""],
+        "settings" => $types["phpfpm"]->defaultSettings()
     ];
 }
 ?>
@@ -73,11 +73,11 @@ if(isset($new) && $new) {
             <label class="control-label">&raquo;</label>
 
             <div class="controls">
-                <? foreach($rpVHostType as $k => $v): ?>
+                <? foreach($types as $k => $v): ?>
                     <label class="radio">
                         <input type="radio" name="type" id="op<?= $k; ?>"
                                value="<?= $k; ?>" <?= ($rs["type"] == $k) ? "checked='checked'" : ""; ?> />
-                        <?= $v["description"]; ?>
+                        <?= $v->meta()["description"]; ?>
                     </label>
                 <? endforeach; ?>
             </div>
@@ -86,10 +86,10 @@ if(isset($new) && $new) {
     <hr/>
 
     <div class="form-horizontal">
-        <h4 id="title-type"><?= $rpVHostType[$rs["type"]]["name"]; ?></h4>
-        <? foreach($rpVHostType as $k => $v): ?>
+        <h4 id="title-type"><?= $types[$rs["type"]]->meta()["name"]; ?></h4>
+        <? foreach($types as $k => $v): ?>
             <div class="setting-<?= $k; ?>">
-                <?= $v["html-setting"](($rs["type"] == $k) ? $rs : ["settings" => $v["default-settings"]()]); ?>
+                <?= $v->settingsHTML(($rs["type"] == $k) ? $rs : ["settings" => $v->defaultSettings()]); ?>
             </div>
         <? endforeach; ?>
     </div>
@@ -174,15 +174,15 @@ if(isset($new) && $new) {
 </form>
 <?php
 $jsSiteType = "";
-foreach($rpVHostType as $k => $v) {
+foreach($types as $k => $v) {
     $jsSiteType [] = "'{$k}'";
 }
 ?>
 <script type='text/javascript'>
-    <? foreach($rpVHostType as $k => $v): ?>
+    <? foreach($types as $k => $v): ?>
     $("#op<?= $k;?>").click(function () {
-        $("#title-type").html('<?= $v["name"];?>');
-        <? foreach($rpVHostType as $k2 => $v2): ?>
+        $("#title-type").html('<?= $v->meta()["name"];?>');
+        <? foreach($types as $k2 => $v2): ?>
         $(".setting-<?= $k2;?>").hide();
         <? endforeach; ?>
         $(".setting-<?= $k;?>").show();

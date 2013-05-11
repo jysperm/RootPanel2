@@ -1,11 +1,17 @@
 <?php
 
-global $rpVHostType;
+class rpApache2Type extends rpVHostType
+{
+    public function meta()
+    {
+        return [
+            "name" => "Apache",
+            "description" => "完全使用Apache2, 可使用Apache2的更多高级功能"
+        ];
+    }
 
-$rpVHostType["apache2"] = [
-    "name" => "Apache",
-    "description" => "完全使用Apache2, 可使用Apache2的更多高级功能",
-    "html-setting" => function ($old) {
+    public function settingsHTML($old)
+    {
         $sOnly = $old["settings"]["type"] == "only" ? "checked='checked'" : "";
         $sUnless = $old["settings"]["type"] == "unless" ? "checked='checked'" : "";
         return <<< HTML
@@ -32,8 +38,10 @@ $rpVHostType["apache2"] = [
 
 
 HTML;
-    },
-    "default-settings" => function () {
+    }
+
+    public function defaultSettings()
+    {
         return ["type" => "unless", "extension" => "css js jpg gif png ico zip rar exe"];
     }
-];
+}

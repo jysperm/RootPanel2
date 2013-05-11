@@ -1,8 +1,8 @@
 <?php
 
-global $rpROOT, $rpL, $rpCfg, $rpVHostType;
+global $rpROOT, $rpL, $rpCfg;
 
-require_once("{$rpROOT}/include/vhost/vhost.php");
+$types = rpVHostType::loadTypes();
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
@@ -113,7 +113,7 @@ $me = rpUserModel::me();
                 </div>
                 <div>
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>">站点类型</a>：<span
-                        class="label"><?= $rpVHostType[$hosts["type"]]["name"]; ?></span> |
+                        class="label"><?= $types[$hosts["type"]]->meta()["name"]; ?></span> |
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a>： <span
                         class="label"><?= $hosts["source"]; ?></span>
                 </div>
