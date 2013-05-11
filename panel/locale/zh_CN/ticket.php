@@ -37,4 +37,14 @@ $rpL["ticket.template"]["freeRequest"]["content"] = <<< HTML
 
 HTML;
 
+$rpL["ticket.template"]["configRequest"]["title"] = "配置文件审核申请";
+$rpL["ticket.template"]["configRequest"]["type"] = "web";
+$rpL["ticket.template"]["configRequest"]["content"] = <<< HTML
+## 请填写:
+* 配置文件内容
+* 主要功能描述
+* 保证不会干扰到其他用户和服务器运行
+
+HTML;
+
 

@@ -5,7 +5,7 @@ $($("#new-website").click(function () {
 
         $("#dialog .dialog-ok").unbind('click');
         $("#dialog .dialog-ok").click(function () {
-            var postdata = $("#dialog .dialog-form").serializeArray();
+            var postdata = $("#dialog .website-form").serializeArray();
             $.post("/panel-action/add/", postdata, function (data) {
                 if (data.status == "ok")
                     window.location.reload();
@@ -33,6 +33,10 @@ $($("#apache2-extConfig").click(function () {
     });
     $("#dialog").modal();
 }));
+
+
+
+
 
 
 function deleteWebsite(websiteId) {

@@ -68,13 +68,17 @@ class rpUserHandler extends lpHandler
     {
         lpLocale::i()->load(["contant", "login"]);
 
-        if(!$this->isPost()) {
+        if(!$this->isPost())
+        {
             global $rpROOT;
             lpTemplate::outputFile("{$rpROOT}/template/user/login.php");
-        } else {
+        }
+        else
+        {
             global $rpL;
 
-            $procError = function ($str) {
+            $procError = function ($str)
+            {
                 global $rpROOT;
                 $tmp = new lpTemplate("{$rpROOT}/template/user/login.php");
 

@@ -97,7 +97,8 @@ $me = rpUserModel::me();
         <div>
             <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.extConfig"]; ?>">额外</a>的Nginx配置文件： 0字节(<a
                 id="nginx-extConfig" href="#">查看</a>).<br/>
-            额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).
+            额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).<br/>
+            <a class="btn" href="/ticket/list/?template=configRequest">修改配置文件</a>
         </div>
         <hr/>
         <? foreach(rpVirtualHostModel::select(["uname" => rpAuth::uname()]) as $host): ?>

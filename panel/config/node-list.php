@@ -29,7 +29,7 @@ $rpCfg["NodeList"] = [
         "name" => "测试节点",
         "description" => $rpL["nodelist.rp3"],
         "memory" => 40,
-        "cpu" => 0.02,
+        "cpu" => 200,
         "disk" => 500,
         "traffic" => 30
     ]
