@@ -205,49 +205,10 @@ class VirtualHost extends lpAction
 
     private function checkInput($isNew = false)
     {
-        // Alias别名
-        $aliasR = array();
-        $alias = explode("\n", $_POST["alias"]);
-        foreach($alias as $v) {
-            $vv = explode(" ", trim(str_replace("  ", " ", $v)));
-
-            if(isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1]) {
-
-                if(!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128) {
-                    $this->msg = "别名{$vv[0]}不正确";
-                    return false;
-                }
-
-                if(!checkFileName($vv[1])) {
-                    $this->msg = "别名{$vv[1]}不正确";
-                    return false;
-                }
-
-                $aliasR[$vv[0]] = $vv[1];
-            }
-        }
-
-        $row["alias"] = json_encode($aliasR);
 
 
-        // SSL
-        if(isset($_POST["isssl"]) && $_POST["isssl"] == "on") {
-            if(!checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"])) {
-                $this->msg = "sslcrt不正确或不存在";
-                return false;
-            }
 
-            if(!checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"])) {
-                $this->msg = "sslkey不正确或不存在";
-                return false;
-            }
 
-            $row["isssl"] = 1;
-            $row["sslcrt"] = $_POST["sslcrt"];
-            $row["sslkey"] = $_POST["sslkey"];
-        } else {
-            $row["isssl"] = 0;
-        }
 
         // 核心选项
         switch($_POST["optemplate"]) {
@@ -300,15 +261,7 @@ class VirtualHost extends lpAction
 
                 $row["type"] = $_POST["optype"];
 
-                // [A-Za-z0-9_\-\.]+
-                // ^ *DOMAIN( DOMAIN)* *$
-                // ^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$
-                if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
-                    strlen($_POST["indexs"]) > 256
-                ) {
-                    $this->msg = "indexs格式不正确";
-                    return false;
-                }
+
 
                 if(isset($_POST["autoindex"]) && $_POST["autoindex"] == "on")
                     $row["autoindex"] = 1;

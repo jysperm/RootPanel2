@@ -71,4 +71,18 @@ class rpUserModel extends lpPDOModel
 
         return array_key_exists($this->data["uname"], $rpCfg["Admins"]);
     }
+
+    public function checkFileName($filename)
+    {
+        $user = $this->data["uname"];
+        $userDir = "/home/{$user}/";
+
+        if(preg_match('%^[/A-Za-z0-9_\-\.]+/?$%', $filename) &&
+            substr($filename, 0, strlen($userDir)) == $userDir &&
+            strlen($filename) < 512  &&
+            substr($filename, -3) != "/.." &&
+            strpos($filename, "/../") === false)
+            return true;
+        return false;
+    }
 }

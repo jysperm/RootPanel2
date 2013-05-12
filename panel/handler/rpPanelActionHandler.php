@@ -73,6 +73,12 @@ class rpPanelActionHandler extends lpHandler
         $types = rpVHostType::loadTypes();
         $data = [];
 
+        // 开关
+        $data["ison"] = $_POST["ison"] ?: 1;
+        $data["autoindex"] = $_POST["autoindex"] ?: 1;
+        $data["isssl"] = $_POST["isssl"] ?: 0;
+
+
         // domains-域名
         // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
         // ^ *DOMAIN( DOMAIN)* *$
@@ -113,6 +119,47 @@ class rpPanelActionHandler extends lpHandler
         }
         $data["type"] = $_POST["type"];
 
+        // alias别名
+        $aliasR = [];
+        $alias = explode("\n", $_POST["alias"]);
+        foreach($alias as $v) {
+            $vv = explode(" ", trim(str_replace("  ", " ", $v)));
 
+            if(isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1])
+            {
+                if(!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128)
+                    return ["ok" => false, "别名{$vv[0]}不正确"];
+
+                if(!rpUserModel::me()->checkFileName($vv[1]))
+                    return ["ok" => false, "别名{$vv[1]}不正确"];
+
+                $aliasR[$vv[0]] = $vv[1];
+            }
+        }
+        $row["alias"] = $aliasR;
+
+        // indexs默认首页
+        // [A-Za-z0-9_\-\.]+
+        // ^ *DOMAIN( DOMAIN)* *$
+        // ^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$
+        if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
+            strlen($_POST["indexs"]) > 256
+        ) {
+            return ["ok" => false, "indexs格式不正确"];
+        }
+        $data["indexs"] = $_POST["indexs"];
+
+        // SSL
+        if($data["isssl"])
+        {
+            if(!rpUserModel::me()->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
+                return ["ok" => false, "sslcrt不正确或不存在"];
+
+            if(!rpUserModel::me()->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
+                return ["ok" => false, "sslkey不正确或不存在"];
+
+            $data["sslcrt"] = $_POST["sslcrt"];
+            $data["sslkey"] = $_POST["sslkey"];
+        }
     }
 }

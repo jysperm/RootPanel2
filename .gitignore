@@ -1,12 +1,15 @@
-﻿#Linux
+﻿# Linux
 *~
 
-#Winodws
+# Winodws
 Thumbs.db
 
-#PhpStorm
+# PhpStorm
 /.idea/*
 
-#RootPanel
+# LightPHP
+/LightPHP/debug.log
+
+# RootPanel
 /panel/temp
 .lock
