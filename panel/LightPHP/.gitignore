@@ -1,7 +1,11 @@
-#Linux
+# Linux
 *~
 
-#Winodws
+# Winodws
 Thumbs.db
 
+# PhpStorm
 /.idea/*
+
+# LightPHP
+/LightPHP/debug.log
