@@ -7,9 +7,6 @@ Thumbs.db
 # PhpStorm
 /.idea/*
 
-# LightPHP
-/LightPHP/debug.log
-
 # RootPanel
 /panel/temp
 .lock

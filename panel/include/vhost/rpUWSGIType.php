@@ -24,4 +24,15 @@ HTML;
     {
         return ["socket" => ""];
     }
+
+    public function checkSettings($settings, $source)
+    {
+        if(!rpUserModel::me()->checkFileName($settings["socket"]))
+            return ["ok" => false, "msg" => "请填写有效的socket地址"];
+
+        if(!rpUserModel::me()->checkFileName($source))
+            return ["ok" => false, "msg" => "数据源格式不正确"];
+
+        return ["ok" => true, "data" => ["socket" => $settings["socket"]]];
+    }
 }

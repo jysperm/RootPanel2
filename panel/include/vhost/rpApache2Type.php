@@ -44,4 +44,19 @@ HTML;
     {
         return ["type" => "unless", "extension" => "css js jpg gif png ico zip rar exe"];
     }
+
+    public function checkSettings($settings, $source)
+    {
+        if(!in_array($settings["type"], ["unless", "only"]))
+            return ["ok" => false, "msg" => "类型不正确"];
+
+        if(!rpUserModel::me()->checkFileName($source))
+            return ["ok" => false, "msg" => "数据源格式不正确"];
+
+        if(!preg_match('/^ *[A-Za-z0-9_\-\.]*( [A-Za-z0-9_\-\.]*)* *$/', $settings["extension"]) ||
+            strlen($settings["extension"]) >256 )
+            return ["ok" => false, "msg" => "扩展名不正确"];
+
+        return ["ok" => true, "data" => ["type" => $settings["type"], "extension" => $settings["extension"]]];
+    }
 }

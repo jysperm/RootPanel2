@@ -24,4 +24,17 @@ HTML;
     {
         return ["host" => ""];
     }
+
+    public function checkSettings($settings, $source)
+    {
+        if($settings["host"] && !preg_match('/(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*/', $settings["host"]) ||
+            strlen($settings["host"]) > 128 )
+            return ["ok" => false, "msg" => "请填写有效的域名"];
+
+        if(!preg_match('%^http://[^\s]*$%', $source) ||
+            strlen($source) > 512 )
+            return ["ok" => false, "msg" => "数据源格式不正确"];
+
+        return ["ok" => true, "data" => ["host" => $settings["host"]]];
+    }
 }

@@ -20,10 +20,10 @@ class rpVirtualHostModel extends lpPDOModel
                 "uname" => ["type" => self::VARCHAR, "length" => 256],
                 "domains" => ["type" => self::TEXT],
                 "lastchange" => ["type" => self::UINT],
-                "general" => ["type" => self::TEXT],
+                "general" => ["type" => self::JSON],
                 "source" => ["type" => self::TEXT],
                 "type" => ["type" => self::VARCHAR, "length" => 256],
-                "settings" => ["type" => self::TEXT],
+                "settings" => ["type" => self::JSON],
                 "ison" => ["type" => self::INT]
             ];
 

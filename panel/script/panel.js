@@ -9,8 +9,8 @@ $($("#new-website").click(function () {
             postdata.push({name: "ison", value: ($("#ison").hasClass("active") ? 1 : 0)});
             postdata.push({name: "autoindex", value: ($("#autoindex").hasClass("active") ? 1 : 0)});
             postdata.push({name: "isssl", value: ($("#isssl").hasClass("active") ? 1 : 0)});
-            $.post("/panel-action/add/", postdata, function (data) {
-                if (data.status == "ok")
+            $.post("/panel-action/create/", postdata, function (data) {
+                if(data.status == "ok")
                     window.location.reload();
                 else
                     alert(data.msg);

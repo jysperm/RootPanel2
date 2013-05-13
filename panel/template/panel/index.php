@@ -102,25 +102,25 @@ $me = rpUserModel::me();
         </div>
         <hr/>
         <? foreach(rpVirtualHostModel::select(["uname" => rpAuth::uname()]) as $host): ?>
-            <div class="box">
+            <div id="website<?= $host["id"];?>" class="box">
                 <div>
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>">是否开启</a>：<span
-                        class="label"><?= $hosts["ison"] ? "是" : "否"; ?></span> |
+                        class="label"><?= $host["ison"] ? "是" : "否"; ?></span> |
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a>：<span
-                        class="label"><?= $hosts["id"]; ?></span> |
+                        class="label"><?= $host["id"]; ?></span> |
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.domain"]; ?>">域名</a>：<span
-                        class="label"><?= $hosts["domains"]; ?></span>
+                        class="label"><?= $host["domains"]; ?></span>
                 </div>
                 <div>
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>">站点类型</a>：<span
-                        class="label"><?= $types[$hosts["type"]]->meta()["name"]; ?></span> |
+                        class="label"><?= $types[$host["type"]]->meta()["name"]; ?></span> |
                     <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a>： <span
-                        class="label"><?= $hosts["source"]; ?></span>
+                        class="label"><?= $host["source"]; ?></span>
                 </div>
-                <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $hosts["id"]; ?>);return false;">删除
+                <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $host["id"]; ?>);return false;">删除
                 </button>
                 <button class="btn btn-info pull-right" style="margin-right:10px;"
-                        onclick="editWebsite(<?= $hosts["id"]; ?>);return false;">修改
+                        onclick="editWebsite(<?= $host["id"]; ?>);return false;">修改
                 </button>
             </div>
         <? endforeach; ?>

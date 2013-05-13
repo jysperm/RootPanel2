@@ -4,46 +4,62 @@ class rpPanelActionHandler extends lpHandler
 {
     private function jsonError($msg)
     {
-        echo json_encode(["statuc" => "error", "msg" => $msg]);
+        echo json_encode(["status" => "error", "msg" => $msg]);
     }
 
     private function auth()
     {
         if(!rpAuth::login())
-            $this->jsError("未登录");
+            $this->jsonError("未登录");
 
         if(!rpUserModel::me()->isAllowToPanel())
-            $this->jsError("未开通");
+            $this->jsonError("未开通");
     }
 
     public function getNewVHost()
     {
         global $rpROOT;
 
+        $this->auth();
+
         $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
         $tmp->setValue("new", true);
         $tmp->output();
     }
 
-    public function add()
+    public function create()
     {
-        return print_r($_POST, false);
+        $this->auth();
+        $data = $this->checkInput(true);
 
-        $data = $this->checkInput();
         if($data["ok"])
         {
+            $data = $data["data"];
+
+            $general = [
+                "alias" => $data["alias"],
+                "autoindex" => $data["autoindex"],
+                "indexs" => $data["indexs"],
+                "isssl" => $data["isssl"],
+                "sslcrt" => $data["sslcrt"],
+                "sslkey" => $data["sslkey"]
+            ];
+
             $vhost = [
                 "uname" => rpAuth::uname(),
                 "domains" => $data["domains"],
-                "lastchange" => $data["lastchange"],
-                "general" => ["alias" => $data["alias"], "autoindex" => $data["autoindex"], "indexs" => $data["indexs"]],
+                "lastchange" => time(),
+                "general" => $general,
                 "source" => $data["source"],
                 "type" => $data["type"],
-                "settings" => [],
+                "settings" => $data["settings"],
                 "ison" => true
             ];
 
+            $id = rpVirtualHostModel::insert($vhost);
+            rpLogModel::log(rpAuth::uname(), "log.type.createVHost", [$id, $id], $vhost);
 
+            echo json_encode(["status" => "ok"]);
         }
         else
         {
@@ -74,9 +90,9 @@ class rpPanelActionHandler extends lpHandler
         $data = [];
 
         // 开关
-        $data["ison"] = $_POST["ison"] ?: 1;
-        $data["autoindex"] = $_POST["autoindex"] ?: 1;
-        $data["isssl"] = $_POST["isssl"] ?: 0;
+        $data["ison"] = $_POST["ison"] ? 1 : 0;
+        $data["autoindex"] = $_POST["autoindex"] ? 1 : 0;
+        $data["isssl"] = $_POST["isssl"] ? 1 : 0;
 
 
         // domains-域名
@@ -112,12 +128,25 @@ class rpPanelActionHandler extends lpHandler
             }
         }
 
-        // template模板类型
-        if(!in_array($_POST["type"], array_keys($types))) {
-            $this->msg = "type参数错误";
+        // type站点类型
+        if(!in_array($_POST["type"], array_keys($types)))
             return ["ok" => false, "type参数错误"];
-        }
         $data["type"] = $_POST["type"];
+
+        // 类型相关选项
+        $perfix = "vhost-{$data["type"]}-";
+        $settings = [];
+        foreach($_POST as $k => $v)
+            if(substr($k, 0, strlen($perfix)) == $perfix)
+                $settings[substr($k, strlen($perfix))] = $v;
+
+        $r = $types[$_POST["type"]]->checkSettings($settings, $_POST["source"]);
+        if(!$r["ok"])
+            return ["ok" => false, "msg" => $r["msg"]];
+
+        $data["settings"] = $r["data"];
+        $data["source"] = $_POST["source"];
+
 
         // alias别名
         $aliasR = [];
@@ -136,11 +165,11 @@ class rpPanelActionHandler extends lpHandler
                 $aliasR[$vv[0]] = $vv[1];
             }
         }
-        $row["alias"] = $aliasR;
+        $data["alias"] = $aliasR;
 
         // indexs默认首页
         // [A-Za-z0-9_\-\.]+
-        // ^ *DOMAIN( DOMAIN)* *$
+        // ^ *FILENAME( FILENAME)* *$
         // ^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$
         if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
             strlen($_POST["indexs"]) > 256
@@ -161,5 +190,11 @@ class rpPanelActionHandler extends lpHandler
             $data["sslcrt"] = $_POST["sslcrt"];
             $data["sslkey"] = $_POST["sslkey"];
         }
+        else
+        {
+            $data["sslcrt"] = $data["sslkey"] = "";
+        }
+
+        return ["ok" => true, "data" => $data];
     }
 }

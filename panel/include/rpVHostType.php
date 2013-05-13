@@ -6,6 +6,14 @@ abstract class rpVHostType
     abstract public function settingsHTML($old);
     abstract public function defaultSettings();
 
+    /**
+     * @param $settings
+     * @param $source
+     *
+     * @return array ["ok" => true|false, "msg" => <错误信息>, "data" => <成功过滤后的数据(数组)>]
+     */
+    abstract public function checkSettings($settings, $source);
+
     static public function loadTypes()
     {
         $types = [
