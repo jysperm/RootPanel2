@@ -7,6 +7,23 @@ $base->title = $titile = "详细日志 #{$page}";
 
 $rows = rpLogModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["LogPerPage"]);
+
+function printArray($arr, $tab=0)
+{
+    foreach($arr as $k => $v)
+    {
+        if(is_array($v))
+        {
+            echo str_repeat(" &nbsp; ", $tab) . "<b>{$k}</b>:<br />";
+            printArray($v, $tab+1);
+        }
+        else
+        {
+            echo str_repeat(" &nbsp; ", $tab) . "<b>{$k}</b>: {$v}<br />";
+        }
+    }
+}
+
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -50,12 +67,7 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["LogPerPage"]);
                     </a>
 
                     <div id="detail<?= $log["id"]; ?>" class="accordion-body collapse">
-                        <?php
-                        $detail = json_decode($log["detail"]);
-                        foreach($detail as $k => $v) {
-                            echo "<b>{$k}</b>: {$v}<br />";
-                        }
-                        ?>
+                        <? printArray(json_decode($log["detail"], true));?>
                     </div>
                 </td>
             </tr>

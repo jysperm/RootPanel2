@@ -2,17 +2,16 @@
 
 /**
  *   该文件包含 lpTrachAuth 的类定义.
- * @package LightPHP
+ *   @package LightPHP
  */
-
-/*
-*   跟踪验证.
-*
-*   该类提供更为高级的验证功能, 该类将会跟踪记录每一次会话, 你可以单独控制这些会话.
-*/
 
 session_start();
 
+/**
+ *   跟踪验证.
+ *
+ *   该类提供更为高级的验证功能, 该类将会跟踪记录每一次会话, 你可以单独控制这些会话.
+ */
 class lpTrackAuth implements lpAuthDrive
 {
     static public function succeedCallback($user)
@@ -91,8 +90,6 @@ class lpTrackAuth implements lpAuthDrive
 
             if(isset($passwd["db"]))
                 $passwd = ["token" => self::creatToken($user)];
-
-
 
             $expire = time() + $lpCfg["lpTrackAuth"]["Limit"];
 

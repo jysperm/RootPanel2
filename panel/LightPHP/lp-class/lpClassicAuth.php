@@ -1,55 +1,48 @@
 <?php
 
 /**
-*   该文件包含 lpHander 的类定义.
+*   该文件包含 lpClassicAuth 的类定义.
 *
 *   @package LightPHP
 */
 
-class lpClassicAuth extends lpAuthDrive
+class lpClassicAuth implements lpAuthDrive
 {
-    static public $cbHash = function($data)
+    static public function succeedCallback($user)
+    {
+
+    }
+
+    static public function getPasswd($uname)
+    {
+
+    }
+
+    static public function hash($data)
     {
         return hash("sha256", $data);
     }
 
-    static public $cbDBHash = function($user, $passwd)
+    static public function dbHash($user, $passwd)
     {
-        return self::$cbHash(self::$cbHash($user) . self::$cbHash($passwd));
+        return self::hash(self::hash($user) . self::hash($passwd));
     }
 
-    static public $cbCookieHash = function($dbPasswd)
+    static public function cookieHash($dbPasswd)
     {
         global $lpCfg;
 
-        return self::$cbHash(self::$cbHash($lpCfg["lpClasssicAuth"]["SecurityCode"]) . $dbPasswd);
-    }
-
-    static public $cbGetPasswd = function($uname, $conn=null)
-    {
-        global $lpCfg;
-        $cfg = $lpCfg["lpClassicAuth"]["GetPasswd"]["Default"];
-
-        if(!$conn)
-            $conn = $lpApp::getDB();
-        $q = new lpDBQuery($conn);
-
-        return $q($cfg["table"])->where([$cfg["user"] => $uname])->top()[$cfg["passwd"]];
-    }
-
-    static public $cbSucceed = function($user)
-    {
-
+        return self::hash(self::hash($lpCfg["lpClasssicAuth"]["SecurityCode"]) . $dbPasswd);
     }
 
     public static function auth($user, $passwd)
     {
         if(isset($passwd["raw"]))
-            $passwd = ["db" => slef::$cbDBHash($user, $passwd["raw"])];
+            $passwd = ["db" => self::dbHash($user, $passwd["raw"])];
 
         if(isset($passwd["db"]))
         {
-            if(slef::$cbGetPasswd($user) == $passwd["db"])
+            if(self::getPasswd($user) == $passwd["db"])
                 return true;
             else
                 return false;
@@ -57,7 +50,7 @@ class lpClassicAuth extends lpAuthDrive
 
         if(isset($paaswd["cookie"]))
         {
-            if(slef::$cbCookieHash(slef::$cbGetPasswd($user)) == $passwd["cookie"])
+            if(self::cookieHash(self::getPasswd($user)) == $passwd["cookie"])
                 return true;
             else
                 return false;
@@ -76,7 +69,7 @@ class lpClassicAuth extends lpAuthDrive
             if(!$user && isset($_COOKIE[$cookieName["user"]]))
                 $user = $_COOKIE[$cookieName["user"]];
 
-            if(!$passwd && isset($_COOKIE[$cookieName["passwd"]))
+            if(!$passwd && isset($_COOKIE[$cookieName["passwd"]]))
                 $passwd = $_COOKIE[$cookieName["passwd"]];
 
             if(!$user || !$passwd)
@@ -85,15 +78,15 @@ class lpClassicAuth extends lpAuthDrive
             $passwd = ["cookie" => $passwd];
         }
 
-        if(lpAuth::auth($user, $passwd))
+        if(self::auth($user, $passwd))
         {
             if(isset($passwd["raw"]))
-                $passwd = ["db" => self::$cbHash($user, $passwd["raw"])];
+                $passwd = ["db" => self::dbHash($user, $passwd["raw"])];
 
             if(isset($passwd["db"]))
-                $passwd = ["cookie" => self::$cbCookieHash($user, $passwd["db"])];
+                $passwd = ["cookie" => self::cookieHash($user, $passwd["db"])];
 
-            self::$cbSucceed();
+            static::succeedCallback($user);
 
             $expire = time() + $lpCfg["lpClassicAuth"]["Limit"];
 

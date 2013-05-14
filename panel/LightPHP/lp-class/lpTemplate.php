@@ -35,7 +35,6 @@ class lpTemplate
 
     public function __construct($filename)
     {
-        global $lpApp;
         ob_start();
 
         if(!file_exists($filename))
@@ -83,22 +82,15 @@ class lpTemplate
 
         lpTemplate::beginBlock();
 
-        $temp=function($lpFilename, $lpContents_, $lpVars_)
+        $temp = function($lpFilename_, $lpContents, $lpVars_)
         {
             if(!defined("lpInTemplate"))
                 define("lpInTemplate", true);
 
-            foreach ($lpVars_ as $key => $value) 
-            {
-                $value = base64_encode(serialize($value));
-                eval("\${$key} = unserialize(base64_decode('{$value}'));");
-            }
+            foreach ($lpVars_ as $key => $value)
+                $$key = $value;
 
-            $lpContents = $lpContents_;
-
-            $lpCode_ = file_get_contents($lpFilename);
-
-            eval("?>{$lpCode_} <?php ");
+            include($lpFilename_);
         };
 
         $temp($this->filename, $lpContents, $this->values);

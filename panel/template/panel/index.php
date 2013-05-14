@@ -100,7 +100,7 @@ $me = rpUserModel::me();
             额外的Apache2配置文件： 0字节(<a id="apache2-extConfig" href="#">查看</a>).<br/>
             <a class="btn" href="/ticket/list/?template=configRequest">修改配置文件</a>
         </div>
-        <hr/>
+        <hr />
         <? foreach(rpVirtualHostModel::select(["uname" => rpAuth::uname()]) as $host): ?>
             <div id="website<?= $host["id"];?>" class="box">
                 <div>
