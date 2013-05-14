@@ -2,6 +2,11 @@
 
 class rpTools
 {
+    static public function escapePlantText($text)
+    {
+        return nl2br(str_ireplace(" ","&nbsp;",htmlspecialchars($text)));
+    }
+
     static public function gravatarURL($email, $size = 80)
     {
         global $rpCfg;
@@ -33,39 +38,3 @@ class rpTools
             return gmdate("Y.m.d", $time);
     }
 }
-
-/*
-function jsonError($str)
-{
-    $r["msg"]=$str;
-    $r["status"]="error";
-    echo json_encode($r);
-    exit();
-}
-
-function checkFileName($filename)
-{
-    $user=lpAuth::getUName();
-    $userDir="/home/{$user}/";
-    
-    if(preg_match('%^[/A-Za-z0-9_\-\.]+/?$%',$filename) && 
-       substr($filename,0,strlen($userDir)) == $userDir &&
-       strlen($filename) < 512  &&
-       substr($filename,-3) != "/.." && 
-       strpos($filename,"/../") === false)
-        return true;
-    return false;
-}
-
-$uiTemplate=array("web"=>"常规Web(PHP等CGI)",
-                  "proxy"=>"反向代理",
-                  "python"=>"Python(WSGI模式)");
-$uiHander=array("web"=>"Web根目录",
-                "proxy"=>"反向代理URL",
-                "python"=>"根目录处理器");
-$uiType=array("all"=>"全部转到Apache",
-              "only"=>"仅转发指定的URL(一般是脚本文件)",
-              "unless"=>"不转发指定的URL(一般是静态文件)");
-
-?>
-*/

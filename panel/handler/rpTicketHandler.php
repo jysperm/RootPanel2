@@ -41,14 +41,14 @@ class rpTicketHandler extends lpHandler
         $ticket = [
             "time" => time(),
             "uname" => rpAuth::uname(),
-            "title" => $_POST["title"],
+            "title" => rpTools::escapePlantText($_POST["title"]),
             "onlyclosebyadmin" => 0,
             "type" => $_POST["type"],
             "status" => "ticket.status.open",
             "lastchange" => time(),
             "replys" => 0,
             "lastreply" => rpAuth::uname(),
-            "content" => nl2br(htmlentities($_POST["content"]))
+            "content" => rpTools::escapePlantText($_POST["content"])
         ];
 
         $id = rpTicketModel::insert($ticket);
@@ -72,7 +72,7 @@ class rpTicketHandler extends lpHandler
             "replyto" => $id,
             "time" => time(),
             "uname" => rpAuth::uname(),
-            "content" => nl2br(htmlentities($_POST["content"]))
+            "content" => rpTools::escapePlantText($_POST["content"])
         ];
 
         rpTicketReplyModel::insert($reply);
