@@ -3,7 +3,7 @@
 global $rpCfg;
 
 $rpCfg["NodeName"] = "rp3测试节点";
-$rpCfg["NodeID"] = "rp3";
+$rpCfg["NodeID"] = "us2";
 
 // 数据库连接信息
 $rpCfg["MySQLDB"] = [

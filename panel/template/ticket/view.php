@@ -8,7 +8,7 @@ $base->title = $titile = "工单 #{$tk["id"]}";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-    <li class="active"><a href="#content"><i class="icon-chevron-right"></i> 内容</a></li>
+    <li class="active"><a href="#content"><i class="icon-chevron-right"></i> 工单 #<?= $tk["id"]; ?></a></li>
     <li><a href="#replys"><i class="icon-chevron-right"></i> 回复</a></li>
     <li><a href="#operation"><i class="icon-chevron-right"></i> 操作</a></li>
     <li><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
@@ -21,20 +21,8 @@ $base->title = $titile = "工单 #{$tk["id"]}";
             width: 530px;
         }
 
-        .box {
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-            margin-bottom: 20px;
-            -webkit-box-shadow: 0 0 0 1px #DDD;
-            -moz-box-shadow: 0 0 0 1px #ddd;
-            box-shadow: 0 0 0 1px #DDD;
-            overflow: hidden;
-            padding: 14px;
-        }
-
-        .box hr {
-            margin: 3px;
+        .box hr, #content hr {
+            margin: 1px;
         }
     </style>
 <? $base->header = lpTemplate::endBlock(); ?>
@@ -50,17 +38,27 @@ $base->title = $titile = "工单 #{$tk["id"]}";
             }, "json");
             return false;
         }));
+        $($("#deleteTK").click(function(){
+            $.post("/ticket/close/<?= $tk["id"];?>/", {}, function (data) {
+                if (data.status == "ok")
+                    window.location.reload();
+                else
+                    alert(data.msg);
+            }, "json");
+        }));
     </script>
 <? $base->endOfBody = lpTemplate::endBlock(); ?>
 
     <section id="content">
-        <header>工单 #<?= $tk["id"]; ?></header>
+        <header><?= $tk["title"]; ?></header>
         <p>
             <?= $tk["content"]; ?>
         </p>
-        <hr style="margin: 3px;"/>
-        <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
-        | <?= $tk["uname"]; ?>
+        <hr />
+        <span class="label">
+            <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
+            | <?= $tk["uname"]; ?>
+        </span>
     </section>
 
     <section id="replys">
@@ -68,10 +66,12 @@ $base->title = $titile = "工单 #{$tk["id"]}";
         <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
             <div class="box">
                 <?= $reply["content"]; ?>
-                <hr/>
-                <span
-                    title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
-                | <?= $reply["uname"]; ?>
+                <hr />
+                <span class="label">
+                    <span
+                        title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
+                    | <?= $reply["uname"]; ?>
+                </span>
             </div>
         <? endforeach; ?>
     </section>
@@ -97,6 +97,10 @@ $base->title = $titile = "工单 #{$tk["id"]}";
                     <button type="submit" class="btn btn-primary btn-large">创建回复</button>
                 </div>
             </form>
+        <? else: ?>
+            <div>
+                工单已被关闭
+            </div>
         <? endif; ?>
     </section>
 

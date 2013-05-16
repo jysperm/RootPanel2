@@ -30,7 +30,7 @@ class rpTicketHandler extends lpHandler
     public function create()
     {
         lpLocale::i()->load(["ticket"]);
-        global $rpL;
+        global $rpL, $rpCfg;
 
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
@@ -54,6 +54,13 @@ class rpTicketHandler extends lpHandler
         $id = rpTicketModel::insert($ticket);
         rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
+        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailTitle = "NewTK | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$ticket["title"]}";
+        $mailBody = "{$ticket["content"]}<br />";
+        $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id}</a>";
+
+        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+
         echo json_encode(["status" => "ok"]);
     }
 
@@ -61,6 +68,8 @@ class rpTicketHandler extends lpHandler
     {
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
+
+        global $rpCfg;
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
@@ -76,8 +85,15 @@ class rpTicketHandler extends lpHandler
         ];
 
         rpTicketReplyModel::insert($reply);
-
         rpLogModel::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
+
+        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailTitle = "TKReply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
+        $mailBody = "{$reply["content"]}<br />";
+        $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
+
+        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+
 
         echo json_encode(["status" => "ok"]);
     }
@@ -97,5 +113,25 @@ class rpTicketHandler extends lpHandler
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");
         $tmp->tk = $tk;
         $tmp->output();
+    }
+
+    public function close($id = null)
+    {
+        if(!rpAuth::login())
+            rpApp::goUrl("/user/login/", true);
+
+        $tk = new rpTicketModel($id);
+        if($tk->isNull())
+            die("工单ID无效");
+        if($tk["uname"] != rpAuth::uname())
+            die("该工单不属于你");
+        if($tk["status"] == "ticket.status.closed")
+            die("该工单已经被关闭");
+        if($tk["onlyclosebyadmin"])
+            die("该工单只能被管理员关闭");
+
+        rpTicketModel::update(["id" => $id], ["status" => "ticket.status.closed"]);
+
+        echo json_encode(["status" => "ok"]);
     }
 }

@@ -166,15 +166,10 @@ HTML;
                     <img alt="<?= $admin["name"]; ?>" src="<?= rpTools::gravatarURL($admin["email"], 48); ?>">
                 </a>
                 <? $emails[] = $admin["email"]; ?>
-                <? $emails = array_merge($emails, $admin["otherEmails"]); ?>
             <? endforeach; ?>
         </p>
-
         <p>
-            客服邮箱：
-            <? foreach($emails as $email): ?>
-                <code><i class="icon-envelope"></i><?= $email;?></code>
-            <? endforeach; ?>
+            客服邮箱：<code><i class="icon-envelope"></i><?= $rpCfg["adminsEmail"];?></code>
         </p>
         <ul class="left-tabs">
             <?= $rpL["contact.list"];?>

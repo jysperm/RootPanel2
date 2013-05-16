@@ -4,7 +4,7 @@ class rpTools
 {
     static public function escapePlantText($text)
     {
-        return nl2br(str_ireplace(" ","&nbsp;",htmlspecialchars($text)));
+        return nl2br(str_ireplace(" ", "&nbsp;", htmlspecialchars($text)));
     }
 
     static public function gravatarURL($email, $size = 80)
