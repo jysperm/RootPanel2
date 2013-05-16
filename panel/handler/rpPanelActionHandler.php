@@ -27,10 +27,24 @@ class rpPanelActionHandler extends lpHandler
         $tmp->output();
     }
 
-    public function create()
+    public function getVHost()
+    {
+        global $rpROOT;
+
+        $this->auth();
+        $vhost = new rpVirtualHostModel($_POST["id"]);
+        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+            die("站点ID不存在或站点不属于你");
+
+        $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
+        $tmp->setValue("rs", $vhost);
+        $tmp->output();
+    }
+
+    public function createVHost()
     {
         $this->auth();
-        $data = $this->checkInput(true);
+        $data = $this->checkInput();
 
         if($data["ok"])
         {
@@ -53,7 +67,7 @@ class rpPanelActionHandler extends lpHandler
                 "source" => $data["source"],
                 "type" => $data["type"],
                 "settings" => $data["settings"],
-                "ison" => true
+                "ison" => $data["ison"]
             ];
 
             $id = rpVirtualHostModel::insert($vhost);
@@ -65,6 +79,64 @@ class rpPanelActionHandler extends lpHandler
         {
             $this->jsonError($data["msg"]);
         }
+    }
+
+    public function editVHost($id = null)
+    {
+        $this->auth();
+
+        $vhost = new rpVirtualHostModel($id);
+        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+            die("站点ID不存在或站点不属于你");
+
+        $data = $this->checkInput($id);
+        if($data["ok"])
+        {
+            $data = $data["data"];
+
+            $general = [
+                "alias" => $data["alias"],
+                "autoindex" => $data["autoindex"],
+                "indexs" => $data["indexs"],
+                "isssl" => $data["isssl"],
+                "sslcrt" => $data["sslcrt"],
+                "sslkey" => $data["sslkey"]
+            ];
+
+            $vhost = [
+                "uname" => rpAuth::uname(),
+                "domains" => $data["domains"],
+                "lastchange" => time(),
+                "general" => $general,
+                "source" => $data["source"],
+                "type" => $data["type"],
+                "settings" => $data["settings"],
+                "ison" => $data["ison"]
+            ];
+
+            rpVirtualHostModel::update(["id" => $id], $vhost);
+            rpLogModel::log(rpAuth::uname(), "log.type.editVHost", [$id, $id], $vhost);
+
+            echo json_encode(["status" => "ok"]);
+        }
+        else
+        {
+            $this->jsonError($data["msg"]);
+        }
+    }
+
+    public function deleteVHost()
+    {
+        $this->auth();
+
+        $vhost = new rpVirtualHostModel($_POST["id"]);
+        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+            die("站点ID不存在或站点不属于你");
+
+        rpVirtualHostModel::delete(["id" => $_POST["id"]]);
+        rpLogModel::log(rpAuth::uname(), "log.type.deleteVHost", [$_POST["id"]], []);
+
+        echo json_encode(["status" => "ok"]);
     }
 
     public function getExtConfig($type)
@@ -80,11 +152,11 @@ class rpPanelActionHandler extends lpHandler
     }
 
     /**
-     * @param bool $isNew
+     * @param int $id
      *
      * @return array ["ok" => true|false, "msg" => <错误信息>, "data" => "成功过滤后的数据"]
      */
-    private function checkInput($isNew = false)
+    private function checkInput($id = null)
     {
         $types = rpVHostType::loadTypes();
         $data = [];
@@ -107,14 +179,14 @@ class rpPanelActionHandler extends lpHandler
         {
             $data["domains"] = strtolower(trim(str_replace("  ", " ", $_POST["domains"])));
 
-            if($isNew)
+            if(!$id)
             {
                 $rsDomains = rpVirtualHostModel::select();
             }
             else
             {
                 $db = rpApp::getDB();
-                $rsDomains = $db->query("SELECT * FROM `virtualhost` WHERE `id` <> " . $db->quote($_POST["id"]));
+                $rsDomains = $db->query("SELECT * FROM `virtualhost` WHERE `id` <> " . $db->quote($id));
             }
 
             foreach($rsDomains as $row)
@@ -124,7 +196,7 @@ class rpPanelActionHandler extends lpHandler
 
                 $errDomains = array_intersect($tD, $curD);
                 if(count($errDomains))
-                    return ["ok" => false, "以下域名已被其他人绑定，请联系客服：" . join(" ", $errDomains)];
+                    return ["ok" => false, "msg" => "以下域名已被其他人绑定，请联系客服：" . join(" ", $errDomains)];
             }
         }
 

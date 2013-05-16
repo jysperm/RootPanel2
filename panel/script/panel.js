@@ -9,7 +9,7 @@ $($("#new-website").click(function () {
             postdata.push({name: "ison", value: ($("#ison").hasClass("active") ? 1 : 0)});
             postdata.push({name: "autoindex", value: ($("#autoindex").hasClass("active") ? 1 : 0)});
             postdata.push({name: "isssl", value: ($("#isssl").hasClass("active") ? 1 : 0)});
-            $.post("/panel-action/create/", postdata, function (data) {
+            $.post("/panel-action/create-vhost/", postdata, function (data) {
                 if(data.status == "ok")
                     window.location.reload();
                 else
@@ -21,6 +21,44 @@ $($("#new-website").click(function () {
         $("#dialog").modal();
     }, "html");
 }));
+
+function editWebsite(websiteId) {
+    $("#dialog .dialog-title").html("编辑站点");
+    $.post("/panel-action/get-vhost/", {"id": websiteId}, function (data) {
+        $("#dialog .dialog-body").html(data);
+
+        $("#dialog .dialog-ok").unbind('click');
+        $("#dialog .dialog-ok").click(function () {
+            var postdata = $("#dialog .website-form").serializeArray();
+            postdata.push({name: "ison", value: ($("#ison").hasClass("active") ? 1 : 0)});
+            postdata.push({name: "autoindex", value: ($("#autoindex").hasClass("active") ? 1 : 0)});
+            postdata.push({name: "isssl", value: ($("#isssl").hasClass("active") ? 1 : 0)});
+            $.post("/panel-action/edit-vhost/" + websiteId + "/", postdata, function (data) {
+                if (data.status == "ok")
+                    window.location.reload();
+                else
+                    alert(data.msg);
+            }, "json");
+            return false;
+        });
+
+        $("#dialog").modal();
+    }, "html");
+
+    return false;
+}
+
+function deleteWebsite(websiteId) {
+    if (confirm("你确定要删除？")) {
+        $.post("/panel-action/delete-vhost/", {"id": websiteId}, function (data) {
+            if (data.status == "ok")
+                window.location.reload();
+            else
+                alert(data.msg);
+        }, "json");
+    }
+    return false;
+}
 
 $($("#nginx-extConfig").click(function () {
     $("#dialog .dialog-title").html(rpL["panel.viewNginxExtConfig"]);
@@ -42,44 +80,11 @@ $($("#apache2-extConfig").click(function () {
 
 
 
-function deleteWebsite(websiteId) {
-    if (confirm("你确定要删除？")) {
-        $.post("/commit/panel/", {"do": "delete", "id": websiteId}, function (data) {
-            if (data.status == "ok")
-                window.location.reload();
-            else
-                alert(data.msg);
-        }, "json");
-    }
-    return false;
-}
 
-function editWebsite(websiteId) {
-    $("#editWebsite .rp-title").html("编辑站点");
-    $.post("/commit/panel/", {"do": "get", "id": websiteId}, function (data) {
-        $("#editWebsite .rp-body").html(data);
 
-        bindSwitch();
 
-        $("#editWebsite .rp-ok").unbind('click');
-        $("#editWebsite .rp-ok").click(function () {
-            postdata = $("#editWebsite .rp-form").serializeArray();
-            postdata.push({name: "id", value: websiteId});
-            postdata.push({name: "do", value: "edit"});
-            $.post("/commit/panel/", postdata, function (data) {
-                if (data.status == "ok")
-                    window.location.reload();
-                else
-                    alert(data.msg);
-            }, "json");
-            return false;
-        });
 
-        $("#editWebsite").modal();
-    }, "html");
 
-    return false;
-}
 
 
 function changePasswd(name, isReload) {
