@@ -120,6 +120,8 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
+        global $rpCfg;
+
         $tk = new rpTicketModel($id);
         if($tk->isNull())
             die("工单ID无效");
@@ -131,6 +133,13 @@ class rpTicketHandler extends lpHandler
             die("该工单只能被管理员关闭");
 
         rpTicketModel::update(["id" => $id], ["status" => "ticket.status.closed"]);
+        rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
+
+        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailTitle = "TKClose | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
+        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
+
+        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
 
         echo json_encode(["status" => "ok"]);
     }

@@ -76,7 +76,7 @@ function printArray($arr, $tab=0)
     </table>
     <div class="pagination pagination-centered">
         <ul>
-            <?= $dPage->getOutput(new rpDividePageMaker); ?>
+            <?= $dPage->getOutput(new rpDividePageMaker("/panel/logs")); ?>
         </ul>
     </div>
 </section>

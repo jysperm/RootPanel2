@@ -79,7 +79,7 @@ else
         </table>
         <div class="pagination pagination-centered">
             <ul>
-                <?= $dPage->getOutput(new rpDividePageMaker); ?>
+                <?= $dPage->getOutput(new rpDividePageMaker("/ticket/list")); ?>
             </ul>
         </div>
     </section>

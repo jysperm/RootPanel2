@@ -56,11 +56,18 @@ class rpApp extends lpApp
 
 class rpDividePageMaker
 {
+    private $url;
+
+    public function __construct($url)
+    {
+        $this->url = $url;
+    }
+
     public function __invoke($page, $curPage)
     {
         if($curPage == $page || $page == lpDividePage::splitter)
             return "<li class='active'><a href='#'>{$page}</a></li>";
         else
-            return "<li><a href='/ticket/list/{$page}/'>{$page}</a></li>";
+            return "<li><a href='{$this->url}/{$page}/'>{$page}</a></li>";
     }
 }

@@ -3,13 +3,13 @@
 global $rpCfg;
 
 $rpCfg["Version"]["main"] = "2.0.0 D";
-$rpCfg["Version"]["time"] = "2013.3.10";
+$rpCfg["Version"]["time"] = "2013.5.16";
 $rpCfg["Version"]["type"] = "of";
 
 $rpCfg["DefaultLanguage"] = "zh_CN";
 
 // 每页显示日志条数
-$rpCfg["LogPerPage"] = 50;
+$rpCfg["LogPerPage"] = 30;
 // 每页显示工单条数
 $rpCfg["TKPerPage"] = 15;
 

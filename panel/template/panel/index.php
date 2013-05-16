@@ -132,7 +132,7 @@ $me = rpUserModel::me();
 
 <section id="section-log">
     <header>日志</header>
-    <p>以下为最新30条的摘要 (<a href="/panel/logs/">详细日志</a>).</p>
+    <p>以下为最新15条的摘要 (<a href="/panel/logs/">详细日志</a>).</p>
 
     <div>
         <table class="table table-striped table-bordered table-condensed">
@@ -144,7 +144,7 @@ $me = rpUserModel::me();
             </tr>
             </thead>
             <tbody>
-            <? foreach(rpLogModel::select(["uname" => rpAuth::uname()], ["sort" => ["time", false], "limit" => 30]) as $log): ?>
+            <? foreach(rpLogModel::select(["uname" => rpAuth::uname()], ["sort" => ["time", false], "limit" => 15]) as $log): ?>
                 <tr>
                     <td><?= $log["id"]; ?></td>
                     <td><span
