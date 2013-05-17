@@ -151,6 +151,86 @@ class rpPanelActionHandler extends lpHandler
         echo "<pre>{$config}</pre>";
     }
 
+    public function sshPasswd()
+    {
+        $this->auth();
+        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
+        {
+            /*
+            $uname = lpAuth::getUName();
+            shell_exec("echo '{$uname}:{$_POST['passwd']}' | sudo chpasswd");
+
+            makeLog($uname, "修改了SSH密码");
+            */
+            echo json_encode(array("status" => "ok"));
+        } else {
+            $this->jsonError("密码不合法");
+        }
+    }
+
+    public function pptppasswd()
+    {
+        $this->auth();
+        global $rpROOT;
+
+        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
+        {
+            $uname = rpAuth::uname();
+
+            $lock = new lpMutex;
+
+            $settings = rpUserModel::find(["uname" => $uname])["settings"];
+            $settings["pptppasswd"] = $_POST["passwd"];
+            rpUserModel::update(["uname" => $uname], ["settings" => $settings]);
+
+            $lock = null;
+/*
+            shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
+
+            makeLog($uname, "修改了PPTP密码");
+*/
+            echo json_encode(array("status" => "ok"));
+        } else {
+            $this->jsonError("密码不合法");
+        }
+    }
+
+    public function mysqlpasswd()
+    {
+        $this->auth();
+        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
+        {
+            /*
+            $uname = lpAuth::getUName();
+
+            $this->conn->exec("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');", $uname, $_POST["passwd"]);
+
+            makeLog(lpAuth::getUName(), "修改了MySQL密码");*/
+
+            echo json_encode(array("status" => "ok"));
+        } else {
+            $this->jsonError("密码不合法");
+        }
+    }
+
+    public function panelPasswd()
+    {
+        $this->auth();
+        if(isset($_POST["passwd"]))
+        {
+            $uname = rpAuth::uname();
+            rpUserModel::update(["uname" => $uname], ["passwd" => rpAuth::dbHash($uname, $_POST["passwd"])]);
+
+            rpLogModel::log($uname, "log.type.panelPasswd", [], []);
+
+            echo json_encode(array("status" => "ok"));
+        }
+        else
+        {
+            $this->jsonError("密码不合法");
+        }
+    }
+
     /**
      * @param int $id
      *

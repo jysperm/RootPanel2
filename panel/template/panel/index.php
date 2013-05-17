@@ -73,21 +73,20 @@ $me = rpUserModel::me();
         <header>远程访问</header>
         <div>
             <input type="text" class="input-xxlarge" id="sshpasswd" name="sshpasswd"/>
-            <button class="btn btn-success" onclick="changePasswd('sshpasswd', false);">修改SSH/SFTP密码</button>
+            <button class="btn btn-success" onclick="changePasswd('ssh', false);">修改SSH/SFTP密码</button>
         </div>
         <div>
             <input type="text" class="input-xxlarge" id="mysqlpasswd" name="mysqlpasswd"/>
-            <button class="btn btn-success" onclick="changePasswd('mysqlpasswd', false);">修改MySQL密码</button>
+            <button class="btn btn-success" onclick="changePasswd('mysql', false);">修改MySQL密码</button>
         </div>
         <div>
             <input type="text" class="input-xxlarge" id="panelpasswd" name="panelpasswd"/>
-            <button class="btn btn-success" onclick="changePasswd('panelpasswd', true);">修改面板(即该网页)密码
+            <button class="btn btn-success" onclick="changePasswd('panel', true);">修改面板(即该网页)密码
             </button>
         </div>
         <div>
             <input type="text" class="input-xxlarge" id="pptppasswd" name="pptppasswd"/>
-            <button class="btn btn-success" onclick="changePasswd('pptppasswd', false);">修改PPTP
-                VPN密码
+            <button class="btn btn-success" onclick="changePasswd('pptp', false);">修改PPTP VPN密码
             </button>
         </div>
     </section>

@@ -60,35 +60,8 @@ function deleteWebsite(websiteId) {
     return false;
 }
 
-$($("#nginx-extConfig").click(function () {
-    $("#dialog .dialog-title").html(rpL["panel.viewNginxExtConfig"]);
-    $.post("/panel-action/getExtConfig/nginx/", {}, function (data) {
-        $("#dialog .dialog-body").html(data);
-    });
-    $("#dialog").modal();
-}));
-$($("#apache2-extConfig").click(function () {
-    $("#dialog .dialog-title").html(rpL["panel.viewApache2ExtConfig"]);
-    $.post("/panel-action/getExtConfig/apache2/", {}, function (data) {
-        $("#dialog .dialog-body").html(data);
-    });
-    $("#dialog").modal();
-}));
-
-
-
-
-
-
-
-
-
-
-
-
-
 function changePasswd(name, isReload) {
-    $.post("/commit/panel/", {"do": name, "passwd": $("#" + name).val()}, function (data) {
+    $.post("/panel-action/" + name +"-passwd/", {"passwd": $("#" + name + "passwd").val()}, function (data) {
         if (data.status == "ok") {
             if (isReload)
                 window.location.reload();
@@ -100,3 +73,19 @@ function changePasswd(name, isReload) {
     }, "json");
     return false;
 }
+
+$($("#nginx-extConfig").click(function () {
+    $("#dialog .dialog-title").html(rpL["panel.viewNginxExtConfig"]);
+    $.post("/panel-action/getExtConfig/nginx/", {}, function (data) {
+        $("#dialog .dialog-body").html(data);
+    });
+    $("#dialog").modal();
+}));
+
+$($("#apache2-extConfig").click(function () {
+    $("#dialog .dialog-title").html(rpL["panel.viewApache2ExtConfig"]);
+    $.post("/panel-action/getExtConfig/apache2/", {}, function (data) {
+        $("#dialog .dialog-body").html(data);
+    });
+    $("#dialog").modal();
+}));
