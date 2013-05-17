@@ -1,10 +1,9 @@
-<?php if(!isset($lpInTemplate)) die();
+<?php
 
 global $rpROOT,$conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
 
 $tmp = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->mainClass = "main50";
 $tmp->title = "管理员面板";
 
 lpTemplate::beginBlock();?>
@@ -15,9 +14,9 @@ $tmp->header=lpTemplate::endBlock();
 
 lpTemplate::beginBlock();?>
 
-<li><a href="#box-index"><i class="icon-chevron-right"></i> 概述</a></li>
-<li><a href="#box-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
-<li><a href="#box-log"><i class="icon-chevron-right"></i> 日志</a></li>
+<li><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
+<li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
+<li><a href="#section-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
 <?php
 $tmp->rpSidebar=lpTemplate::endBlock();
@@ -94,7 +93,7 @@ $rsL=$conn->select("log",array(),"time",-1,100,false);
   </div>
 </div>
 
-<section class="box" id="box-index">
+<section class="box" id="section-index">
     <header>概述</header>
 </section>
 
@@ -141,7 +140,7 @@ function outputUserTable($rsU,$buttun)
 }
 ?>
 
-<section class="box" id="box-users">
+<section class="box" id="section-users">
   <header>用户管理</header>
   <div>
     <b>未付费用户</b>
@@ -177,7 +176,7 @@ function outputUserTable($rsU,$buttun)
 </section>
 
 
-<section class="box" id="box-log">
+<section class="box" id="section-log">
   <header>日志</header>
   <div>
       <table class="table table-striped table-bordered table-condensed">

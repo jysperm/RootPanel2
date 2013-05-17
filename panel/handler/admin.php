@@ -16,35 +16,8 @@ class LoginAsAction extends lpAction
     }
 }
 
-class AdminPage extends lpPage
-{
-    public function get()
-    {
-        global $rpAdminUsers,$rpROOT;
-    
-        if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
-        {
-            lpRoute::gotoUrl("/login/");
-            exit();
-        }
-            
-        lpTemplate::outputFile("{$rpROOT}/template/admin.php");
-    }
-}
-
 class AdminAction extends lpAction
 {
-    private $conn;
-    
-    public function _Init()
-    {
-        global $rpAdminUsers;
-        $this->conn=new lpMySQL;
-        
-        if(!lpAuth::login() || !in_array(lpAuth::getUName(),$rpAdminUsers))
-            lpRoute::quit("未登录或不是管理员");
-    }
-    
     public function addtime()
     {
         $rs=$this->conn->select("user",array("uname"=>$_POST["uname"]));
