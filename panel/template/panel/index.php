@@ -20,7 +20,7 @@ $me = rpUserModel::me();
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志摘要</a></li>
 <li><a href="/panel/logs/"><i class="icon-share"></i> 详细日志</a></li>
 <li><a href="/ticket/"><i class="icon-share"></i> 工单</a></li>
-<? $base->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
@@ -32,7 +32,7 @@ $me = rpUserModel::me();
         margin-bottom: 10px;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <script type='text/javascript'>
@@ -42,7 +42,7 @@ $me = rpUserModel::me();
     rpL["panel.viewApache2ExtConfig"] = '<?= $rpL["panel.js.viewApache2ExtConfig"];?>';
 </script>
 <script type='text/javascript' src='/script/panel.js'></script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <div class="modal hide" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
     <div class="modal-header">

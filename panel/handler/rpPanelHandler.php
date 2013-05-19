@@ -33,7 +33,7 @@ class rpPanelHandler extends lpHandler
         $page = intval($page);
 
         $tmp = new lpTemplate("{$rpROOT}/template/panel/logs.php");
-        $tmp->page = $page ? : 1;
+        $tmp["page"] = $page ?: 1;
         $tmp->output();
     }
 }

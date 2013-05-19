@@ -84,16 +84,6 @@ class lpTemplate implements ArrayAccess
             $this->setValue($k, $v);
     }
 
-    public function __set($k, $v)
-    {
-        $this->setValue($k, $v);
-    }
-
-    public function __get($k)
-    {
-        return $this->values[$k];
-    }
-
     public function output()
     {
         echo $this->getOutput();

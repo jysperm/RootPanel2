@@ -56,7 +56,7 @@ HTML;
     <meta name="keywords"
           content="神马终端,RP,RP主机,低价,月付,终端,主机,虚拟主机,vps,网站,建站,php,linode,日本,linux,美国,免备案,python,代理,pptp,c++,python,ssh"/>
     <meta name="description" content="RP主机是一款为技术宅(Geek)提供的Linux虚拟主机, 实际上就是一台划分了用户的Linux服务器，每个用户都可以干自己想做的事情."/>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <li class="active"><a href="#what-is-rphost"><i class="icon-chevron-right"></i> RP主机是什么</a></li>
@@ -65,7 +65,7 @@ HTML;
     <li><a href="#resource"><i class="icon-chevron-right"></i> 资源参数</a></li>
     <li><a href="#service"><i class="icon-chevron-right"></i> 客服</a></li>
     <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
-<? $base->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
     <section id="what-is-rphost">
         <header>RP主机是什么</header>

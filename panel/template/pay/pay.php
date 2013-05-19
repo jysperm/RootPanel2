@@ -2,16 +2,16 @@
 
 global $rpROOT, $rpCfg, $lpApp, $tooltip;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "购买";
+$base['title'] = "购买";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
 <li class="active"><a href="#pay"><i class="icon-chevron-right"></i> 购买</a></li>
 <li><a href="#position"><i class="icon-chevron-right"></i> 机房列表</a></li>
 <li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
-<? $tmp->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <section id="pay">
     <header>购买</header>
@@ -91,5 +91,5 @@ $tmp->title = "购买";
 
 <? lpTemplate::outputFile(lpLocale::i()->file("template/agreement.php")); ?>
 
-<? $tmp->output(); ?>
+<? $base->output(); ?>
 

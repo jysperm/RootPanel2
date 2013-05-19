@@ -19,7 +19,7 @@ while($rs->read())
         echo "{$rs->uname} * {$rs->pptppasswd} * \n";
 }
 
-file_put_contents("{$rpROOT}/temp",lpTemplate::endBlock());
+file_put_contents("{$rpROOT}/temp", lpTemplate::endBlock());
 
 shell_exec("sudo cp {$rpROOT}/temp /etc/ppp/chap-secrets");
 shell_exec("sudo chown root:root /etc/ppp/chap-secrets");

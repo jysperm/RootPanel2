@@ -3,7 +3,7 @@
 global $rpROOT, $rpCfg, $tooltip, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
-$base->title = $titile = "详细日志 #{$page}";
+$base['title'] = $titile = "详细日志 #{$page}";
 
 $rows = rpLogModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["LogPerPage"]);

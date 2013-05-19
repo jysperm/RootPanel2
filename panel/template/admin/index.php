@@ -14,11 +14,11 @@ $base->title = "管理员面板";
 <li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
-<?php $base->sidenav = lpTemplate::endBlock();?>
+<?php $base['sidenav'] = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock(); ?>
 <script type='text/javascript' src='/script/admin.js'></script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <div class="modal hide" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
     <div class="modal-header">

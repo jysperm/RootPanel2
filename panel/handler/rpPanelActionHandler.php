@@ -23,7 +23,7 @@ class rpPanelActionHandler extends lpHandler
         $this->auth();
 
         $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
-        $tmp->setValue("new", true);
+        $tmp["new"] = true;
         $tmp->output();
     }
 
@@ -37,7 +37,7 @@ class rpPanelActionHandler extends lpHandler
             die("站点ID不存在或站点不属于你");
 
         $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
-        $tmp->setValue("rs", $vhost);
+        $tmp["rs"] = $vhost;
         $tmp->output();
     }
 

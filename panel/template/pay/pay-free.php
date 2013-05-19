@@ -4,14 +4,14 @@ global $rpROOT, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$base->title = "填写试用申请";
+$base['title'] = "填写试用申请";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
 <li class="active"><a href="#request"><i class="icon-chevron-right"></i> 填写试用申请</a></li>
 <li><a href="#limits"><i class="icon-chevron-right"></i> 试用帐号限制</a></li>
 <li><a href="#rule"><i class="icon-chevron-right"></i> 审核原则</a></li>
-<? $base->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
@@ -19,7 +19,7 @@ $base->title = "填写试用申请";
         width: 98%;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <script type="text/javascript">
@@ -35,7 +35,7 @@ $base->title = "填写试用申请";
         });
     });
 </script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 
 <section id="request">

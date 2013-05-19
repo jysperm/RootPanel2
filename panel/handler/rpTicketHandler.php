@@ -23,7 +23,7 @@ class rpTicketHandler extends lpHandler
 
         $page = intval($page);
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/index.php");
-        $tmp->page = $page ? : 1;
+        $tmp["page"] = $page ?: 1;
         $tmp->output();
     }
 
@@ -111,7 +111,7 @@ class rpTicketHandler extends lpHandler
             die("该工单不属于你");
 
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");
-        $tmp->tk = $tk;
+        $tmp['tk'] = $tk;
         $tmp->output();
     }
 
