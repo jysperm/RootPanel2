@@ -1,21 +1,5 @@
 <?php
 
-class LoginAsAction extends lpAction
-{
-    public function loginas()
-    {
-        if(!isset($_GET["uname"]) || !isset($_GET["passwd"]))
-        {
-            lpRoute::quit("参数不全");
-        }
-        else
-        {
-            lpAuth::login($_GET["uname"],$_GET["passwd"],false,false,true);
-            lpRoute::gotoUrl("/panel/");
-        }
-    }
-}
-
 class AdminAction extends lpAction
 {
     public function addtime()

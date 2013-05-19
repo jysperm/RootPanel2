@@ -1,6 +1,6 @@
 <?php
 
-class rpAdminHandler
+class rpAdminHandler extends lpHandler
 {
     private function auth()
     {

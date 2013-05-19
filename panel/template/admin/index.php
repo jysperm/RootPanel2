@@ -2,102 +2,50 @@
 
 global $rpROOT,$conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$lpCfgTimeToChina;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "管理员面板";
+$base->title = "管理员面板";
 
-lpTemplate::beginBlock();?>
+?>
 
-
-<?php
-$tmp->header=lpTemplate::endBlock();
-
-lpTemplate::beginBlock();?>
+<?php lpTemplate::beginBlock();?>
 
 <li><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志</a></li>
 
-<?php
-$tmp->rpSidebar=lpTemplate::endBlock();
+<?php $base->sidenav = lpTemplate::endBlock();?>
 
-lpTemplate::beginBlock();?>
+<? lpTemplate::beginBlock(); ?>
+<script type='text/javascript' src='/script/admin.js'></script>
+<? $base->endOfBody = lpTemplate::endBlock(); ?>
 
-<script type="text/javascript">
-  function userAddTime(uname)
-  {
-    $.post("/commit/admin/",{"do":"addtime","uname":uname,"day":prompt("请输入要延时的天数")},function(data){
-      if(data.status=="ok")
-          window.location.reload();
-      else
-          alert(data.msg);
-    },"json");
-    return false;
-  }
-  
-  function userLog(uname)
-  {
-    $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
-      $("#logView .rp-title").html(uname);
-      $("#logView .rp-body").html(data);
-      $("#logView").modal();
-    },"html");
-    return false;
-  }
-  
-  function userDelete(uname)
-  {
-    if(confirm("你确定要删除？"))
-    {
-      $.post("/commit/admin/",{"do":"delete","uname":uname},function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
-      },"json");
-    }
-    return false;
-  }
-  
-  function commonAct(act,uname,isReload)
-  {
-    $.post("/commit/admin/",{"do":act,"uname":uname},function(data){
-      if(data.status=="ok")
-      {
-        if(isReload)
-          window.location.reload();
-        else
-          alert(data.status);
-      }
-      else
-        alert(data.msg);
-    },"json");
-    return false;
-  }
-</script>
+<div class="modal hide" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialogLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="dialogLabel" class="dialog-title"></h3>
+    </div>
+    <div class="modal-body dialog-body">
 
-<?php
-$tmp->endOfBody=lpTemplate::endBlock();
-
-$conn=new lpMySQL;
-$rsL=$conn->select("log",array(),"time",-1,100,false);
-?>
-
-<div class="modal hide" id="logView" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel"><span class="rp-title"></span>的日志</h3>
-  </div>
-  <div class="modal-body rp-body">
-    
-  </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+        <button class="btn btn-primary dialog-ok">保存</button>
+    </div>
 </div>
 
-<section class="box" id="section-index">
+<section id="section-index">
     <header>概述</header>
 </section>
 
-<?php
+<section id="section-users">
+    <header>用户管理</header>
+</section>
+
+<? $base->output(); ?>
+
+
+<?php /*
 function outputUserTable($rsU,$buttun)
 {
     global $conn,$uiTemplate,$uiHander,$uiType,$uiUserType,$rpAdminUsers;
@@ -141,7 +89,6 @@ function outputUserTable($rsU,$buttun)
 ?>
 
 <section class="box" id="section-users">
-  <header>用户管理</header>
   <div>
     <b>未付费用户</b>
     <?php
@@ -200,4 +147,4 @@ function outputUserTable($rsU,$buttun)
 
 $tmp->output();
 
-?>
+?>*/
