@@ -47,7 +47,7 @@ class rpUserHandler extends lpHandler
                 "email" => $_POST["email"],
                 "qq" => $_POST["qq"],
                 "regtime" => time(),
-                "type" => rpUser::NO,
+                "type" => rpUserModel::NO,
                 "settings" => ["pptppasswd" => "", "nginxextconfig" => "", "apache2extconfig" => ""],
                 "expired" => time() - 1
             ];

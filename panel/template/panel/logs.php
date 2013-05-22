@@ -32,7 +32,7 @@ function printArray($arr, $tab=0)
         word-break: break-all;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <section>
     <a href="/panel" style="margin-top: 30px;" class="btn btn-info pull-right">返回面板</a>

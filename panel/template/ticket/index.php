@@ -21,7 +21,7 @@ else
 <? else: ?>
     <li class="active"><a href="#section-new"><i class="icon-chevron-right"></i> 创建工单</a></li>
 <? endif; ?>
-<? $base->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
@@ -34,7 +34,7 @@ else
         width: 530px;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <script type='text/javascript'>
@@ -48,7 +48,7 @@ else
         return false;
     }));
 </script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <? if(!$template): ?>
     <section id="section-list">

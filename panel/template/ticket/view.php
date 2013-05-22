@@ -13,7 +13,7 @@ $base->title = $titile = "工单 #{$tk["id"]}";
     <li><a href="#operation"><i class="icon-chevron-right"></i> 操作</a></li>
     <li><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
     <li><a href="/panel/"><i class="icon-arrow-left"></i> 返回面板</a></li>
-<? $base->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <style type="text/css">
@@ -25,7 +25,7 @@ $base->title = $titile = "工单 #{$tk["id"]}";
             margin: 1px;
         }
     </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <script type='text/javascript'>
@@ -47,7 +47,7 @@ $base->title = $titile = "工单 #{$tk["id"]}";
             }, "json");
         }));
     </script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
     <section id="content">
         <header><?= $tk["title"]; ?></header>
