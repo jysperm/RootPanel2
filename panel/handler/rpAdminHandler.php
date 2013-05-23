@@ -21,4 +21,6 @@ class rpAdminHandler extends lpHandler
 
         lpTemplate::outputFile("{$rpROOT}/template/admin/index.php");
     }
+
+
 }

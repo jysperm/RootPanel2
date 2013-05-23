@@ -69,6 +69,7 @@ $base['title'] = "管理员面板";
                                 <li><a href="#" onclick="deleteUser('<?= $user['uname'];?>');">删除用户</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
+                                <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
                             </ul>
                         </div>
                     </td>
@@ -108,6 +109,7 @@ $base['title'] = "管理员面板";
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>', 'renew');">续费提醒</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
+                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
                         </ul>
                     </div>
                 </td>
@@ -145,6 +147,7 @@ $base['title'] = "管理员面板";
                             <li><a href="#" onclick="disableUser('<?= $user['uname'];?>'');">取消用户</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
+                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
                         </ul>
                     </div>
                 </td>
@@ -181,6 +184,7 @@ $base['title'] = "管理员面板";
                             <li><a href="#" onclick="switchUser('<?= $user['uname'];?>');">变更付费方式</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
+                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
                         </ul>
                     </div>
                 </td>

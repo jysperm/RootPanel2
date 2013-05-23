@@ -1,4 +1,10 @@
-
+addTime
+alertUser
+showLog
+loginAs
+enableUser
+deleteUser
+disableUser
 
 
 

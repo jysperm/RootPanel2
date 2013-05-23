@@ -4,9 +4,9 @@ global $rpROOT, $rpCfg, $tooltip;
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "用户手册";
+$base['title'] = "用户手册";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -23,7 +23,7 @@ $tmp->title = "用户手册";
 <li><a href="#domain"><i class="icon-chevron-right"></i> 域名绑定与解析</a></li>
 <li><a href="#taskinfo-probe"><i class="icon-chevron-right"></i> 进程监视器和探针</a></li>
 <li><a href="#third-party"><i class="icon-chevron-right"></i> 第三方服务推荐</a></li>
-<? $tmp->sidenav = lpTemplate::endBlock(); ?>
+<? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <section id="file-access">
     <header>文件权限</header>
@@ -81,14 +81,6 @@ $tmp->title = "用户手册";
                 <img alt="<?= $admin["name"]; ?>" src="<?= rpTools::gravatarURL($admin["email"], 48); ?>">
             </a>
             <? $emails[] = $admin["email"]; ?>
-            <? $emails = array_merge($emails, $admin["otherEmails"]); ?>
-        <? endforeach; ?>
-    </p>
-
-    <p>
-        客服邮箱：
-        <? foreach($emails as $email): ?>
-            <code><i class="icon-envelope"></i><?= $email;?></code>
         <? endforeach; ?>
     </p>
     <ul class="left-tabs">
@@ -239,5 +231,5 @@ ruby1.8.7 ruby1.9.3
     </ul>
 </section>
 
-<? $tmp->output(); ?>
+<? $base->output(); ?>
 

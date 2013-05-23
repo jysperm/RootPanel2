@@ -1,31 +1,21 @@
 server {
     listen 80 default_server;
-    listen 443 ssl;
-    server_name rp2.jybox.net;
-    
-    ssl_certificate      /RootPanel/rp2.jybox.net.crt;
-    ssl_certificate_key  /RootPanel/rp2.jybox.net.key;
+    server_name xxoo.rpvhost.net;
 
     root /RootPanel/panel;
     index index.html index.php;
 
-    access_log /root/log/nginx.access.log;
-    error_log /root/log/nginx.error.log;
+    access_log /root/nginx.access.log;
+    error_log /root/nginx.error.log;
 
     location / {
-        try_files $uri $uri/ @apache;
+        try_files $uri $uri/ /index.php;
     }
-	
-	location = / {
-		proxy_pass http://127.0.0.1:8080;
-	}
 
     location ~ \.php$ {
-        proxy_pass http://127.0.0.1:8080;
-    }
-
-    location @apache {
-        proxy_pass http://127.0.0.1:8080;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
     }
 
     location ~ /\.(ht|git) {
