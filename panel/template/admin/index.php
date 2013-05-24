@@ -6,13 +6,16 @@ $base = new lpTemplate("{$rpROOT}/template/base.php");
 
 $base['title'] = "管理员面板";
 
+$db = lpFactory::get("PDO");
+
 ?>
 
 <?php lpTemplate::beginBlock();?>
 
-<li><a href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
+<li class="active"><a  href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
 <li><a href="#section-log"><i class="icon-chevron-right"></i> 日志</a></li>
+<li><a href="/admin/ticket/"><i class="icon-share"></i> 工单</a></li>
 
 <?php $base['sidenav'] = lpTemplate::endBlock();?>
 
@@ -44,15 +47,15 @@ $base['title'] = "管理员面板";
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>ID</th><th>Email</th><th>最后登录</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th></th>
         </tr>
         </thead>
         <tbody>
             <? foreach(rpUserModel::select(["type" => "no"]) as $user): ?>
             <? if((new rpUserModel($user['id']))->isAdmin()) continue; ?>
                 <tr>
-                    <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?></span></td>
-                    <td><?= $user['id'];?></td>
+                    <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
+                    <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
                     <td><?= $user['email'];?></td>
                     <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                     <td>
@@ -82,18 +85,18 @@ $base['title'] = "管理员面板";
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>ID</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
         <?php
-        $timeS = rpApp::getDB()->quote(time() + 15 * 24 * 3600);
-        $timeE = rpApp::getDB()->quote(time() - 15 * 24 * 3600);
+        $timeS = $db->quote(time() + 15 * 24 * 3600);
+        $timeE = $db->quote(time() - 15 * 24 * 3600);
         ?>
-        <? foreach(rpApp::getDB()->query("SELECT * FROM `user` WHERE (`type`='free') OR (`type`!='no' AND `expired` < {$timeS} AND `expired` > {$timeE})") as $user): ?>
+        <? foreach($db->query("SELECT * FROM `user` WHERE (`type`='free') OR (`type`!='no' AND `expired` < {$timeS} AND `expired` > {$timeE})") as $user): ?>
             <tr>
-                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?></span></td>
-                <td><?= $user['id'];?></td>
+                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
+                <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
                 <td><?= $user['email'];?></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
@@ -122,15 +125,15 @@ $base['title'] = "管理员面板";
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>ID</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
-        <? $time = rpApp::getDB()->quote(time());?>
-        <? foreach(rpApp::getDB()->query("SELECT * FROM `user` WHERE `expired` < {$timeE} AND `type`!='no'") as $user): ?>
+        <? $time = $db->quote(time());?>
+        <? foreach($db->query("SELECT * FROM `user` WHERE `expired` < {$timeE} AND `type`!='no'") as $user): ?>
             <tr>
-                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?></span></td>
-                <td><?= $user['id'];?></td>
+                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
+                <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
                 <td><?= $user['email'];?></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
@@ -160,15 +163,15 @@ $base['title'] = "管理员面板";
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>ID</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
-        <? $time = rpApp::getDB()->quote(time());?>
-        <? foreach(rpApp::getDB()->query("SELECT * FROM `user` WHERE `expired` > {$timeS} AND `type`!='no' AND `type`!='free'") as $user): ?>
+        <? $time = $db->quote(time());?>
+        <? foreach($db->query("SELECT * FROM `user` WHERE `expired` > {$timeS} AND `type`!='no' AND `type`!='free'") as $user): ?>
             <tr>
-                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?></span></td>
-                <td><?= $user['id'];?></td>
+                <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
+                <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
                 <td><?= $user['email'];?></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>

@@ -6,37 +6,6 @@
 *   @package LightPHP
 */
 
-/**
-*   lpApp 用来管理全局的资源, 如数据库连接等等
-*/
-
-trait lpAppResourceManager
-{
-    static private $dbs = [];
-
-    static public function registerDatabase($db, $id="")
-    {
-        self::$dbs[$id] = $db;
-    }
-
-    static public function getDB($id="")
-    {
-        return self::$dbs[$id];
-    }
-
-    static private $paths = [];
-
-    static public function registerDefaultPath(array $paths)
-    {
-        self::$paths = $paths;
-    }
-
-    static public function defaultPaths()
-    {
-        return self::$paths;
-    }
-}
-
 trait lpAppRoute
 {
     static public function bind($rx, $lambda)
@@ -58,8 +27,7 @@ trait lpAppRoute
 
 class lpApp
 {
-    use lpAppResourceManager, lpAppRoute;
-
+    use lpAppRoute;
 }
 
 /**

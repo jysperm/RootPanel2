@@ -8,7 +8,7 @@ class lpTrackAuthModel extends lpPDOModel
     {
         if(!self::$metaData) {
             self::$metaData = [
-                "db" => lpApp::getDB(),
+                "db" => lpFactory::get("PDO"),
                 "table" => "lpTrackAuth",
                 "engine" => "MyISAM",
                 "charset" => "utf8",

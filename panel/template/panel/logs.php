@@ -3,6 +3,8 @@
 global $rpROOT, $rpCfg, $tooltip, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
+$page = lpDividePage::fromGET();
+
 $base['title'] = $titile = "详细日志 #{$page}";
 
 $rows = rpLogModel::count(["uname" => rpAuth::uname()]);
@@ -76,7 +78,12 @@ function printArray($arr, $tab=0)
     </table>
     <div class="pagination pagination-centered">
         <ul>
-            <?= $dPage->getOutput(new rpDividePageMaker("/panel/logs")); ?>
+            <?= $dPage->getOutput(function($page, $curPage){
+                if($curPage == $page || $page == lpDividePage::splitter)
+                    return "<li class='active'><a href='#'>{$page}</a></li>";
+                else
+                    return "<li><a href='/panel/logs/?p={$page}'>{$page}</a></li>";
+            }); ?>
         </ul>
     </div>
 </section>

@@ -265,7 +265,7 @@ class rpPanelActionHandler extends lpHandler
             }
             else
             {
-                $db = rpApp::getDB();
+                $db = lpFactory::get("PDO");
                 $rsDomains = $db->query("SELECT * FROM `virtualhost` WHERE `id` <> " . $db->quote($id));
             }
 

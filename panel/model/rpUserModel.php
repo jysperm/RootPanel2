@@ -15,7 +15,7 @@ class rpUserModel extends lpPDOModel
     {
         if(!self::$metaData) {
             self::$metaData = [
-                "db" => rpApp::getDB(),
+                "db" => lpFactory::get("PDO"),
                 "table" => "user",
                 "engine" => "MyISAM",
                 "charset" => "utf8",

@@ -4,11 +4,16 @@ class rpTicketModel extends lpPDOModel
 {
     static protected $metaData = null;
 
+    const OPEN = "ticket.status.open";
+    const HODE = "ticket.status.hode";
+    const FINISH = "ticket.status.finish";
+    const CLOSED = "ticket.status.closed";
+
     static protected function metaData()
     {
         if(!self::$metaData) {
             self::$metaData = [
-                "db" => rpApp::getDB(),
+                "db" => lpFactory::get("PDO"),
                 "table" => "ticket",
                 "engine" => "MyISAM",
                 "charset" => "utf8",

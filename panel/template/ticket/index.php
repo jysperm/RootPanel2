@@ -3,7 +3,8 @@
 global $rpROOT, $rpL, $rpCfg;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
-$base->title = $titile = "工单 #{$page}";
+$page = lpDividePage::fromGET();
+$base['title'] = $titile = "工单 #{$page}";
 
 $rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
@@ -79,7 +80,12 @@ else
         </table>
         <div class="pagination pagination-centered">
             <ul>
-                <?= $dPage->getOutput(new rpDividePageMaker("/ticket/list")); ?>
+                <?= $dPage->getOutput(function($page, $curPage){
+                    if($curPage == $page || $page == lpDividePage::splitter)
+                        return "<li class='active'><a href='#'>{$page}</a></li>";
+                    else
+                        return "<li><a href='/ticket/list/?p={$page}'>{$page}</a></li>";
+                }); ?>
             </ul>
         </div>
     </section>

@@ -1,23 +1,27 @@
-addTime
-alertUser
-showLog
-loginAs
-enableUser
-deleteUser
-disableUser
-
-
-
-function userAddTime(uname)
+function addTime(uname)
 {
-    $.post("/commit/admin/",{"do":"addtime","uname":uname,"day":prompt("请输入要延时的天数")},function(data){
+    $.post("/admin/add-time/",{"uname": uname, "day": prompt("请输入要延时的天数")}, function(data){
         if(data.status=="ok")
             window.location.reload();
         else
             alert(data.msg);
     },"json");
-    return false;
 }
+
+function alertUser(uname, type)
+{
+    $.post("/admin/alert-user/",{"uname": uname, "type":type}, function(data){
+        alert(data.msg);
+    },"json");
+}
+
+/*
+showLog
+loginAs
+enableUser
+deleteUser
+disableUser
+*/
 
 function userLog(uname)
 {

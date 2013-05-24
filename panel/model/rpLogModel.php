@@ -8,7 +8,7 @@ class rpLogModel extends lpPDOModel
     {
         if(!self::$metaData) {
             self::$metaData = [
-                "db" => rpApp::getDB(),
+                "db" => lpFactory::get("PDO"),
                 "table" => "log",
                 "engine" => "MyISAM",
                 "charset" => "utf8",

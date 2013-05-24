@@ -13,7 +13,7 @@ class rpTicketHandler extends lpHandler
             call_user_func_array([$this, "rp{$name}"], $args);
     }
 
-    public function rpList($page = null)
+    public function rpList()
     {
         lpLocale::i()->load(["ticket"]);
         global $rpROOT;
@@ -21,10 +21,7 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        $page = intval($page);
-        $tmp = new lpTemplate("{$rpROOT}/template/ticket/index.php");
-        $tmp["page"] = $page ?: 1;
-        $tmp->output();
+        lpTemplate::outputFile("{$rpROOT}/template/ticket/index.php");
     }
 
     public function create()
@@ -54,7 +51,7 @@ class rpTicketHandler extends lpHandler
         $id = rpTicketModel::insert($ticket);
         rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
-        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailer = lpFactory::get("lpSmtp");
         $mailTitle = "NewTK | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$ticket["title"]}";
         $mailBody = "{$ticket["content"]}<br />";
         $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id}</a>";
@@ -87,7 +84,7 @@ class rpTicketHandler extends lpHandler
         rpTicketReplyModel::insert($reply);
         rpLogModel::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
 
-        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailer = lpFactory::get("lpSmtp");
         $mailTitle = "TKReply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
         $mailBody = "{$reply["content"]}<br />";
         $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
@@ -135,7 +132,7 @@ class rpTicketHandler extends lpHandler
         rpTicketModel::update(["id" => $id], ["status" => "ticket.status.closed"]);
         rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
-        $mailer = new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        $mailer = lpFactory::get("lpSmtp");
         $mailTitle = "TKClose | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
         $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
 

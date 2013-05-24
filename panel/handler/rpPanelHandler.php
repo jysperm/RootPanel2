@@ -23,18 +23,14 @@ class rpPanelHandler extends lpHandler
             rpApp::goUrl("/admin/", true);
     }
 
-    public function logs($page = null)
+    public function logs()
     {
         global $rpROOT;
         lpLocale::i()->load(["global", "logs", "log"]);
 
         $this->auth();
 
-        $page = intval($page);
-
-        $tmp = new lpTemplate("{$rpROOT}/template/panel/logs.php");
-        $tmp["page"] = $page ?: 1;
-        $tmp->output();
+        lpTemplate::outputFile("{$rpROOT}/template/panel/logs.php");
     }
 }
 

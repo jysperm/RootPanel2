@@ -6,7 +6,7 @@ class rpApp extends lpApp
 
     static public function helloWorld()
     {
-        global $rpCfg, $rpROOT;
+        global $rpROOT;
 
         self::initAutoload();
 
@@ -19,8 +19,16 @@ class rpApp extends lpApp
         require_once("{$rpROOT}/config/node-list.php");
         require_once("{$rpROOT}/config/admin-list.php");
 
-        $config = $rpCfg["MySQLDB"];
-        self::registerDatabase(new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]));
+        lpFactory::register("PDO", function() {
+            global $rpCfg;
+            $config = $rpCfg["MySQLDB"];
+            return new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]);
+        });
+
+        lpFactory::register("lpSmtp", function() {
+            global $rpCfg;
+            return new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        });
 
         lpLocale::i()->load(["global"]);
     }
@@ -51,23 +59,5 @@ class rpApp extends lpApp
                 }
             }
         });
-    }
-}
-
-class rpDividePageMaker
-{
-    private $url;
-
-    public function __construct($url)
-    {
-        $this->url = $url;
-    }
-
-    public function __invoke($page, $curPage)
-    {
-        if($curPage == $page || $page == lpDividePage::splitter)
-            return "<li class='active'><a href='#'>{$page}</a></li>";
-        else
-            return "<li><a href='{$this->url}/{$page}/'>{$page}</a></li>";
     }
 }

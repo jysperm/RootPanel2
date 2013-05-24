@@ -21,6 +21,11 @@ class lpDividePage
         return ($this->curPage - 1) * $this->rowPerPage;
     }
 
+    static public function fromGET($name="p")
+    {
+        return isset($_GET[$name]) ? intval($_GET[$name]) : 1;
+    }
+
     public function getOutput($buttonMaker, $buttonNum = 2)
     {
         $maker = function ($page) use ($buttonMaker) {

@@ -8,7 +8,7 @@ class rpVirtualHostModel extends lpPDOModel
     {
         if(!self::$metaData) {
             self::$metaData = [
-                "db" => rpApp::getDB(),
+                "db" => lpFactory::get("PDO"),
                 "table" => "virtualhost",
                 "engine" => "MyISAM",
                 "charset" => "utf8",
