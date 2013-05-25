@@ -36,7 +36,7 @@ global $rpCfg, $rpL;
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
                         <li><a><?= rpAuth::uname(); ?></a></li>
-                        <? if(!rpUserModel::me()->isAllowToPanel()): ?>
+                        <? if(!lpFactory::get("rpUserModel")->isAllowToPanel()): ?>
                             <li><a href="/pay/free/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
                         <? endif; ?>

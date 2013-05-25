@@ -4,7 +4,7 @@ global $rpROOT, $rpCfg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$base->title = $rpL["global.login"];
+$base['title'] = $rpL["global.login"];
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -21,7 +21,7 @@ $base->title = $rpL["global.login"];
        data-content='<?= $rpL["login.popover.resetPasswdQQ"]; ?>'
        data-original-title="<?= $rpL["login.view.forgetPasswd.qq"]; ?>"> <?= $rpL["login.view.forgetPasswd.qq"];?></a>
 </section>
-<? $base->sidebar = lpTemplate::endBlock(); ?>
+<? $base['sidebar'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
@@ -29,7 +29,7 @@ $base->title = $rpL["global.login"];
         width: 85px;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <?php lpTemplate::beginBlock(); ?>
 <script type="text/javascript">
@@ -40,7 +40,7 @@ $base->title = $rpL["global.login"];
         $(".reset-qq").popover('hide');
     });
 </script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <section>
     <header><?= $rpL["global.login"];?></header>

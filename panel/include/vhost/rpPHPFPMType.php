@@ -27,10 +27,10 @@ HTML;
 
     public function checkSettings($settings, $source)
     {
-        if($settings["server"] && !rpUserModel::me()->checkFileName($settings["server"]))
+        if($settings["server"] && !lpFactory::get("rpUserModel")->checkFileName($settings["server"]))
             return ["ok" => false, "msg" => "请填写有效的socket地址或留空"];
 
-        if(!rpUserModel::me()->checkFileName($source))
+        if(!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => "数据源格式不正确"];
 
         return ["ok" => true, "data" => ["server" => $settings["server"]]];

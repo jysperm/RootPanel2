@@ -7,7 +7,7 @@ $types = rpVHostType::loadTypes();
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $base->title = "控制面板主页";
 
-$me = rpUserModel::me();
+$me = lpFactory::get("rpUserModel");
 
 ?>
 

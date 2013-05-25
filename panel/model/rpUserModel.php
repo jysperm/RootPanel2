@@ -9,8 +9,6 @@ class rpUserModel extends lpPDOModel
     const EXT = "ext";
     const FREE = "free";
 
-    static private $me=null;
-
     static protected function metaData()
     {
         if(!self::$metaData) {
@@ -43,18 +41,6 @@ class rpUserModel extends lpPDOModel
         }
 
         return self::$metaData;
-    }
-
-    static public function byUName($uname)
-    {
-        return self::by("uname", $uname);
-    }
-
-    static public function me()
-    {
-        if(!self::$me)
-            self::$me = self::byUName(rpAuth::uname());
-        return self::$me;
     }
 
     public function isAllowToPanel()

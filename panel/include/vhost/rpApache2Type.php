@@ -50,7 +50,7 @@ HTML;
         if(!in_array($settings["type"], ["unless", "only"]))
             return ["ok" => false, "msg" => "类型不正确"];
 
-        if(!rpUserModel::me()->checkFileName($source))
+        if(!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => "数据源格式不正确"];
 
         if(!preg_match('/^ *[A-Za-z0-9_\-\.]*( [A-Za-z0-9_\-\.]*)* *$/', $settings["extension"]) ||

@@ -4,7 +4,7 @@ global $rpROOT, $rpCfg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$base->title = $rpL["global.signup"];
+$base['title'] = $rpL["global.signup"];
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -19,7 +19,7 @@ $base->title = $rpL["global.signup"];
         <?= $rpL["contact.list"];?>
     </ul>
 </section>
-<? $base->sidebar = lpTemplate::endBlock(); ?>
+<? $base['sidebar'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
@@ -28,7 +28,7 @@ $base->title = $rpL["global.signup"];
         margin-top: -2px;
     }
 </style>
-<? $base->header = lpTemplate::endBlock(); ?>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <?php lpTemplate::beginBlock(); ?>
 <script type="text/javascript">
@@ -50,7 +50,7 @@ $base->title = $rpL["global.signup"];
         })
     });
 </script>
-<? $base->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <section>
     <header><?= $rpL["global.signup"];?> <span

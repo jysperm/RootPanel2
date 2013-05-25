@@ -18,7 +18,6 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
     table {
-        table-layout: fixed;
         word-break: break-all;
     }
 </style>
@@ -30,10 +29,10 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th style="width: 35px;">ID</th>
-            <th style="width: 75px;">状态</th>
-            <th style="width: 110px;">最后回复</th>
+            <th>ID</th>
+            <th>状态</th>
             <th>标题</th>
+            <th>回复</th>
         </tr>
         </thead>
         <tbody>
@@ -41,10 +40,11 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
             <tr>
                 <td><?= $tk["id"]; ?></td>
                 <td><?= $rpL[$tk["status"]]; ?></td>
-                <td><span
-                        title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
-                </td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
+                <td>
+                    <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
+                    <span title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                </td>
             </tr>
         <? endforeach; ?>
         </tbody>
@@ -53,11 +53,11 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th style="width: 35px;">ID</th>
-            <th style="width: 75px;">类型</th>
-            <th style="width: 75px;">状态</th>
-            <th style="width: 110px;">最后回复</th>
+            <th>ID</th>
+            <th>类型</th>
+            <th>状态</th>
             <th>标题</th>
+            <th>回复</th>
         </tr>
         </thead>
         <tbody>
@@ -66,17 +66,23 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
                 <td><?= $tk["id"]; ?></td>
                 <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
                 <td><?= $rpL[$tk["status"]]; ?></td>
-                <td><span
-                        title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
-                </td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
+                <td>
+                    <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
+                    <span title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                </td>
             </tr>
         <? endforeach; ?>
         </tbody>
     </table>
     <div class="pagination pagination-centered">
         <ul>
-            <?= $dPage->getOutput(new rpDividePageMaker("/ticket/list")); ?>
+            <?= $dPage->getOutput(function($page, $curPage){
+                if($curPage == $page || $page == lpDividePage::splitter)
+                    return "<li class='active'><a href='#'>{$page}</a></li>";
+                else
+                    return "<li><a href='/admin/ticket/?p={$page}'>{$page}</a></li>";
+            }); ?>
         </ul>
     </div>
 </section>

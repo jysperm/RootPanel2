@@ -66,31 +66,13 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        global $rpCfg;
-
         $tk = new rpTicketModel($id);
         if($tk->isNull())
             die("工单ID无效");
-        if($tk["uname"] != rpAuth::uname())
+        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             die("该工单不属于你");
 
-        $reply = [
-            "replyto" => $id,
-            "time" => time(),
-            "uname" => rpAuth::uname(),
-            "content" => rpTools::escapePlantText($_POST["content"])
-        ];
-
-        rpTicketReplyModel::insert($reply);
-        rpLogModel::log(rpAuth::uname(), "log.type.replyTicket", [$id, $id], $reply);
-
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "TKReply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
-        $mailBody = "{$reply["content"]}<br />";
-        $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
-
-        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-
+        $tk->reply($_POST);
 
         echo json_encode(["status" => "ok"]);
     }
@@ -104,7 +86,7 @@ class rpTicketHandler extends lpHandler
         $tk = new rpTicketModel($id);
         if($tk->isNull())
             die("工单ID无效");
-        if($tk["uname"] != rpAuth::uname())
+        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             die("该工单不属于你");
 
         $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");

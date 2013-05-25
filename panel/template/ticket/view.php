@@ -3,7 +3,7 @@
 global $rpROOT, $rpL, $rpCfg;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
-$base->title = $titile = "工单 #{$tk["id"]}";
+$base['title'] = $titile = "工单 #{$tk["id"]}";
 
 ?>
 
@@ -49,59 +49,59 @@ $base->title = $titile = "工单 #{$tk["id"]}";
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
-    <section id="content">
-        <header><?= $tk["title"]; ?></header>
-        <p>
-            <?= $tk["content"]; ?>
-        </p>
-        <hr />
-        <span class="label">
-            <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
-            | <?= $tk["uname"]; ?>
-        </span>
-    </section>
+<section id="content">
+    <header><?= $tk["title"]; ?></header>
+    <p>
+        <?= $tk["content"]; ?>
+    </p>
+    <hr />
+    <span class="label">
+        <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
+        | <?= $tk["uname"]; ?>
+    </span>
+</section>
 
-    <section id="replys">
-        <header>回复 (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
-        <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
-            <div class="box">
-                <?= $reply["content"]; ?>
-                <hr />
-                <span class="label">
-                    <span
-                        title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
-                    | <?= $reply["uname"]; ?>
-                </span>
-            </div>
-        <? endforeach; ?>
-    </section>
+<section id="replys">
+    <header>回复 (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
+    <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
+        <div class="box">
+            <?= $reply["content"]; ?>
+            <hr />
+            <span class="label">
+                <span
+                    title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
+                | <?= $reply["uname"]; ?>
+            </span>
+        </div>
+    <? endforeach; ?>
+</section>
 
-    <section id="operation">
-        <header>操作</header>
-        <? if($tk["status"] != "ticket.status.closed" && !$tk["onlyclosebyadmin"]): ?>
-            <button class="btn btn-danger" id="deleteTK">关闭工单</button>
-            <hr/>
-        <? endif; ?>
-        <? if($tk["status"] != "ticket.status.closed"): ?>
-            <form class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label" for="content">回复内容</label>
+<section id="operation">
+    <header>操作</header>
+    <? if($tk["status"] != "ticket.status.closed" && !$tk["onlyclosebyadmin"]): ?>
+        <button class="btn btn-danger" id="deleteTK">关闭工单</button>
+        <hr/>
+    <? endif; ?>
+    <? if($tk["status"] != "ticket.status.closed"): ?>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="content">回复内容</label>
 
-                    <div class="controls">
-                        <label class="radio">
-                            <textarea id="content" name="content" rows="10"></textarea><br/>
-                        </label>
-                    </div>
+                <div class="controls">
+                    <label class="radio">
+                        <textarea id="content" name="content" rows="10"></textarea><br/>
+                    </label>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-large">创建回复</button>
-                </div>
-            </form>
-        <? else: ?>
-            <div>
-                工单已被关闭
             </div>
-        <? endif; ?>
-    </section>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-large">创建回复</button>
+            </div>
+        </form>
+    <? else: ?>
+        <div>
+            工单已被关闭
+        </div>
+    <? endif; ?>
+</section>
 
 <? $base->output(); ?>

@@ -22,7 +22,7 @@ abstract class lpPDOModel implements ArrayAccess
 
     public function data()
     {
-        return $this->data();
+        return $this->data;
     }
 
     public function isNull()

@@ -22,7 +22,7 @@ class rpNginxType extends rpVHostType
 
     public function checkSettings($settings, $source)
     {
-        if(!rpUserModel::me()->checkFileName($source))
+        if(!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => "数据源格式不正确"];
 
         return ["ok" => true, "data" => []];

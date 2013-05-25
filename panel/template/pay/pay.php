@@ -28,7 +28,7 @@ $base['title'] = "购买";
         </div>
     <? else: ?>
         <?php
-        $me = rpUserModel::me();
+        $me = lpFactory::get("rpUserModel");
         ?>
         <? if($me["type"] == rpUserModel::NO): ?>
             <div class="alert alert-block alert-success fade in">

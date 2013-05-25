@@ -12,7 +12,7 @@ class rpPanelActionHandler extends lpHandler
         if(!rpAuth::login())
             $this->jsonError("未登录");
 
-        if(!rpUserModel::me()->isAllowToPanel())
+        if(!lpFactory::get("rpUserModel")->isAllowToPanel())
             $this->jsonError("未开通");
     }
 
@@ -146,7 +146,7 @@ class rpPanelActionHandler extends lpHandler
         if(!in_array($type, ["apache2", "nginx"]))
             die("参数错误");
 
-        $config = rpUserModel::me()["settings"]["{$type}extconfig"];
+        $config = lpFactory::get("rpUserModel")["settings"]["{$type}extconfig"];
 
         echo "<pre>{$config}</pre>";
     }
@@ -311,7 +311,7 @@ class rpPanelActionHandler extends lpHandler
                 if(!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128)
                     return ["ok" => false, "别名{$vv[0]}不正确"];
 
-                if(!rpUserModel::me()->checkFileName($vv[1]))
+                if(!lpFactory::get("rpUserModel")->checkFileName($vv[1]))
                     return ["ok" => false, "别名{$vv[1]}不正确"];
 
                 $aliasR[$vv[0]] = $vv[1];
@@ -333,10 +333,10 @@ class rpPanelActionHandler extends lpHandler
         // SSL
         if($data["isssl"])
         {
-            if(!rpUserModel::me()->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
+            if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
                 return ["ok" => false, "sslcrt不正确或不存在"];
 
-            if(!rpUserModel::me()->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
+            if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
                 return ["ok" => false, "sslkey不正确或不存在"];
 
             $data["sslcrt"] = $_POST["sslcrt"];

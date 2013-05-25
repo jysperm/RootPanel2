@@ -30,6 +30,10 @@ class rpApp extends lpApp
             return new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
         });
 
+        lpFactory::register("rpUserModel", function(){
+            return rpUserModel::by("uname", rpAuth::uname());
+        });
+
         lpLocale::i()->load(["global"]);
     }
 
