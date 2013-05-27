@@ -8,6 +8,22 @@ $base['title'] = "管理员面板";
 
 $db = lpFactory::get("PDO");
 
+$commonAct = function($uname)
+{
+    global $lpCfg;
+    $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
+    $myUName = rpAuth::uname();
+    $getLoginas = "?{$cookieName["user"]}={$myUName}&{$cookieName["passwd"]}={$_COOKIE[$cookieName["passwd"]]}&rp_changeuname={$uname}";
+    $getLog = "&{$getLoginas}&goUrl=/panel/logs/";
+
+    lpTemplate::beginBlock(); ?>
+    <li class="divider"></li>
+    <li><a href="/user/set-cookie/<?= $getLog;?> ">日志</a></li>
+    <li><a href="/user/set-cookie/<?= $getLoginas;?> ">登录为</a></li>
+    <li><a href="#" onclick="newTK('<?= $uname;?>');">创建工单</a></li>
+    <? return lpTemplate::endBlock();
+};
+
 ?>
 
 <?php lpTemplate::beginBlock();?>
@@ -78,10 +94,7 @@ $db = lpFactory::get("PDO");
                                 <li><a href="#" onclick="enableUser('<?= $user['uname'];?>', 'free');">开通为免费试用版</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#" onclick="deleteUser('<?= $user['uname'];?>');">删除用户</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
-                                <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
-                                <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
+                                <?= $commonAct($user["uname"]); ?>
                             </ul>
                         </div>
                     </td>
@@ -119,10 +132,7 @@ $db = lpFactory::get("PDO");
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');">延时</a></li>
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>', 'renew');">续费提醒</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
-                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
-                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
+                            <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
                 </td>
@@ -158,10 +168,7 @@ $db = lpFactory::get("PDO");
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');">延时</a></li>
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>', 'remove');">删除提醒</a></li>
                             <li><a href="#" onclick="disableUser('<?= $user['uname'];?>'');">取消用户</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
-                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
-                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
+                            <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
                 </td>
@@ -182,7 +189,7 @@ $db = lpFactory::get("PDO");
         <? foreach($db->query("SELECT * FROM `user` WHERE `expired` > {$timeS} AND `type`!='no' AND `type`!='free'") as $user): ?>
             <tr>
                 <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
-                <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
+                <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => rpTicketModel::OPEN]) ?></a></td>
                 <td><?= $user['email'];?></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
@@ -196,10 +203,7 @@ $db = lpFactory::get("PDO");
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');">延时</a></li>
                             <li><a href="#" onclick="switchUser('<?= $user['uname'];?>');">变更付费方式</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
-                            <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
-                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
+                            <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
                 </td>

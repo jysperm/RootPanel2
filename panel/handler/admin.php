@@ -2,39 +2,6 @@
 
 class AdminAction extends lpAction
 {
-    public function addtime()
-    {
-        $rs=$this->conn->select("user",array("uname"=>$_POST["uname"]));
-        $rs->read();
-        
-        $expired=(intval($rs->expired) + (intval($_POST["day"])*3600*24));
-        $this->conn->update("user",array("uname"=>$_POST["uname"]),array("expired"=>$expired));
-        makeLog($_POST["uname"],"被增加了{$_POST["day"]}天的使用时长");
-        
-        echo json_encode(array("status"=>"ok"));
-    }
-    
-    public function getlog()
-    {
-        $rsL=$this->conn->select("log",array("uname"=>$_POST["uname"]),"time",-1,100,false);
-        ?>
-        <table class="table table-striped table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th>id</th><th>ip(UA)</th><th>时间</th><th>内容</th>
-            </tr>
-          </thead>
-          <tbody>
-            <? while($rsL->read()): ?>
-              <tr>
-                <td><?= $rsL->id;?></td><td><span title="<?= str_replace("\"","",$rsL->ua);?>"><?= $rsL->ip;?></span></td>
-                <td><span title="<?= gmdate("Y.m.d H:i:s",$rsL->time);?>"><?= lpTools::niceTime($rsL->time);?></span></td><td><?= htmlspecialchars($rsL->content);?></td>
-              </tr> 
-            <? endwhile; ?>
-          </tbody>
-        </table>
-        <?php
-    }
     
     public function delete()
     {

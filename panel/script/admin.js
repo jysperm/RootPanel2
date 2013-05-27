@@ -45,22 +45,11 @@ function showLog(uname)
 }
 
 /*
-showLog
 loginAs
 enableUser
 deleteUser
 disableUser
 */
-
-function userLog(uname)
-{
-    $.post("/commit/admin/",{"do":"getlog","uname":uname},function(data){
-        $("#logView .rp-title").html(uname);
-        $("#logView .rp-body").html(data);
-        $("#logView").modal();
-    },"html");
-    return false;
-}
 
 function userDelete(uname)
 {

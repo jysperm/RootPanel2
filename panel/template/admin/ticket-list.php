@@ -34,6 +34,7 @@ if($this["uname"])
         <thead>
         <tr>
             <th>ID</th>
+            <th>类型</th>
             <th>状态</th>
             <th>标题</th>
             <th>回复</th>
@@ -43,6 +44,7 @@ if($this["uname"])
         <? foreach(rpTicketModel::select(["status" => rpTicketModel::OPEN], ["sort" => ["lastchange", false]]) as $tk): ?>
             <tr>
                 <td><?= $tk["id"]; ?></td>
+                <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
                 <td><?= $rpL[$tk["status"]]; ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>

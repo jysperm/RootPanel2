@@ -106,4 +106,19 @@ class rpUserHandler extends lpHandler
         rpAuth::logout();
         rpApp::goUrl("/");
     }
+
+    public function setCookie()
+    {
+        foreach($_GET as $k => $v)
+        {
+            global $lpCfg;
+
+            setcookie($k, $v, time() + $lpCfg["lpTrackAuth"]["Limit"], "/");
+        }
+
+        if(isset($_GET["goUrl"]))
+            rpApp::goUrl($_GET["goUrl"]);
+        else
+            rpApp::goUrl("/panel/");
+    }
 }
