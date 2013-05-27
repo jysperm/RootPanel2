@@ -39,13 +39,7 @@ function newTK(uname)
     }, "html");
 }
 
-function showLog(uname)
-{
-    window.location = "/admin/logs/" + uname + "/";
-}
-
 /*
-loginAs
 enableUser
 deleteUser
 disableUser
