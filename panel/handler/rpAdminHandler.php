@@ -22,36 +22,23 @@ class rpAdminHandler extends lpHandler
         lpTemplate::outputFile("{$rpROOT}/template/admin/index.php");
     }
 
-    public function ticket()
+    public function ticket($uname = null)
     {
         $this->auth();
 
         lpLocale::i()->load(["ticket"]);
         global $rpROOT;
 
-        lpTemplate::outputFile("{$rpROOT}/template/admin/ticket-list.php");
+        lpTemplate::outputFile("{$rpROOT}/template/admin/ticket-list.php", ["uname" => $uname]);
     }
 
-    public function addTime()
+    public function logs($uname = null)
     {
+        global $rpROOT;
+        lpLocale::i()->load(["global", "logs", "log"]);
+
         $this->auth();
 
-        $user = rpUserModel::find(["uname" => $_POST["uname"]]);
-        $expired = (intval($user['expired']) + (intval($_POST["day"]) * 3600 * 24));
-        rpUserModel::update(["uname" => $_POST["uname"]], ["expired" => $expired]);
-
-        rpLogModel::log($_POST["uname"], "log.type.addTime", [intval($_POST["day"])], [], rpAuth::uname());
-
-        echo json_encode(["status"=>"ok"]);
+        lpTemplate::outputFile("{$rpROOT}/template/panel/logs.php", ["uname" => $uname]);
     }
-
-    public function alertUser()
-    {
-        global $rpCfg;
-        $this->auth();
-
-        $user = rpUserModel::find(["uname" => $_POST["uname"]]);
-    }
-
-
 }

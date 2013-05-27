@@ -14,10 +14,18 @@ $db = lpFactory::get("PDO");
 
 <li class="active"><a  href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
-<li><a href="#section-log"><i class="icon-chevron-right"></i> 日志</a></li>
+<li><a href="/admin/logs/"><i class="icon-chevron-right"></i> 日志</a></li>
 <li><a href="/admin/ticket/"><i class="icon-share"></i> 工单</a></li>
 
 <?php $base['sidenav'] = lpTemplate::endBlock();?>
+
+<? lpTemplate::beginBlock(); ?>
+<style type="text/css">
+    .input-xxlarge {
+        width: 250px;
+    }
+</style>
+<? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
 <script type='text/javascript' src='/script/admin.js'></script>
@@ -73,6 +81,7 @@ $db = lpFactory::get("PDO");
                                 <li class="divider"></li>
                                 <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
                                 <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
+                                <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
                             </ul>
                         </div>
                     </td>
@@ -113,6 +122,7 @@ $db = lpFactory::get("PDO");
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
                             <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
+                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
                         </ul>
                     </div>
                 </td>
@@ -151,6 +161,7 @@ $db = lpFactory::get("PDO");
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
                             <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
+                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
                         </ul>
                     </div>
                 </td>
@@ -188,6 +199,7 @@ $db = lpFactory::get("PDO");
                             <li class="divider"></li>
                             <li><a href="#" onclick="showLog('<?= $user['uname'];?>');">日志</a></li>
                             <li><a href="#" onclick="loginAs('<?= $user['uname'];?>');">登录为</a></li>
+                            <li><a href="#" onclick="newTK('<?= $user['uname'];?>');">创建工单</a></li>
                         </ul>
                     </div>
                 </td>

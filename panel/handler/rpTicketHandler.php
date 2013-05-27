@@ -27,7 +27,7 @@ class rpTicketHandler extends lpHandler
     public function create()
     {
         lpLocale::i()->load(["ticket"]);
-        global $rpL, $rpCfg;
+        global $rpL;
 
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
@@ -35,28 +35,7 @@ class rpTicketHandler extends lpHandler
         if(!in_array($_POST["type"], array_keys($rpL["ticket.types"])))
             die("类型不合法");
 
-        $ticket = [
-            "time" => time(),
-            "uname" => rpAuth::uname(),
-            "title" => rpTools::escapePlantText($_POST["title"]),
-            "onlyclosebyadmin" => 0,
-            "type" => $_POST["type"],
-            "status" => "ticket.status.open",
-            "lastchange" => time(),
-            "replys" => 0,
-            "lastreply" => rpAuth::uname(),
-            "content" => rpTools::escapePlantText($_POST["content"])
-        ];
-
-        $id = rpTicketModel::insert($ticket);
-        rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
-
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "NewTK | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$ticket["title"]}";
-        $mailBody = "{$ticket["content"]}<br />";
-        $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id}</a>";
-
-        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        rpTicketModel::create($_POST);
 
         echo json_encode(["status" => "ok"]);
     }

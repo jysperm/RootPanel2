@@ -15,3 +15,4 @@ $rpL["log.type.panelPasswd"] = "修改了面板密码";
 $rpL["log.type.adminReplyTicket"] = "管理员回复了工单 <a href='/ticket/view/%s/'># %s</a>";
 
 $rpL["log.type.addTime"] = "被增加了 %s 天的使用时长";
+$rpL["log.type.adminCreateTicket"] = "管理员与你创建了工单 <a href='/ticket/view/%s/'># %s</a>";

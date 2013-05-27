@@ -9,6 +9,10 @@ $page = lpDividePage::fromGET();
 $rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
 
+$ifUName = [];
+if($this["uname"])
+    $ifUName = ["uname" => $this["uname"]];
+
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -61,7 +65,7 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
         </tr>
         </thead>
         <tbody>
-        <? foreach(rpTicketModel::select([], ["sort" => ["lastchange", false], "limit" => $rpCfg["TKPerPage"], "skip" => $dPage->getPos()]) as $tk): ?>
+        <? foreach(rpTicketModel::select($ifUName, ["sort" => ["lastchange", false], "limit" => $rpCfg["TKPerPage"], "skip" => $dPage->getPos()]) as $tk): ?>
             <tr>
                 <td><?= $tk["id"]; ?></td>
                 <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
@@ -86,5 +90,7 @@ $dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
         </ul>
     </div>
 </section>
+
+
 
 <? $base->output(); ?>

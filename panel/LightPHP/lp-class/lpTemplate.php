@@ -51,9 +51,11 @@ class lpTemplate implements ArrayAccess
         return htmlspecialchars($str);
     }
 
-    public static function outputFile($file)
+    public static function outputFile($file, $values=[])
     {
         $tmp = new lpTemplate($file);
+        if($values)
+            $tmp->setValues($values);
         $tmp->output();
     }
 
