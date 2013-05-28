@@ -2,6 +2,17 @@
 
 global $rpCfg, $rpL;
 
+$tkOpen = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::OPEN]);
+$tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
+$tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
+
+$tkTitle = <<< TEXT
+开放工单：{$tkOpen}
+待处理工单：{$tkHold}
+已处理工单：{$tkFinish}
+TEXT;
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,6 +47,15 @@ global $rpCfg, $rpL;
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
                         <li><a><?= rpAuth::uname(); ?></a></li>
+                        <? if($tkOpen + $tkHold + $tkFinish != 0): ?>
+                        <li>
+                            <a href="/ticket/" title="<?= $tkTitle;?>">
+                                <?= $tkOpen ? "<i class='icon-play icon-white''></i> {$tkOpen}" : ""; ?>
+                                <?= $tkHold ? "<i class='icon-step-forward icon-white''></i> {$tkHold}" : ""; ?>
+                                <?= $tkFinish ? "<i class='icon-ok icon-white''></i> {$tkFinish}" : ""; ?>
+                            </a>
+                        </li>
+                        <? endif; ?>
                         <? if(!lpFactory::get("rpUserModel")->isAllowToPanel()): ?>
                             <li><a href="/pay/free/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
