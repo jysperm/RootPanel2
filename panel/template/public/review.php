@@ -2,9 +2,9 @@
 
 global $rpROOT, $rpCfg, $tooltip;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "客户评价";
+$base['title'] = "客户评价";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -15,9 +15,9 @@ $tmp->title = "客户评价";
             <?= $tooltip["contact"];?>
         </ul>
     </section>
-<? $tmp->sidebar = lpTemplate::endBlock(); ?>
+<? $base['sidebar'] = lpTemplate::endBlock(); ?>
 
-<?php lpTemplate::beginBlock(); ?>
+<? lpTemplate::beginBlock(); ?>
     <script type="text/javascript">
         var duoshuoQuery = {short_name: "<?= $rpCfg["duoshuoID"];?>"};
         (function () {
@@ -30,7 +30,7 @@ $tmp->title = "客户评价";
                 || document.getElementsByTagName('body')[0]).appendChild(ds);
         })();
     </script>
-<? $tmp->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
     <section>
         <header>客户评价</header>
@@ -38,4 +38,4 @@ $tmp->title = "客户评价";
         </div>
     </section>
 
-<? $tmp->output(); ?>
+<? $base->output(); ?>

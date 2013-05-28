@@ -1,28 +1,31 @@
 #!/usr/bin/php
 <?php
 
-require_once("/RootPanel/LightPHP/lp-load.php");
-require_once("/RootPanel/panel/main-config.php");
+$rpROOT = dirname(__FILE__);
+$rpROOT = "{$rpROOT}/../panel";
 
-lpLoader("lpLock");
+require_once("{$rpROOT}/LightPHP/lp-load.php");
+require_once("{$rpROOT}/include/rpApp.php");
+rpApp::helloWorld();
 
-$l=new lpMutex;
+$lock = new lpMutex;
 
-$conn=new lpMySQL;
-$rs=$conn->exec("SELECT * FROM `user` WHERE `type`!='no'");
+$db = lpFactory::get("PDO");
 
 lpTemplate::beginBlock();
 
-while($rs->read())
+foreach($db->query("SELECT * FROM `user` WHERE `type`! ='no'") as $user)
 {
-    if($rs->pptppasswd)
-        echo "{$rs->uname} * {$rs->pptppasswd} * \n";
+    if($user["settings"]["pptppasswd"])
+        echo "{$user['uname']} * {$user["settings"]["pptppasswd"]} * \n";
 }
 
-file_put_contents("{$rpROOT}/temp", lpTemplate::endBlock());
+file_put_contents("/tmp/temp", lpTemplate::endBlock());
 
-shell_exec("sudo cp {$rpROOT}/temp /etc/ppp/chap-secrets");
+shell_exec("sudo cp /tmp/temp /etc/ppp/chap-secrets");
 shell_exec("sudo chown root:root /etc/ppp/chap-secrets");
 shell_exec("sudo chmod 700 /etc/ppp/chap-secrets");
 
-$l=NULL;
+shell_exec("rm /tmp/temp");
+
+$lock = null;

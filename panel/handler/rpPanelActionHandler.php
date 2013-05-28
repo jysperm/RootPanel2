@@ -156,14 +156,16 @@ class rpPanelActionHandler extends lpHandler
         $this->auth();
         if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
         {
-            /*
-            $uname = lpAuth::getUName();
+
+            $uname = rpAuth::uname();
             shell_exec("echo '{$uname}:{$_POST['passwd']}' | sudo chpasswd");
 
-            makeLog($uname, "修改了SSH密码");
-            */
-            echo json_encode(array("status" => "ok"));
-        } else {
+            rpLogModel::log($uname, "log.type.sshPasswd", [], []);
+
+            echo json_encode(["status" => "ok"]);
+        }
+        else
+        {
             $this->jsonError("密码不合法");
         }
     }
@@ -184,13 +186,15 @@ class rpPanelActionHandler extends lpHandler
             rpUserModel::update(["uname" => $uname], ["settings" => $settings]);
 
             $lock = null;
-/*
+
             shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
 
-            makeLog($uname, "修改了PPTP密码");
-*/
-            echo json_encode(array("status" => "ok"));
-        } else {
+            rpLogModel::log($uname, "log.type.pptpPasswd", [], []);
+
+            echo json_encode(["status" => "ok"]);
+        }
+        else
+        {
             $this->jsonError("密码不合法");
         }
     }
@@ -200,15 +204,17 @@ class rpPanelActionHandler extends lpHandler
         $this->auth();
         if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
         {
-            /*
-            $uname = lpAuth::getUName();
+            $db = lpFactory::get("PDO");
+            $uname = rpAuth::uname();
 
-            $this->conn->exec("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');", $uname, $_POST["passwd"]);
+            $db->exec(sprintf("SET PASSWORD FOR '%s'@'localhost' = PASSWORD('%s');", $uname, $_POST["passwd"]));
 
-            makeLog(lpAuth::getUName(), "修改了MySQL密码");*/
+            rpLogModel::log($uname, "log.type.mysqlPasswd", [], []);
 
-            echo json_encode(array("status" => "ok"));
-        } else {
+            echo json_encode(["status" => "ok"]);
+        }
+        else
+        {
             $this->jsonError("密码不合法");
         }
     }

@@ -18,41 +18,7 @@ class AdminAction extends lpAction
             jsonError("请先转为未付费");
         }
     }
-    
-    public function alertpay()
-    {
-        $rs=$this->conn->select("user",array("uname"=>$_POST["uname"]));
-        $rs->read();
 
-        $mailer=new lpSmtpMail();
-
-        $mailTitle="{$_POST["uname"]}-RP主机即将到期提醒 - {$rs->uname}将于". lpTools::niceTime($rs->expired) . "到期";
-        $mailBody=$mailTitle;
-        
-        $mailer->send($rs->email,$mailTitle,$mailBody,"HTML");
-        
-        makeLog($_POST["uname"],$mailBody);
-        
-        echo json_encode(array("status"=>"ok"));
-    }
-    
-    public function alertdelete()
-    {
-        $rs=$this->conn->select("user",array("uname"=>$_POST["uname"]));
-        $rs->read();
-
-        $mailer=new lpSmtpMail();
-
-        $mailTitle="{$_POST["uname"]}-RP主机即将删除提醒 - {$rs->uname}已于". lpTools::niceTime($rs->expired) . "到期";
-        $mailBody=$mailTitle;
-        
-        $mailer->send($rs->email,$mailTitle,$mailBody,"HTML");
-      
-        makeLog($_POST["uname"],$mailBody);
-        
-        echo json_encode(array("status"=>"ok"));
-    }
-    
     public function tostd()
     {
         global $rpROOT;

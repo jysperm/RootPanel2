@@ -10,7 +10,11 @@ $rpL["log.type.closeTicket"] = "关闭了工单 <a href='/ticket/view/%s/'># %s<
 $rpL["log.type.createVHost"] = "创建了站点 <a href='/panel/#website%s'># %s</a>";
 $rpL["log.type.editVHost"] = "编辑了站点 <a href='/panel/#website%s'># %s</a>";
 $rpL["log.type.deleteVHost"] = "删除了站点 # %s";
+
 $rpL["log.type.panelPasswd"] = "修改了面板密码";
+$rpL["log.type.mysqlPasswd"] = "修改了MySQL密码";
+$rpL["log.type.pptpPasswd"] = "修改了PPTP密码";
+$rpL["log.type.sshPasswd"] = "修改了SSH密码";
 
 $rpL["log.type.adminReplyTicket"] = "管理员回复了工单 <a href='/ticket/view/%s/'># %s</a>";
 

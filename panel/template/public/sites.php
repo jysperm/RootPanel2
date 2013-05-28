@@ -2,9 +2,9 @@
 
 global $rpROOT, $rpCfg, $tooltip;
 
-$tmp = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate("{$rpROOT}/template/base.php");
 
-$tmp->title = "优质站点展示";
+$base['title'] = "优质站点展示";
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -15,13 +15,13 @@ $tmp->title = "优质站点展示";
             <?= $tooltip["contact"];?>
         </ul>
     </section>
-<? $tmp->sidebar = lpTemplate::endBlock(); ?>
+<? $base['sidebar'] = lpTemplate::endBlock(); ?>
 
-<?php lpTemplate::beginBlock(); ?>
+<? lpTemplate::beginBlock(); ?>
     <script type="text/javascript">
         $('#myCarousel').carousel();
     </script>
-<? $tmp->endOfBody = lpTemplate::endBlock(); ?>
+<? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
     <section>
         <header>优质站点展示</header>
@@ -91,4 +91,4 @@ $tmp->title = "优质站点展示";
         </div>
     </section>
 
-<? $tmp->output(); ?>
+<? $base->output(); ?>

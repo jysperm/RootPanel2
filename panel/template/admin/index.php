@@ -27,14 +27,14 @@ $commonAct = function($uname)
 
 ?>
 
-<?php lpTemplate::beginBlock();?>
+<? lpTemplate::beginBlock();?>
 
 <li class="active"><a  href="#section-index"><i class="icon-chevron-right"></i> 概述</a></li>
 <li><a href="#section-users"><i class="icon-chevron-right"></i> 用户管理</a></li>
 <li><a href="/admin/logs/"><i class="icon-chevron-right"></i> 日志</a></li>
 <li><a href="/admin/ticket/"><i class="icon-share"></i> 工单</a></li>
 
-<?php $base['sidenav'] = lpTemplate::endBlock();?>
+<? $base['sidenav'] = lpTemplate::endBlock();?>
 
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
