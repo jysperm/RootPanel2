@@ -46,6 +46,14 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
                     alert(data.msg);
             }, "json");
         }));
+        $($("#finishTK").click(function(){
+            $.post("/ticket/finish/<?= $tk["id"];?>/", {}, function (data) {
+                if (data.status == "ok")
+                    window.location.reload();
+                else
+                    alert(data.msg);
+            }, "json");
+        }));
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
@@ -78,10 +86,13 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
 
 <section id="operation">
     <header>操作</header>
-    <? if($tk["status"] != "ticket.status.closed" && !$tk["onlyclosebyadmin"]): ?>
+    <? if($tk["status"] != rpTicketModel::CLOSED && (!$tk["onlyclosebyadmin"] || lpFactory::get("rpUserModel")->isAdmin())): ?>
         <button class="btn btn-danger" id="deleteTK">关闭工单</button>
-        <hr/>
     <? endif; ?>
+    <? if(lpFactory::get("rpUserModel")->isAdmin() && $tk["status"] == rpTicketModel::HODE): ?>
+        <button class="btn btn-success" id="finishTK">标记完成</button>
+    <? endif; ?>
+    <hr/>
     <? if($tk["status"] != "ticket.status.closed"): ?>
         <form class="form-horizontal">
             <div class="control-group">

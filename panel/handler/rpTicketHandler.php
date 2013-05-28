@@ -78,26 +78,30 @@ class rpTicketHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        global $rpCfg;
+        $isAdmin = lpFactory::get("rpUserModel")->isAdmin();
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
             die("工单ID无效");
-        if($tk["uname"] != rpAuth::uname())
+        if($tk["uname"] != rpAuth::uname() && !$isAdmin)
             die("该工单不属于你");
-        if($tk["status"] == "ticket.status.closed")
+        if($tk["status"] == rpTicketModel::CLOSED)
             die("该工单已经被关闭");
-        if($tk["onlyclosebyadmin"])
+        if($tk["onlyclosebyadmin"] && !$isAdmin)
             die("该工单只能被管理员关闭");
 
-        rpTicketModel::update(["id" => $id], ["status" => "ticket.status.closed"]);
-        rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
+        $tk->close();
 
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "TKClose | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$tk["title"]}";
-        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$tk["id"]}/'># {$tk["id"]}</a>";
+        echo json_encode(["status" => "ok"]);
+    }
 
-        $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+    public function finish($id = null)
+    {
+        if(!lpFactory::get("rpUserModel")->isAdmin())
+            die("非管理员");
+
+        $tk = new rpTicketModel($id);
+        $tk->finish();
 
         echo json_encode(["status" => "ok"]);
     }

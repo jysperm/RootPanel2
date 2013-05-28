@@ -141,4 +141,45 @@ class rpTicketModel extends lpPDOModel
 
         rpTicketModel::update(["id" => $id], $tkRow);
     }
+
+    public function close()
+    {
+        global $rpCfg;
+        $id = $this->data["id"];
+
+        rpTicketModel::update(["id" => $id], ["status" => self::CLOSED]);
+
+        $mailer = lpFactory::get("lpSmtp");
+        $mailTitle = "TK Close | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
+        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
+
+        if(lpFactory::get("rpUserModel")->isAdmin())
+        {
+            rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
+
+            $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        }
+        else
+        {
+            rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
+
+            $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        }
+    }
+
+    public function finish()
+    {
+        global $rpCfg;
+        $id = $this->data["id"];
+
+        rpTicketModel::update(["id" => $id], ["status" => self::FINISH]);
+
+        $mailer = lpFactory::get("lpSmtp");
+        $mailTitle = "TK Finish | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
+        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
+
+        rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
+
+        $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+    }
 }

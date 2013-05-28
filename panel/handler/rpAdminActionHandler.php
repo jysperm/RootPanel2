@@ -40,4 +40,17 @@ class rpAdminActionHandler extends lpHandler
 
         lpTemplate::outputFile("{$rpROOT}/template/dialog/admin-new-ticket.php");
     }
+
+    public function getPasswd()
+    {
+        global $lpCfg;
+        $db = lpFactory::get("PDO");
+
+        $token = rpAuth::creatToken($_POST["uname"]);
+
+        $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
+        $url = "/user/set-cookie/?{$cookieName["user"]}={$_POST["uname"]}&{$cookieName["passwd"]}={$token}";
+
+        echo "<a href='{$url}''>{$url}</a>";
+    }
 }

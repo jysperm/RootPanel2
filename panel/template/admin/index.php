@@ -18,9 +18,10 @@ $commonAct = function($uname)
 
     lpTemplate::beginBlock(); ?>
     <li class="divider"></li>
+    <li><a href="#" onclick="newTK('<?= $uname;?>');">创建工单</a></li>
     <li><a href="/user/set-cookie/<?= $getLog;?> ">日志</a></li>
     <li><a href="/user/set-cookie/<?= $getLoginas;?> ">登录为</a></li>
-    <li><a href="#" onclick="newTK('<?= $uname;?>');">创建工单</a></li>
+    <li><a href="#" onclick="getPasswd('<?= $uname;?>');">找回密码</a></li>
     <? return lpTemplate::endBlock();
 };
 

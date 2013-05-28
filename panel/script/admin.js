@@ -39,6 +39,16 @@ function newTK(uname)
     }, "html");
 }
 
+function getPasswd(uname)
+{
+    $("#dialog .dialog-title").html(uname);
+    $.post("/admin-action/get-passwd/", {"uname": uname}, function (data) {
+        $("#dialog .dialog-body").html(data);
+
+        $("#dialog").modal();
+    }, "html");
+}
+
 /*
 enableUser
 deleteUser
