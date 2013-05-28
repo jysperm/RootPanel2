@@ -28,10 +28,24 @@ class rpAdminActionHandler extends lpHandler
 
     public function alertUser()
     {
-        global $rpCfg;
         $this->auth();
 
-        $user = rpUserModel::find(["uname" => $_POST["uname"]]);
+        $title = $_POST["type"] == "renew" ? "续费提醒 " : "删除提醒 ";
+        $title .= gmdate("Y.m.d");
+
+        $content = "你的账户将于 " . gmdate("Y.m.d", rpUserModel::by("uname", $_POST["uname"])["expired"]) . "到期";
+
+        $data = [
+            "users" => $_POST["uname"],
+            "type" => "pay",
+            "title" => $title,
+            "content" => $content,
+            "onlyclosebyadmin" => 0
+        ];
+
+        rpTicketModel::create($data);
+
+        echo json_encode(["status"=>"ok"]);
     }
 
     public function getNewTicket()
@@ -44,7 +58,6 @@ class rpAdminActionHandler extends lpHandler
     public function getPasswd()
     {
         global $lpCfg;
-        $db = lpFactory::get("PDO");
 
         $token = rpAuth::creatToken($_POST["uname"]);
 

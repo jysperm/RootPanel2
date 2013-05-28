@@ -11,7 +11,7 @@ function addTime(uname)
 function alertUser(uname, type)
 {
     $.post("/admin-action/alert-user/",{"uname": uname, "type":type}, function(data){
-        alert(data.msg);
+        alert(data.status);
     },"json");
 }
 
