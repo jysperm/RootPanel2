@@ -125,7 +125,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
     $realMemPer = round($realMemUsed / $memInfo["total"] * 100);
     $cachedMemPer = round($memInfo["cached"] / $memInfo["total"] * 100);
     $buffersMemPer = round($memInfo["buffers"] / $memInfo["total"] * 100);
-    $swapUsedMemPer = round($memInfo["swapUsed"] / $memInfo["swapTotal"] * 100);
+    $swapUsedMemPer = @round($memInfo["swapUsed"] / $memInfo["swapTotal"] * 100);
     ?>
     <header>内存</header>
     <div class="progress progress-striped active">
