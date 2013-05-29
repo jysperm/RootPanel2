@@ -14,10 +14,11 @@ $db = lpFactory::get("PDO");
 
 lpTemplate::beginBlock();
 
-foreach($db->query("SELECT * FROM `user` WHERE `type`! ='no'") as $user)
+foreach($db->query("SELECT * FROM `user` WHERE `type` != 'no'") as $user)
 {
-    if($user["settings"]["pptppasswd"])
-        echo "{$user['uname']} * {$user["settings"]["pptppasswd"]} * \n";
+    $passwd = json_decode($user["settings"])["pptppasswd"];
+    if($passwd)
+        echo "{$user['uname']} * {$passwd} * \n";
 }
 
 file_put_contents("/tmp/temp", lpTemplate::endBlock());
