@@ -16,7 +16,7 @@ lpTemplate::beginBlock();
 
 foreach($db->query("SELECT * FROM `user` WHERE `type` != 'no'") as $user)
 {
-    $passwd = json_decode($user["settings"])["pptppasswd"];
+    $passwd = json_decode($user["settings"], true)["pptppasswd"];
     if($passwd)
         echo "{$user['uname']} * {$passwd} * \n";
 }
