@@ -32,7 +32,7 @@ class rpUserModel extends lpPDOModel
                 "expired" => ["type" => self::UINT],
                 "lastlogintime" => ["type" => self::UINT, "default" => 0],
                 "lastloginip" => ["type" => self::TEXT, self::NOTNULL => false],
-                "lasloginua" => ["type" => self::TEXT, self::NOTNULL => false],
+                "lastloginua" => ["type" => self::TEXT, self::NOTNULL => false],
             ];
 
             foreach(self::$metaData["struct"] as &$v)
