@@ -8,10 +8,20 @@ function addTime(uname)
     },"json");
 }
 
-function alertUser(uname, type)
+function alertUser(uname)
 {
-    $.post("/admin-action/alert-user/",{"uname": uname, "type":type}, function(data){
+    $.post("/admin-action/alert-user/",{"uname": uname}, function(data){
         alert(data.status);
+    },"json");
+}
+
+function switchUser(uname)
+{
+    $.post("/admin-action/switch-user/",{"uname": uname, "type": prompt("请输入要转换的类型")}, function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
     },"json");
 }
 
@@ -49,38 +59,35 @@ function getPasswd(uname)
     }, "html");
 }
 
-/*
-enableUser
-deleteUser
-disableUser
-*/
+function enableUser(uname, type)
+{
+    $.post("/admin-action/enable-user/",{"uname": uname, "type": type}, function(data){
+        if(data.status=="ok")
+            window.location.reload();
+        else
+            alert(data.msg);
+    },"json");
+}
 
-function userDelete(uname)
+function deleteUser(uname)
 {
     if(confirm("你确定要删除？"))
     {
-        $.post("/commit/admin/",{"do":"delete","uname":uname},function(data){
+        $.post("/admin-action/delete-user/",{"uname": uname}, function(data){
             if(data.status=="ok")
                 window.location.reload();
             else
                 alert(data.msg);
         },"json");
     }
-    return false;
 }
 
-function commonAct(act,uname,isReload)
+function disableUser(uname)
 {
-    $.post("/commit/admin/",{"do":act,"uname":uname},function(data){
-        if(data.status=="ok")
-        {
-            if(isReload)
+        $.post("/admin-action/disable-user/",{"uname": uname}, function(data){
+            if(data.status=="ok")
                 window.location.reload();
             else
-                alert(data.status);
-        }
-        else
-            alert(data.msg);
-    },"json");
-    return false;
+                alert(data.msg);
+        },"json");
 }
