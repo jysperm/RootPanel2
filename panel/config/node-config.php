@@ -2,7 +2,7 @@
 
 global $rpCfg;
 
-$rpCfg["NodeName"] = "rp3测试节点";
+$rpCfg["NodeName"] = "RootPanel 2.0";
 $rpCfg["NodeID"] = "us2";
 
 // 数据库连接信息
