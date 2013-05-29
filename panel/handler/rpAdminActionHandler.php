@@ -87,7 +87,7 @@ class rpAdminActionHandler extends lpHandler
 
         shell_exec("{$rpROOT}/../cli-tools/create-account.php {$_POST['uname']}");
 
-        rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type']]);
+        rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
 
         $content = $title = "你的账户已经被开通为" . $rpL["global.userType"][$_POST['type']];
 
@@ -133,19 +133,22 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         global $rpL;
 
-        rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type']]);
+        if(in_array($_POST['type'], array_keys($rpL["global.userType"])))
+        {
+            rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type']]);
 
-        $content = $title = "你的账户已经被切换为" . $rpL["global.userType"][$_POST['type']];
+            $content = $title = "你的账户已经被切换为" . $rpL["global.userType"][$_POST['type']];
 
-        $data = [
-            "users" => $_POST["uname"],
-            "type" => "pay",
-            "title" => $title,
-            "content" => $content,
-            "onlyclosebyadmin" => 0
-        ];
+            $data = [
+                "users" => $_POST["uname"],
+                "type" => "pay",
+                "title" => $title,
+                "content" => $content,
+                "onlyclosebyadmin" => 0
+            ];
 
-        rpTicketModel::create($data);
+            rpTicketModel::create($data);
+        }
 
         echo json_encode(["status"=>"ok"]);
     }
