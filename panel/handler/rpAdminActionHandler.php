@@ -109,11 +109,11 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         global $rpROOT;
 
-        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']} sure");
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
 
-        $content = $title = "你的账户已因过期被停用";
+        $content = $title = "你的账户已被停用";
 
         $data = [
             "users" => $_POST["uname"],
