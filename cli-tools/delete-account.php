@@ -18,6 +18,11 @@ shell_exec("sudo groupdel {$uname}");
 shell_exec("sudo rm -f /etc/nginx/sites-enabled/{$uname}");
 shell_exec("sudo rm -f /etc/apache2/sites-enabled/{$uname}");
 
+shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
+shell_exec("sudo service nginx reload");
+shell_exec("sudo service apache2 reload");
+shell_exec("sudo service php5-fpm reload");
+
 $db = lpFactory::get("PDO");
 $db->exec(sprintf("DROP USER '%s'@'localhost';", $uname));
 

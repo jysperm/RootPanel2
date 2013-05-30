@@ -169,7 +169,7 @@ $commonAct = function($uname)
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');">延时</a></li>
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>');">删除提醒</a></li>
-                            <li><a href="#" onclick="disableUser('<?= $user['uname'];?>'');">取消用户</a></li>
+                            <li><a href="#" onclick="disableUser('<?= $user['uname'];?>');">取消用户</a></li>
                             <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
