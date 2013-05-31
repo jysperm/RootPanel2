@@ -76,6 +76,7 @@ function changePasswd(name, isReload) {
 
 $($("#nginx-extConfig").click(function () {
     $("#dialog .dialog-title").html(rpL["panel.viewNginxExtConfig"]);
+    $("#dialog .dialog-body").html("");
     $.post("/panel-action/getExtConfig/nginx/", {}, function (data) {
         $("#dialog .dialog-body").html(data);
     });
@@ -84,6 +85,7 @@ $($("#nginx-extConfig").click(function () {
 
 $($("#apache2-extConfig").click(function () {
     $("#dialog .dialog-title").html(rpL["panel.viewApache2ExtConfig"]);
+    $("#dialog .dialog-body").html("");
     $.post("/panel-action/getExtConfig/apache2/", {}, function (data) {
         $("#dialog .dialog-body").html(data);
     });

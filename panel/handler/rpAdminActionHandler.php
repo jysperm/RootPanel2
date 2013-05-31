@@ -85,8 +85,6 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         global $rpROOT, $rpL;
 
-        shell_exec("{$rpROOT}/../cli-tools/create-account.php {$_POST['uname']}");
-
         rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
 
         $content = $title = "你的账户已经被开通为" . $rpL["global.userType"][$_POST['type']];
@@ -102,14 +100,17 @@ class rpAdminActionHandler extends lpHandler
         rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
+
+        if(function_exists("fastcgi_finish_request"))
+            fastcgi_finish_request();
+
+        shell_exec("{$rpROOT}/../cli-tools/create-account.php {$_POST['uname']}");
     }
 
     public function disableUser()
     {
         $this->auth();
         global $rpROOT;
-
-        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']} sure");
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
 
@@ -126,6 +127,11 @@ class rpAdminActionHandler extends lpHandler
         rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
+
+        if(function_exists("fastcgi_finish_request"))
+            fastcgi_finish_request();
+
+        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']} sure");
     }
 
     public function switchUser()
