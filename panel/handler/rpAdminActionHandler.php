@@ -104,7 +104,7 @@ class rpAdminActionHandler extends lpHandler
         if(function_exists("fastcgi_finish_request"))
             fastcgi_finish_request();
 
-        shell_exec("{$rpROOT}/../cli-tools/create-account.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli/create-account.php {$_POST['uname']}");
     }
 
     public function disableUser()
@@ -131,7 +131,7 @@ class rpAdminActionHandler extends lpHandler
         if(function_exists("fastcgi_finish_request"))
             fastcgi_finish_request();
 
-        shell_exec("{$rpROOT}/../cli-tools/delete-account.php {$_POST['uname']} sure");
+        shell_exec("{$rpROOT}/../cli/delete-account.php {$_POST['uname']} sure");
     }
 
     public function switchUser()

@@ -47,7 +47,7 @@ var
 
 	core_version = "1.9.1",
 
-	// Save a reference to some cli-tools methods
+	// Save a reference to some cli methods
 	core_concat = core_deletedIds.concat,
 	core_push = core_deletedIds.push,
 	core_slice = core_deletedIds.slice,
@@ -438,7 +438,7 @@ jQuery.extend({
 		}
 	},
 
-	// See test/unit/cli-tools.js for details concerning isFunction.
+	// See test/unit/cli.js for details concerning isFunction.
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
@@ -1566,7 +1566,7 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ){
 		cache = isNode ? jQuery.cache : elem,
 
 		// Only defining an ID for JS objects if its cache already exists allows
-		// the cli-tools to shortcut on the same path as a DOM node with no cache
+		// the cli to shortcut on the same path as a DOM node with no cache
 		id = isNode ? elem[ internalKey ] : elem[ internalKey ] && internalKey;
 
 	// Avoid doing any more work than we need to when trying to get data on an
@@ -4178,7 +4178,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// qSa(:focus) reports false when true (Chrome 21),
 	// no need to also add to buggyMatches since matches checks buggyQSA
-	// A support test would require too much cli-tools (would include document ready)
+	// A support test would require too much cli (would include document ready)
 	rbuggyQSA = [ ":focus" ];
 
 	if ( (support.qsa = isNative(doc.querySelectorAll)) ) {
@@ -7199,7 +7199,7 @@ if ( !jQuery.support.opacity ) {
 
 				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
 				// if "filter:" is present at all, clearType is disabled, we want to avoid this
-				// style.removeAttribute is IE Only, but so apparently is this cli-tools path...
+				// style.removeAttribute is IE Only, but so apparently is this cli path...
 				style.removeAttribute( "filter" );
 
 				// if there is no filter style applied in a css rule or unset inline opacity, we are done
