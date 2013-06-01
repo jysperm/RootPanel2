@@ -14,6 +14,8 @@ abstract class rpVHostType
      */
     abstract public function checkSettings($settings, $source);
 
+    abstract public function createConfig($settings, $source);
+
     static public function loadTypes()
     {
         $types = [

@@ -7,6 +7,16 @@ class rpPanelActionHandler extends lpHandler
         echo json_encode(["status" => "error", "msg" => $msg]);
     }
 
+    private function reloadWebConfig()
+    {
+        global $rpROOT;
+
+        if(function_exists("fastcgi_finish_request"))
+            fastcgi_finish_request();
+
+        shell_exec("{$rpROOT}/../cli-tools/web-conf-maker.php {$_POST['uname']}");
+    }
+
     private function auth()
     {
         if(!rpAuth::login())
@@ -74,6 +84,8 @@ class rpPanelActionHandler extends lpHandler
             rpLogModel::log(rpAuth::uname(), "log.type.createVHost", [$id, $id], $vhost);
 
             echo json_encode(["status" => "ok"]);
+
+            $this->reloadWebConfig();
         }
         else
         {
@@ -118,6 +130,8 @@ class rpPanelActionHandler extends lpHandler
             rpLogModel::log(rpAuth::uname(), "log.type.editVHost", [$id, $id], $vhost);
 
             echo json_encode(["status" => "ok"]);
+
+            $this->reloadWebConfig();
         }
         else
         {
@@ -156,7 +170,6 @@ class rpPanelActionHandler extends lpHandler
         $this->auth();
         if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
         {
-
             $uname = rpAuth::uname();
             shell_exec("echo '{$uname}:{$_POST['passwd']}' | sudo chpasswd");
 
@@ -187,11 +200,14 @@ class rpPanelActionHandler extends lpHandler
 
             $lock = null;
 
-            shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
-
             rpLogModel::log($uname, "log.type.pptpPasswd", [], []);
 
             echo json_encode(["status" => "ok"]);
+
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
+
+            shell_exec("sudo {$rpROOT}/../cli-tools/pptp-passwd.php");
         }
         else
         {

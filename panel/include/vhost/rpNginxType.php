@@ -27,4 +27,9 @@ class rpNginxType extends rpVHostType
 
         return ["ok" => true, "data" => []];
     }
+
+    public function createConfig($settings, $source)
+    {
+
+    }
 }
