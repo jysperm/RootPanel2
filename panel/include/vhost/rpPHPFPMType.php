@@ -35,4 +35,27 @@ HTML;
 
         return ["ok" => true, "data" => ["server" => $settings["server"]]];
     }
+
+    public function createConfig($settings, $source)
+    {
+        global $rpROOT;
+        $uname = rpAuth::uname();
+        $tmp = new lpTemplate("$rpROOT/../cli/template/php-fpm.php");
+        $tmp["uname"] = $uname;
+
+        file_put_contents("/tmp/temp", $tmp->getOutput());
+        shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}");
+        shell_exec("sudo chown root:root /etc/php5/fpm/pool.d/{$uname}");
+        shell_exec("sudo chmod 700 /etc/php5/fpm/pool.d/{$uname}");
+
+        $tmp = new lpTemplate("$rpROOT/../cli/template/php-fpm-type.php");
+        $tmp->setValues([
+            "settings" => $settings,
+            "source" => $source,
+            "uname" => $uname
+        ]);
+        return [
+            "nginx" => $tmp->getOutput()
+        ];
+    }
 }
