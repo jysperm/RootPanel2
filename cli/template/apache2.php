@@ -1,68 +1,23 @@
-<? if($v["template"]!="proxy"): ?>
 <?php
-    $domains=explode(" ",trim(str_replace("  "," ",$v["domains"])));
-    
-    if($v["cgi"])
-    {
-        $cgis=join(" .",explode(" ",trim(str_replace("  "," ",$v["cgi"]))));
-        $cgis=join(" .",explode(" ",".".$cgis));
-    }
-    else
-    {
-        $cgis=false;
-    }
-    if($v["php"])
-    {
-        $phps=join(" .",explode(" ",trim(str_replace("  "," ",$v["php"]))));
-        $phps=join(" .",explode(" ",".".$phps));
-    }
-    else
-    {
-        $phps=false;
-    }
-        
-    $alias=json_decode($v["alias"],true);
-    
-    $apacheerror=$v["apacheerror"];
-    $apacheaccess=$v["apacheaccess"];
-    $uname=$v["uname"];
+
+$v = $this["hosts"];
+
 ?>
-
 <VirtualHost *:8080>
-    ServerName <?= $domains[0]; ?>
-    
+    ServerName <?= $this["uname"]; ?>
     ServerAlias <?= $v["domains"]; ?>
-  
-    
-    DirectoryIndex <?= $v["indexs"]; ?>
-    
-    Options <?= $v["autoindex"]?"+":"-"; ?>Indexes +ExecCGI
+    DirectoryIndex <?= $v["general"]["indexs"]; ?>
+    Options <?= $v["general"]["autoindex"] ? "+" : "-"; ?>Indexes
 
-    <? if($v["template"]=="python"): ?>
-    WSGIScriptAlias / <?= $v["root"]; ?>
-    <? else: ?>
-    DocumentRoot <?= $v["root"]; ?>
-    <? endif; ?>
+    DocumentRoot <?= $v["source"]; ?>
 
-    <? foreach($alias as $k => $v): ?>
-    Alias <?= $k;?> <?= $v;?>
+    <? foreach($v["general"]["alias"] as $k => $v): ?>
+        Alias <?= $k;?> <?= $v;?>
     <? endforeach; ?>
 
-    <? if($cgis): ?>
-    AddHandler cgi-script <?= $cgis; ?>
-    <? endif; ?>
-    
-    <? if($phps): ?>
-    AddHandler application/x-httpd-php <?= $phps; ?>
-    <? endif; ?>
-  
-    ErrorLog <?= $apacheerror;?>
-    
+    ErrorLog /home/<?= $this["uname"];?>/apache2.access.log
     LogLevel warn
-    
-    CustomLog <?= $apacheaccess; ?> vhost_combined
-      
-    AssignUserId <?= $uname; ?> <?= $uname; ?>
-    
+    CustomLog /home/<?= $this["uname"];?>/apache2.access.log vhost_combined
+
+    AssignUserId <?= $this["uname"];?> <?= $this["uname"];?>
 </VirtualHost>
-<? endif; ?>

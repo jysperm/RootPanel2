@@ -28,11 +28,11 @@ class rpNginxType extends rpVHostType
         return ["ok" => true, "data" => []];
     }
 
-    public function createConfig($settings, $source)
+    public function createConfig($hosts)
     {
         global $rpROOT;
-        $tmp = new lpTemplate("$rpROOT/../cli/template/nginx-type.php");
-        $tmp["source"] = $source;
+        $tmp = new lpTemplate("{$rpROOT}/../cli/template/nginx-type.php");
+        $tmp["host"] = $hosts;
         return [
             "nginx" => $tmp->getOutput()
         ];

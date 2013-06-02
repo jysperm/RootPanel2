@@ -1,6 +1,6 @@
 <?php
 
-$v = rpVirtualHostModel::jsonDecode($this["vhost"]);
+$v = $this["vhost"];
 $u = $this["user"];
 
 ?>

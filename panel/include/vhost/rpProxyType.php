@@ -37,4 +37,14 @@ HTML;
 
         return ["ok" => true, "data" => ["host" => $settings["host"]]];
     }
+
+    public function createConfig($hosts)
+    {
+        global $rpROOT;
+        $tmp = new lpTemplate("{$rpROOT}/../cli/template/proxy-type.php");
+        $tmp["host"] = $hosts;
+        return [
+            "nginx" => $tmp->getOutput()
+        ];
+    }
 }

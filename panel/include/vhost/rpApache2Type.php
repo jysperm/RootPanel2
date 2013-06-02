@@ -57,6 +57,29 @@ HTML;
             strlen($settings["extension"]) >256 )
             return ["ok" => false, "msg" => "扩展名不正确"];
 
+        $settings["extension"] = trim(str_replace("  ", " ", $settings["extension"]));
         return ["ok" => true, "data" => ["type" => $settings["type"], "extension" => $settings["extension"]]];
+    }
+
+    public function createConfig($hosts)
+    {
+        global $rpROOT;
+        $uname = rpAuth::uname();
+
+        $tmpApache = new lpTemplate("{$rpROOT}/../cli/template/php-fpm-type.php");
+        $tmpApache->setValues([
+            "hosts" => $hosts,
+            "uname" => $uname
+        ]);
+
+        $tmpNginx = new lpTemplate("{$rpROOT}/../cli/template/apache2-type.php");
+        $tmpNginx->setValues([
+            "hosts" => $hosts,
+            "uname" => $uname
+        ]);
+        return [
+            "apache" => $tmpApache->getOutput(),
+            "nginx" => $tmpNginx->getOutput()
+        ];
     }
 }

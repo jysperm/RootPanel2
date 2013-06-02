@@ -29,6 +29,7 @@
 
     add-apt-repository ppa:ondrej/php5
     add-apt-repository ppa:nginx/development
+    add-apt-repository ppa:stevecrozz/ppa
 
     apt-get update
     apt-get upgrade

@@ -27,7 +27,8 @@ shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}");
 
 foreach(rpVirtualHostModel::select(["uname" => $uname]) as $host)
 {
-    $conf = $types[$host["type"]]->createConfig(json_decode($host["settings"], true), $host["source"]);
+    $v = rpVirtualHostModel::jsonDecode($host);
+    $conf = $types[$host["type"]]->createConfig($host);
 
     $tmp = new lpTemplate("{$rpROOT}/../cli/template/nginx.php");
     $tmp->setValues([

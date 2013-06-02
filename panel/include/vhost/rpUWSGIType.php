@@ -35,4 +35,14 @@ HTML;
 
         return ["ok" => true, "data" => ["socket" => $settings["socket"]]];
     }
+
+    public function createConfig($hosts)
+    {
+        global $rpROOT;
+        $tmp = new lpTemplate("{$rpROOT}/../cli/template/uwsgi-type.php");
+        $tmp["host"] = $hosts;
+        return [
+            "nginx" => $tmp->getOutput()
+        ];
+    }
 }
