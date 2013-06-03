@@ -4,11 +4,14 @@ $u = $this["uname"];
 [<?= $u;?>]
 
 user = <?= $u;?>
+
 group = <?= $u;?>
 
 listen = /tmp/<?= $u;?>-fpm.sock
 listen.owner = <?= $u;?>
+
 listen.group = <?= $u;?>
+
 listen.mode = 0666
 
 pm = dynamic
