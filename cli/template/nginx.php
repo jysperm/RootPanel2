@@ -15,6 +15,10 @@ server {
     ssl_certificate_key  <?= $v["general"]["sslkey"]; ?>;
     <? endif;?>
 
+    <? if($v["general"]["autoindex"]):?>
+    autoindex on;
+    <? endif;?>
+
     server_name <?= $v["domains"]; ?>;
 
     access_log /home/<?= $u["uname"];?>/nginx.access.log;

@@ -28,7 +28,6 @@ $diskLimitMB = $rpCfg["NodeList"][$rpCfg["NodeID"]]["disk"];
 shell_exec("sudo useradd {$uname} -m -s/bin/bash");
 shell_exec("sudo usermod -G {$uname} -a www-data");
 shell_exec("sudo setquota -u {$uname} " . ($diskLimitMB * 1000 * 0.85) . " " . ($diskLimitMB * 1000 * 1.2) . " 0 0 -a");
-shell_exec("echo 'source /etc/profile.d/rvm.sh' | sudo tee -a /home/{$uname}/.bashrc");
 
 $db = lpFactory::get("PDO");
 $db->exec(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';", $uname, createPasswd(30)));
