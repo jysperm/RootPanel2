@@ -39,7 +39,7 @@ HTML;
     public function createConfig($hosts)
     {
         global $rpROOT;
-        $uname = rpAuth::uname();
+        $uname = $hosts["uname"];
         $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm.php");
         $tmp["uname"] = $uname;
 

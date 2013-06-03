@@ -23,7 +23,7 @@ $user = rpUserModel::by("uname", $uname);
 
 $config["nginx"] = $config["apache"] = "# " . gmdate("Y.m.d H:i:s") . "\n";
 
-shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}");
+shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}.conf");
 
 foreach(rpVirtualHostModel::select(["uname" => $uname]) as $host)
 {
