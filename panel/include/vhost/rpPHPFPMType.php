@@ -40,13 +40,21 @@ HTML;
     {
         global $rpROOT;
         $uname = $hosts["uname"];
-        $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm.php");
-        $tmp["uname"] = $uname;
 
-        file_put_contents("/tmp/temp", $tmp->getOutput());
-        shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}.conf");
-        shell_exec("sudo chown root:root /etc/php5/fpm/pool.d/{$uname}.conf");
-        shell_exec("sudo chmod 700 /etc/php5/fpm/pool.d/{$uname}.conf");
+        if(rpVirtualHostModel::count(["uname" => $hosts["uname"], "type" => "phpfpm"]))
+        {
+            $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm.php");
+            $tmp["uname"] = $uname;
+
+            file_put_contents("/tmp/temp", $tmp->getOutput());
+            shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}.conf");
+            shell_exec("sudo chown root:root /etc/php5/fpm/pool.d/{$uname}.conf");
+            shell_exec("sudo chmod 700 /etc/php5/fpm/pool.d/{$uname}.conf");
+        }
+        else
+        {
+            shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}.conf");
+        }
 
         $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm-type.php");
         $tmp->setValues([
