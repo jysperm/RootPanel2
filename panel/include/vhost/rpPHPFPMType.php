@@ -44,9 +44,9 @@ HTML;
         $tmp["uname"] = $uname;
 
         file_put_contents("/tmp/temp", $tmp->getOutput());
-        shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}");
-        shell_exec("sudo chown root:root /etc/php5/fpm/pool.d/{$uname}");
-        shell_exec("sudo chmod 700 /etc/php5/fpm/pool.d/{$uname}");
+        shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}.conf");
+        shell_exec("sudo chown root:root /etc/php5/fpm/pool.d/{$uname}.conf");
+        shell_exec("sudo chmod 700 /etc/php5/fpm/pool.d/{$uname}.conf");
 
         $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm-type.php");
         $tmp->setValues([
