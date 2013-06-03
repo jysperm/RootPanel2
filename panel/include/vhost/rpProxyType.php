@@ -42,7 +42,7 @@ HTML;
     {
         global $rpROOT;
         $tmp = new lpTemplate("{$rpROOT}/../cli/template/proxy-type.php");
-        $tmp["host"] = $hosts;
+        $tmp["hosts"] = $hosts;
         return [
             "nginx" => $tmp->getOutput()
         ];
