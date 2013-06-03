@@ -55,6 +55,5 @@ shell_exec("sudo chmod 700 /etc/apache2/sites-enabled/{$uname}");
 
 shell_exec("sudo service nginx reload");
 shell_exec("sudo service apache2 reload");
-shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
 
 $lock = NULL;
