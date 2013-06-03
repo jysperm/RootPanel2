@@ -7,14 +7,14 @@ class rpPanelActionHandler extends lpHandler
         echo json_encode(["status" => "error", "msg" => $msg]);
     }
 
-    private function reloadWebConfig()
+    private function reloadWebConfig($uname)
     {
         global $rpROOT;
 
         if(function_exists("fastcgi_finish_request"))
             fastcgi_finish_request();
 
-        shell_exec("{$rpROOT}/../cli/web-conf-maker.php {$_POST['uname']}");
+        shell_exec("{$rpROOT}/../cli/web-conf-maker.php {$uname}");
     }
 
     private function auth()
@@ -85,7 +85,7 @@ class rpPanelActionHandler extends lpHandler
 
             echo json_encode(["status" => "ok"]);
 
-            $this->reloadWebConfig();
+            $this->reloadWebConfig(rpAuth::uname());
         }
         else
         {
@@ -131,7 +131,7 @@ class rpPanelActionHandler extends lpHandler
 
             echo json_encode(["status" => "ok"]);
 
-            $this->reloadWebConfig();
+            $this->reloadWebConfig(rpAuth::uname());
         }
         else
         {
