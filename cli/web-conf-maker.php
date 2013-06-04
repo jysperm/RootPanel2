@@ -43,17 +43,24 @@ foreach(rpVirtualHostModel::select(["uname" => $uname]) as $host)
 $config["nginx"] .= $user["settings"]["nginxextconfig"];
 $config["apache"] .= $user["settings"]["apache2extconfig"];
 
-file_put_contents("/tmp/temp", $config["nginx"]);
-shell_exec("sudo cp /tmp/temp /etc/nginx/sites-enabled/{$uname}");
-shell_exec("sudo chown root:root /etc/nginx/sites-enabled/{$uname}");
-shell_exec("sudo chmod 700 /etc/nginx/sites-enabled/{$uname}");
+if($config["nginx"] != shell_exec("sudo cat /etc/nginx/sites-enabled/{$uname}"))
+{
+    file_put_contents("/tmp/temp", $config["nginx"]);
+    shell_exec("sudo cp /tmp/temp /etc/nginx/sites-enabled/{$uname}");
+    shell_exec("sudo chown root:root /etc/nginx/sites-enabled/{$uname}");
+    shell_exec("sudo chmod 700 /etc/nginx/sites-enabled/{$uname}");
 
-file_put_contents("/tmp/temp", $config["apache"]);
-shell_exec("sudo cp /tmp/temp /etc/apache2/sites-enabled/{$uname}");
-shell_exec("sudo chown root:root /etc/apache2/sites-enabled/{$uname}");
-shell_exec("sudo chmod 700 /etc/apache2/sites-enabled/{$uname}");
+    shell_exec("sudo service nginx reload");
+}
 
-shell_exec("sudo service nginx reload");
-shell_exec("sudo service apache2 reload");
+if($config["apache"] != shell_exec("sudo cat /etc/apache2/sites-enabled/{$uname}"))
+{
+    file_put_contents("/tmp/temp", $config["apache"]);
+    shell_exec("sudo cp /tmp/temp /etc/apache2/sites-enabled/{$uname}");
+    shell_exec("sudo chown root:root /etc/apache2/sites-enabled/{$uname}");
+    shell_exec("sudo chmod 700 /etc/apache2/sites-enabled/{$uname}");
+
+    shell_exec("sudo service apache2 reload");
+}
 
 $lock = NULL;

@@ -58,7 +58,10 @@ HTML;
             if(file_exists("/etc/php5/fpm/pool.d/{$uname}.conf"))
             {
                 shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}.conf");
-                shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
+                if(shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`")=="kill: No such process")
+                {
+                    shell_exec("service php5-fpm restart");
+                }
             }
         }
 
