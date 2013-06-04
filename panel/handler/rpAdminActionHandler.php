@@ -126,9 +126,6 @@ class rpAdminActionHandler extends lpHandler
 
         echo json_encode(["status"=>"ok"]);
 
-        if(function_exists("fastcgi_finish_request"))
-            fastcgi_finish_request();
-
         rpTicketModel::create($data);
 
         shell_exec("{$rpROOT}/../cli/delete-account.php {$_POST['uname']} sure");
