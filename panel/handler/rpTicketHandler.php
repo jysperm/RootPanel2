@@ -35,9 +35,9 @@ class rpTicketHandler extends lpHandler
         if(!in_array($_POST["type"], array_keys($rpL["ticket.types"])))
             die("类型不合法");
 
-        rpTicketModel::create($_POST);
-
         echo json_encode(["status" => "ok"]);
+
+        rpTicketModel::create($_POST);
     }
 
     public function reply($id = null)
@@ -51,9 +51,9 @@ class rpTicketHandler extends lpHandler
         if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             die("该工单不属于你");
 
-        $tk->reply($_POST);
-
         echo json_encode(["status" => "ok"]);
+
+        $tk->reply($_POST);
     }
 
     public function view($id = null)
@@ -101,8 +101,9 @@ class rpTicketHandler extends lpHandler
             die("非管理员");
 
         $tk = new rpTicketModel($id);
-        $tk->finish();
 
         echo json_encode(["status" => "ok"]);
+
+        $tk->finish();
     }
 }

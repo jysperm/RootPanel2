@@ -16,6 +16,10 @@ root <?= $v["source"];?>;
     location ~ \.(<?= $exts;?>)$ {
         proxy_pass http://127.0.0.1:8080;
     }
+
+    location @apache {
+        proxy_pass http://127.0.0.1:8080;
+    }
 <? else:?>
     location / {
         proxy_pass http://127.0.0.1:8080;
@@ -30,6 +34,3 @@ location = / {
     proxy_pass http://127.0.0.1:8080;
 }
 
-location @apache {
-    proxy_pass http://127.0.0.1:8080;
-}

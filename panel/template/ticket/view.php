@@ -89,7 +89,7 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
     <? if($tk["status"] != rpTicketModel::CLOSED && (!$tk["onlyclosebyadmin"] || lpFactory::get("rpUserModel")->isAdmin())): ?>
         <button class="btn btn-danger" id="deleteTK">关闭工单</button>
     <? endif; ?>
-    <? if(lpFactory::get("rpUserModel")->isAdmin() && $tk["status"] == rpTicketModel::HODE): ?>
+    <? if(lpFactory::get("rpUserModel")->isAdmin() && ($tk["status"] == rpTicketModel::HODE || $tk["status"] == rpTicketModel::OPEN)): ?>
         <button class="btn btn-success" id="finishTK">标记完成</button>
     <? endif; ?>
     <hr/>

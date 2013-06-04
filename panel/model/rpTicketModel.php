@@ -81,6 +81,9 @@ class rpTicketModel extends lpPDOModel
                 $id = rpTicketModel::insert($ticket);
                 rpLogModel::log($user, "log.type.adminCreateTicket", [$id, $id], $ticket, rpAuth::uname());
 
+                if(function_exists("fastcgi_finish_request"))
+                    fastcgi_finish_request();
+
                 $mailSender($id, rpUserModel::by("uname", $user)["email"]);
             }
         }
@@ -92,6 +95,9 @@ class rpTicketModel extends lpPDOModel
 
             $id = rpTicketModel::insert($ticket);
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
+
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
 
             $mailSender($id, $rpCfg["adminsEmail"]);
         }
@@ -120,11 +126,16 @@ class rpTicketModel extends lpPDOModel
         $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
 
         rpTicketReplyModel::insert($reply);
+        rpTicketModel::update(["id" => $id], $tkRow);
+
         if(lpFactory::get("rpUserModel")->isAdmin())
         {
             rpLogModel::log($this->data['uname'], "log.type.adminReplyTicket", [$id, $id], $reply, rpAuth::uname());
 
             $tkRow["status"] = rpTicketModel::HODE;
+
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
 
             $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
         }
@@ -136,10 +147,11 @@ class rpTicketModel extends lpPDOModel
 
             $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
 
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
+
             $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
         }
-
-        rpTicketModel::update(["id" => $id], $tkRow);
     }
 
     public function close()
@@ -157,11 +169,17 @@ class rpTicketModel extends lpPDOModel
         {
             rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
 
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
+
             $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
         }
         else
         {
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
+
+            if(function_exists("fastcgi_finish_request"))
+                fastcgi_finish_request();
 
             $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
         }
@@ -179,6 +197,9 @@ class rpTicketModel extends lpPDOModel
         $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
 
         rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
+
+        if(function_exists("fastcgi_finish_request"))
+            fastcgi_finish_request();
 
         $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
     }
