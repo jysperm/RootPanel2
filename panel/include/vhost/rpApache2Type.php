@@ -66,7 +66,7 @@ HTML;
         global $rpROOT;
         $uname = $hosts["uname"];
 
-        $tmpApache = new lpTemplate("{$rpROOT}/../cli/template/php-fpm-type.php");
+        $tmpApache = new lpTemplate("{$rpROOT}/../cli/template/apache2-type.php");
         $tmpApache->setValues([
             "hosts" => $hosts,
             "uname" => $uname
