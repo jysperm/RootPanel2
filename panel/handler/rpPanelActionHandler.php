@@ -11,8 +11,7 @@ class rpPanelActionHandler extends lpHandler
     {
         global $rpROOT;
 
-        if(function_exists("fastcgi_finish_request"))
-            fastcgi_finish_request();
+        $this->finishRequest();
 
         shell_exec("{$rpROOT}/../cli/web-conf-maker.php {$uname}");
     }
