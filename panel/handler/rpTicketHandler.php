@@ -35,9 +35,13 @@ class rpTicketHandler extends lpHandler
         if(!in_array($_POST["type"], array_keys($rpL["ticket.types"])))
             die("类型不合法");
 
+        $cb = rpTicketModel::create($_POST);
+
         echo json_encode(["status" => "ok"]);
 
-        rpTicketModel::create($_POST);
+        $this->finishRequest();
+
+        $cb();
     }
 
     public function reply($id = null)
@@ -51,9 +55,11 @@ class rpTicketHandler extends lpHandler
         if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             die("该工单不属于你");
 
+        $cb = $tk->reply($_POST);
         echo json_encode(["status" => "ok"]);
 
-        $tk->reply($_POST);
+        $this->finishRequest();
+        $cb();
     }
 
     public function view($id = null)
@@ -90,9 +96,11 @@ class rpTicketHandler extends lpHandler
         if($tk["onlyclosebyadmin"] && !$isAdmin)
             die("该工单只能被管理员关闭");
 
-        $tk->close();
-
+        $cb = $tk->close();
         echo json_encode(["status" => "ok"]);
+
+        $this->finishRequest();
+        $cb();
     }
 
     public function finish($id = null)
@@ -102,8 +110,10 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
 
+        $cb = $tk->finish();
         echo json_encode(["status" => "ok"]);
 
-        $tk->finish();
+        $this->finishRequest();
+        $cb();
     }
 }

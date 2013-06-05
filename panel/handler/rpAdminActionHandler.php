@@ -43,9 +43,12 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
+        $cb = rpTicketModel::create($data);
+
         echo json_encode(["status"=>"ok"]);
 
-        rpTicketModel::create($data);
+        $this->finishRequest();
+        $cb();
     }
 
     public function getNewTicket()
@@ -97,14 +100,14 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
-        rpTicketModel::create($data);
+        $cb = rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
 
-        if(function_exists("fastcgi_finish_request"))
-            fastcgi_finish_request();
+        $this->finishRequest();
 
         shell_exec("{$rpROOT}/../cli/create-account.php {$_POST['uname']}");
+        $cb();
     }
 
     public function disableUser()
@@ -124,11 +127,14 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
+        $cb = rpTicketModel::create($data);
+
         echo json_encode(["status"=>"ok"]);
 
-        rpTicketModel::create($data);
+        $this->finishRequest();
 
         shell_exec("{$rpROOT}/../cli/delete-account.php {$_POST['uname']} sure");
+        $cb();
     }
 
     public function switchUser()
@@ -152,7 +158,11 @@ class rpAdminActionHandler extends lpHandler
                 "onlyclosebyadmin" => 0
             ];
 
-            rpTicketModel::create($data);
+            $cb = rpTicketModel::create($data);
+
+            $this->finishRequest();
+
+            $cb();
         }
     }
 }

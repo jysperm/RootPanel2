@@ -81,10 +81,9 @@ class rpTicketModel extends lpPDOModel
                 $id = rpTicketModel::insert($ticket);
                 rpLogModel::log($user, "log.type.adminCreateTicket", [$id, $id], $ticket, rpAuth::uname());
 
-                if(function_exists("fastcgi_finish_request"))
-                    fastcgi_finish_request();
-
-                $mailSender($id, rpUserModel::by("uname", $user)["email"]);
+                return function() use($mailSender, $id, $user) {
+                    $mailSender($id, rpUserModel::by("uname", $user)["email"]);
+                };
             }
         }
         else
@@ -96,10 +95,9 @@ class rpTicketModel extends lpPDOModel
             $id = rpTicketModel::insert($ticket);
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
-            $mailSender($id, $rpCfg["adminsEmail"]);
+            return function() use($mailSender, $id, $rpCfg) {
+                $mailSender($id, $rpCfg["adminsEmail"]);
+            };
         }
     }
 
@@ -134,10 +132,9 @@ class rpTicketModel extends lpPDOModel
 
             $tkRow["status"] = rpTicketModel::HODE;
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
-            $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            return function() use($mailer, $mailTitle, $mailBody) {
+                $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            };
         }
         else
         {
@@ -147,10 +144,9 @@ class rpTicketModel extends lpPDOModel
 
             $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
-            $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
+                $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            };
         }
     }
 
@@ -169,19 +165,17 @@ class rpTicketModel extends lpPDOModel
         {
             rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
-            $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            return function() use($mailer, $mailTitle, $mailBody) {
+                $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            };
         }
         else
         {
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
-            $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
+                $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+            };
         }
     }
 
@@ -198,9 +192,8 @@ class rpTicketModel extends lpPDOModel
 
         rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
 
-        if(function_exists("fastcgi_finish_request"))
-            fastcgi_finish_request();
-
-        $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        return function() use($mailer, $mailTitle, $mailBody) {
+            $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        };
     }
 }
