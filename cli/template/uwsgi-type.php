@@ -1,6 +1,6 @@
 <?php
 
-$v = $this["vhost"];
+$v = $this["host"];
 
 ?>
 

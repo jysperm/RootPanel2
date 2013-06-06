@@ -30,6 +30,7 @@
     add-apt-repository ppa:ondrej/php5
     add-apt-repository ppa:nginx/development
     add-apt-repository ppa:stevecrozz/ppa
+    sudo add-apt-repository ppa:chris-lea/node.js
 
     apt-get update
     apt-get upgrade
@@ -46,6 +47,8 @@
     # Python
     apt-get install -qq python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python python-virtualenv uwsgi
     pip install django tornado markdown python-memcached web.py mongo
+    # NodeJS
+    sudo apt-get install nodejs
     # C/C++ Dev
     apt-get install -qq g++ gcc clang cmake
 
