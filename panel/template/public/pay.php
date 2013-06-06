@@ -36,7 +36,7 @@ $base['title'] = "购买";
 
                 <p>你还没有购买RP主机，请在下方选择一种方式购买：</p>
 
-                <p>PS：如果你已经在淘宝付款成功，请耐心等待开通，或通过 <code><i class="icon-envelope"></i>m@jybox.net</code> 来诅咒客服.</p>
+                <p>PS：如果你已经在淘宝付款成功，请耐心等待开通，或通过 <code><i class="icon-envelope"></i>admins@rpvhost.net</code> 来诅咒客服.</p>
             </div>
         <? else: ?>
             <div class="alert alert-block alert-success fade in">
@@ -54,7 +54,7 @@ $base['title'] = "购买";
             <p>免费</p>
 
             <p>
-                <a class="btn btn-success" href="/pay/free/">填写申请</a>
+                <a class="btn btn-success" href="/ticket/list/?template=freeRequest">填写申请</a>
             </p>
         </div>
         <div class="span4">
@@ -86,7 +86,7 @@ $base['title'] = "购买";
     <div class="page-header">
         <h1>机房列表</h1>
     </div>
-    <?php lpTemplate::outputFile("{$rpROOT}/template/node-list.php");?>
+    <? lpTemplate::outputFile("{$rpROOT}/template/node-list.php");?>
 </section>
 
 <? lpTemplate::outputFile(lpLocale::i()->file("template/agreement.php")); ?>

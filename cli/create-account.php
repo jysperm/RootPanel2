@@ -25,9 +25,12 @@ $uname = $argv[1];
 
 $diskLimitMB = $rpCfg["NodeList"][$rpCfg["NodeID"]]["disk"];
 
+$diskLimitSoft = $diskLimitMB * 1000 * 0.85;
+$diskLimitHard = $diskLimitMB * 1000 * 1.2;
+
 shell_exec("sudo useradd {$uname} -m -s/bin/bash");
 shell_exec("sudo usermod -G {$uname} -a www-data");
-shell_exec("sudo setquota -u {$uname} " . ($diskLimitMB * 1000 * 0.85) . " " . ($diskLimitMB * 1000 * 1.2) . " 0 0 -a");
+shell_exec("sudo setquota -u {$uname} {$diskLimitSoft} {$diskLimitHard} 0 0 -a");
 
 $db = lpFactory::get("PDO");
 $db->exec(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';", $uname, createPasswd(30)));

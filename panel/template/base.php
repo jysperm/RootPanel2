@@ -38,8 +38,8 @@ TEXT;
 
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li><a href="/pay/"><i class="icon-shopping-cart icon-white"></i><?= $rpL["global.buy"]; ?></a></li>
-                    <li><a href="/public/manual/"><?= $rpL["global.manual"]; ?></a></li>
+                    <li><a href="/public/pay/"><i class="icon-shopping-cart icon-white"></i><?= $rpL["global.buy"]; ?></a></li>
+                    <li><a href="http://wiki.jyprince.me/rp:user_manual"><?= $rpL["global.manual"]; ?></a></li>
                     <li><a href="/public/review/"><?= $rpL["global.review"]; ?></a></li>
                     <li><a href="/public/sites/"><?= $rpL["global.sites"]; ?></a></li>
                     <li><a href="#" onclick="alert('新版论坛正在准备中')"><?= $rpL["global.bbs"]; ?></a></li>
@@ -57,7 +57,7 @@ TEXT;
                         </li>
                         <? endif; ?>
                         <? if(!lpFactory::get("rpUserModel")->isAllowToPanel()): ?>
-                            <li><a href="/pay/free/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
+                            <li><a href="/ticket/list/?template=freeRequest/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
                         <? endif; ?>
                         <li><a href="/panel/"><i class="icon-list-alt icon-white"></i><?= $rpL["global.panel"]; ?></a>

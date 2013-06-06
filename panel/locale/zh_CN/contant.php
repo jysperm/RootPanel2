@@ -2,7 +2,7 @@
 
 global $rpCfg, $rpL;
 
-$adminQQ = array_values($rpCfg["Admins"])[0]["qq"];
+$adminQQ = 184300584;
 
 $rpL["contant.qqButton"] = <<< HTML
 

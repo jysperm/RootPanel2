@@ -15,7 +15,7 @@ $base['title'] = $rpL["global.signup"];
 <section>
     <header><?= $rpL["signup.view.service"];?></header>
     <ul class="nav-list">
-        <li><?= $rpL["global.email"];?> <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
+        <li><?= $rpL["global.email"];?> admins@rpvhost.net</li>
         <?= $rpL["contact.list"];?>
     </ul>
 </section>
