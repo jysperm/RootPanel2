@@ -5,7 +5,7 @@ $v = $this["hosts"];
 ?>
 <VirtualHost *:8080>
 
-    ServerName <?= $this["uname"]; ?><?= rpUserModel::by("uname", $this["uname"])["id"]; ?>
+    ServerName <?= $this["uname"]; ?><?= $this["id"]; ?>
 
     ServerAlias <?= $v["domains"]; ?>
 
