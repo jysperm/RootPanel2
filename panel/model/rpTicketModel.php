@@ -124,13 +124,13 @@ class rpTicketModel extends lpPDOModel
         $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
 
         rpTicketReplyModel::insert($reply);
-        rpTicketModel::update(["id" => $id], $tkRow);
 
         if(lpFactory::get("rpUserModel")->isAdmin())
         {
             rpLogModel::log($this->data['uname'], "log.type.adminReplyTicket", [$id, $id], $reply, rpAuth::uname());
 
             $tkRow["status"] = rpTicketModel::HODE;
+            rpTicketModel::update(["id" => $id], $tkRow);
 
             return function() use($mailer, $mailTitle, $mailBody) {
                 $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
@@ -141,6 +141,7 @@ class rpTicketModel extends lpPDOModel
             rpLogModel::log($this->data['uname'], "log.type.replyTicket", [$id, $id], $reply);
 
             $tkRow["status"] = rpTicketModel::OPEN;
+            rpTicketModel::update(["id" => $id], $tkRow);
 
             $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
 

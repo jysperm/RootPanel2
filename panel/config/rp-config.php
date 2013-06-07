@@ -2,8 +2,8 @@
 
 global $rpCfg;
 
-$rpCfg["Version"]["main"] = "2.0.0 D";
-$rpCfg["Version"]["time"] = "2013.5.16";
+$rpCfg["Version"]["main"] = "2.0.1 B";
+$rpCfg["Version"]["time"] = "2013.6.7";
 $rpCfg["Version"]["type"] = "of";
 
 $rpCfg["DefaultLanguage"] = "zh_CN";

@@ -30,7 +30,7 @@ class rpAdminActionHandler extends lpHandler
     {
         $this->auth();
 
-        $title = "续费提醒 ";
+        $title = "续费提醒-";
         $title .= gmdate("Y.m.d");
 
         $content = "你的账户将于 " . gmdate("Y.m.d", rpUserModel::by("uname", $_POST["uname"])["expired"]) . "到期";
