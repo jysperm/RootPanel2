@@ -20,9 +20,14 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
         textarea {
             width: 530px;
         }
-
         .box hr, #content hr {
             margin: 1px;
+        }
+        section header {
+            font-size: 28px;
+        }
+        section {
+            line-height: 22px;
         }
     </style>
 <? $base['header'] = lpTemplate::endBlock(); ?>
