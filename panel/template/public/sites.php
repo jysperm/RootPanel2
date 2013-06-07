@@ -1,8 +1,10 @@
 <?php
 
-global $rpROOT, $rpCfg, $tooltip;
+global $rpROOT, $rpCfg, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
+
+lpLocale::i()->load(["contact"]);
 
 $base['title'] = "优质站点展示";
 ?>
@@ -11,8 +13,8 @@ $base['title'] = "优质站点展示";
     <section>
         <header>咨询</header>
         <ul class="nav-list">
-            <li>邮件 <?= array_values($rpCfg["Admins"])[0]["email"];?></li>
-            <?= $tooltip["contact"];?>
+            <li>邮件 admins@rpvhost.net</li>
+            <?= $rpL["contact.list"];?>
         </ul>
     </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>

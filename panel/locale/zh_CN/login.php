@@ -21,6 +21,6 @@ HTML;
 
 $rpL["login.popover.resetPasswdQQ"] = <<< HTML
 
-使用你设置的QQ, 联系客服 {$rpL["contant.qqButton"]}.
+使用你设置的QQ, 联系客服 {$rpL["contact.qqButton"]}.
 
 HTML;

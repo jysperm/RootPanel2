@@ -4,7 +4,7 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        lpLocale::i()->load(["signup", "contant"]);
+        lpLocale::i()->load(["signup", "contact"]);
 
         if(!$this->isPost()) {
             global $rpROOT;
@@ -66,7 +66,7 @@ class rpUserHandler extends lpHandler
 
     public function login()
     {
-        lpLocale::i()->load(["contant", "login"]);
+        lpLocale::i()->load(["contact", "login"]);
 
         if(!$this->isPost())
         {
