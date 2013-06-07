@@ -12,12 +12,14 @@ class rpApache2Type extends rpVHostType
 
     public function settingsHTML($old)
     {
+        global $rpL;
+
         $sOnly = $old["settings"]["type"] == "only" ? "checked='checked'" : "";
         $sUnless = $old["settings"]["type"] == "unless" ? "checked='checked'" : "";
         return <<< HTML
 
 <div class="control-group">
-  <label class="control-label" for="indexs">&raquo;</label>
+  <label class="control-label" for="vhost-apache2-type">&raquo;</label>
   <div class="controls">
     <label class="radio">
       <input type="radio" name="vhost-apache2-type" id="vhost-apache2-type" value="only" {$sOnly} />
@@ -30,7 +32,7 @@ class rpApache2Type extends rpVHostType
   </div>
 </div>
 <div class="control-group">
-  <label class="control-label" for="indexs">特定后缀</label>
+  <label class="control-label" for="vhost-apache2-extension"><a href="#" rel="tooltip" title="后缀名，以空格隔开，不包含点">特定后缀</a></label>
   <div class="controls">
     <input type="text" class="input-xxlarge" id="vhost-apache2-extension" name="vhost-apache2-extension" value="{$old["settings"]["extension"]}"/>
   </div>

@@ -1,12 +1,15 @@
 <?php
 
-global $rpCfg, $lpApp, $rpROOT;
+global $rpCfg, $lpApp, $rpROOT, $rpL;
 
 $types = rpVHostType::loadTypes();
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
-if(isset($new) && $new) {
+$rs = $this["rs"];
+
+if($this["new"])
+{
     $rs = [
         "id" => "XXOO",
         "domains" => substr(md5(time()), 0, 8) . ".{$rpDomain}",
@@ -41,14 +44,14 @@ if(isset($new) && $new) {
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">站点ID</label>
+            <label class="control-label"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a></label>
 
             <div class="controls">
                 <span class="label"><?= $rs["id"]; ?></span>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="domains">绑定的域名</label>
+            <label class="control-label" for="domains"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.dialog.domain"]; ?>">绑定的域名</a></label>
 
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= $rs["domains"]; ?>"
@@ -56,7 +59,7 @@ if(isset($new) && $new) {
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="source">数据源</label>
+            <label class="control-label" for="source"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a></label>
 
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="source" name="source" value="<?= $rs["source"]; ?>"
@@ -99,7 +102,7 @@ if(isset($new) && $new) {
         <h4>通用</h4>
 
         <div class="control-group">
-            <label class="control-label" for="alias">Alias别名</label>
+            <label class="control-label" for="alias"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.alias"]; ?>">Alias别名</a></label>
 
             <div class="controls">
                 <label class="radio">
@@ -123,7 +126,7 @@ if(isset($new) && $new) {
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="indexs">默认首页</label>
+            <label class="control-label" for="indexs"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.index"]; ?>">默认首页</a></label>
 
             <div class="controls">
                 <label class="radio">

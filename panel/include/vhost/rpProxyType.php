@@ -14,8 +14,12 @@ class rpProxyType extends rpVHostType
     {
         return <<< HTML
 
-变更主机头为(留空表示不变更)：
-<input type="text" class="input-xxlarge" id="vhost-proxy-host" name="vhost-proxy-host" value="{$old["settings"]["host"]}"/>
+<div class="control-group">
+  <label class="control-label" for="vhost-proxy-host"><a href="#" rel="tooltip" title="留空表示不变更">变更主机头</a></label>
+  <div class="controls">
+    <input type="text" class="input-xxlarge" id="vhost-proxy-host" name="vhost-proxy-host" value="{$old["settings"]["host"]}"/>
+  </div>
+</div>
 
 HTML;
     }

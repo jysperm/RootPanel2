@@ -14,8 +14,12 @@ class rpUWSGIType extends rpVHostType
     {
         return <<< HTML
 
-uWSGI Socket：
-<input type="text" class="input-xxlarge" id="vhost-uwsgi-socket" name="vhost-uwsgi-socket" value="{$old["settings"]["socket"]}"/>
+<div class="control-group">
+  <label class="control-label" for="vhost-uwsgi-socket"><a href="#" rel="tooltip" title="uWSGI Socket，如：/home/my/uwsgi.sock">Socket</a></label>
+  <div class="controls">
+    <input type="text" class="input-xxlarge" id="vhost-uwsgi-socket" name="vhost-uwsgi-socket" value="{$old["settings"]["socket"]}"/>
+  </div>
+</div>
 
 HTML;
     }
@@ -40,7 +44,7 @@ HTML;
     {
         global $rpROOT;
         $tmp = new lpTemplate("{$rpROOT}/../cli/template/uwsgi-type.php");
-        $tmp["host"] = $hosts;
+        $tmp["hosts"] = $hosts;
         return [
             "nginx" => $tmp->getOutput()
         ];

@@ -19,6 +19,7 @@ $($("#new-website").click(function () {
         });
 
         $("#dialog").modal();
+        $("a[rel=tooltip]").tooltip({trigger: "hover", html: true, placement: "right"});
     }, "html");
 }));
 
@@ -43,6 +44,7 @@ function editWebsite(websiteId) {
         });
 
         $("#dialog").modal();
+        $("a[rel=tooltip]").tooltip({trigger: "hover", html: true, placement: "right"});
     }, "html");
 
     return false;

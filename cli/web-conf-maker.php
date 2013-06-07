@@ -30,7 +30,7 @@ foreach(rpVirtualHostModel::select(["uname" => $uname]) as $host)
 
     $tmp = new lpTemplate("{$rpROOT}/../cli/template/nginx.php");
     $tmp->setValues([
-        "vhost" => $host,
+        "hosts" => $host,
         "user" => $user,
         "conf" => $conf["nginx"]
     ]);

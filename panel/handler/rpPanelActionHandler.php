@@ -31,6 +31,8 @@ class rpPanelActionHandler extends lpHandler
 
         $this->auth();
 
+        lpLocale::i()->load(["panel"]);
+
         $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
         $tmp["new"] = true;
         $tmp->output();
@@ -44,6 +46,8 @@ class rpPanelActionHandler extends lpHandler
         $vhost = new rpVirtualHostModel($_POST["id"]);
         if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
             die("站点ID不存在或站点不属于你");
+
+        lpLocale::i()->load(["panel"]);
 
         $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
         $tmp["rs"] = $vhost;

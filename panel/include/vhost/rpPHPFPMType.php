@@ -14,8 +14,12 @@ class rpPHPFPMType extends rpVHostType
     {
         return <<< HTML
 
-PHP-FPM守护进程(留空表示使用系统的)：
-<input type="text" class="input-xxlarge" id="vhost-phpfpm-server" name="vhost-phpfpm-server" value="{$old["settings"]["server"]}"/>
+<div class="control-group">
+  <label class="control-label" for="vhost-phpfpm-server"><a href="#" rel="tooltip" title="一个Unix Socket地址，留空表示使用系统的">PHP-FPM</a></label>
+  <div class="controls">
+    <input type="text" class="input-xxlarge" id="vhost-phpfpm-server" name="vhost-phpfpm-server" value="{$old["settings"]["server"]}"/>
+  </div>
+</div>
 
 HTML;
     }
