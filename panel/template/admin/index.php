@@ -72,7 +72,7 @@ $commonAct = function($uname)
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email(QQ)</th><th>最后登录</th><th></th>
         </tr>
         </thead>
         <tbody>
@@ -81,7 +81,7 @@ $commonAct = function($uname)
                 <tr>
                     <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
                     <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
-                    <td><?= $user['email'];?></td>
+                    <td><?= $user['email'];?>(<?= $user['qq'];?>)</td>
                     <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                     <td>
                         <div class="btn-group">
@@ -108,7 +108,7 @@ $commonAct = function($uname)
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email(QQ)</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
@@ -120,7 +120,7 @@ $commonAct = function($uname)
             <tr>
                 <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
                 <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
-                <td><?= $user['email'];?></td>
+                <td><?= $user['email'];?>(<?= $user['qq'];?>)</td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
                 <td><?= $rpL["global.userType"][$user['type']]; ?>(<?= rpVirtualHostModel::count(["uname" => $user['uname']]);?>)</td>
@@ -147,7 +147,7 @@ $commonAct = function($uname)
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email(QQ)</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
@@ -156,7 +156,7 @@ $commonAct = function($uname)
             <tr>
                 <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
                 <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
-                <td><?= $user['email'];?></td>
+                <td><?= $user['email'];?>(<?= $user['qq'];?>)</td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
                 <td><?= $rpL["global.userType"][$user['type']]; ?>(<?= rpVirtualHostModel::count(["uname" => $user['uname']]);?>)</td>
@@ -183,7 +183,7 @@ $commonAct = function($uname)
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>用户(UA)</th><th>工单</th><th>Email</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
+            <th>用户(UA)</th><th>工单</th><th>Email(QQ)</th><th>最后登录</th><th>到期</th><th>类型</th><th></th>
         </tr>
         </thead>
         <tbody>
@@ -192,7 +192,7 @@ $commonAct = function($uname)
             <tr>
                 <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
                 <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => rpTicketModel::OPEN]) ?></a></td>
-                <td><?= $user['email'];?></td>
+                <td><?= $user['email'];?>(<?= $user['qq'];?>)</td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['lastlogintime']);?>"><?= rpTools::niceTime($user['lastlogintime']);?></span></td>
                 <td><span title="<?= gmdate("Y.m.d H:i:s", $user['expired']);?>"><?= rpTools::niceTime($user['expired']);?></span></td>
                 <td><?= $rpL["global.userType"][$user['type']]; ?>(<?= rpVirtualHostModel::count(["uname" => $user['uname']]);?>)</td>
