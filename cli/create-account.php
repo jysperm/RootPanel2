@@ -25,8 +25,8 @@ $uname = $argv[1];
 
 $diskLimitMB = $rpCfg["NodeList"][$rpCfg["NodeID"]]["disk"];
 
-$diskLimitSoft = $diskLimitMB * 1000 * 0.85;
-$diskLimitHard = $diskLimitMB * 1000 * 1.2;
+$diskLimitSoft = intval($diskLimitMB * 1024 * 0.85);
+$diskLimitHard = intval($diskLimitMB * 1024 * 1.2);
 
 shell_exec("sudo useradd {$uname} -m -s/bin/bash");
 shell_exec("sudo usermod -G {$uname} -a www-data");

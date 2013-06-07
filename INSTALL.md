@@ -29,7 +29,6 @@
 
     add-apt-repository ppa:ondrej/php5
     add-apt-repository ppa:nginx/development
-    add-apt-repository ppa:chris-lea/node.js
 
     apt-get update
     apt-get upgrade
@@ -46,10 +45,10 @@
     # Python
     apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python
     pip install django tornado markdown python-memcached web.py mongo uwsgi virtualenv virtualenvwrapper
-    # NodeJS
-    apt-get install nodejs
     # C/C++ Dev
     apt-get install g++ gcc clang cmake
+
+    # Go NodeJS 二进制包
 
 ### 克隆代码库
 
