@@ -12,8 +12,6 @@ class rpApache2Type extends rpVHostType
 
     public function settingsHTML($old)
     {
-        global $rpL;
-
         $sOnly = $old["settings"]["type"] == "only" ? "checked='checked'" : "";
         $sUnless = $old["settings"]["type"] == "unless" ? "checked='checked'" : "";
         return <<< HTML
