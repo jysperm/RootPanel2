@@ -114,7 +114,7 @@
     listen = /tmp/rpadmin-fpm.sock
     listen.owner = rpadmin
     listen.group = rpadmin
-    listen.mode = 0666
+    listen.mode = 0660
 
     pm = dynamic
     pm.max_children = 10
