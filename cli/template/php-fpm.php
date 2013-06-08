@@ -12,7 +12,7 @@ listen.owner = <?= $u;?>
 
 listen.group = <?= $u;?>
 
-listen.mode = 0666
+listen.mode = 0660
 
 pm = dynamic
 pm.max_children = 10
