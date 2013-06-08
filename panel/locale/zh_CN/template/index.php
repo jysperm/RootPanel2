@@ -94,7 +94,7 @@ HTML;
             </li>
             <li>访问MySQL、Mongo、SQLite等各种数据库</li>
             <li>配置反向代理、SSL版网站</li>
-            <li>在终端运行PHP、Python、Go、Node、C/C++程序，并且可以监听端口来进行Socket通讯</li>
+            <li>在终端运行PHP、Python、Go、NodeJS、C/C++程序，并且可以监听端口来进行Socket通讯</li>
             <li>使用<a href="#" rel="popover" data-content="<?= $tooltip['proxy']; ?>"
                      data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
             </li>
@@ -146,15 +146,15 @@ HTML;
         lpTemplate::outputFile("{$rpROOT}/template/node-list.php");
         ?>
         <p>
-            注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、终端程序.
+            注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、Shell程序.
         </p>
     </section>
     <section id="service">
         <header>客服</header>
         <p>
-            RP主机的客服主要以邮件的方式提供，你可以与客服沟通你在使用中遇到的任何问题，例如你需要某个运行库，但服务器没有安装等等.<br/>
+            RP主机提供有工单系统，你可以与客服沟通你在使用中遇到的任何问题。<br/>
             `额外技术支持版`中提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.
-            而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用),视客服心情而定.
+            而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用), 视客服心情而定.
         </p>
 
         <p>
