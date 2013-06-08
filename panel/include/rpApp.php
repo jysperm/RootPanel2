@@ -19,19 +19,26 @@ class rpApp extends lpApp
         require_once("{$rpROOT}/config/node-list.php");
         require_once("{$rpROOT}/config/admin-list.php");
 
-        lpFactory::register("PDO", function() {
+        lpFactory::register("PDO", function($tag) {
             global $rpCfg;
             $config = $rpCfg["MySQLDB"];
-            return new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]);
+
+            if(!$tag)
+                return new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]);
         });
 
-        lpFactory::register("lpSmtp", function() {
+        lpFactory::register("lpSmtp", function($tag) {
             global $rpCfg;
-            return new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+
+            if(!$tag)
+                return new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
         });
 
-        lpFactory::register("rpUserModel", function(){
-            return rpUserModel::by("uname", rpAuth::uname());
+        lpFactory::register("rpUserModel", function($tag){
+            if(!$tag)
+                return rpUserModel::by("uname", rpAuth::uname());
+            else
+                return rpUserModel::by("uname", $tag);
         });
 
         lpLocale::i()->load(["global"]);
