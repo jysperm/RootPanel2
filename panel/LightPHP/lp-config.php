@@ -75,21 +75,6 @@ $lpCfg["lpTrackAuth"]["CookieName"] = [
 $lpCfg["lpTrackAuth"]["Limit"] = 30 * 24 * 3600;
 
 /**
- *   关闭PHP版本号过低时显示的警告.
- *   无论是为了安全、效率、享受新的特征, 你都应该将PHP更新到较新的版本.
- *   http://cn2.php.net/downloads.php
- *   http://cn2.php.net/manual/zh/install.php
- *   当然如果在服务器上你没有更新软件的权限, 当我没说.
- * @see $lpCfg["RecommendedPHPVersion.LightPHP"]
- * @type bool
- */
-$lpCfg["PHPVersion.TrunOff.Warning"] = false;
-
-
-// --------------- 高级选项(请慎重修改) ---------------
-
-
-/**
  *   LightPHP推荐的PHP最低版本
  *   LightPHP可能用到该版本的新特征, 或者做了依赖于该版本的假设.
  * @type string

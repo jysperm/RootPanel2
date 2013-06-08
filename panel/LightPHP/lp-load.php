@@ -42,13 +42,9 @@ $lpROOT = dirname(__FILE__);
  *  建议在其他文件开头添加下面一行代码, 以拒绝来自非正确入口的请求:
  *  defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 */
-define("lpInLightPHP", true);
+const lpInLightPHP = true;
 
-/**
-*   该文件包含了LightPHP所有配置信息.
-*
-*   @see /lp-main-config.php
-*/
+// 该文件包含了LightPHP所有配置信息.
 require("{$lpROOT}/lp-config.php");
 
 global $lpCfg;
@@ -57,12 +53,8 @@ if(!defined("lpMode"))
     define("lpMode", $lpCfg["LightPHP"]["Mode"]);
 
 // 如果PHP版本过低, 显示警告.
-if(version_compare(PHP_VERSION, $lpCfg["RecommendedPHPVersion.LightPHP"]) <= 0 && !$lpCfg["PHPVersion.TrunOff.Warning"])
-    trigger_error("Please install the newly version of PHP ({$lpCfg["RecommendedPHPVersion.LightPHP"]}+). Or edit `Version.TrunOff.Warning` in /lp-main-config.php ", E_WARNING);
-
-// 如果不是在SAE环境(SAE不支持), 则开启短标记功能.
-if(!class_exists("SaeObject",false))
-    ini_set("short_open_tag","1");
+if(version_compare(PHP_VERSION, $lpCfg["RecommendedPHPVersion.LightPHP"]) <= 0)
+    trigger_error("Please install the newly version of PHP ({$lpCfg["RecommendedPHPVersion.LightPHP"]}+).");
 
 // 设置时区
 date_default_timezone_set($lpCfg["LightPHP"]["TimeZone"]);

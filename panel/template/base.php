@@ -110,7 +110,7 @@ TEXT;
     })
 </script>
 <!--[if lte IE 8]>
-<script type='text/javascript' src='/script/kill-ie6.js'></script>
+<script type='text/javascript' src='/locale/zh_CN/script/kill-ie6.js'></script>
 <![endif]-->
 <?= isset($endOfBody) ? $endOfBody : ""; ?>
 </body>

@@ -44,7 +44,7 @@ $tooltip["site"] = <<< HTML
 <li>Drupal CMS</li>
 <li>Anwsion 问答</li>
 <li>MediaWiki 维基</li>
-<li>ECShop 网店</li>
+<li>DukoWiki 维基</li>
 <li>写不下了...</li>
 </ul>
 
@@ -94,7 +94,7 @@ HTML;
             </li>
             <li>访问MySQL、Mongo、SQLite等各种数据库</li>
             <li>配置反向代理、SSL版网站</li>
-            <li>在终端运行Python、Ruby、Go、Node、Perl、C/C++程序，并且可以监听端口来进行Socket通讯</li>
+            <li>在终端运行PHP、Python、Go、Node、C/C++程序，并且可以监听端口来进行Socket通讯</li>
             <li>使用<a href="#" rel="popover" data-content="<?= $tooltip['proxy']; ?>"
                      data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
             </li>
