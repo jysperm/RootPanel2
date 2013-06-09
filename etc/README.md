@@ -99,7 +99,6 @@
 ## 删除
 
 * /etc/php5/fpm/pool.d/www.conf
-*
 
 # RP主机
 ## /etc/php5/fpm/pool.d/rpadmin.conf

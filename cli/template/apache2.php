@@ -5,7 +5,7 @@ $v = $this["hosts"];
 ?>
 <VirtualHost *:8080>
 
-    ServerName <?= $this["uname"]; ?><?= $this["id"]; ?>
+    ServerName <?= $this["uname"]; ?><?= $v["id"]; ?>
 
     ServerAlias <?= $v["domains"]; ?>
 
