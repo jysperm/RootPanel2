@@ -14,7 +14,11 @@ HTML;
 
 $rpL["contact.list"] = <<< HTML
 
-<li>QQ群 12959991</li>
+<li>
+    <a target="_blank" href="http://wp.qq.com/wpa/qunwpa?idkey=2b0b1ba412ccb567774192aac996c5cd62aefd65a71773f9a01badb6968072ac">
+        <img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="RP主机用户群" title="RP主机用户群">
+    </a>
+</li>
 <li>{$rpL["contact.qqButton"]}</li>
 <li>
   <a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&uid=jy%E7%B2%BE%E8%8B%B1%E7%8E%8B%E5%AD%90&site=cntaobao&s=1&charset=utf-8" >
