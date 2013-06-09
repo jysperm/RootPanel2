@@ -112,7 +112,7 @@ HTML;
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/free/">2. 填写申请</a>
+                    <a class="btn btn-success" href="/ticket/list/?template=freeRequest">2. 填写申请</a>
                 </p>
             </div>
             <div class="span4">
@@ -120,7 +120,7 @@ HTML;
                 <div class="description">每月8元，每季度19元.</div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+                    <a class="btn btn-success" href="/public/pay/">2. 淘宝付款</a>
                 </p>
             </div>
             <div class="span4">
@@ -131,7 +131,7 @@ HTML;
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+                    <a class="btn btn-success" href="/public/pay/">2. 淘宝付款</a>
                 </p>
             </div>
         </div>

@@ -2,16 +2,18 @@
 
 global $rpCfg, $rpL;
 
-$tkOpen = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::OPEN]);
-$tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
-$tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
+if(rpAuth::uname())
+{
+    $tkOpen = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::OPEN]);
+    $tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
+    $tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
 
-$tkTitle = <<< TEXT
-开放工单：{$tkOpen}
-待处理工单：{$tkHold}
-已处理工单：{$tkFinish}
+    $tkTitle = <<< TEXT
+    开放工单：{$tkOpen}
+    待处理工单：{$tkHold}
+    已处理工单：{$tkFinish}
 TEXT;
-
+}
 
 ?>
 <!DOCTYPE html>
@@ -57,7 +59,7 @@ TEXT;
                         </li>
                         <? endif; ?>
                         <? if(!lpFactory::get("rpUserModel")->isAllowToPanel()): ?>
-                            <li><a href="/ticket/list/?template=freeRequest/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
+                            <li><a href="/ticket/list/?template=freeRequest"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
                         <? endif; ?>
                         <li><a href="/panel/"><i class="icon-list-alt icon-white"></i><?= $rpL["global.panel"]; ?></a>
