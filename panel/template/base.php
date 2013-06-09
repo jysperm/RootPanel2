@@ -44,7 +44,7 @@ TEXT;
                     <li><a href="http://wiki.jyprince.me/rp:user_manual"><?= $rpL["global.manual"]; ?></a></li>
                     <li><a href="/public/review/"><?= $rpL["global.review"]; ?></a></li>
                     <li><a href="/public/sites/"><?= $rpL["global.sites"]; ?></a></li>
-                    <li><a href="#" onclick="alert('新版论坛正在准备中')"><?= $rpL["global.bbs"]; ?></a></li>
+                    <li><a href="https://groups.google.com/d/forum/rphost"><?= $rpL["global.bbs"]; ?></a></li>
                 </ul>
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
