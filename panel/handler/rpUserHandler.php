@@ -9,7 +9,8 @@ class rpUserHandler extends lpHandler
         if(!$this->isPost()) {
             global $rpROOT;
             lpTemplate::outputFile("{$rpROOT}/template/user/signup.php");
-        } else {
+        }
+        else {
             global $rpCfg, $rpL;
 
             $procError = function ($str) {
@@ -76,9 +77,7 @@ class rpUserHandler extends lpHandler
         else
         {
             global $rpL;
-
-            $procError = function ($str)
-            {
+            $procError = function($str) {
                 global $rpROOT;
                 $tmp = new lpTemplate("{$rpROOT}/template/user/login.php");
 

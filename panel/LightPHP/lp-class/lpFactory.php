@@ -6,7 +6,7 @@
  * 一个简易的对象生成器，模拟工厂模式。
  */
 
-class lpFactory
+trait lpFactoryTrait
 {
     /**
      * @var array 对象数组
@@ -46,4 +46,17 @@ class lpFactory
 
         return self::$data[$name][$tag];
     }
+
+    static public function registerShortFunc()
+    {
+        function f($name, $tag = null)
+        {
+            return lpFactory::get($name, $tag);
+        }
+    }
+}
+
+class lpFactory
+{
+    use lpFactoryTrait;
 }

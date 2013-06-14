@@ -28,6 +28,101 @@ trait lpAppRoute
 class lpApp
 {
     use lpAppRoute;
+
+    static public function helloWorld()
+    {
+        /** @var $lpCfg lpConfig */
+        $lpCfg = lpFactory::get("lpConfig.lpCfg");
+
+        // 设置时区
+        date_default_timezone_set($lpCfg["TimeZone"]);
+
+        // 设置运行模式
+        if(!defined("lpRunMode"))
+            define("lpRunMode", $lpCfg["RunMode"]);
+
+        // 如果PHP版本过低, 显示警告
+        if(version_compare(PHP_VERSION, $lpCfg["RecommendedPHPVersion"]) <= 0)
+            trigger_error("Please install the newly version of PHP ({$lpCfg["RecommendedPHPVersion"]}+).");
+
+        // 错误报告
+        error_reporting(0);
+        if(lpRunMode >= lpDefault)
+            error_reporting(E_ERROR | E_PARSE);
+        if(lpRunMode >= lpDebug)
+            error_reporting(E_ALL | E_STRICT);
+
+        if(lpRunMode >= lpDefault)
+        {
+            /**
+             *   该函数会根据参数, 打印异常信息.
+             *
+             *   该函数将会被 set_exception_handler() 注册为PHP的默认异常处理程序, 对于未处理的异常显示错误信息.
+             *
+             *   @param Exception $exception 未处理的异常
+             */
+
+            set_exception_handler(function(Exception $exception)
+            {
+                header("Content-Type: text/plant; charset=UTF-8");
+
+                $traceline = "#%s %s (%s): %s(%s)";
+                $msg = "Exception `%s`: %s\nStack trace:\n%s\n  thrown in %s on line %s";
+
+                $trace = $exception->getTrace();
+
+                // 只有在调试模式才会显示参数的值
+                if(lpRunMode < lpDebug)
+                    foreach ($trace as $key => $stackPoint)
+                        $trace[$key]['args'] = array_map('gettype', $trace[$key]['args']);
+
+                $result = [];
+
+                foreach ($trace as $key => $stackPoint)
+                    $result[] = sprintf(
+                        $traceline,
+                        $key,
+                        $stackPoint['file'],
+                        $stackPoint['line'],
+                        $stackPoint['function'],
+                        implode(', ', $stackPoint['args'])
+                    );
+
+                $result[] = '#' . ++$key . ' {main}';
+
+                $msg = sprintf(
+                    $msg,
+                    get_class($exception),
+                    $exception->getMessage(),
+                    implode("\n", $result),
+                    $exception->getFile(),
+                    $exception->getLine()
+                );
+
+                print $msg;
+
+                if(lpRunMode >= lpDebug && $exception instanceof PHPException)
+                    print_r($exception->getVarList());
+            });
+        }
+        else
+        {
+            /**
+             *   该函数会根据参数, 打印异常信息.
+             *
+             *   该函数将会被 set_exception_handler() 注册为PHP的默认异常处理程序, 对于未处理的异常显示错误信息.
+             *
+             *   @param Exception $exception 未处理的异常
+             */
+
+            set_exception_handler(function(Exception $exception)
+            {
+                header("Content-Type: text/plant; charset=UTF-8");
+
+                die(header("HTTP/1.1 500 Internal Server Error"));
+            });
+        }
+    }
 }
 
 /**

@@ -8,6 +8,18 @@ class rpApp extends lpApp
     {
         global $rpROOT;
 
+        lpFactory::registerShortFunc();
+
+
+
+
+
+
+
+
+
+
+
         self::initAutoload();
 
         require_once("{$rpROOT}/config/rp-config.php");
