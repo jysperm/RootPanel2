@@ -36,7 +36,7 @@ $base['title'] = "优质站点展示";
                     <div class="carousel-caption">
                         <h4><a href="http://jyprince.me/">精英王子的博客</a></h4>
 
-                        <p>该博客包含了精英王子的生活点滴和一些技术教程.</p>
+                        <p>该博客包含了精英王子的生活点滴和一些技术教程</p>
                     </div>
                 </div>
                 <div class="item">
@@ -45,7 +45,15 @@ $base['title'] = "优质站点展示";
                     <div class="carousel-caption">
                         <h4><a href="http://im.librazy.org/">Librazy的博客</a></h4>
 
-                        <p>Librazy是一个高中OI党.</p>
+                        <p>Librazy是一个高中OI党</p>
+                </div>
+                <div class="item">
+                    <img src="http://i.imgur.com/k554meP.jpg" alt="im.librazy.org">
+
+                    <div class="carousel-caption">
+                        <h4><a href="http://www.smxydxslt.com//">三明学院论坛</a></h4>
+
+                        <p>福建省三明学院官方论坛，一个以学习，动漫为话题的综合SNS社区</p>
                     </div>
                 </div>
             </div>
