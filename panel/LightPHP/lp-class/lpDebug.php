@@ -15,9 +15,6 @@
 *   * 打印上下文变量的值
 *   * 在发生异常时打印以上信息
 *   * 打印以上信息及自定义信息到日志
-*   
-*   @depend void
-*   @type static class
 */
 
 class lpDebug

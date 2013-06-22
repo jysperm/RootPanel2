@@ -96,26 +96,14 @@ class lpSmtp
     *   @see send()
     */
 
-    public function __construct($host=null, $address=null, $user=null, $passwd=null, 
+    public function __construct($host, $address, $user, $passwd=null,
                                 $port=25, $isAuth=true, $isDebug=false, $timeOut=30, $myHostName="lpSmtpMail") 
-    { 
-        global $lpCfg;
-
+    {
         $this->isDebug = $isDebug;
         $this->port = $port;
         $this->isAuth = $isAuth;
         $this->timeOut = $timeOut;
         $this->myHostName = $myHostName;
-        
-        if(!$host)
-            $host = $lpCfg["lpSmtp"]["Default"]["host"];
-        if(!$address)
-            $address = $lpCfg["lpSmtp"]["Default"]["address"];
-        if(!$user)
-            $user = $lpCfg["lpSmtp"]["Default"]["user"];
-        if(!$passwd)
-            $passwd = $lpCfg["lpSmtp"]["Default"]["passwd"];
-
             
         $this->host = $host;
         $this->address = $address;

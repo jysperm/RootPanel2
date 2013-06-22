@@ -40,26 +40,6 @@ return $lpCfg;
 
 
 
-
-
-
-
-/**
- *   lpSmtp 类的默认发信帐号.
- *   * host 发信服务器
- *   * address 发信地址
- *   * user 发信用户名
- *   * passwd 发信密码
- * @type array
-
-$lpCfg["lpSmtp"]["Default"] = [
-    "host" => "smtp.163.com",
-    "address" => "lightphp_test@163.com",
-    "user" => "lightphp_test@163.com",
-    "passwd" => "passwd123123"
-];
-
-
 $lpCfg["lpClasssicAuth"]["SecurityCode"] = "140fd4bfdbd9a925fbf10245a58f603e541c9b82063b8339754aed509af11698";
 
 $lpCfg["lpClassicAuth"]["GetPasswd"]["Default"] = [

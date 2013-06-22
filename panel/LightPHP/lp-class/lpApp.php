@@ -31,7 +31,7 @@ class lpApp
 
     static public function helloWorld()
     {
-        lpFactory::register("lpConfig.lpCfg", function($tag) {
+        lpFactory::register("lpConfig.lpCfg", function() {
             return new lpConfig;
         });
 
@@ -63,7 +63,7 @@ class lpApp
 
         if(lpRunMode <= lpProduction)
         {
-            set_exception_handler(function(Exception $exception) {
+            set_exception_handler(function() {
                 die(header("HTTP/1.1 500 Internal Server Error"));
             });
         }
@@ -85,7 +85,7 @@ class lpApp
                 // 从异常对象获取运行栈
                 $trace = $exception->getTrace();
                 // 如果是 ePHPException 则去除运行栈的第一项，即 error_handler
-                if($exception instanceof ePHPException)
+                if($exception instanceof lpPHPException)
                     array_shift($trace);
 
                 // 只有在调试模式才会显示参数的值，其他模式下只显示参数类型
@@ -180,18 +180,24 @@ class lpApp
 
     static public function registerShortFunc()
     {
-        function c($k)
+        function c($k=null)
         {
             /** @var lpConfig $config */
             $config = lpFactory::get("lpConfig");
-            return $config->get($k);
+            if($k)
+                return $config->get($k);
+            else
+                return $config->data();
         }
 
-        function l()
+        function l($k=null)
         {
             /** @var lpLocale $data */
             $data = lpFactory::get("lpLocale");
-            return $data->data();
+            if($k)
+                return $data->get($k);
+            else
+                return $data->data();
         }
 
         function f($name, $tag = null)
@@ -211,92 +217,43 @@ class lpApp
  *   例如请求URL是 /user/show/jybox
  *   那么将会创建user类的一个实例, 以jybox为参数, 调用它的show函数.
  *
+ *   该函数会对类名和函数名进行修饰：
+ *   some-class 修饰为 prefixSomeClassHandler
+ *   some-function 修饰为 somefunction
+ *
+ *
  *   你需要通过这样的方式在你的应用中启用该分发器:
  *
- *       lpApp::bindLambda(null, lpApp::$defaultFilter);
+ *       lpApp::bindLambda(null, lpDefaultRouter(["index"]));
  */
 
-class lpDefaultFilter
+function lpDefaultRouter($defaultHandler, $prefix = "")
 {
-    /**
-     *   默认处理器.
-     *
-     *   这里指定的默认的处理器, 通常是应用首页.
-     */
-    private $defaultHandlerName;
-
-    /*
-     *  处理器类名前缀.
-     */
-    private $classNameHandler;
-
-    public function __construct($defaultHandlerName, $classNameHandler)
+    return function() use($defaultHandler, $prefix)
     {
-        $this->defaultHandlerName = $defaultHandlerName;
-        $this->classNameHandler = $classNameHandler;
-    }
+        $queryStrLen = isset($_SERVER["QUERY_STRING"]) ? strlen($_SERVER["QUERY_STRING"])+1 : 0;
+        $url = substr($_SERVER["REQUEST_URI"], 0, strlen($_SERVER["REQUEST_URI"]) - $queryStrLen);
+        $params = array_filter(explode("/", $url));
 
-    public function __invoke()
-    {
-        $queryStr = isset($_SERVER["QUERY_STRING"])?$_SERVER["QUERY_STRING"]:"";
-        if($queryStr)
-            $queryStr = "?{$queryStr}";
-        $url = substr($_SERVER["REQUEST_URI"], 0, strlen($_SERVER["REQUEST_URI"]) - strlen($queryStr));
+        if(!$params)
+            $params = $defaultHandler;
 
-        $args = array_filter(explode("/", $url));
+        $handlerName = array_filter(explode("-", array_shift($params)));
 
-        if(count($args) > 0)
-        {
-            $hander = $this->classNameHandler->procClass(array_values($args)[0]);
-            $hander = new $hander;
-            array_shift($args);
-        }
-        else
-        {
-            $hander = new $this->defaultHandlerName;
-        }
-
-        if(!is_subclass_of($hander, "lpHandler"))
-            trigger_error("is not a subclass of lpHander");
-
-        if(count($args) > 0)
-        {
-            $funcName = $this->classNameHandler->procFunction($args[0]);
-            array_shift($args);
-            call_user_func_array([$hander, $funcName], $args);
-        }
-        else
-        {
-            $hander();
-        }
-    }
-}
-
-class lpDefaultHandlerNameFilter
-{
-    /*
-     *  处理器类名前缀.
-     */
-    private $handlerPerfix;
-
-    public function __construct($handlerPerfix="")
-    {
-        $this->handlerPerfix = $handlerPerfix;
-    }
-
-    public function procClass($name)
-    {
-        $parts = array_filter(explode("-", $name));
-
-        foreach($parts as &$word)
+        foreach($handlerName as &$word)
             $word = strtoupper(substr($word, 0, 1)) . substr($word, 1);
 
-        $class = $this->handlerPerfix . implode("", $parts) . "Handler";
-        return $class;
-    }
+        $handlerName = $prefix . implode("", $handlerName) . "Handler";
 
-    public function procFunction($name)
-    {
-        return str_replace("-", "", $name);
-    }
+        if(!class_exists($handlerName))
+            throw new Exception("class {$handlerName} is not exists");
+        if(!is_subclass_of($handlerName, "lpHandler"))
+            throw new Exception("{$handlerName} is not a subclass of lpHander");
+        $hander = new $handlerName;
+
+        if($params)
+            call_user_func_array([$hander, str_replace("-", "", array_shift($params))], $params);
+        else
+            $hander();
+    };
 }

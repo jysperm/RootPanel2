@@ -10,7 +10,6 @@ class lpTemplate implements ArrayAccess
 {
     private $filename;
     private $values = [];
-    private $isFlush = false;
 
     /* ArrayAccess */
     public function offsetSet($offset, $value)
@@ -36,43 +35,9 @@ class lpTemplate implements ArrayAccess
         return isset($this->values[$offset]) ? $this->values[$offset] : null;
     }
 
-    public static function beginBlock()
-    {
-        ob_start();
-    }
-
-    public static function endBlock()
-    {
-        return ob_get_clean();
-    }
-
-    public static function esc($str)
-    {
-        return htmlspecialchars($str);
-    }
-
-    public static function outputFile($file, $values=[])
-    {
-        $tmp = new lpTemplate($file);
-        if($values)
-            $tmp->setValues($values);
-        $tmp->output();
-    }
-
     public function __construct($filename)
     {
-        ob_start();
-
-        if(!file_exists($filename))
-            trigger_error("file not exists");
-
         $this->filename = $filename;
-    }
-
-    public function __destruct()
-    {
-        if(!$this->isFlush)
-            ob_end_flush();
     }
 
     public function setValue($k, $v)
@@ -88,29 +53,31 @@ class lpTemplate implements ArrayAccess
 
     public function output()
     {
-        echo $this->getOutput();
+        include($this->filename);
     }
 
     public function getOutput()
     {
-        $this->isFlush = true;
-        $lpContents = ob_get_clean();
+        self::beginBlock();
+        include($this->filename);
+        return self::endBlock();
+    }
 
-        lpTemplate::beginBlock();
+    static public function beginBlock()
+    {
+        ob_start();
+    }
 
-        $temp = function($lpFilename_, $lpContents, $lpVars_)
-        {
-            if(!defined("lpInTemplate"))
-                define("lpInTemplate", true);
+    static public function endBlock()
+    {
+        return ob_get_clean();
+    }
 
-            foreach ($lpVars_ as $key => $value)
-                $$key = $value;
-
-            include($lpFilename_);
-        };
-
-        $temp($this->filename, $lpContents, $this->values);
-
-        return lpTemplate::endBlock();
+    static public function outputFile($file, $values=[])
+    {
+        $tmp = new lpTemplate($file);
+        if($values)
+            $tmp->setValues($values);
+        $tmp->output();
     }
 }

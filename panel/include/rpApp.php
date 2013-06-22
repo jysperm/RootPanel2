@@ -2,32 +2,33 @@
 
 class rpApp extends lpApp
 {
-    static private $locale;
-
     static public function helloWorld()
     {
-        global $rpROOT;
-
         self::initAutoload();
 
         lpApp::registerShortFunc();
+
         function d()
         {
             /** @var PDO $db */
-            $db = f("PDO");
+            $db = f("lpDBDrive");
             return $db;
         }
 
-        require_once("{$rpROOT}/config/rp-config.php");
+        /** @var lpConfig $cfg */
+        $cfg = f("lpConfig");
+        $cfg->load(rpROOT . "/config/rp-config.php");
 
-        self::$locale = new lpLocale("{$rpROOT}/locale");
+        lpFactory::register("lpLocale", function() {
+            return new lpLocale(rpROOT . "/locale", lpLocale::judegeLanguage(rpROOT . "/locale", c("DefaultLanguage")));
+        });
 
         require_once("{$rpROOT}/config/main-config.php");
         require_once("{$rpROOT}/config/node-config.php");
         require_once("{$rpROOT}/config/node-list.php");
         require_once("{$rpROOT}/config/admin-list.php");
 
-        lpFactory::register("PDO", function($tag) {
+        lpFactory::register("lpDBDrive", function($tag) {
             global $rpCfg;
             $config = $rpCfg["MySQLDB"];
 
@@ -54,9 +55,9 @@ class rpApp extends lpApp
 
     static public function initAutoload()
     {
-        global $rpROOT;
+        spl_autoload_register(function ($name) {
+            global $rpROOT;
 
-        spl_autoload_register(function ($name) use ($rpROOT) {
             $map = [
 
             ];

@@ -34,6 +34,7 @@ abstract class lpPDOModel implements ArrayAccess
 
     static public function by($k, $v)
     {
+        /** @var lpPDOModel $i */
         $i = new static(null);
         $i->data = static::find([$k => $v]);
         $i->id = $i->data[static::metaData()[self::PRIMARY]];
