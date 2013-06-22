@@ -8,19 +8,15 @@ class rpApp extends lpApp
     {
         global $rpROOT;
 
-        lpFactory::registerShortFunc();
-
-
-
-
-
-
-
-
-
-
-
         self::initAutoload();
+
+        lpApp::registerShortFunc();
+        function d()
+        {
+            /** @var PDO $db */
+            $db = f("PDO");
+            return $db;
+        }
 
         require_once("{$rpROOT}/config/rp-config.php");
 

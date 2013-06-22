@@ -8,7 +8,6 @@
 *
 *   * 定义常量 lpStartTime 和 lpInLightPHP
 *   * 注册默认 autoload 函数, 以便自动加载 LightPHP 的组件
-*   * 读入配置文件
 *   * 注册默认错误处理函数, 在出现错误时抛出异常
 *
 *   @package LightPHP
@@ -31,6 +30,17 @@ if(!defined("lpStartTime"))
  *  defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 */
 const lpInLightPHP = true;
+
+/**
+ *  运行模式
+ *  * debug 调试模式, 会开启详细的日志记录和错误提示
+ *  * default 默认模式, 会输出错误提示
+ *  * production 生产模式, 不会执行任何额外操作, 最高效地执行代码
+ */
+
+const lpDebug = 2;
+const lpDefault = 1;
+const lpProduction = 0;
 
 /**
  *   该函数用于加载 $name 所指定的类.
@@ -73,58 +83,7 @@ function lpLoader($name)
 
 spl_autoload_register("lpLoader");
 
-// 加载配置文件
-
-lpFactory::register("lpConfig.lpCfg", function($tag) {
-    return new lpConfig;
-});
-
-/** @var $lpCfg lpConfig */
-$lpCfg = lpFactory::get("lpConfig.lpCfg");
-$lpCfg->load(dirname(__FILE__) . "/lp-config.php");
-
-/**
- *   该函数将会根据参数抛出一个 ErrorException 类型的异常.
- *
- *   该函数将会被 set_error_handler() 注册为PHP的默认错误处理程序, 将PHP的错误转换为异常抛出.
- *   通常你不应该手动调用该函数(你也无法调用匿名函数), 你应当通过抛出异常来表示错误.
- *
- *   @param int $no 错误的级别
- *   @param string $str 错误的描述信息
- *   @param string $file 发生错误的文件名(含路径)
- *   @param int $line 发生错误的行号
- *   @param array $varList 错误发生时的符号表
- *
- *   @throws ErrorException
- */
-
-class PHPException extends Exception
-{
-    protected $severity;
-    protected $varList;
-
-    public function  __construct($message = "", $code = 0, $severity = 1, $filename = __FILE__, $lineno = __LINE__, Exception $previous = null, $varList = [])
-    {
-        $this->severity = $severity;
-        $this->file = $filename;
-        $this->line = $lineno;
-        $this->varList = $varList;
-
-        parent::__construct($message, $code, $previous);
-    }
-
-    public function getSeverity()
-    {
-        return $this->severity;
-    }
-
-    public function getVarList()
-    {
-        return $this->varList;
-    }
-}
-
 set_error_handler(function($no, $str, $file, $line, $varList)
 {
-    throw new PHPException($str, 0, $no, $file, $line, null, $varList);
+    throw new lpPHPException($str, 0, $no, $file, $line, null, $varList);
 });

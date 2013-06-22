@@ -31,8 +31,13 @@ class lpApp
 
     static public function helloWorld()
     {
-        /** @var $lpCfg lpConfig */
-        $lpCfg = lpFactory::get("lpConfig.lpCfg");
+        lpFactory::register("lpConfig.lpCfg", function($tag) {
+            return new lpConfig;
+        });
+
+        /** @var lpConfig $lpCfg */
+        $lpCfg = lpFactory::get("lpConfig");
+        $lpCfg->load(dirname(__FILE__) . "/../lp-config.php");
 
         // 设置时区
         date_default_timezone_set($lpCfg["TimeZone"]);
@@ -45,82 +50,153 @@ class lpApp
         if(version_compare(PHP_VERSION, $lpCfg["RecommendedPHPVersion"]) <= 0)
             trigger_error("Please install the newly version of PHP ({$lpCfg["RecommendedPHPVersion"]}+).");
 
-        // 错误报告
+        static::registerErrorHandling();
+    }
+
+    static public function registerErrorHandling()
+    {
         error_reporting(0);
         if(lpRunMode >= lpDefault)
             error_reporting(E_ERROR | E_PARSE);
         if(lpRunMode >= lpDebug)
             error_reporting(E_ALL | E_STRICT);
 
-        if(lpRunMode >= lpDefault)
+        if(lpRunMode <= lpProduction)
         {
-            /**
-             *   该函数会根据参数, 打印异常信息.
-             *
-             *   该函数将会被 set_exception_handler() 注册为PHP的默认异常处理程序, 对于未处理的异常显示错误信息.
-             *
-             *   @param Exception $exception 未处理的异常
-             */
-
-            set_exception_handler(function(Exception $exception)
-            {
-                header("Content-Type: text/plant; charset=UTF-8");
-
-                $traceline = "#%s %s (%s): %s(%s)";
-                $msg = "Exception `%s`: %s\nStack trace:\n%s\n  thrown in %s on line %s";
-
-                $trace = $exception->getTrace();
-
-                // 只有在调试模式才会显示参数的值
-                if(lpRunMode < lpDebug)
-                    foreach ($trace as $key => $stackPoint)
-                        $trace[$key]['args'] = array_map('gettype', $trace[$key]['args']);
-
-                $result = [];
-
-                foreach ($trace as $key => $stackPoint)
-                    $result[] = sprintf(
-                        $traceline,
-                        $key,
-                        $stackPoint['file'],
-                        $stackPoint['line'],
-                        $stackPoint['function'],
-                        implode(', ', $stackPoint['args'])
-                    );
-
-                $result[] = '#' . ++$key . ' {main}';
-
-                $msg = sprintf(
-                    $msg,
-                    get_class($exception),
-                    $exception->getMessage(),
-                    implode("\n", $result),
-                    $exception->getFile(),
-                    $exception->getLine()
-                );
-
-                print $msg;
-
-                if(lpRunMode >= lpDebug && $exception instanceof PHPException)
-                    print_r($exception->getVarList());
+            set_exception_handler(function(Exception $exception) {
+                die(header("HTTP/1.1 500 Internal Server Error"));
             });
         }
         else
         {
-            /**
-             *   该函数会根据参数, 打印异常信息.
-             *
-             *   该函数将会被 set_exception_handler() 注册为PHP的默认异常处理程序, 对于未处理的异常显示错误信息.
-             *
-             *   @param Exception $exception 未处理的异常
-             */
-
-            set_exception_handler(function(Exception $exception)
-            {
+            set_exception_handler(function(Exception $exception) {
+                // 暂时我们只打算以纯文本的形式展示信息
                 header("Content-Type: text/plant; charset=UTF-8");
 
-                die(header("HTTP/1.1 500 Internal Server Error"));
+                // 头部
+                print sprintf(
+                    "Exception `%s`: %s\n",
+                    get_class($exception),
+                    $exception->getMessage()
+                );
+
+                // 运行栈
+                print "\n^ Call Stack:\n";
+                // 从异常对象获取运行栈
+                $trace = $exception->getTrace();
+                // 如果是 ePHPException 则去除运行栈的第一项，即 error_handler
+                if($exception instanceof ePHPException)
+                    array_shift($trace);
+
+                // 只有在调试模式才会显示参数的值，其他模式下只显示参数类型
+                if(lpRunMode < lpDebug)
+                    foreach ($trace as $key => $v)
+                        $trace[$key]["args"] = array_map("gettype", $trace[$key]["args"]);
+
+                // 用于打印参数的函数
+                $printArgs = function($a) use(&$printArgs)
+                {
+                    $result = "";
+                    foreach($a as $k => $v)
+                    {
+                        if(is_array($v))
+                            $v = "[" . $printArgs($v) . "]";
+                        else
+                            if(is_string($v) && lpRunMode >= lpDebug)
+                                $v = "`{$v}`";
+                        if(!is_int($k))
+                            $v = "`$k` => $v";
+
+                        $result .= ($result ? ", {$v}" : $v);
+                    }
+                    return $result;
+                };
+
+                // 打印运行栈
+                foreach ($trace as $k => $v)
+                    print sprintf(
+                        "#%s %s%s %s(%s)\n",
+                        $k,
+                        isset($v["file"]) ? $v["file"] : "",
+                        isset($v["line"]) ? "({$v["line"]}):" : "",
+                        $v["function"],
+                        $printArgs($v["args"])
+                    );
+
+                print sprintf(
+                    "#  {main}\n  thrown in %s on line %s\n\n",
+                    $exception->getFile(),
+                    $exception->getLine()
+                );
+
+                // 如果当前是调试模式，且异常对象是我们构造的 ePHPException 类型，打印符号表和源代码
+                if(lpRunMode >= lpDebug && $exception instanceof lpPHPException)
+                {
+                    // 用于打印符号表的函数
+                    $printVarList = function($a, $tab=0) use(&$printVarList)
+                    {
+                        $tabs = str_repeat("   ", $tab);
+                        foreach($a as $k => $v)
+                            if(is_array($v))
+                                if(!$v)
+                                    print "{$tabs}`{$k}` => []\n";
+                                else
+                                    print "{$tabs}`{$k}` => [\n" . $printVarList($v, $tab+1) . "{$tabs}]\n";
+                            else
+                                print "{$tabs}`{$k}` => `{$v}`\n";
+                    };
+
+                    print "^ Symbol Table:\n";
+                    $printVarList($exception->getVarList());
+                }
+                if(lpRunMode >= lpDebug)
+                {
+                    print "\n^ Code:\n";
+
+                    // 显示出错附近行的代码
+                    $code = file($exception->getFile());
+                    $s = max($exception->getLine()-6, 0);
+                    $e = min($exception->getLine()+5, count($code));
+                    $code = array_slice($code, $s, $e - $s);
+
+                    // 为代码添加行号
+                    $line = $s + 1;
+                    foreach($code as &$v)
+                    {
+                        $l = $line++;
+                        if(strlen($l) < 4)
+                            $l = str_repeat(" ", 4-strlen($l)) . $l;
+                        if($exception->getLine() == $l)
+                            $v = "{$l}->{$v}";
+                        else
+                            $v = "{$l}  {$v}";
+                    }
+
+                    print implode("", $code);
+                }
             });
+        }
+    }
+
+    static public function registerShortFunc()
+    {
+        function c($k)
+        {
+            /** @var lpConfig $config */
+            $config = lpFactory::get("lpConfig");
+            return $config->get($k);
+        }
+
+        function l()
+        {
+            /** @var lpLocale $data */
+            $data = lpFactory::get("lpLocale");
+            return $data->data();
+        }
+
+        function f($name, $tag = null)
+        {
+            return lpFactory::get($name, $tag);
         }
     }
 }

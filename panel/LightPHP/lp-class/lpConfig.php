@@ -4,8 +4,9 @@
  * Class lpConfig
  *
  * 该类提供了一个配置信息管理类,
- * 信息是只读的，但你可以通过载入新的配置文件来覆盖旧的设置.
+ * 配置信息原则上是只读的，但你可以通过载入新的配置文件来覆盖旧的设置.
  */
+
 class lpConfig implements ArrayAccess
 {
     private $data = [];
@@ -22,7 +23,7 @@ class lpConfig implements ArrayAccess
 
         $newConfig = include($file);
 
-        $this->data = array_merge(self::$data, $newConfig);
+        $this->data = array_merge($this->data, $newConfig);
     }
 
     public function data()

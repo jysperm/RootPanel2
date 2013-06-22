@@ -46,14 +46,6 @@ trait lpFactoryTrait
 
         return self::$data[$name][$tag];
     }
-
-    static public function registerShortFunc()
-    {
-        function f($name, $tag = null)
-        {
-            return lpFactory::get($name, $tag);
-        }
-    }
 }
 
 class lpFactory

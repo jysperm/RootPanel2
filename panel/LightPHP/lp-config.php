@@ -21,18 +21,7 @@
  */
 $lpCfg["TimeZone"] = "Asia/Shanghai";
 
-/**
- *  运行模式
- *  * debug 调试模式, 会开启详细的日志记录和错误提示
- *  * default 默认模式, 会输出错误提示
- *  * production 生产模式, 不会执行任何额外操作, 最高效地执行代码
- */
-
-const lpDebug = 2;
-const lpDefault = 1;
-const lpProduction = 0;
-
-$lpCfg["RunMode"] = "default";
+$lpCfg["RunMode"] = lpDebug;
 
 /**
  *   LightPHP推荐的PHP最低版本
@@ -40,11 +29,13 @@ $lpCfg["RunMode"] = "default";
  */
 $lpCfg["RecommendedPHPVersion.LightPHP"] = "5.4.0";
 
+return $lpCfg;
 
 
 
 
 
+/*
 
 
 
@@ -60,7 +51,7 @@ $lpCfg["RecommendedPHPVersion.LightPHP"] = "5.4.0";
  *   * user 发信用户名
  *   * passwd 发信密码
  * @type array
- */
+
 $lpCfg["lpSmtp"]["Default"] = [
     "host" => "smtp.163.com",
     "address" => "lightphp_test@163.com",
@@ -68,11 +59,7 @@ $lpCfg["lpSmtp"]["Default"] = [
     "passwd" => "passwd123123"
 ];
 
-/**
- *   lpClasssicAuth 类的Cookie安全码
- *   修改该项会导致所有已登录用户丢失登录状态.
- * @type string
- */
+
 $lpCfg["lpClasssicAuth"]["SecurityCode"] = "140fd4bfdbd9a925fbf10245a58f603e541c9b82063b8339754aed509af11698";
 
 $lpCfg["lpClassicAuth"]["GetPasswd"]["Default"] = [
