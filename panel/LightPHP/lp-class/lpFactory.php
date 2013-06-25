@@ -11,11 +11,11 @@ trait lpFactoryTrait
     /**
      * @var array 对象数组
      */
-    static private $data;
+    static private $data = [];
     /**
      * @var array 对象构造器数组
      */
-    static private $creator;
+    static private $creator = [];
 
     /**
      * 注册一个对象构造器
@@ -41,6 +41,7 @@ trait lpFactoryTrait
         if(empty(self::$data[$name][$tag]))
         {
             $creator = self::$creator[$name];
+
             self::$data[$name][$tag] = $creator($tag);
         }
 

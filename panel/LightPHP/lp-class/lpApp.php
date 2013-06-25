@@ -36,19 +36,19 @@ class lpApp
         });
 
         /** @var lpConfig $lpCfg */
-        $lpCfg = lpFactory::get("lpConfig");
+        $lpCfg = lpFactory::get("lpConfig.lpCfg");
         $lpCfg->load(dirname(__FILE__) . "/../lp-config.php");
 
         // 设置时区
-        date_default_timezone_set($lpCfg["TimeZone"]);
+        date_default_timezone_set($lpCfg["lpTimeZone"]);
 
         // 设置运行模式
         if(!defined("lpRunMode"))
-            define("lpRunMode", $lpCfg["RunMode"]);
+            define("lpRunMode", $lpCfg["lpRunMode"]);
 
         // 如果PHP版本过低, 显示警告
-        if(version_compare(PHP_VERSION, $lpCfg["RecommendedPHPVersion"]) <= 0)
-            trigger_error("Please install the newly version of PHP ({$lpCfg["RecommendedPHPVersion"]}+).");
+        if(version_compare(PHP_VERSION, $lpCfg["lpRecommendedPHPVersion"]) <= 0)
+            trigger_error("Please install the newly version of PHP ({$lpCfg["lpRecommendedPHPVersion"]}+).");
 
         static::registerErrorHandling();
     }
@@ -100,12 +100,18 @@ class lpApp
                     foreach($a as $k => $v)
                     {
                         if(is_array($v))
+                        {
                             $v = "[" . $printArgs($v) . "]";
+                        }
                         else
+                        {
                             if(is_string($v) && lpRunMode >= lpDebug)
                                 $v = "`{$v}`";
-                        if(!is_int($k))
-                            $v = "`$k` => $v";
+                            else if(is_object($v))
+                                $v = get_class($v);
+                            else if(!is_int($k))
+                                $v = "`$k` => $v";
+                        }
 
                         $result .= ($result ? ", {$v}" : $v);
                     }
@@ -129,26 +135,29 @@ class lpApp
                     $exception->getLine()
                 );
 
-                // 如果当前是调试模式，且异常对象是我们构造的 ePHPException 类型，打印符号表和源代码
+                // 如果当前是调试模式，且异常对象是我们构造的 ePHPException 类型，打印符号表
                 if(lpRunMode >= lpDebug && $exception instanceof lpPHPException)
                 {
                     // 用于打印符号表的函数
                     $printVarList = function($a, $tab=0) use(&$printVarList)
                     {
+                        $out = "";
                         $tabs = str_repeat("   ", $tab);
                         foreach($a as $k => $v)
                             if(is_array($v))
                                 if(!$v)
-                                    print "{$tabs}`{$k}` => []\n";
+                                    $out.= "{$tabs}`{$k}` => []\n";
                                 else
-                                    print "{$tabs}`{$k}` => [\n" . $printVarList($v, $tab+1) . "{$tabs}]\n";
+                                    $out.= "{$tabs}`{$k}` => [\n" . $printVarList($v, $tab+1) . "{$tabs}]\n";
                             else
-                                print "{$tabs}`{$k}` => `{$v}`\n";
+                                $out.= "{$tabs}`{$k}` => `{$v}`\n";
+                        return $out;
                     };
 
                     print "^ Symbol Table:\n";
-                    $printVarList($exception->getVarList());
+                    print $printVarList($exception->getVarList());
                 }
+
                 if(lpRunMode >= lpDebug)
                 {
                     print "\n^ Code:\n";
@@ -180,7 +189,7 @@ class lpApp
 
     static public function registerShortFunc()
     {
-        function c($k=null)
+        function c($k = null)
         {
             /** @var lpConfig $config */
             $config = lpFactory::get("lpConfig");
@@ -190,7 +199,7 @@ class lpApp
                 return $config->data();
         }
 
-        function l($k=null)
+        function l($k = null)
         {
             /** @var lpLocale $data */
             $data = lpFactory::get("lpLocale");

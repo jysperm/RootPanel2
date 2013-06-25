@@ -17,7 +17,6 @@ class lpConfig implements ArrayAccess
         {
             foreach($file as $i)
                 $this->load($i);
-
             return;
         }
 

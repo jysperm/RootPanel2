@@ -19,15 +19,15 @@
  *   经检查, PHP支持的时区列表中没有北京, 因此选用上海作为北京时间.
  *   http://cn2.php.net/manual/zh/timezones.asia.php
  */
-$lpCfg["TimeZone"] = "Asia/Shanghai";
+$lpCfg["lpTimeZone"] = "Asia/Shanghai";
 
-$lpCfg["RunMode"] = lpDebug;
+$lpCfg["lpRunMode"] = lpDebug;
 
 /**
  *   LightPHP推荐的PHP最低版本
  *   LightPHP可能用到该版本的新特征, 或者做了依赖于该版本的假设.
  */
-$lpCfg["RecommendedPHPVersion.LightPHP"] = "5.4.0";
+$lpCfg["lpRecommendedPHPVersion.LightPHP"] = "5.4.0";
 
 return $lpCfg;
 
@@ -65,3 +65,4 @@ $lpCfg["lpTrackAuth"]["Limit"] = 30 * 24 * 3600;
 
 
 return $lpCfg;
+*/

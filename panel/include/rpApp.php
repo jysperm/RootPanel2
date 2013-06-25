@@ -4,9 +4,10 @@ class rpApp extends lpApp
 {
     static public function helloWorld()
     {
-        self::initAutoload();
+        parent::helloWorld();
 
-        lpApp::registerShortFunc();
+        self::registerShortFunc();
+        self::initAutoload();
 
         function d()
         {
@@ -15,49 +16,48 @@ class rpApp extends lpApp
             return $db;
         }
 
-        /** @var lpConfig $cfg */
-        $cfg = f("lpConfig");
-        $cfg->load(rpROOT . "/config/rp-config.php");
+        lpFactory::register("lpConfig", function() {
+            return new lpConfig;
+        });
+
+        /** @var lpConfig $rpCfg */
+        $rpCfg = f("lpConfig");
+        $rpCfg->load([
+            rpROOT . "/config/rp-config.php",
+            rpROOT . "/config/main-config.php",
+            rpROOT . "/config/node-config.php"
+        ]);
 
         lpFactory::register("lpLocale", function() {
-            return new lpLocale(rpROOT . "/locale", lpLocale::judegeLanguage(rpROOT . "/locale", c("DefaultLanguage")));
+            $path = rpROOT . "/locale";
+            return new lpLocale($path, lpLocale::judegeLanguage($path, c("DefaultLanguage")));
         });
 
-        require_once("{$rpROOT}/config/main-config.php");
-        require_once("{$rpROOT}/config/node-config.php");
-        require_once("{$rpROOT}/config/node-list.php");
-        require_once("{$rpROOT}/config/admin-list.php");
-
-        lpFactory::register("lpDBDrive", function($tag) {
-            global $rpCfg;
-            $config = $rpCfg["MySQLDB"];
-
-            if(!$tag)
-                return new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config["user"], $config["passwd"]);
+        lpFactory::register("lpDBDrive", function() {
+            $c = c("MySQLDB");
+            return new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
         });
 
-        lpFactory::register("lpSmtp", function($tag) {
-            global $rpCfg;
-
-            if(!$tag)
-                return new lpSmtp($rpCfg["smtp"]["host"], $rpCfg["smtp"]["address"], $rpCfg["smtp"]["user"], $rpCfg["smtp"]["passwd"]);
+        lpFactory::register("lpSmtp", function() {
+            $c = c("SMTP");
+            return new lpSmtp($c["host"], $c["address"], $c["user"], $c["passwd"]);
         });
 
-        lpFactory::register("rpUserModel", function($tag){
+        lpFactory::register("rpUserModel", function($tag) {
             if(!$tag)
                 return rpUserModel::by("uname", rpAuth::uname());
             else
                 return rpUserModel::by("uname", $tag);
         });
 
-        lpLocale::i()->load(["global"]);
+        /** @var lpLocale $rpL */
+        //$rpL = f("lpLocale");
+        //$rpL->load("global");
     }
 
     static public function initAutoload()
     {
         spl_autoload_register(function ($name) {
-            global $rpROOT;
-
             $map = [
 
             ];
@@ -66,10 +66,10 @@ class rpApp extends lpApp
                 $name = $map[$name];
 
             $paths = [
-                "{$rpROOT}/include/{$name}.php",
-                "{$rpROOT}/handler/{$name}.php",
-                "{$rpROOT}/model/{$name}.php",
-                "{$rpROOT}/include/vhost/{$name}.php"
+                rpROOT . "/include/{$name}.php",
+                rpROOT . "/handler/{$name}.php",
+                rpROOT . "/model/{$name}.php",
+                rpROOT . "/include/vhost/{$name}.php"
             ];
 
             foreach($paths as $path) {

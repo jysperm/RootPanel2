@@ -1,7 +1,5 @@
 <?php
 
-global $rpL;
-
 $rpL["global.signup"] = "注册";
 $rpL["global.error"] = "错误";
 $rpL["global.email"] = "邮箱";
@@ -25,3 +23,5 @@ $rpL["global.userType"] = [
     "std" => "标准付费版",
     "ext" => "额外技术支持版"
 ];
+
+return $rpL;

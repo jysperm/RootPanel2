@@ -1,8 +1,6 @@
 <?php
 
-global $rpCfg;
-
-$rpCfg["Admins"] = [
+$rpL["admins-list"] = [
     "rpadmin" => [
         "name" => "精英王子",
         "description" => "会卖萌的技术宅，熟悉C++/Qt、PHP、Web前端、两年Linux使用和维护经验.",
@@ -11,3 +9,5 @@ $rpCfg["Admins"] = [
         "url" => "http://jyprince.me/"
     ]
 ];
+
+return $rpL;

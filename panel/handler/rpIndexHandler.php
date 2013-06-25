@@ -4,7 +4,8 @@ class rpIndexHandler extends lpHandler
 {
     public function __invoke()
     {
-        lpLocale::i()->load(["contact"]);
-        lpTemplate::outputFile(lpLocale::i()->file("template/index.php"));
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+        lpTemplate::outputFile($rpL->file("template/index.php"));
     }
 }

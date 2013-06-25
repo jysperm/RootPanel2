@@ -1,7 +1,5 @@
 <?php
 
-global $rpCfg;
-
 $rpCfg["Version"]["main"] = "2.0.2 B";
 $rpCfg["Version"]["time"] = "2013.6.8";
 $rpCfg["Version"]["type"] = "of";
@@ -20,3 +18,5 @@ $rpCfg["GravaterURL"] = "http://ruby-china.org/avatar/";
 // ----- 覆盖LightPHP的配置
 
 $lpCfg["LightPHP"]["Mode"] = "debug";
+
+return $rpCfg;

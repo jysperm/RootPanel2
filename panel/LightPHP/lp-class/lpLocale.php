@@ -17,7 +17,8 @@ class lpLocale implements ArrayAccess
     /**
      * @var array 数据
      */
-    private $data;
+    private $data = [];
+    private $exitsData = [];
 
     /**
      * 构造一个实例
@@ -37,7 +38,16 @@ class lpLocale implements ArrayAccess
             $files = [$files];
 
         foreach($files as $file)
-            $this->data = array_merge($this->data, include("{$this->localeRoot}/{$this->language}/{$file}{$ext}"));
+        {
+            $filename = "{$file}{$ext}";
+
+            if(in_array($filename, $this->exitsData))
+                return $this->data;
+            else
+                $this->exitsData[]= $filename;
+
+            $this->data = array_merge($this->data, include("{$this->localeRoot}/{$this->language}/{$filename}"));
+        }
 
         return $this->data;
     }

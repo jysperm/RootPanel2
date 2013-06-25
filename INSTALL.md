@@ -41,7 +41,7 @@
     # MySQL, Memcached, PPTPD
     apt-get install mysql-server mysql-client phpmyadmin memcached pptpd mongodb
     # 工具
-    apt-get install screen git wget zip unzip iftop unrar-free axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool tmux
+    apt-get install screen git wget zip unzip iftop unrar-free axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool tmux mercurial
     # Python
     apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python
     pip install django tornado markdown python-memcached web.py mongo uwsgi virtualenv virtualenvwrapper

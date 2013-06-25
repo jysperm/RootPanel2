@@ -1,6 +1,39 @@
 <?php
 
-global $rpL;
+$rpL["nodelist.rp1"] = <<< HTML
+
+总所周知Linode是业界良心，质量和稳定性都有保证，且日本线路到大陆比较近.<br />
+但该区域受到工信部重点关照，时常访问不畅.
+
+HTML;
+
+$rpL["node-list.rp2"] = <<< HTML
+
+这个节点资源较多，无论是硬盘、内存、流量都较大.<br />
+到大陆的速度也可以接受，而且该区域目前还未受到特殊关照.
+
+HTML;
+
+$rpL["node-list.rp3"] = <<< HTML
+
+目前该节点用于进行面板和相关自动化脚本的测试，不接受付费用户.
+
+HTML;
+
+$rpL["node-list"] = [
+    "jp1" => [
+        "name" => "Linode东京(默认)",
+        "description" => $rpL["nodelist.rp1"],
+    ],
+    "us1" => [
+        "name" => "LocVPS洛杉矶",
+        "description" => $rpL["nodelist.rp2"],
+    ],
+    "us2" => [
+        "name" => "测试节点",
+        "description" => $rpL["nodelist.rp3"],
+    ]
+];
 
 $rpL["nodelist.location"] = "机房";
 $rpL["nodelist.minGuarantee"] = "最小保证";
@@ -18,22 +51,4 @@ $rpL["nodelist.popover.minRes"] = <<< HTML
 
 HTML;
 
-$rpL["nodelist.rp1"] = <<< HTML
-
-总所周知Linode是业界良心，质量和稳定性都有保证，且日本线路到大陆比较近.<br />
-但该区域受到工信部重点关照，时常访问不畅.
-
-HTML;
-
-$rpL["nodelist.rp2"] = <<< HTML
-
-这个节点资源较多，无论是硬盘、内存、流量都较大.<br />
-到大陆的速度也可以接受，而且该区域目前还未受到特殊关照.
-
-HTML;
-
-$rpL["nodelist.rp3"] = <<< HTML
-
-目前该节点用于进行面板和相关自动化脚本的测试，不接受付费用户.
-
-HTML;
+return $rpL;
