@@ -1,0 +1,11 @@
+# Linux
+*~
+
+# Winodws
+Thumbs.db
+
+# PhpStorm
+/.idea/*
+
+# LightPHP
+/debug.log
