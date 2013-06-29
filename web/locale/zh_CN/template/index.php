@@ -83,7 +83,7 @@ HTML;
         <p>
             RP主机实际上就是一台划分了用户的Linux服务器，每个用户都可以干自己想做的事情.<br/>
             当然，会有以root权限运行的监控程序限制你的资源使用，以免影响到其他用户.<br/>
-            为了能够使效率最大化，我们将最常用的一些服务(例如Apache、MySQL等)独立出来，以root权限运行，大家共同使用。而不是每个人都单独运行一份.
+            为了能够使效率最大化，我们将最常用的一些服务(例如Nginx、MySQL等)独立出来，以root权限运行，大家共同使用，而不是每个人都单独运行一份.
         </p>
     </section>
     <section id="what-can-it-do">
@@ -99,7 +99,7 @@ HTML;
             </li>
             <li>访问MySQL、Mongo、SQLite等各种数据库</li>
             <li>配置反向代理、SSL版网站</li>
-            <li>在终端运行PHP、Python、Go、Node、C/C++程序，并且可以监听端口来进行Socket通讯</li>
+            <li>在终端运行PHP、Python、Go、NodeJS、C/C++程序，并且可以监听端口来进行Socket通讯</li>
             <li>使用<a href="#" rel="popover" data-content="<?= $tooltip['proxy']; ?>"
                      data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
             </li>
@@ -117,7 +117,7 @@ HTML;
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/free/">2. 填写申请</a>
+                    <a class="btn btn-success" href="/ticket/list/?template=freeRequest">2. 填写申请</a>
                 </p>
             </div>
             <div class="span4">
@@ -125,7 +125,7 @@ HTML;
                 <div class="description">每月8元，每季度19元.</div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+                    <a class="btn btn-success" href="/public/pay/">2. 淘宝付款</a>
                 </p>
             </div>
             <div class="span4">
@@ -136,7 +136,7 @@ HTML;
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
-                    <a class="btn btn-success" href="/pay/">2. 淘宝付款</a>
+                    <a class="btn btn-success" href="/public/pay/">2. 淘宝付款</a>
                 </p>
             </div>
         </div>
@@ -149,15 +149,15 @@ HTML;
         <header>资源参数</header>
         <?  lpTemplate::outputFile(rpROOT . "/template/widget/node-list.php");?>
         <p>
-            注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、终端程序.
+            注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、Shell程序.
         </p>
     </section>
     <section id="service">
         <header>客服</header>
         <p>
-            RP主机的客服主要以邮件的方式提供，你可以与客服沟通你在使用中遇到的任何问题，例如你需要某个运行库，但服务器没有安装等等.<br/>
+            RP主机提供有工单系统，你可以与客服沟通你在使用中遇到的任何问题。<br/>
             `额外技术支持版`中提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.
-            而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用),视客服心情而定.
+            而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用), 视客服心情而定.
         </p>
         <p>
             <? foreach($rpL["admin-list"] as $adminID => $admin): ?>

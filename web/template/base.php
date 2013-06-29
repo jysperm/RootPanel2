@@ -2,6 +2,7 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
+<<<<<<< HEAD:web/template/base.php
 /** @var lpConfig $rpCfg */
 $rpCfg = f("lpConfig");
 /** @var lpLocale $rpL */
@@ -14,6 +15,20 @@ if(rpAuth::login())
     $tkOpen = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::OPEN]);
     $tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
     $tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
+=======
+if(rpAuth::uname())
+{
+    $tkOpen = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::OPEN]);
+    $tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
+    $tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
+
+    $tkTitle = <<< TEXT
+    开放工单：{$tkOpen}
+    待处理工单：{$tkHold}
+    已处理工单：{$tkFinish}
+TEXT;
+}
+>>>>>>> refs/remotes/origin/master:panel/template/base.php
 
     $tkTitle = sprintf($rpL["base.tkTitle"], $tkOpen, $tkHold, $tkFinish);
 }
@@ -46,7 +61,7 @@ if(rpAuth::login())
                     <li><a href="http://wiki.jyprince.me/rp:user_manual"><?= $rpL["global.manual"]; ?></a></li>
                     <li><a href="/public/review/"><?= $rpL["global.review"]; ?></a></li>
                     <li><a href="/public/sites/"><?= $rpL["global.sites"]; ?></a></li>
-                    <li><a href="#" onclick="alert('新版论坛正在准备中')"><?= $rpL["global.bbs"]; ?></a></li>
+                    <li><a href="https://groups.google.com/d/forum/rphost"><?= $rpL["global.bbs"]; ?></a></li>
                 </ul>
                 <ul class="nav pull-right">
                     <? if(rpAuth::login()): ?>
@@ -61,7 +76,7 @@ if(rpAuth::login())
                         </li>
                         <? endif; ?>
                         <? if(!lpFactory::get("rpUserModel")->isAllowToPanel()): ?>
-                            <li><a href="/ticket/list/?template=freeRequest/"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
+                            <li><a href="/ticket/list/?template=freeRequest"><i class="icon-gift icon-white"></i><?= $rpL["global.pay-free"]; ?>
                                 </a></li>
                         <? endif; ?>
                         <li><a href="/panel/"><i class="icon-list-alt icon-white"></i><?= $rpL["global.panel"]; ?></a>

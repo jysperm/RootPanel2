@@ -6,7 +6,6 @@
 >   Ubuntu Server 12.04
 >   ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
 
-务必使用原版的Ubuntu Server 12.04
 
 ### 挂载磁盘
 

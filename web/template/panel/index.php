@@ -64,7 +64,7 @@ $me = lpFactory::get("rpUserModel");
         账户类型：<?= $rpL["global.userType"][$me["type"]] ?><br/>
         到期时间：<span
             title="<?= gmdate("Y.m.d H:i:s", $me["expired"]); ?>"><?= rpTools::niceTime($me["expired"]); ?></span>
-        <a class="btn btn-success btn-inline" href="/pay/"> 续费</a>
+        <a class="btn btn-success btn-inline" href="/public/pay/"> 续费</a>
     </p>
 </section>
 

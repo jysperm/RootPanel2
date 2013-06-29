@@ -46,6 +46,10 @@ $base['title'] = "优质站点展示";
                         <h4><a href="http://im.librazy.org/">Librazy的博客</a></h4>
 
                         <p>Librazy是一个高中OI党</p>
+<<<<<<< HEAD:web/template/public/sites.php
+=======
+                    </div>
+>>>>>>> refs/remotes/origin/master:panel/template/public/sites.php
                 </div>
                 <div class="item">
                     <img src="http://i.imgur.com/k554meP.jpg" alt="im.librazy.org">

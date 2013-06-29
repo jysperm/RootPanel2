@@ -1,4 +1,16 @@
 # 系统
+## /etc/sysctl.conf
+
+修改：
+
+    net.ipv4.ip_forward=1
+
+## /etc/sudoers
+
+新增：
+
+    rpadmin ALL=(ALL) NOPASSWD: ALL
+
 ## php.ini
 
 * /etc/php5/apache2/php.ini
@@ -6,7 +18,7 @@
 * /etc/php5/cgi/php.ini
 * /etc/php5/cli/php.ini
 
-替换：
+修改：
 
     display_errors = On
     post_max_size = 128M
@@ -99,7 +111,6 @@
 ## 删除
 
 * /etc/php5/fpm/pool.d/www.conf
-*
 
 # RP主机
 ## /etc/php5/fpm/pool.d/rpadmin.conf
