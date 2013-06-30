@@ -29,6 +29,8 @@ $lpCfg["lpRunMode"] = lpDebug;
  */
 $lpCfg["lpRecommendedPHPVersion.LightPHP"] = "5.4.0";
 
+$lpCfg["CookieLimit"] = 30 * 24 * 3600;
+
 return $lpCfg;
 
 
@@ -53,14 +55,10 @@ $lpCfg["lpClassicAuth"]["CookieName"] = [
     "passwd" => "lp_cauth_token"
 ];
 
-$lpCfg["lpClassicAuth"]["Limit"] = 30 * 24 * 3600;
-
 $lpCfg["lpTrackAuth"]["CookieName"] = [
     "user" => "lp_tauth_user",
     "passwd" => "lp_tauth_token"
 ];
-
-$lpCfg["lpTrackAuth"]["Limit"] = 30 * 24 * 3600;
 
 
 

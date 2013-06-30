@@ -67,26 +67,22 @@ class rpUserHandler extends lpHandler
 
     public function login()
     {
-        lpLocale::i()->load(["contact", "login"]);
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["contact", "login"]);
 
         if(!$this->isPost())
         {
-            global $rpROOT;
-            lpTemplate::outputFile("{$rpROOT}/template/user/login.php");
+            lpTemplate::outputFile(rpROOT . "/template/user/login.php");
         }
         else
         {
-            global $rpL;
             $procError = function($str) {
-                global $rpROOT;
-                $tmp = new lpTemplate("{$rpROOT}/template/user/login.php");
-
-                $tmp->setValues([
+                lpTemplate::outputFile(rpROOT . "/template/user/login.php", [
                     "errorMsg" => $str,
                     "uname" => $_POST["uname"],
                 ]);
-
-                $tmp->output();
                 exit();
             };
 
@@ -109,11 +105,7 @@ class rpUserHandler extends lpHandler
     public function setCookie()
     {
         foreach($_GET as $k => $v)
-        {
-            global $lpCfg;
-
-            setcookie($k, $v, time() + $lpCfg["lpTrackAuth"]["Limit"], "/");
-        }
+            setcookie($k, $v, time() + c("CookieLimit"), "/");
 
         if(isset($_GET["goUrl"]))
             rpApp::goUrl($_GET["goUrl"]);

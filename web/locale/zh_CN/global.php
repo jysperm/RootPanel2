@@ -1,11 +1,7 @@
 <?php
 
 $rpL["global.error"] = "错误";
-$rpL["global.email"] = "邮箱";
-$rpL["global.account"] = "帐号";
-$rpL["global.passwd"] = "密码";
-
-
+$rpL["login.email"] = "邮箱";
 
 
 $rpL["global.userType"] = [

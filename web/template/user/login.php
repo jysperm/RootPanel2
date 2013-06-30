@@ -1,10 +1,17 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpL;
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+/** @var lpConfig $rpCfg */
+$rpCfg = f("lpConfig");
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
 
-$base['title'] = $rpL["global.login"];
+$rpL->load("base");
+
+$base = new lpTemplate(rpROOT . "/template/base.php");
+
+$base['title'] = $rpL["base.login"];
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -42,34 +49,36 @@ $base['title'] = $rpL["global.login"];
 </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
 <section>
-    <header><?= $rpL["global.login"];?></header>
+    <header><?= $rpL["base.login"];?></header>
     <form class="form-horizontal" id="form" method="post">
-        <div id="errorTips" class="alert alert-error<?= isset($errorMsg) ? "" : " hide"; ?>">
-            <header><?= $rpL["global.error"];?></header>
-            <span id="errorBody"><?= isset($errorMsg) ? $errorMsg : "";?></span>
+        <div id="errorTips" class="alert alert-error<?= $this["errorMsg"] ? "" : " hide"; ?>">
+            <header><?= $rpL["form.error"];?></header>
+            <span id="errorBody"><?= $this["errorMsg"];?></span>
         </div>
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="uname"><?= $rpL["global.account"];?></label>
+                <label class="control-label" for="uname"><?= $rpL["login.account"];?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="uname" name="uname"
-                           value="<?= isset($uname) ? $uname : rpAuth::uname(); ?>" required="required"/>
+                           value="<?= $this["uname"] ?: rpAuth::uname(); ?>" required="required"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="passwd"><?= $rpL["global.passwd"];?></label>
+                <label class="control-label" for="passwd"><?= $rpL["login.passwd"];?></label>
 
                 <div class="controls">
                     <input type="password" class="input-xlarge" id="passwd" name="passwd" required="required"/>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large"><?= $rpL["global.login"];?></button>
+                <button type="submit" class="btn btn-primary btn-large"><?= $rpL["base.login"];?></button>
             </div>
         </fieldset>
     </form>
 </section>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>
