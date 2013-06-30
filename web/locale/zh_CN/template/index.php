@@ -7,40 +7,34 @@ $rpCfg = f("lpConfig");
 /** @var lpLocale $rpL */
 $rpL = f("lpLocale");
 
-$rpL->load("admin-list");
+$rpL->load(["admin-list", "contact"]);
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
 
-$tooltip["free"] = <<< HTML
-
+$popover["free"] = <<< HTML
 CPU时间限制(按天)：500秒(相当于0.6%)<br />
 最小内存保证：10M<br />
 内存竞争系数：0.4(与付费用户竞争内存时的系数)<br />
 硬盘限制：300M<br />
 流量限制(按天)：300M<br />
 流量限制(按月)：3G<br />
-
 HTML;
 
-$tooltip["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
+$popover["evn"] = "RP主机提供了完整的Linux环境，即使RP主机默认不提供某语言的运行环境，你也可以通过Linux下安装软件的常规方式自行安装该语言环境.";
 
-$tooltip["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
+$popover["ext"] = "帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.";
 
-$tooltip["proxy"] = <<< HTML
-
+$popover["proxy"] = <<< HTML
 <ul>
 <li>Secure Shell</li>
 <li>Virtual Private Network</li>
 <li>(Point to Point Tunneling Protocol)</li>
 <li>ShadowSocks</li>
 </ul>
-
 HTML;
 
-$tooltip["site"] = <<< HTML
-
+$popover["site"] = <<< HTML
 可以运行几乎所有常见的建站系统：<br />
-
 <ul>
 <li>WordPress 博客</li>
 <li>PHPWind 论坛</li>
@@ -52,7 +46,6 @@ $tooltip["site"] = <<< HTML
 <li>DukoWiki 维基</li>
 <li>写不下了...</li>
 </ul>
-
 HTML;
 
 ?>
@@ -92,15 +85,15 @@ HTML;
             你得到的是一个拥有极大权限的linux用户，你可以
         </p>
         <ul>
-            <li><a href="#" rel="popover" data-content="<?= $tooltip['site']; ?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案
+            <li><a href="#" rel="popover" data-content="<?= $popover['site']; ?>" data-original-title="建站系统">建立网站</a>，可以建立无限个网站，绑定无限个域名，无需备案
             </li>
-            <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $tooltip['evn']; ?>"
+            <li>使用PHP、Python、CGI等技术建立动态站点，RP主机支持<a href="#" rel="popover" data-content="<?= $popover['evn']; ?>"
                                                    data-original-title="环境支持">几乎全部</a>编程语言
             </li>
             <li>访问MySQL、Mongo、SQLite等各种数据库</li>
             <li>配置反向代理、SSL版网站</li>
             <li>在终端运行PHP、Python、Go、NodeJS、C/C++程序，并且可以监听端口来进行Socket通讯</li>
-            <li>使用<a href="#" rel="popover" data-content="<?= $tooltip['proxy']; ?>"
+            <li>使用<a href="#" rel="popover" data-content="<?= $popover['proxy']; ?>"
                      data-original-title="接入世界性互联网">多种技术</a>接入世界性互联网
             </li>
         </ul>
@@ -112,7 +105,7 @@ HTML;
                 <header>试用版</header>
                 <div class="description">
                     所有人都可以申请一个月的试用，需要填写100字的申请，人工审核(可重复申请)。试用版有较为严格的
-                    <a href="#" rel="popover" data-content="<?= $tooltip['free']; ?>"
+                    <a href="#" rel="popover" data-content="<?= $popover['free']; ?>"
                        data-original-title="试用帐号限制">资源限制</a>
                 </div>
                 <p>
@@ -132,7 +125,7 @@ HTML;
                 <header>额外技术支持版</header>
                 <div class="description">
                     每月15元，每季度35元.该版本的资源和标准版并无区别，但提供随叫随到的
-                    <a href="#" rel="popover" data-content="<?= $tooltip['ext']; ?>" data-original-title="技术支持">技术支持</a>.
+                    <a href="#" rel="popover" data-content="<?= $popover['ext']; ?>" data-original-title="技术支持">技术支持</a>.
                 </div>
                 <p>
                     <a class="btn btn-success" href="/user/signup/">1. 注册帐号</a>
@@ -172,7 +165,7 @@ HTML;
             客服邮箱：<code><i class="icon-envelope"></i><?= $rpCfg["AdminsEmail"];?></code>
         </p>
         <ul class="left-tabs">
-            <?= $rpL["contact.list"];?>
+            <?= l("contact.list");?>
         </ul>
     </section>
 

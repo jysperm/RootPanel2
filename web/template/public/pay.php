@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $tooltip;
+global $rpROOT, $rpCfg, $lpApp, $popover;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 

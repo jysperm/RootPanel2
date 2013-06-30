@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $tooltip, $rpL;
+global $rpROOT, $rpCfg, $popover, $rpL;
 
 $base = new lpTemplate("{$rpROOT}/template/base.php");
 $page = lpDividePage::fromGET();

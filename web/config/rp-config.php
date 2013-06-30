@@ -1,8 +1,13 @@
 <?php
 
-$rpCfg["Version"]["main"] = "2.0.2 B";
-$rpCfg["Version"]["time"] = "2013.6.8";
-$rpCfg["Version"]["type"] = "of";
+$rpCfg["Version"] = [
+    "main" => "2.1.0 B",
+    "time" => "2013.6.30",
+    "type" => "of",
+
+    "Bootstrap" => "2.3.2",
+    "jQuery" => "2.0.2"
+];
 
 $rpCfg["DefaultLanguage"] = "zh_CN";
 
@@ -14,9 +19,5 @@ $rpCfg["TKPerPage"] = 15;
 // Gravatar基准URL
 $rpCfg["GravaterURL"] = "http://www.gravatar.com/avatar/";
 $rpCfg["GravaterURL"] = "http://ruby-china.org/avatar/";
-
-// ----- 覆盖LightPHP的配置
-
-$lpCfg["LightPHP"]["Mode"] = "debug";
 
 return $rpCfg;

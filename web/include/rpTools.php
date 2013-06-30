@@ -9,8 +9,7 @@ class rpTools
 
     static public function gravatarURL($email, $size = 80)
     {
-        global $rpCfg;
-        return $rpCfg["GravaterURL"] . md5(strtolower(trim($email))) . "?s={$size}";
+        return c("GravaterURL") . md5(strtolower(trim($email))) . "?s={$size}";
     }
 
     public static function getIP()

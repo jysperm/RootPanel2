@@ -1,7 +1,5 @@
 <?php
 
-global $rpCfg, $rpL;
-
 $adminQQ = 184300584;
 
 $rpL["contact.qqButton"] = <<< HTML
@@ -27,3 +25,5 @@ $rpL["contact.list"] = <<< HTML
 </li>
 
 HTML;
+
+return $rpL;

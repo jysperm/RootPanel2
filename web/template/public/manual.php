@@ -1,6 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $tooltip;
+global $rpROOT, $rpCfg, $popover;
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
@@ -84,7 +84,7 @@ $base['title'] = "用户手册";
         <? endforeach; ?>
     </p>
     <ul class="left-tabs">
-        <?= $tooltip["contact"];?>
+        <?= $popover["contact"];?>
     </ul>
 </section>
 

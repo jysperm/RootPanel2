@@ -6,7 +6,6 @@
 >   Ubuntu Server 12.04
 >   ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
 
-
 ### 挂载磁盘
 
 有些服务器有两个磁盘分区，分别用于 `/` 和 `/home`

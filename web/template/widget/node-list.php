@@ -26,8 +26,8 @@ $rpL->load("node-list");
     <tbody>
     <? foreach($rpCfg["NodeList"] as $nodeID => $node): ?>
         <tr>
-            <td><a href="#" rel="popover" data-content="<?= $rpL[$nodeID]["description"]; ?>"
-                   data-original-title="<?= $rpL[$nodeID]["name"]; ?>"><?= $rpL[$nodeID]["name"]; ?></a></td>
+            <td><a href="#" rel="popover" data-content="<?= $rpL["node-list"][$nodeID]["description"]; ?>"
+                   data-original-title="<?= $rpL["node-list"][$nodeID]["name"]; ?>"><?= $rpL["node-list"][$nodeID]["name"]; ?></a></td>
             <td><?= $node["memory"]; ?>M</td>
             <td><?= $node["cpu"]; ?>MHz</td>
             <td><?= $node["disk"]; ?>M</td>

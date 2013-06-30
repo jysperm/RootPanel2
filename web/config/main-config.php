@@ -19,8 +19,8 @@ $rpCfg["NodeList"] = [
         "disk" => 800,
         "traffic" => 48
     ],
-    "us2" => [
-        "domain" => "us2.rpvhost.net",
+    "test" => [
+        "domain" => "test.rpvhost.net",
         "memory" => 40,
         "cpu" => 200,
         "disk" => 500,
