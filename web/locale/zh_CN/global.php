@@ -1,7 +1,6 @@
 <?php
 
-$rpL["global.error"] = "错误";
-$rpL["login.email"] = "邮箱";
+
 
 
 $rpL["global.userType"] = [

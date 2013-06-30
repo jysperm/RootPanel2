@@ -1,10 +1,16 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpL;
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
 
-$base['title'] = $rpL["global.signup"];
+$rpL->load(["base", "contact"]);
+
+
+$base = new lpTemplate(rpROOT . "/template/base.php");
+
+$base['title'] = $rpL["base.signup"];
 ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -15,7 +21,7 @@ $base['title'] = $rpL["global.signup"];
 <section>
     <header><?= $rpL["signup.view.service"];?></header>
     <ul class="nav-list">
-        <li><?= $rpL["global.email"];?> admins@rpvhost.net</li>
+        <li><?= $rpL["signup.email"];?> <?= c("AdminsEmail");?></li>
         <?= $rpL["contact.list"];?>
     </ul>
 </section>
@@ -30,7 +36,7 @@ $base['title'] = $rpL["global.signup"];
 </style>
 <? $base['header'] = lpTemplate::endBlock(); ?>
 
-<?php lpTemplate::beginBlock(); ?>
+<? lpTemplate::beginBlock(); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#form").submit(function () {
@@ -52,18 +58,19 @@ $base['title'] = $rpL["global.signup"];
 </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
 <section>
-    <header><?= $rpL["global.signup"];?> <span
-            class="text-small-per50 not-bold"><?= $rpL["signup.view.signingNow"];?><?= $rpCfg["NodeName"];?></span>
+    <header><?= $rpL["base.signup"];?> <span
+            class="text-small-per50 not-bold"><?= $rpL["signup.view.signingNow"];?><?= c("NodeName");?></span>
     </header>
     <form class="form-horizontal" id="form" method="post">
-        <div id="errorTips" class="alert alert-error<?= isset($errorMsg) ? "" : " hide"; ?>">
-            <header><?= $rpL["global.error"];?></header>
-            <span id="errorBody"><?= isset($errorMsg) ? $errorMsg : "";?></span>
+        <div id="errorTips" class="alert alert-error<?= $this["errorMsg"] ? "" : " hide"; ?>">
+            <header><?= $rpL["form.error"];?></header>
+            <span id="errorBody"><?= $this["errorMsg"];?></span>
         </div>
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="uname"><?= $rpL["global.account"];?></label>
+                <label class="control-label" for="uname"><?= $rpL["signup.account"];?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="uname" name="uname"
@@ -73,7 +80,7 @@ $base['title'] = $rpL["global.signup"];
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="email"><?= $rpL["global.email"];?></label>
+                <label class="control-label" for="email"><?= $rpL["signup.email"];?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="email" name="email"
@@ -83,7 +90,7 @@ $base['title'] = $rpL["global.signup"];
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="passwdtext"><?= $rpL["global.passwd"];?></label>
+                <label class="control-label" for="passwdtext"><?= $rpL["signup.passwd"];?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required"/>
@@ -102,10 +109,11 @@ $base['title'] = $rpL["global.signup"];
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large"><?= $rpL["global.signup"];?></button>
+                <button type="submit" class="btn btn-primary btn-large"><?= $rpL["base.signup"];?></button>
             </div>
         </fieldset>
     </form>
 </section>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

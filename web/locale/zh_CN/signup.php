@@ -1,6 +1,8 @@
 <?php
 
-global $rpL;
+$rpL["signup.account"] = "帐号";
+$rpL["signup.passwd"] = "密码";
+$rpL["signup.email"] = "邮箱";
 
 $rpL["signup.tips.incomplete"] = "请将信息填写完整";
 $rpL["signup.tips.notAllowSignup"] = "该用户名不允许注册";
@@ -15,7 +17,6 @@ $rpL["signup.rule"] = <<< HTML
 
 HTML;
 
-$rpL["signup.view.signup"] = "注册";
 $rpL["signup.view.isHasAccount"] = "已有帐号？";
 $rpL["signup.view.clickToLogin"] = "点击这里登录";
 $rpL["signup.view.service"] = "咨询";
@@ -27,3 +28,5 @@ $rpL["signup.view.emailTips"] = "邮箱是与你联系的重要途径，请务�
 $rpL["signup.view.isRaw"] = "明文";
 $rpL["signup.view.qq"] = "QQ";
 $rpL["signup.view.qqTips"] = "RP主机的QQ客服将会依据该项辨别你的身份，可以留空";
+
+return $rpL;

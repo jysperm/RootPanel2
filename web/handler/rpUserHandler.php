@@ -4,39 +4,34 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        lpLocale::i()->load(["signup", "contact"]);
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+        $rpL->load("signup");
 
         if(!$this->isPost()) {
-            global $rpROOT;
-            lpTemplate::outputFile("{$rpROOT}/template/user/signup.php");
+            lpTemplate::outputFile(rpROOT . "/template/user/signup.php");
         }
-        else {
-            global $rpCfg, $rpL;
-
+        else
+        {
             $procError = function ($str) {
-                global $rpROOT;
-                $tmp = new lpTemplate("{$rpROOT}/template/user/signup.php");
-
-                $tmp->setValues([
+                lpTemplate::outputFile(rpROOT . "/template/user/signup.php", [
                     "errorMsg" => $str,
                     "uname" => $_POST["uname"],
                     "email" => $_POST["email"],
                     "qq" => $_POST["qq"]
                 ]);
-
-                $tmp->output();
                 exit(0);
             };
 
             if(!isset($_POST["uname"]) or !isset($_POST["email"]))
                 $procError($rpL["signup.tips.incomplete"]);
 
-            if(!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/u', $_POST["uname"]) or
+            if(!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $_POST["uname"]) or
                 !preg_match('/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/', $_POST["email"])
             )
                 $procError($rpL["signup.rule"]);
 
-            if(in_array($_POST["uname"], $rpCfg["NotAllowSignup"]))
+            if(in_array($_POST["uname"], c("NotAllowSignup")))
                 $procError($rpL["signup.tips.notAllowSignup"]);
 
             if(rpUserModel::find(["uname" => $_POST["uname"]]))
