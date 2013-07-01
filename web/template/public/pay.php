@@ -1,95 +1,88 @@
 <?php
 
-global $rpROOT, $rpCfg, $lpApp, $popover;
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
 
-$base['title'] = "购买";
+$rpL->load(["contact", "form", "pay"]);
+
+$base = new lpTemplate(rpROOT . "/template/base.php");
+
+$base['title'] = l("pay.buy");
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-<li class="active"><a href="#pay"><i class="icon-chevron-right"></i> 购买</a></li>
-<li><a href="#position"><i class="icon-chevron-right"></i> 机房列表</a></li>
-<li><a href="#agreement"><i class="icon-chevron-right"></i> 政策和约定</a></li>
+<li class="active"><a href="#pay"><i class="icon-chevron-right"></i> <?= l("pay.buy");?></a></li>
+<li><a href="#position"><i class="icon-chevron-right"></i> <?= l("pay.positionList");?></a></li>
+<li><a href="#agreement"><i class="icon-chevron-right"></i> <?= l("pay.agreement");?></a></li>
 <? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
 <section id="pay">
-    <header>购买</header>
+    <header><?= l("pay.buy");?></header>
     <? if(!rpAuth::login()): ?>
         <div class="alert alert-block alert-error fade in">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">注意</h4>
-
-            <p>如果你还没在本站注册过帐号，请先注册帐号再购买！.</p>
-
+            <h4 class="alert-heading"><?= l("form.alert");?></h4>
+            <p><?= l("pay.info.noAccount");?></p>
             <p>
-                <a class="btn btn-info btn-inline" href="/user/signup/">注册帐号</a>
+                <a class="btn btn-info btn-inline" href="/user/signup/"><?= l("pay.signup");?></a>
             </p>
         </div>
     <? else: ?>
-        <?php
-        $me = lpFactory::get("rpUserModel");
-        ?>
-        <? if($me["type"] == rpUserModel::NO): ?>
+        <? if(!f("rpUserModel")->isAllowToPanel()): ?>
             <div class="alert alert-block alert-success fade in">
-                <h4 class="alert-heading">提示</h4>
-
-                <p>你还没有购买RP主机，请在下方选择一种方式购买：</p>
-
-                <p>PS：如果你已经在淘宝付款成功，请耐心等待开通，或通过 <code><i class="icon-envelope"></i>admins@rpvhost.net</code> 来诅咒客服.</p>
+                <h4 class="alert-heading">><?= l("form.notice");?></h4>
+                <?= l("pay.info.notPay");?>
             </div>
         <? else: ?>
             <div class="alert alert-block alert-success fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                <h4 class="alert-heading">提示</h4>
+                <h4 class="alert-heading"><?= l("form.notice");?></h4>
 
-                <p>你已经购买过RP主机了，不过你还可以续费：</p>
+                <p><?= l("pay.info.alreadyBy");?></p>
             </div>
         <? endif; ?>
     <? endif;?>
     <div class="row-fluid">
         <div class="span4">
-            <h3>试用版</h3>
-
-            <p>免费</p>
-
+            <h3><?= l("pay.type.free");?></h3>
+            <p><?= l("pay.price.free");?></p>
             <p>
-                <a class="btn btn-success" href="/ticket/list/?template=freeRequest">填写申请</a>
+                <a class="btn btn-success" href="/ticket/list/?template=freeRequest"><?= l("pay.apply");?></a>
             </p>
         </div>
         <div class="span4">
-            <h3>标准版</h3>
-
-            <p>每月8元，每季度19元.</p>
-
+            <h3><?= l("pay.type.std");?></h3>
+            <p><?= l("pay.price.std");?></p>
             <p>
-                <a class="btn btn-success" href="<?= $rpCfg["Pay"]["std"]; ?>">去淘宝付款</a>
+                <a class="btn btn-success" href="<?= l("pay.urls")["std"]; ?>"><?= l("pay.goPay");?></a>
             </p>
         </div>
         <div class="span4">
-            <h3>额外技术支持版</h3>
-
-            <p>每月15元，每季度35元</p>
-
+            <h3><?= l("pay.type.ext");?></h3>
+            <p><?= l("pay.price.ext");?></p>
             <p>
-                <a class="btn btn-success" href="<?= $rpCfg["Pay"]["ext"]; ?>">去淘宝付款</a>
+                <a class="btn btn-success" href="<?= l("pay.urls")["ext"]; ?>"><?= l("pay.goPay");?></a>
             </p>
         </div>
     </div>
     <hr/>
     <p>
-        您直接在淘宝拍下对应商品即可，并记得<b>在备注中填写您的用户名 <span style="color: red;"><?= rpAuth::uname();?></span></b>，你还可以在下方的机房列表中选择你想要的机房.
+        <?= sprintf(l("pay.info.pay"), rpAuth::uname());?>
     </p>
 </section>
 
 <section id="position">
     <div class="page-header">
-        <h1>机房列表</h1>
+        <h1><?= l("pay.positionList");?></h1>
     </div>
-    <? lpTemplate::outputFile("{$rpROOT}/template/node-list.php");?>
+    <? lpTemplate::outputFile(rpROOT . "/template/widget/node-list.php");?>
 </section>
 
-<? lpTemplate::outputFile(lpLocale::i()->file("template/agreement.php")); ?>
+<? lpTemplate::outputFile($rpL->file("template/agreement.php")); ?>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>
 

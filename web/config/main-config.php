@@ -3,7 +3,7 @@
 // 禁止注册的用户名列表
 $rpCfg["NotAllowSignup"] = ["root"];
 
-// 域名, 内存(MiB), CPU(%), 硬盘(MiB), 流量(GiB/月)
+// 域名, 内存(MiB), CPU(MHz), 硬盘(MiB), 流量(GiB/月), 用户数
 $rpCfg["NodeList"] = [
     "jp1" => [
         "domain" => "jp1.rpvhost.net",
@@ -11,26 +11,24 @@ $rpCfg["NodeList"] = [
         "cpu" => 480,
         "disk" => 350,
         "traffic" => 60,
+        "users" => 40
     ],
     "us1" => [
         "domain" => "us1.rpvhost.net",
         "memory" => 48,
         "cpu" => 170,
         "disk" => 800,
-        "traffic" => 48
+        "traffic" => 48,
+        "users" => 50
     ],
-    "test" => [
-        "domain" => "test.rpvhost.net",
+    "hk1" => [
+        "domain" => "hk1.rpvhost.net",
         "memory" => 40,
-        "cpu" => 200,
-        "disk" => 500,
-        "traffic" => 30
+        "cpu" => 110,
+        "disk" => 1000,
+        "traffic" => 12,
+        "users" => 40
     ]
-];
-
-$rpCfg["Pay"] = [
-    "std" => "http://item.taobao.com/item.htm?id=16169509767",
-    "ext" => "http://item.taobao.com/item.htm?id=21047624871"
 ];
 
 // 多说站点ID

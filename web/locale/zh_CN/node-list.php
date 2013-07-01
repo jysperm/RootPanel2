@@ -16,9 +16,9 @@ $rpL["node-list.us1"] = <<< HTML
 
 HTML;
 
-$rpL["node-list.test"] = <<< HTML
+$rpL["node-list.hk1"] = <<< HTML
 
-目前该节点用于进行面板和相关自动化脚本的测试，不接受付费用户.
+即将增加香港节点.
 
 HTML;
 
@@ -31,9 +31,9 @@ $rpL["node-list"] = [
         "name" => "LocVPS洛杉矶",
         "description" => $rpL["node-list.us1"],
     ],
-    "test" => [
-        "name" => "测试节点",
-        "description" => $rpL["node-list.test"],
+    "hk1" => [
+        "name" => "LocVPS香港(测试中)",
+        "description" => $rpL["node-list.hk1"],
     ]
 ];
 

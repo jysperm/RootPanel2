@@ -125,9 +125,6 @@ abstract class lpPDOModel implements ArrayAccess
         if($limit > -1 && !($skip > -1))
             $sql .= " LIMIT {$limit}";
 
-        if($GLOBALS["lpCfg"]["LightPHP"]["Mode"])
-            lpDebug::log($sql, "lpPDOModel.select");
-
         $rs = static::getDB()->query($sql);
         $rs->setFetchMode(isset($config["mode"]) ? : static::$defaultDataType);
         return $rs;
@@ -207,9 +204,6 @@ abstract class lpPDOModel implements ArrayAccess
 
         $sql = "INSERT INTO `{$meta['table']}` ({$columns}) VALUES ({$values});";
 
-        if($GLOBALS["lpCfg"]["LightPHP"]["Mode"])
-            lpDebug::log($sql, "lpPDOModel.insert");
-
         $db->query($sql);
         return $db->lastInsertId();
     }
@@ -239,9 +233,6 @@ abstract class lpPDOModel implements ArrayAccess
 
         $sql = "UPDATE `{$meta['table']}` SET {$sqlSet} {$where}";
 
-        if($GLOBALS["lpCfg"]["LightPHP"]["Mode"])
-            lpDebug::log($sql, "lpPDOModel.update");
-
         return $db->exec($sql);
     }
 
@@ -257,9 +248,6 @@ abstract class lpPDOModel implements ArrayAccess
 
         $where = static::buildWhere($if);
         $sql = "DELETE FROM `{$meta['table']}` {$where}";
-
-        if($GLOBALS["lpCfg"]["LightPHP"]["Mode"])
-            lpDebug::log($sql, "lpPDOModel.delete");
 
         return static::getDB()->exec($sql);
     }
@@ -300,9 +288,6 @@ abstract class lpPDOModel implements ArrayAccess
         }
 
         $sql .= " PRIMARY KEY (`{$meta['PRIMARY']}`) ) ENGINE={$meta['engine']} CHARSET={$meta['charset']};";
-
-        if($GLOBALS["lpCfg"]["LightPHP"]["Mode"])
-            lpDebug::log($sql, "lpPDOModel.install");
 
         $db->exec($sql);
     }

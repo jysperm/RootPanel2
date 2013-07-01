@@ -16,8 +16,4 @@ $rpCfg["LogPerPage"] = 30;
 // 每页显示工单条数
 $rpCfg["TKPerPage"] = 15;
 
-// Gravatar基准URL
-$rpCfg["GravaterURL"] = "http://www.gravatar.com/avatar/";
-$rpCfg["GravaterURL"] = "http://ruby-china.org/avatar/";
-
 return $rpCfg;

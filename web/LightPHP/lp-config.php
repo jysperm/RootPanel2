@@ -40,8 +40,6 @@ return $lpCfg;
 /*
 
 
-
-
 $lpCfg["lpClasssicAuth"]["SecurityCode"] = "140fd4bfdbd9a925fbf10245a58f603e541c9b82063b8339754aed509af11698";
 
 $lpCfg["lpClassicAuth"]["GetPasswd"]["Default"] = [
@@ -55,12 +53,4 @@ $lpCfg["lpClassicAuth"]["CookieName"] = [
     "passwd" => "lp_cauth_token"
 ];
 
-$lpCfg["lpTrackAuth"]["CookieName"] = [
-    "user" => "lp_tauth_user",
-    "passwd" => "lp_tauth_token"
-];
-
-
-
-return $lpCfg;
 */
