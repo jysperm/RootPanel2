@@ -106,7 +106,7 @@ if(rpAuth::login())
     });
 </script>
 <!--[if lte IE 8]>
-    <script type='text/javascript' src="<?= "{$rpCfg["StaticPrefix"]}/{$rpCfg["DefaultLanguage"]}/kill-ie6.js";?>"></script>
+    <script type='text/javascript' src="<?= "{$rpCfg["StaticPrefix"]}/locale/{$rpCfg["DefaultLanguage"]}/kill-ie6.js";?>"></script>
 <![endif]-->
 <?= $this["endOfBody"]; ?>
 </body>
