@@ -15,11 +15,9 @@ $rpL["login.tips.passwdError"] = "用户名或密码错误";
 $rpL["login.popover.resetPasswdEMail"] = <<< HTML
 请用你的注册邮箱，向客服邮箱<code><i class="icon-envelope"></i>%s</code>发送邮件.
 HTML;
-$rpL["login.popover.resetPasswdEMail"] = sprintf($rpL["login.popover.resetPasswdEMail"], c("AdminsEmail"));
 
 $rpL["login.popover.resetPasswdQQ"] = <<< HTML
 使用你设置的QQ, 联系客服 %s.
 HTML;
-$rpL["login.popover.resetPasswdQQ"] = sprintf($rpL["login.popover.resetPasswdQQ"], l("contact.qqButton"));
 
 return $rpL;

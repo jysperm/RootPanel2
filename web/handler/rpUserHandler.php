@@ -4,15 +4,15 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-        $rpL->load("signup");
-
         if(!$this->isPost()) {
             lpTemplate::outputFile(rpROOT . "/template/user/signup.php");
         }
         else
         {
+            /** @var lpLocale $rpL */
+            $rpL = f("lpLocale");
+            $rpL->load("signup");
+
             $procError = function ($str) {
                 lpTemplate::outputFile(rpROOT . "/template/user/signup.php", [
                     "errorMsg" => $str,
@@ -62,17 +62,17 @@ class rpUserHandler extends lpHandler
 
     public function login()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-
-        $rpL->load(["contact", "login"]);
-
         if(!$this->isPost())
         {
             lpTemplate::outputFile(rpROOT . "/template/user/login.php");
         }
         else
         {
+            /** @var lpLocale $rpL */
+            $rpL = f("lpLocale");
+
+            $rpL->load(["login"]);
+
             $procError = function($str) {
                 lpTemplate::outputFile(rpROOT . "/template/user/login.php", [
                     "errorMsg" => $str,

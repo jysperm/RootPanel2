@@ -18,7 +18,8 @@ HTML;
 
 $rpL["node-list.hk1"] = <<< HTML
 
-即将增加香港节点.
+即将增加香港节点.<br />
+该节点不提供PPTP.
 
 HTML;
 

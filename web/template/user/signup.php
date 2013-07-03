@@ -5,7 +5,7 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 /** @var lpLocale $rpL */
 $rpL = f("lpLocale");
 
-$rpL->load(["base", "contact"]);
+$rpL->load(["base", "contact", "signup"]);
 
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
@@ -19,9 +19,9 @@ $base['title'] = $rpL["base.signup"];
     <a href="/user/login/" class="btn btn-success"><?= $rpL["signup.view.clickToLogin"];?></a>
 </section>
 <section>
-    <header><?= $rpL["signup.view.service"];?></header>
+    <header><?= $rpL["contact.service"];?></header>
     <ul class="nav-list">
-        <li><?= $rpL["signup.email"];?> <?= c("AdminsEmail");?></li>
+        <li><?= $rpL["contact.email"];?> <?= c("AdminsEmail");?></li>
         <?= $rpL["contact.list"];?>
     </ul>
 </section>
@@ -93,8 +93,8 @@ $base['title'] = $rpL["base.signup"];
                 <label class="control-label" for="passwdtext"><?= $rpL["signup.passwd"];?></label>
 
                 <div class="controls">
-                    <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required"/>
-                    <input type="password" class="input-xlarge hide" id="passwd" name="passwd"/>
+                    <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required" />
+                    <input type="password" class="input-xlarge hide" id="passwd" name="passwd" />
                     <button id="isShowPasswd" type="button" class="btn active"
                             data-toggle="button"><?= $rpL["signup.view.isRaw"];?></button>
                 </div>

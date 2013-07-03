@@ -19,7 +19,6 @@ HTML;
 
 $rpL["signup.view.isHasAccount"] = "已有帐号？";
 $rpL["signup.view.clickToLogin"] = "点击这里登录";
-$rpL["signup.view.service"] = "咨询";
 
 $rpL["signup.view.signingNow"] = "你正在注册的是：";
 

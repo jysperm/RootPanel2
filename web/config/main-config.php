@@ -40,7 +40,7 @@ $rpCfg["SMTP"] = [
     "host" => "smtp.exmail.qq.com",
     "address" => "robot@rpvhost.net",
     "user" => "robot@rpvhost.net",
-    "passwd" => "OrQGMW4a7oyJgb6f"
+    "passwd" => "passswd"
 ];
 
 return $rpCfg;

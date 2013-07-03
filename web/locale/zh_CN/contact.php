@@ -2,6 +2,9 @@
 
 $adminQQ = 184300584;
 
+$rpL["contact.email"] = "邮件";
+$rpL["contact.service"] = "咨询";
+
 $rpL["contact.qqButton"] = <<< HTML
 
 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$adminQQ}&site=qq&menu=yes">

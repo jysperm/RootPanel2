@@ -1,27 +1,30 @@
 <?php
 
-global $rpROOT, $rpCfg, $rpL;
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
 
-lpLocale::i()->load(["contact"]);
+$rpL->load(["base", "contact"]);
 
-$base['title'] = "客户评价";
+$base = new lpTemplate(rpROOT . "/template/base.php");
+
+$base['title'] = l("base.review");
 ?>
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header>咨询</header>
+        <header><?= $rpL["contact.service"];?></header>
         <ul class="nav-list">
-            <li>邮件 admins@rpvhost.net</li>
-            <?= $rpL["contact.list"];?>
+            <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
+            <?= l("contact.list");?>
         </ul>
     </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <script type="text/javascript">
-        var duoshuoQuery = {short_name: "<?= $rpCfg["duoshuoID"];?>"};
+        var duoshuoQuery = {short_name: "<?= c("DuoshuoID");?>"};
         (function () {
             var ds = document.createElement('script');
             ds.type = 'text/javascript';
@@ -34,10 +37,12 @@ $base['title'] = "客户评价";
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
     <section>
-        <header>客户评价</header>
-        <div class="ds-thread" data-thread-key="page-review" data-title="客户评价">
+        <header><?= l("base.review");?></header>
+        <div class="ds-thread" data-thread-key="page-review" data-title="><?= l("base.review");?>">
         </div>
     </section>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>
