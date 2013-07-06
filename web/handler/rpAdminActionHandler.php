@@ -54,9 +54,8 @@ class rpAdminActionHandler extends lpHandler
     public function getNewTicket()
     {
         $this->auth();
-        global $rpROOT;
 
-        lpTemplate::outputFile("{$rpROOT}/template/dialog/admin-new-ticket.php");
+        lpTemplate::outputFile(rpROOT . "/template/dialog/admin-new-ticket.php");
     }
 
     public function getPasswd()
@@ -86,7 +85,6 @@ class rpAdminActionHandler extends lpHandler
     public function enableUser()
     {
         $this->auth();
-        global $rpROOT, $rpL;
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
 
@@ -106,14 +104,13 @@ class rpAdminActionHandler extends lpHandler
 
         $this->finishRequest();
 
-        shell_exec("{$rpROOT}/../cli/create-account.php {$_POST['uname']}");
+        shell_exec(rpROOT . "/../cli/create-account.php {$_POST['uname']}");
         $cb();
     }
 
     public function disableUser()
     {
         $this->auth();
-        global $rpROOT;
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
 
@@ -133,7 +130,7 @@ class rpAdminActionHandler extends lpHandler
 
         $this->finishRequest();
 
-        shell_exec("{$rpROOT}/../cli/delete-account.php {$_POST['uname']} sure");
+        shell_exec(rpROOT . "/../cli/delete-account.php {$_POST['uname']} sure");
         $cb();
     }
 

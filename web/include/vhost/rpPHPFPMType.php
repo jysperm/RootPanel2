@@ -42,14 +42,13 @@ HTML;
 
     public function createConfig($hosts)
     {
-        global $rpROOT;
         $uname = $hosts["uname"];
 
         if(rpVirtualHostModel::count(["uname" => $hosts["uname"], "type" => "phpfpm"]))
         {
             if(!file_exists("/etc/php5/fpm/pool.d/{$uname}.conf"))
             {
-                $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm.php");
+                $tmp = new lpTemplate(rpROOT . "/../cli/template/php-fpm.php");
                 $tmp["uname"] = $uname;
 
                 file_put_contents("/tmp/temp", $tmp->getOutput());
@@ -69,7 +68,7 @@ HTML;
             }
         }
 
-        $tmp = new lpTemplate("{$rpROOT}/../cli/template/php-fpm-type.php");
+        $tmp = new lpTemplate(rpROOT . "/../cli/template/php-fpm-type.php");
         $tmp->setValues([
             "hosts" => $hosts,
             "uname" => $uname

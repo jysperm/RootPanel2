@@ -1,13 +1,8 @@
 #!/usr/bin/php
 <?php
 
-global $rpCfg;
-
-$rpROOT = dirname(__FILE__);
-$rpROOT = "{$rpROOT}/../panel";
-
-require_once("{$rpROOT}/LightPHP/lp-load.php");
-require_once("{$rpROOT}/include/rpApp.php");
+require_once(rpROOT . "/LightPHP/lp-load.php");
+require_once(rpROOT . "/include/rpApp.php");
 rpApp::helloWorld();
 
 $types = rpVHostType::loadTypes();

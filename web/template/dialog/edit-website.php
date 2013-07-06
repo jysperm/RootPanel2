@@ -1,7 +1,5 @@
 <?php
 
-global $rpCfg, $lpApp, $rpROOT, $rpL;
-
 $types = rpVHostType::loadTypes();
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];

@@ -1,11 +1,8 @@
 #!/usr/bin/php
 <?php
 
-$rpROOT = dirname(__FILE__);
-$rpROOT = "{$rpROOT}/../panel";
-
-require_once("{$rpROOT}/LightPHP/lp-load.php");
-require_once("{$rpROOT}/include/rpApp.php");
+require_once(rpROOT . "/LightPHP/lp-load.php");
+require_once(rpROOT . "/include/rpApp.php");
 rpApp::helloWorld();
 
 if(!isset($argv[1]) || !isset($argv[2]) || $argv[2]!="sure")

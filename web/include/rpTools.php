@@ -32,11 +32,16 @@ class rpTools
         else if($timeDiff < 0)
             return -$timeDiff . " 秒后";
         else if($timeDiff < 60)
-            return $timeDiff . " 秒前"; elseif($timeDiff < 3600)
-            return round($timeDiff / 60) . " 分前"; elseif($timeDiff < 3600 * 24)
-            return round($timeDiff / (3600)) . " 小时前"; elseif($timeDiff < 3600 * 24 * 7)
-            return round($timeDiff / (3600 * 24)) . " 天前"; elseif($timeDiff > (strtotime(gmdate("Y", time())) + 3600 * 11))
-            return gmdate("m", $time) . " 月 " . gmdate("d", $time) . " 日"; else
+            return $timeDiff . " 秒前";
+        else if($timeDiff < 3600)
+            return round($timeDiff / 60) . " 分前";
+        else if($timeDiff < 3600 * 24)
+            return round($timeDiff / (3600)) . " 小时前";
+        else if($timeDiff < 3600 * 24 * 7)
+            return round($timeDiff / (3600 * 24)) . " 天前";
+        else if($timeDiff > (strtotime(gmdate("Y", time())) + 3600 * 11))
+            return gmdate("m", $time) . " 月 " . gmdate("d", $time) . " 日";
+        else
             return gmdate("Y.m.d", $time);
     }
 }

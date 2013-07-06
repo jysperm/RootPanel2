@@ -9,11 +9,9 @@ class rpPanelActionHandler extends lpHandler
 
     private function reloadWebConfig($uname)
     {
-        global $rpROOT;
-
         $this->finishRequest();
 
-        shell_exec("{$rpROOT}/../cli/web-conf-maker.php {$uname}");
+        shell_exec(rpROOT . "//../cli/web-conf-maker.php {$uname}");
     }
 
     private function auth()
@@ -27,21 +25,17 @@ class rpPanelActionHandler extends lpHandler
 
     public function getNewVHost()
     {
-        global $rpROOT;
-
         $this->auth();
 
         lpLocale::i()->load(["panel"]);
 
-        $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
+        $tmp = new lpTemplate(rpROOT . "/template/dialog/edit-website.php");
         $tmp["new"] = true;
         $tmp->output();
     }
 
     public function getVHost()
     {
-        global $rpROOT;
-
         $this->auth();
         $vhost = new rpVirtualHostModel($_POST["id"]);
         if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
@@ -49,7 +43,7 @@ class rpPanelActionHandler extends lpHandler
 
         lpLocale::i()->load(["panel"]);
 
-        $tmp = new lpTemplate("{$rpROOT}/template/dialog/edit-website.php");
+        $tmp = new lpTemplate(rpROOT . "//template/dialog/edit-website.php");
         $tmp["rs"] = $vhost;
         $tmp->output();
     }
@@ -189,7 +183,6 @@ class rpPanelActionHandler extends lpHandler
     public function pptppasswd()
     {
         $this->auth();
-        global $rpROOT;
 
         if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
         {
@@ -210,7 +203,7 @@ class rpPanelActionHandler extends lpHandler
             if(function_exists("fastcgi_finish_request"))
                 fastcgi_finish_request();
 
-            shell_exec("sudo {$rpROOT}/../cli/pptp-passwd.php");
+            shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
         }
         else
         {

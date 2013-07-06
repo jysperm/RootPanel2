@@ -42,8 +42,7 @@ HTML;
 
     public function createConfig($hosts)
     {
-        global $rpROOT;
-        $tmp = new lpTemplate("{$rpROOT}/../cli/template/uwsgi-type.php");
+        $tmp = new lpTemplate(rpROOT . "/../cli/template/uwsgi-type.php");
         $tmp["hosts"] = $hosts;
         return [
             "nginx" => $tmp->getOutput()

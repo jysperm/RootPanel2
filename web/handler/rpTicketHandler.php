@@ -16,12 +16,11 @@ class rpTicketHandler extends lpHandler
     public function rpList()
     {
         lpLocale::i()->load(["ticket"]);
-        global $rpROOT;
 
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        lpTemplate::outputFile("{$rpROOT}/template/ticket/index.php");
+        lpTemplate::outputFile(rpROOT . "/template/ticket/index.php");
     }
 
     public function create()
@@ -64,7 +63,6 @@ class rpTicketHandler extends lpHandler
 
     public function view($id = null)
     {
-        global $rpROOT;
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
@@ -74,7 +72,7 @@ class rpTicketHandler extends lpHandler
         if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             die("该工单不属于你");
 
-        $tmp = new lpTemplate("{$rpROOT}/template/ticket/view.php");
+        $tmp = new lpTemplate(rpROOT . "/template/ticket/view.php");
         $tmp['tk'] = $tk;
         $tmp->output();
     }

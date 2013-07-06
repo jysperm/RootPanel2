@@ -1,8 +1,6 @@
 <?php
 
-global $rpROOT, $rpCfg, $popover, $rpL;
-
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate(rpROOT . "/template/base.php");
 $page = lpDividePage::fromGET();
 
 $base['title'] = $titile = "详细日志 #{$page}";

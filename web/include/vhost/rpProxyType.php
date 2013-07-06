@@ -44,8 +44,7 @@ HTML;
 
     public function createConfig($hosts)
     {
-        global $rpROOT;
-        $tmp = new lpTemplate("{$rpROOT}/../cli/template/proxy-type.php");
+        $tmp = new lpTemplate(rpROOT . "/../cli/template/proxy-type.php");
         $tmp["hosts"] = $hosts;
         return [
             "nginx" => $tmp->getOutput()

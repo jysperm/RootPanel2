@@ -1,10 +1,8 @@
 <?php
 
-global $rpROOT, $rpL, $rpCfg;
-
 $types = rpVHostType::loadTypes();
 
-$base = new lpTemplate("{$rpROOT}/template/base.php");
+$base = new lpTemplate(rpROOT . "/template/base.php");
 $base["title"] = "控制面板主页";
 
 $me = lpFactory::get("rpUserModel");

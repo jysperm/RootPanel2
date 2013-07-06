@@ -63,16 +63,15 @@ HTML;
 
     public function createConfig($hosts)
     {
-        global $rpROOT;
         $uname = $hosts["uname"];
 
-        $tmpApache = new lpTemplate("{$rpROOT}/../cli/template/apache2.php");
+        $tmpApache = new lpTemplate(rpROOT . "/../cli/template/apache2.php");
         $tmpApache->setValues([
             "hosts" => $hosts,
             "uname" => $uname
         ]);
 
-        $tmpNginx = new lpTemplate("{$rpROOT}/../cli/template/apache2-type.php");
+        $tmpNginx = new lpTemplate(rpROOT . "/../cli/template/apache2-type.php");
         $tmpNginx->setValues([
             "hosts" => $hosts,
             "uname" => $uname

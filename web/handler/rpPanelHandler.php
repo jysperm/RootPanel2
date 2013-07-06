@@ -2,26 +2,24 @@
 
 class rpPanelHandler extends lpHandler
 {
-    public function __invoke()
-    {
-        $this->auth();
-
-        lpTemplate::outputFile(rpROOT . "/template/panel/index.php");
-    }
-
     private function auth()
     {
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        if(f("lpUserModel")->isAdmin())
+        if(f("rpUserModel")->isAdmin())
             rpApp::goUrl("/admin/", true);
+    }
+
+    public function __invoke()
+    {
+        $this->auth();
+        lpTemplate::outputFile(rpROOT . "/template/panel/index.php");
     }
 
     public function logs()
     {
         $this->auth();
-
         lpTemplate::outputFile(rpROOT . "/template/panel/logs.php");
     }
 }

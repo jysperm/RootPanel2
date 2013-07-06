@@ -29,7 +29,6 @@ abstract class rpVHostType
             $objs[strtolower($v)]= new $name;
         }
 
-
         return $objs;
     }
 }

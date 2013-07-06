@@ -3,11 +3,8 @@
 
 global $rpCfg;
 
-$rpROOT = dirname(__FILE__);
-$rpROOT = "{$rpROOT}/../panel";
-
-require_once("{$rpROOT}/LightPHP/lp-load.php");
-require_once("{$rpROOT}/include/rpApp.php");
+require_once(rpROOT . "/LightPHP/lp-load.php");
+require_once(rpROOT . "/include/rpApp.php");
 rpApp::helloWorld();
 
 function createPasswd($length = 8)
