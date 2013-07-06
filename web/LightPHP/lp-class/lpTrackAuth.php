@@ -12,7 +12,7 @@ session_start();
  *
  *   该类提供更为高级的验证功能, 该类将会跟踪记录每一次会话, 你可以单独控制这些会话.
  */
-class lpTrackAuth implements lpAuthDrive
+class lpTrackAuth
 {
     const USER = "lp_tauth_user";
     const PASSWD = "lp_tauth_token";

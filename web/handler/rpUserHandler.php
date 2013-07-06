@@ -4,7 +4,8 @@ class rpUserHandler extends lpHandler
 {
     public function signup()
     {
-        if(!$this->isPost()) {
+        if(!$this->isPost())
+        {
             lpTemplate::outputFile(rpROOT . "/template/user/signup.php");
         }
         else

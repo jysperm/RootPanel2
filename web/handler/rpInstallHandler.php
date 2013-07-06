@@ -10,5 +10,7 @@ class rpInstallHandler extends lpHandler
         rpVirtualHostModel::install();
         rpTicketModel::install();
         rpTicketReplyModel::install();
+
+        rpApp::goUrl("/");
     }
 }

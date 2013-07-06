@@ -6,7 +6,7 @@
 *   @package LightPHP
 */
 
-class lpClassicAuth implements lpAuthDrive
+class lpClassicAuth
 {
     static public function succeedCallback($user)
     {

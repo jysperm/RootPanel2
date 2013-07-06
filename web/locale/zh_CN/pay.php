@@ -32,7 +32,7 @@ $rpL["pay.info.notPay"] = <<< HTML
 %s
 </ul>
 HTML;
-$rpL["pay.info.notPay"] = sprintf($rpL["pay.info.notPay"],c("AdminsEmail"), l("contact.list"));
+$rpL["pay.info.notPay"] = sprintf($rpL["pay.info.notPay"], c("AdminsEmail"), l("contact.list"));
 
 
 $rpL["pay.urls"] = [

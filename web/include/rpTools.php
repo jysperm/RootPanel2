@@ -25,10 +25,13 @@ class rpTools
         $timeDiff = time() - $time;
         if($timeDiff < -3600 * 24)
             return round($timeDiff / (-3600 * 24)) . " 天后";
-        elseif($timeDiff < -3600)
-            return round($timeDiff / (-3600)) . " 小时后"; elseif($timeDiff < -60)
-            return round($timeDiff / -60) . " 分后"; elseif($timeDiff < 0)
-            return -$timeDiff . " 秒后"; elseif($timeDiff < 60)
+        else if($timeDiff < -3600)
+            return round($timeDiff / (-3600)) . " 小时后";
+        else if($timeDiff < -60)
+            return round($timeDiff / -60) . " 分后";
+        else if($timeDiff < 0)
+            return -$timeDiff . " 秒后";
+        else if($timeDiff < 60)
             return $timeDiff . " 秒前"; elseif($timeDiff < 3600)
             return round($timeDiff / 60) . " 分前"; elseif($timeDiff < 3600 * 24)
             return round($timeDiff / (3600)) . " 小时前"; elseif($timeDiff < 3600 * 24 * 7)
