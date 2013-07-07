@@ -22,26 +22,31 @@ class rpTools
 
     public static function niceTime($time)
     {
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["tools"]);
+
         $timeDiff = time() - $time;
         if($timeDiff < -3600 * 24)
-            return round($timeDiff / (-3600 * 24)) . " 天后";
+            return sprintf(l("tools.niceTime.dayAfter"), round($timeDiff / (-3600 * 24)));
         else if($timeDiff < -3600)
-            return round($timeDiff / (-3600)) . " 小时后";
+            return sprintf(l("tools.niceTime.hoursAfter"), round($timeDiff / (-3600)));
         else if($timeDiff < -60)
-            return round($timeDiff / -60) . " 分后";
+            return sprintf(l("tools.niceTime.minutesAfter"), round($timeDiff / -60));
         else if($timeDiff < 0)
-            return -$timeDiff . " 秒后";
+            return sprintf(l("tools.niceTime.secondsAfter"), -$timeDiff);
         else if($timeDiff < 60)
-            return $timeDiff . " 秒前";
+            return sprintf(l("tools.niceTime.secondsBefore"), $timeDiff);
         else if($timeDiff < 3600)
-            return round($timeDiff / 60) . " 分前";
+            return sprintf(l("tools.niceTime.minutesBefore"), round($timeDiff / 60));
         else if($timeDiff < 3600 * 24)
-            return round($timeDiff / (3600)) . " 小时前";
+            return sprintf(l("tools.niceTime.hoursBefore"), round($timeDiff / (3600)));
         else if($timeDiff < 3600 * 24 * 7)
-            return round($timeDiff / (3600 * 24)) . " 天前";
+            return sprintf(l("tools.niceTime.daysBefore"), round($timeDiff / (3600 * 24)));
         else if($timeDiff > (strtotime(gmdate("Y", time())) + 3600 * 11))
-            return gmdate("m", $time) . " 月 " . gmdate("d", $time) . " 日";
+            return sprintf(l("tools.niceTime.date"), gmdate(l("tools.niceTime.date.1"), $time), gmdate(l("tools.niceTime.date.2"), $time));
         else
-            return gmdate("Y.m.d", $time);
+            return gmdate(l("tools.niceTime.date.full"), $time);
     }
 }
