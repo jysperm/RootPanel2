@@ -1,7 +1,5 @@
 <?php
 
-global $rpL;
-
 $rpL["log.type.signup"] = "注册了帐号";
 $rpL["log.type.delete"] = "删除了帐号";
 
@@ -23,3 +21,5 @@ $rpL["log.type.addTime"] = "被增加了 %s 天的使用时长";
 $rpL["log.type.adminCreateTicket"] = "管理员与你创建了工单 <a href='/ticket/view/%s/'># %s</a>";
 $rpL["log.type.adminCloseTicket"] = "管理员关闭了工单 <a href='/ticket/view/%s/'># %s</a>";
 $rpL["log.type.finishTicket"] = "管理员将工单 <a href='/ticket/view/%s/'># %s</a>标记为已完成";
+
+return $rpL;

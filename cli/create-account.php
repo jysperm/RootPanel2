@@ -31,5 +31,5 @@ shell_exec("sudo setquota -u {$uname} {$diskLimitSoft} {$diskLimitHard} 0 0 -a")
 
 $db = lpFactory::get("PDO");
 $db->exec(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';", $uname, createPasswd(30)));
-$db->exec(sprintf("GRANT ALL PRIVILEGES ON  `%s\_%%` . * TO  '%s'@'localhost';", $uname, $uname));
+$db->exec(sprintf("GRANT ALL PRIVILEGES ON  `%s\\_%%` . * TO  '%s'@'localhost';", $uname, $uname));
 

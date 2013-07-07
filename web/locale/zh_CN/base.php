@@ -28,4 +28,15 @@ RootPanel %s %s %s
 TEXT;
 $rpL["base.copyright"] = sprintf($rpL["base.copyright"], c("Version")["main"], c("Version")["time"], c("Version")["type"]);
 
+
+
+$rpL["base.fullTime"] = "Y.m.d H:i:s";
+
+$rpL["base.userType"] = [
+    "no" => "未购买",
+    "free" => "免费试用版",
+    "std" => "标准付费版",
+    "ext" => "额外技术支持版"
+];
+
 return $rpL;
