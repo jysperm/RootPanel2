@@ -20,10 +20,10 @@ $base['title'] = $rpL["base.login"];
 <section>
     <header><?= $rpL["login.view.isForgetPasswd"];?></header>
     <a href="#" class="btn btn-info reset-email" rel="popover-click"
-       data-content='<?= sprintf(l("login.popover.resetPasswdEMail"), c("AdminsEmail")); ?>'
+       data-content='<?= l("login.popover.resetPasswdEMail", c("AdminsEmail")); ?>'
        data-original-title="<?= $rpL["login.view.forgetPasswd.email"]; ?>"><?= $rpL["login.view.forgetPasswd.email"];?></a><br/>
     <a href="#" class="btn btn-info reset-qq" rel="popover-click"
-       data-content='<?= sprintf(l("login.popover.resetPasswdQQ"), l("contact.qqButton")); ?>'
+       data-content='<?= l("login.popover.resetPasswdQQ", l("contact.qqButton")); ?>'
        data-original-title="<?= $rpL["login.view.forgetPasswd.qq"]; ?>"> <?= $rpL["login.view.forgetPasswd.qq"];?></a>
 </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>

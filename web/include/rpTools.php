@@ -29,23 +29,23 @@ class rpTools
 
         $timeDiff = time() - $time;
         if($timeDiff < -3600 * 24)
-            return sprintf(l("tools.niceTime.dayAfter"), round($timeDiff / (-3600 * 24)));
+            return l("tools.niceTime.dayAfter", round($timeDiff / (-3600 * 24)));
         else if($timeDiff < -3600)
-            return sprintf(l("tools.niceTime.hoursAfter"), round($timeDiff / (-3600)));
+            return l("tools.niceTime.hoursAfter", round($timeDiff / (-3600)));
         else if($timeDiff < -60)
-            return sprintf(l("tools.niceTime.minutesAfter"), round($timeDiff / -60));
+            return l("tools.niceTime.minutesAfter", round($timeDiff / -60));
         else if($timeDiff < 0)
-            return sprintf(l("tools.niceTime.secondsAfter"), -$timeDiff);
+            return l("tools.niceTime.secondsAfter", -$timeDiff);
         else if($timeDiff < 60)
-            return sprintf(l("tools.niceTime.secondsBefore"), $timeDiff);
+            return l("tools.niceTime.secondsBefore", $timeDiff);
         else if($timeDiff < 3600)
-            return sprintf(l("tools.niceTime.minutesBefore"), round($timeDiff / 60));
+            return l("tools.niceTime.minutesBefore", round($timeDiff / 60));
         else if($timeDiff < 3600 * 24)
-            return sprintf(l("tools.niceTime.hoursBefore"), round($timeDiff / (3600)));
+            return l("tools.niceTime.hoursBefore", round($timeDiff / (3600)));
         else if($timeDiff < 3600 * 24 * 7)
-            return sprintf(l("tools.niceTime.daysBefore"), round($timeDiff / (3600 * 24)));
+            return l("tools.niceTime.daysBefore", round($timeDiff / (3600 * 24)));
         else if($timeDiff > (strtotime(gmdate("Y", time())) + 3600 * 11))
-            return sprintf(l("tools.niceTime.date"), gmdate(l("tools.niceTime.date.1"), $time), gmdate(l("tools.niceTime.date.2"), $time));
+            return l("tools.niceTime.date", gmdate(l("tools.niceTime.date.1"), $time), gmdate(l("tools.niceTime.date.2"), $time));
         else
             return gmdate(l("tools.niceTime.date.full"), $time);
     }

@@ -209,12 +209,19 @@ class lpApp
 
         function l($k = null)
         {
-            /** @var lpLocale $data */
-            $data = lpFactory::get("lpLocale");
+            /** @var lpLocale $rpL */
+            $rpL = lpFactory::get("lpLocale");
             if($k)
-                return $data->get($k);
-            else
-                return $data->data();
+            {
+                if(func_num_args() > 1)
+                {
+                    $args = func_get_args();
+                    $format = $rpL->get(array_shift($args));
+                    return vsprintf($format, $args);
+                }
+                return $rpL->get($k);
+            }
+            return $rpL->data();
         }
 
         function f($name, $tag = null)

@@ -15,7 +15,7 @@ if(rpAuth::login())
     $tkHold = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::HODE]);
     $tkFinish = rpTicketModel::count(["uname" => rpAuth::uname(), "status" => rpTicketModel::FINISH]);
 
-    $tkTitle = sprintf(l("base.tkTitle"), $tkOpen, $tkHold, $tkFinish);
+    $tkTitle = l("base.tkTitle", $tkOpen, $tkHold, $tkFinish);
 }
 ?>
 <!DOCTYPE html>

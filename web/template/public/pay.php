@@ -70,7 +70,7 @@ $base['title'] = l("pay.buy");
     </div>
     <hr/>
     <p>
-        <?= sprintf(l("pay.info.pay"), rpAuth::uname());?>
+        <?= l("pay.info.pay", rpAuth::uname());?>
     </p>
 </section>
 

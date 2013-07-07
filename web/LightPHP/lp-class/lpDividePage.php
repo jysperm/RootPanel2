@@ -21,7 +21,7 @@ class lpDividePage
         return ($this->curPage - 1) * $this->rowPerPage;
     }
 
-    static public function fromGET($name="p")
+    static public function fromGET($name = "p")
     {
         return isset($_GET[$name]) ? intval($_GET[$name]) : 1;
     }
