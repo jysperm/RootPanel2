@@ -53,6 +53,12 @@ $rpL["ticket.status.closed"] = "已关闭";
 
 $rpL["ticket.handler.invalidType"] = "类型错误";
 
+$rpL["ticket.createMail.title"] = "TK Create | %s | %s | %s";
+$rpL["ticket.createMail.body"] = <<< HTML
+%s<br /><a href='http://%s/ticket/view/%s/'># %s | %s</a>
+HTML;
+
+
 $rpL["ticket.template"]["freeRequest"]["title"] = "试用申请";
 $rpL["ticket.template"]["freeRequest"]["type"] = "pay";
 $rpL["ticket.template"]["freeRequest"]["content"] = <<< HTML

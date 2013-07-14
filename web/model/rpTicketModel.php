@@ -47,7 +47,6 @@ class rpTicketModel extends lpPDOModel
 
     static public function create($data)
     {
-        global $rpCfg;
         $ticket = [
             "time" => time(),
             "title" => rpTools::escapePlantText($data["title"]),
@@ -58,11 +57,10 @@ class rpTicketModel extends lpPDOModel
             "content" => rpTools::escapePlantText($data["content"])
         ];
 
-        $mailSender = function($id, $email) use($rpCfg, $ticket) {
+        $mailSender = function($id, $email) use($ticket) {
             $mailer = lpFactory::get("lpSmtp");
-            $mailTitle = "TK Create | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$ticket["title"]}";
-            $mailBody = "{$ticket["content"]}<br />";
-            $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$ticket["title"]}</a>";
+            $mailTitle = l("ticket.createMail.title", c("NodeID"), rpAuth::uname(), $ticket["title"]);
+            $mailBody = l("ticket.createMail.body", $ticket["content"], c("NodeList")[c("NodeID")]["domain"], $id, $id, $ticket["title"]);
 
             $mailer->send($email, $mailTitle, $mailBody, lpSmtp::HTMLMail);
         };
@@ -81,9 +79,9 @@ class rpTicketModel extends lpPDOModel
                 $id = rpTicketModel::insert($ticket);
                 rpLogModel::log($user, "log.type.adminCreateTicket", [$id, $id], $ticket, rpAuth::uname());
 
-                return function() use($mailSender, $id, $user) {
+                rpApp::registerAtexit(function() use($mailSender, $id, $user) {
                     $mailSender($id, rpUserModel::by("uname", $user)["email"]);
-                };
+                });
             }
         }
         else
@@ -95,9 +93,9 @@ class rpTicketModel extends lpPDOModel
             $id = rpTicketModel::insert($ticket);
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
-            return function() use($mailSender, $id, $rpCfg) {
-                $mailSender($id, $rpCfg["adminsEmail"]);
-            };
+            rpApp::registerAtexit(function() use($mailSender, $id) {
+                $mailSender($id, c("adminsEmail"));
+            });
         }
     }
 

@@ -13,33 +13,9 @@ abstract class lpHandler
         return $_SERVER["REQUEST_METHOD"] == "POST";
     }
 
-    static protected function finishRequest()
-    {
-        if(function_exists("fastcgi_finish_request"))
-        {
-            session_write_close();
-            fastcgi_finish_request();
-        }
-    }
-
     public function __construct()
     {
         if(!ob_get_level())
             ob_start();
     }
-
-    public function __destruct()
-    {
-        //ob_end_flush();
-    }
-}
-
-class lpPage extends lpHandler
-{
-
-}
-
-class lpAction extends lpHandler
-{
-
 }

@@ -33,13 +33,11 @@ class rpTicketHandler extends lpHandler
         if(!in_array($_POST["type"], array_keys(l("ticket.types"))))
             die(l("ticket.handler.invalidType"));
 
-        $cb = rpTicketModel::create($_POST);
+        rpTicketModel::create($_POST);
 
         echo json_encode(["status" => "ok"]);
 
-        $this->finishRequest();
-
-        $cb();
+        rpApp::finishRequest();
     }
 
     public function reply($id = null)
