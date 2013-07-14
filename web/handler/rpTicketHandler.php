@@ -15,8 +15,6 @@ class rpTicketHandler extends lpHandler
 
     public function rpList()
     {
-        lpLocale::i()->load(["ticket"]);
-
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
@@ -25,14 +23,15 @@ class rpTicketHandler extends lpHandler
 
     public function create()
     {
-        lpLocale::i()->load(["ticket"]);
-        global $rpL;
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+        $rpL->load("ticket");
 
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        if(!in_array($_POST["type"], array_keys($rpL["ticket.types"])))
-            die("类型不合法");
+        if(!in_array($_POST["type"], array_keys(l("ticket.types"))))
+            die(l("ticket.handler.invalidType"));
 
         $cb = rpTicketModel::create($_POST);
 

@@ -3,8 +3,6 @@
 <section id="agreement">
     <header>政策和约定</header>
     <p><b>禁止事项</b></p>
-
-    <p>禁止使用RP主机进行以下行为:</p>
     <ul>
         <li>违反服务器当地法律</li>
         <li>放置容易引起GFW封杀的站点，放置容易引起搜索引擎封杀的站点</li>

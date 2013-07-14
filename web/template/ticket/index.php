@@ -1,19 +1,27 @@
 <?php
+
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
+
+$rpL->load(["ticket"]);
+
 $base = new lpTemplate(rpROOT . "/template/base.php");
 $page = lpDividePage::fromGET();
-$base['title'] = $titile = "工单 #{$page}";
+
+$base['title'] = $titile = l("ticket.title", $page);
 
 $rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
-$dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
+$dPage = new lpDividePage($rows, $page, c("TKPerPage"));
 
-if(isset($_GET["template"]))
+if(!empty($_GET["template"]))
     $template = in_array($_GET["template"], array_keys($rpL["ticket.template"])) ? $_GET["template"] : null;
-else
-    $template = null;
+
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-<? if(!$template): ?>
+<? if(empty($template)): ?>
     <li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> 工单列表 #<?= $page; ?></a></li>
     <li><a href="#section-new"><i class="icon-chevron-right"></i> 创建工单</a></li>
 <? else: ?>
@@ -24,10 +32,8 @@ else
 <? lpTemplate::beginBlock(); ?>
 <style type="text/css">
     table {
-
         word-break: break-all;
     }
-
     textarea {
         width: 530px;
     }
@@ -48,7 +54,8 @@ else
 </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
-<? if(!$template): ?>
+<? lpTemplate::beginBlock(); ?>
+<? if(empty($template)): ?>
     <section id="section-list">
         <header>工单列表 #<?= $page; ?></header>
         <table class="table table-striped table-bordered table-condensed">
@@ -62,7 +69,7 @@ else
             </tr>
             </thead>
             <tbody>
-            <? foreach(rpTicketModel::select(["uname" => rpAuth::uname()], ["sort" => ["lastchange", false], "limit" => $rpCfg["TKPerPage"], "skip" => $dPage->getPos()]) as $tk): ?>
+            <? foreach(rpTicketModel::select(["uname" => rpAuth::uname()], ["sort" => ["lastchange", false], "limit" => c("TKPerPage"), "skip" => $dPage->getPos()]) as $tk): ?>
                 <tr>
                     <td><?= $tk["id"]; ?></td>
                     <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
@@ -78,7 +85,7 @@ else
         </table>
         <div class="pagination pagination-centered">
             <ul>
-                <?= $dPage->getOutput(function($page, $curPage){
+                <?= $dPage->getOutput(function($page, $curPage) {
                     if($curPage == $page || $page == lpDividePage::splitter)
                         return "<li class='active'><a href='#'>{$page}</a></li>";
                     else
@@ -98,7 +105,7 @@ else
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="title" name="title"
-                           required="required" <?= $template ? "value='" . $rpL["ticket.template"][$template]["title"] . "'" : ""; ?> />
+                           required="required" <?= !empty($template) ? "value='" . $rpL["ticket.template"][$template]["title"] . "'" : ""; ?> />
                 </label>
             </div>
         </div>
@@ -109,7 +116,7 @@ else
                 <label class="radio">
                     <select id="type" name="type">
                         <? foreach($rpL["ticket.types.long"] as $k => $v): ?>
-                            <? if(!$template): ?>
+                            <? if(empty($template)): ?>
                                 <option
                                     value="<?= $k; ?>" <?= $k == "miao" ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
                                 <? else: ?>
@@ -127,7 +134,7 @@ else
             <div class="controls">
                 <label class="radio">
                     <textarea id="content" name="content"
-                              rows="10"><?= $template ? $rpL["ticket.template"][$template]["content"] : ""; ?></textarea><br/>
+                              rows="10"><?= !empty($template) ? $rpL["ticket.template"][$template]["content"] : ""; ?></textarea><br />
                 </label>
             </div>
         </div>
@@ -136,5 +143,6 @@ else
         </div>
     </form>
 </section>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

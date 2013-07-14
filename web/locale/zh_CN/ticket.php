@@ -1,6 +1,6 @@
 <?php
 
-global $rpL;
+$rpL["ticket.title"] = "工单 #%s";
 
 $rpL["ticket.types"] = [
     "pay" => "财务问题",
@@ -25,6 +25,8 @@ $rpL["ticket.status.hode"] = "等待处理";
 $rpL["ticket.status.finish"] = "已处理";
 $rpL["ticket.status.closed"] = "已关闭";
 
+$rpL["ticket.handler.invalidType"] = "类型错误";
+
 $rpL["ticket.template"]["freeRequest"]["title"] = "试用申请";
 $rpL["ticket.template"]["freeRequest"]["type"] = "pay";
 $rpL["ticket.template"]["freeRequest"]["content"] = <<< HTML
@@ -46,5 +48,7 @@ $rpL["ticket.template"]["configRequest"]["content"] = <<< HTML
 * 保证不会干扰到其他用户和服务器运行
 
 HTML;
+
+return $rpL;
 
 

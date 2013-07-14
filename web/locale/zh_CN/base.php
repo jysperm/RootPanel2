@@ -10,7 +10,7 @@ $rpL["base.review"] = "客户评价";
 $rpL["base.manual"] = "用户手册";
 $rpL["base.panel"] = "管理面板";
 $rpL["base.pay-free"] = "申请试用";
-$rpL["base.bbs"] = "用户论坛";
+$rpL["base.bbs"] = "公告和论坛";
 
 $rpL["base.signup"] = "注册";
 $rpL["base.login"] = "登录";
