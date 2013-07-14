@@ -1,6 +1,19 @@
 <?php
 
 $rpL["ticket.title"] = "工单 #%s";
+$rpL["ticket.ticketList"] = "工单列表 #%s";
+$rpL["ticket.create"] = "创建工单";
+
+$rpL["ticket.list.id"] = "ID";
+$rpL["ticket.list.type"] = "类型";
+$rpL["ticket.list.status"] = "状态";
+$rpL["ticket.list.title"] = "标题";
+$rpL["ticket.list.reply"] = "回复";
+
+$rpL["ticket.replyBy"] = "%s 个回复 | %s 于 %s";
+
+$rpL["ticket.create.content"] = "内容";
+$rpL["ticket.create.create"] = "内容";
 
 $rpL["ticket.types"] = [
     "pay" => "财务问题",
@@ -10,6 +23,7 @@ $rpL["ticket.types"] = [
     "linux" => "Linux环境",
     "runtime" => "语言支持"
 ];
+$rpL["ticket.types.default"] = "miao";
 
 $rpL["ticket.types.long"] = [
     "pay" => "购买/续费/支付",
@@ -21,8 +35,8 @@ $rpL["ticket.types.long"] = [
 ];
 
 $rpL["ticket.status.open"] = "开放中";
-$rpL["ticket.status.hode"] = "等待处理";
-$rpL["ticket.status.finish"] = "已处理";
+$rpL["ticket.status.hode"] = "客服已回复";
+$rpL["ticket.status.finish"] = "客服已处理";
 $rpL["ticket.status.closed"] = "已关闭";
 
 $rpL["ticket.handler.invalidType"] = "类型错误";
