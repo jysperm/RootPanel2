@@ -1,6 +1,6 @@
 <?php
 
-$rpL["ticket.title"] = "工单 #%s";
+$rpL["ticket.title"] = "工单列表";
 $rpL["ticket.ticketList"] = "工单列表 #%s";
 $rpL["ticket.create"] = "创建工单";
 
@@ -9,6 +9,16 @@ $rpL["ticket.list.type"] = "类型";
 $rpL["ticket.list.status"] = "状态";
 $rpL["ticket.list.title"] = "标题";
 $rpL["ticket.list.reply"] = "回复";
+
+$rpL["ticket.nav.opeator"] = "操作";
+$rpL["ticket.nav.returnList"] = "返回列表";
+$rpL["ticket.nav.returnPanel"] = "返回面板";
+
+$rpL["ticket.opeator.close"] = "关闭工单";
+$rpL["ticket.opeator.finish"] = "标记完成";
+$rpL["ticket.opeator.content"] = "回复内容";
+$rpL["ticket.opeator.reply"] = "创建回复";
+$rpL["ticket.opeator.closed"] = "工单已被关闭";
 
 $rpL["ticket.replyBy"] = "%s 个回复 | %s 于 %s";
 

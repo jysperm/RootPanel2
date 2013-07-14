@@ -1,16 +1,25 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
+
+$rpL->load(["base", "ticket"]);
+
 $base = new lpTemplate(rpROOT . "/template/base.php");
-$base['title'] = $titile = "工单 #{$tk["id"]}";
+$tk = $this["tk"];
+
+$base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
 
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-    <li class="active"><a href="#content"><i class="icon-chevron-right"></i> 工单 #<?= $tk["id"]; ?></a></li>
-    <li><a href="#replys"><i class="icon-chevron-right"></i> 回复</a></li>
-    <li><a href="#operation"><i class="icon-chevron-right"></i> 操作</a></li>
-    <li><a href="/ticket/"><i class="icon-arrow-left"></i> 返回工单</a></li>
-    <li><a href="/panel/"><i class="icon-arrow-left"></i> 返回面板</a></li>
+    <li class="active"><a href="#content"><i class="icon-chevron-right"></i> <?= $titile; ?></a></li>
+    <li><a href="#replys"><i class="icon-chevron-right"></i> <?= l("ticket.list.reply"); ?></a></li>
+    <li><a href="#operation"><i class="icon-chevron-right"></i> <?= l("ticket.nav.opeator"); ?></a></li>
+    <li><a href="/ticket/"><i class="icon-arrow-left"></i> <?= l("ticket.nav.returnList"); ?></a></li>
+    <li><a href="/panel/"><i class="icon-arrow-left"></i> <?= l("ticket.nav.returnPanel"); ?></a></li>
 <? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -60,6 +69,7 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
 <section id="content">
     <header><?= $tk["title"]; ?></header>
     <p>
@@ -67,13 +77,13 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
     </p>
     <hr />
     <span class="label">
-        <span title="<?= gmdate("Y.m.d H:i:s", $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
+        <span title="<?= gmdate(l("base.fullTime"), $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
         | <?= $tk["uname"]; ?>
     </span>
 </section>
 
 <section id="replys">
-    <header>回复 (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
+    <header><?= l("ticket.list.reply"); ?> (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
     <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
         <div class="box">
             <?= $reply["content"]; ?>
@@ -88,18 +98,18 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
 </section>
 
 <section id="operation">
-    <header>操作</header>
+    <header><?= l("ticket.nav.opeator"); ?></header>
     <? if($tk["status"] != rpTicketModel::CLOSED && (!$tk["onlyclosebyadmin"] || lpFactory::get("rpUserModel")->isAdmin())): ?>
-        <button class="btn btn-danger" id="deleteTK">关闭工单</button>
+        <button class="btn btn-danger" id="deleteTK"><?= l("ticket.opeator.close"); ?></button>
     <? endif; ?>
     <? if(lpFactory::get("rpUserModel")->isAdmin() && ($tk["status"] == rpTicketModel::HODE || $tk["status"] == rpTicketModel::OPEN)): ?>
-        <button class="btn btn-success" id="finishTK">标记完成</button>
+        <button class="btn btn-success" id="finishTK"><?= l("ticket.opeator.finish"); ?></button>
     <? endif; ?>
     <hr/>
     <? if($tk["status"] != "ticket.status.closed"): ?>
         <form class="form-horizontal">
             <div class="control-group">
-                <label class="control-label" for="content">回复内容</label>
+                <label class="control-label" for="content"><?= l("ticket.opeator.content"); ?></label>
 
                 <div class="controls">
                     <label class="radio">
@@ -108,14 +118,13 @@ $base['title'] = $titile = "工单 #{$tk["id"]}";
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large">创建回复</button>
+                <button type="submit" class="btn btn-primary btn-large"><?= l("ticket.opeator.reply"); ?></button>
             </div>
         </form>
     <? else: ?>
-        <div>
-            工单已被关闭
-        </div>
+        <div><?= l("ticket.opeator.closed"); ?></div>
     <? endif; ?>
 </section>
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

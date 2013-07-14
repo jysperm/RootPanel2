@@ -10,7 +10,7 @@ $rpL->load(["base", "ticket"]);
 $base = new lpTemplate(rpROOT . "/template/base.php");
 $page = lpDividePage::fromGET();
 
-$base['title'] = $titile = l("ticket.title", $page);
+$base['title'] = l("ticket.title");
 
 $rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
@@ -24,8 +24,10 @@ if(!empty($_GET["template"]))
 <? if(empty($template)): ?>
     <li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> <?= l("ticket.ticketList", $page);?></a></li>
     <li><a href="#section-new"><i class="icon-chevron-right"></i> <?= l("ticket.create");?></a></li>
+    <li><a href="/panel/"><i class="icon-arrow-left"></i> <?= l("ticket.nav.returnPanel");?></a></li>
 <? else: ?>
-    <li class="active"><a href="#section-new"><i class="icon-chevron-right"></i> <?= l("ticket.create");?></a></li>
+    <li class="active"><a href="#section-new"><i class="icon-chevron-right"></i> <?= l("ticket.create");?></a>
+    <li><a href="/panel/"><i class="icon-arrow-left"></i> <?= l("ticket.nav.returnPanel");?></a></li>
 <? endif; ?>
 <? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
@@ -72,8 +74,8 @@ if(!empty($_GET["template"]))
             <? foreach(rpTicketModel::select(["uname" => rpAuth::uname()], ["sort" => ["lastchange", false], "limit" => c("TKPerPage"), "skip" => $dPage->getPos()]) as $tk): ?>
                 <tr>
                     <td><?= $tk["id"]; ?></td>
-                    <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
-                    <td><?= $rpL[$tk["status"]]; ?></td>
+                    <td><?= l("ticket.types")[$tk["type"]]; ?></td>
+                    <td><?= l($tk["status"]); ?></td>
                     <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                     <td>
                         <?= l("ticket.replyBy", rpTicketReplyModel::count(["replyto" => $tk["id"]]), $tk["lastreply"],
@@ -121,7 +123,7 @@ if(!empty($_GET["template"]))
                                     value="<?= $k; ?>" <?= $k == l("ticket.types.default") ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
                                 <? else: ?>
                                 <option
-                                    value="<?= $k; ?>" <?= $k == $rpL["ticket.template"][$template]["type"] ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
+                                    value="<?= $k; ?>" <?= $k == l("ticket.template")[$template]["type"] ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
                             <? endif; ?>
                         <? endforeach; ?>
                     </select>
@@ -134,7 +136,7 @@ if(!empty($_GET["template"]))
             <div class="controls">
                 <label class="radio">
                     <textarea id="content" name="content"
-                              rows="10"><?= !empty($template) ? $rpL["ticket.template"][$template]["content"] : ""; ?></textarea><br />
+                              rows="10"><?= !empty($template) ? l("ticket.template")[$template]["content"] : ""; ?></textarea><br />
                 </label>
             </div>
         </div>
