@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["logs.title"] = "详细日志 #%s";
 
 $rpL["logs.user"] = "(用户)";

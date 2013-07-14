@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["admin-list"] = [
     "rpadmin" => [
         "name" => "精英王子",

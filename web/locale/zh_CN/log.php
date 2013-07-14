@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["log.type.signup"] = "注册了帐号";
 $rpL["log.type.delete"] = "删除了帐号";
 

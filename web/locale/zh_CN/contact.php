@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $adminQQ = 184300584;
 
 $rpL["contact.email"] = "邮件";

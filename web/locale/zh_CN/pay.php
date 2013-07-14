@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["pay.buy"] = "购买";
 $rpL["pay.positionList"] = "机房列表";
 $rpL["pay.agreement"] = "政策和约定";

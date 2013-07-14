@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["sites.title"] = "优质站点展示";
 
 $rpL["sites.big"] = [

@@ -1,5 +1,7 @@
 <?
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["form.error"] = "错误";
 $rpL["form.alert"] = "注意";
 $rpL["form.notice"] = "提示";

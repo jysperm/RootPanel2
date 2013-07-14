@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["ticket.title"] = "工单列表";
 $rpL["ticket.ticketList"] = "工单列表 #%s";
 $rpL["ticket.create"] = "创建工单";

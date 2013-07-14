@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 $rpL["login.account"] = "帐号";
 $rpL["login.passwd"] = "密码";
 
