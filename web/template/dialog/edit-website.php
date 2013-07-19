@@ -1,9 +1,15 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
+
+$rpL->load(["panel", "edit-website"]);
+
 $types = rpVHostType::loadTypes();
 
-$rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
-
+$rpDomain = c("NodeList")[c("NodeID")]["domain"];
 $vhost = $this["vhost"];
 
 if($this["new"])
@@ -29,36 +35,31 @@ if($this["new"])
 
 <form class="website-form">
     <div class="form-horizontal">
-        <h4>常规</h4>
-
+        <h4><?= l("edit-website.general"); ?></h4>
         <div class="control-group">
             <label class="control-label" for="ison"><i class="icon-check"></i></label>
-
             <div class="controls">
                 <button id="ison" name="ison" type="button" class="btn <?= ($vhost["ison"]) ? "active" : ""; ?>"
                         data-toggle="button">
-                    启用站点
+                    <?= l("edit-website.enabledSite"); ?>
                 </button>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a></label>
-
+            <label class="control-label"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.id"); ?>"><?= l("panel.website.id"); ?></a></label>
             <div class="controls">
                 <span class="label"><?= $vhost["id"]; ?></span>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="domains"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.dialog.domain"]; ?>">绑定的域名</a></label>
-
+            <label class="control-label" for="domains"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.dialog.domain"); ?>"><?= l("edit-website.domain"); ?></a></label>
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= $vhost["domains"]; ?>"
                        required="required"/>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="source"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a></label>
-
+            <label class="control-label" for="source"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.source"); ?>"><?= l("panel.website.source"); ?></a></label>
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="source" name="source" value="<?= $vhost["source"]; ?>"
                        required="required"/>
@@ -68,11 +69,9 @@ if($this["new"])
     <hr/>
 
     <div class="form-horizontal">
-        <h4>站点类型</h4>
-
+        <h4><?= l("edit-website.siteType"); ?></h4>
         <div class="control-group">
             <label class="control-label">&raquo;</label>
-
             <div class="controls">
                 <? foreach($types as $k => $v): ?>
                     <label class="radio">
@@ -85,7 +84,6 @@ if($this["new"])
         </div>
     </div>
     <hr/>
-
     <div class="form-horizontal">
         <h4 id="title-type"><?= $types[$vhost["type"]]->meta()["name"]; ?></h4>
         <? foreach($types as $k => $v): ?>
@@ -95,13 +93,10 @@ if($this["new"])
         <? endforeach; ?>
     </div>
     <hr/>
-
     <div class="form-horizontal">
-        <h4>通用</h4>
-
+        <h4><?= l("edit-website.common"); ?></h4>
         <div class="control-group">
-            <label class="control-label" for="alias"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.alias"]; ?>">Alias别名</a></label>
-
+            <label class="control-label" for="alias"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.alias"); ?>">Alias别名</a></label>
             <div class="controls">
                 <label class="radio">
                     <textarea id="alias" name="alias" rows="4"><?php
@@ -113,23 +108,21 @@ if($this["new"])
         </div>
         <div class="control-group">
             <label class="control-label" for="autoindex"><i class="icon-check"></i></label>
-
             <div class="controls">
                 <label class="radio">
                     <button id="autoindex" name="autoindex" type="button"
                             class="btn <?= ($vhost["general"]["autoindex"]) ? "active" : ""; ?>" data-toggle="button">
-                        对目录显示文件列表
+                        <?= l("edit-website.autoindex"); ?>
                     </button>
                 </label>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="indexs"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.index"]; ?>">默认首页</a></label>
-
+            <label class="control-label" for="indexs"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.index");?>"><?= l("edit-website.indexs");?></a></label>
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="indexs" name="indexs"
-                           value="<?= $vhost["general"]["indexs"]; ?>"/>
+                           value="<?= $vhost["general"]["indexs"];?>"/>
                 </label>
             </div>
         </div>
@@ -137,22 +130,20 @@ if($this["new"])
     <hr/>
 
     <div class="form-horizontal">
-        <h4>SSL</h4>
-
+        <h4><?= l("edit-website.ssl");?></h4>
         <div class="control-group">
             <label class="control-label" for="isssl"><i class="icon-check"></i></label>
-
             <div class="controls">
                 <label class="radio">
                     <button id="isssl" name="isssl" type="button"
                             class="btn <?= ($vhost["general"]["isssl"]) ? "active" : ""; ?>"
-                            data-toggle="button">启用SSL
+                            data-toggle="button"><?= l("edit-website.enabledSsl");?>
                     </button>
                 </label>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="sslcrt">SSL证书</label>
+            <label class="control-label" for="sslcrt"><?= l("edit-website.sslcrt");?></label>
 
             <div class="controls">
                 <label class="radio">
@@ -162,7 +153,7 @@ if($this["new"])
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="sslkey">SSL私钥</label>
+            <label class="control-label" for="sslkey"><?= l("edit-website.sslkey");?></label>
 
             <div class="controls">
                 <label class="radio">
