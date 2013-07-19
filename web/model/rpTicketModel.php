@@ -94,7 +94,7 @@ class rpTicketModel extends lpPDOModel
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
             rpApp::registerAtexit(function() use($mailSender, $id) {
-                $mailSender($id, c("adminsEmail"));
+                $mailSender($id, c("AdminsEmail"));
             });
         }
     }
@@ -144,7 +144,7 @@ class rpTicketModel extends lpPDOModel
             $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
 
             return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
-                $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+                $mailer->send($rpCfg["AdminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
             };
         }
     }
@@ -173,7 +173,7 @@ class rpTicketModel extends lpPDOModel
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
             return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
-                $mailer->send($rpCfg["adminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
+                $mailer->send($rpCfg["AdminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
             };
         }
     }

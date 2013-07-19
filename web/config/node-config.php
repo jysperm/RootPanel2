@@ -1,7 +1,7 @@
 <?php
 
 $rpCfg["NodeName"] = "RootPanel 2.0";
-$rpCfg["NodeID"] = "test";
+$rpCfg["NodeID"] = "hk1";
 
 // 静态文件前缀，通过该选项可以将静态文件置于另外的服务器
 $rpCfg["StaticPrefix"] = "/static";

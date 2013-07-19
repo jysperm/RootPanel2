@@ -25,7 +25,7 @@ $rpL["ticket.opeator.closed"] = "工单已被关闭";
 $rpL["ticket.replyBy"] = "%s 个回复 | %s 于 %s";
 
 $rpL["ticket.create.content"] = "内容";
-$rpL["ticket.create.create"] = "内容";
+$rpL["ticket.create.create"] = "创建工单";
 
 $rpL["ticket.types"] = [
     "pay" => "财务问题",

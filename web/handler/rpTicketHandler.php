@@ -7,12 +7,6 @@ class rpTicketHandler extends lpHandler
         rpApp::goUrl("/ticket/list/");
     }
 
-    public function __call($name, $args)
-    {
-        if(in_array($name, ["list"]))
-            call_user_func_array([$this, "rp{$name}"], $args);
-    }
-
     public function rpList()
     {
         if(!rpAuth::login())
@@ -20,6 +14,22 @@ class rpTicketHandler extends lpHandler
 
         lpTemplate::outputFile(rpROOT . "/template/ticket/index.php");
     }
+
+    public function view($id = null)
+    {
+        if(!rpAuth::login())
+            rpApp::goUrl("/user/login/", true);
+
+        $tk = new rpTicketModel($id);
+        if($tk->isNull())
+            throw new Exception(l("ticket.handler.invalidID"));
+        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
+            throw new Exception(l("ticket.handler.invalidPermission"));
+
+        lpTemplate::outputFile(rpROOT . "/template/ticket/view.php", ["tk" => $tk]);
+    }
+
+    // 以下是 JSON 请求，之所以没有使用单独的处理器，是因为需要 rpApp::finishRequest().
 
     public function create()
     {
@@ -55,20 +65,6 @@ class rpTicketHandler extends lpHandler
         echo json_encode(["status" => "ok"]);
 
         rpApp::finishRequest();
-    }
-
-    public function view($id = null)
-    {
-        if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
-
-        $tk = new rpTicketModel($id);
-        if($tk->isNull())
-            throw new Exception(l("ticket.handler.invalidID"));
-        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
-            throw new Exception(l("ticket.handler.invalidPermission"));
-
-        lpTemplate::outputFile(rpROOT . "/template/ticket/view.php", ["tk" => $tk]);
     }
 
     public function close($id = null)

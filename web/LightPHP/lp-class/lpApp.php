@@ -255,6 +255,8 @@ function lpDefaultRouter($defaultHandler, $prefix = "")
 {
     return function() use($defaultHandler, $prefix)
     {
+        $keywords = ["list"];
+
         $queryStrLen = isset($_SERVER["QUERY_STRING"]) ? strlen($_SERVER["QUERY_STRING"])+1 : 0;
         $url = substr($_SERVER["REQUEST_URI"], 0, strlen($_SERVER["REQUEST_URI"]) - $queryStrLen);
         $params = array_filter(explode("/", $url));
@@ -262,22 +264,22 @@ function lpDefaultRouter($defaultHandler, $prefix = "")
         if(!$params)
             $params = $defaultHandler;
 
-        $handlerName = array_filter(explode("-", array_shift($params)));
+        $handler = array_filter(explode("-", array_shift($params)));
 
-        foreach($handlerName as &$word)
+        foreach($handler as &$word)
             $word = strtoupper(substr($word, 0, 1)) . substr($word, 1);
 
-        $handlerName = $prefix . implode("", $handlerName) . "Handler";
+        $handler = $prefix . implode("", $handler) . "Handler";
 
-        if(!class_exists($handlerName))
-            throw new Exception("class {$handlerName} is not exists");
-        if(!is_subclass_of($handlerName, "lpHandler"))
-            throw new Exception("{$handlerName} is not a subclass of lpHander");
-        $hander = new $handlerName;
+        if(!class_exists($handler))
+            throw new Exception("class {$handler} is not exists");
+        if(!is_subclass_of($handler, "lpHandler"))
+            throw new Exception("{$handler} is not a subclass of lpHander");
 
-        if($params)
-            call_user_func_array([$hander, str_replace("-", "", array_shift($params))], $params);
-        else
-            $hander();
+        $actionName = array_shift($params);
+        if(in_array($actionName, $keywords))
+            $actionName = $prefix . $actionName;
+
+        $handler::callAction($actionName, $params);
     };
 }

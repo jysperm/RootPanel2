@@ -97,14 +97,7 @@ if(rpAuth::login())
 </div>
 <script type='text/javascript' src='<?= c("jQueryPrefix");?>/jquery.js'></script>
 <script type='text/javascript' src='<?= c("BootstrapPrefix");?>/js/bootstrap.js'></script>
-<script type="text/javascript">
-    $("a[rel=tooltip]").tooltip({trigger: "hover", html: true, placement: "top"});
-    $("a[rel=popover]").popover({trigger: "hover", html: true, placement: "top"});
-    $("a[rel=popover-click]").popover({html: true, placement: "top"}).show();
-    $('a[href=#]').click(function (e) {
-        e.preventDefault()
-    });
-</script>
+<script type='text/javascript' src='<?= c("StaticPrefix");?>/script/global.js'></script>
 <!--[if lte IE 8]>
     <script type='text/javascript' src='<?= "{$rpCfg["StaticPrefix"]}/locale/{$rpL->language()}/kill-ie6.js";?>'></script>
 <![endif]-->
