@@ -10,7 +10,7 @@ $($("#new-website").click(function () {
             postdata.push({name: "autoindex", value: ($("#autoindex").hasClass("active") ? 1 : 0)});
             postdata.push({name: "isssl", value: ($("#isssl").hasClass("active") ? 1 : 0)});
             $.post("/panel-action/create-vhost/", postdata, function (data) {
-                if(data.status == "ok")
+                if(data.success)
                     window.location.reload();
                 else
                     alert(data.msg);
@@ -35,7 +35,7 @@ function editWebsite(websiteId) {
             postdata.push({name: "autoindex", value: ($("#autoindex").hasClass("active") ? 1 : 0)});
             postdata.push({name: "isssl", value: ($("#isssl").hasClass("active") ? 1 : 0)});
             $.post("/panel-action/edit-vhost/" + websiteId + "/", postdata, function (data) {
-                if (data.status == "ok")
+                if (data.success)
                     window.location.reload();
                 else
                     alert(data.msg);
@@ -53,7 +53,7 @@ function editWebsite(websiteId) {
 function deleteWebsite(websiteId) {
     if (confirm("你确定要删除？")) {
         $.post("/panel-action/delete-vhost/", {"id": websiteId}, function (data) {
-            if (data.status == "ok")
+            if(data.success)
                 window.location.reload();
             else
                 alert(data.msg);
@@ -64,8 +64,8 @@ function deleteWebsite(websiteId) {
 
 function changePasswd(name, isReload) {
     $.post("/panel-action/" + name +"-passwd/", {"passwd": $("#" + name + "passwd").val()}, function (data) {
-        if (data.status == "ok") {
-            if (isReload)
+        if(data.success) {
+            if(isReload)
                 window.location.reload();
             else
                 alert(data.status);

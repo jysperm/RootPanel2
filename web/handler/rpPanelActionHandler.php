@@ -4,9 +4,18 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class rpPanelActionHandler extends lpJSONHandler
 {
+    public function __construct()
+    {
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+        $rpL->load("panel-action");
+
+        parent::__construct();
+    }
+
     private function jsonError($msg)
     {
-        echo json_encode(["status" => "error", "msg" => $msg]);
+        return json_encode(["success" => false, "msg" => $msg]);
     }
 
     private function reloadWebConfig($uname)
@@ -18,35 +27,28 @@ class rpPanelActionHandler extends lpJSONHandler
     private function auth()
     {
         if(!rpAuth::login())
-            $this->jsonError("未登录");
+            return $this->jsonError(l("panel-action.notLogin"));
 
         if(!lpFactory::get("rpUserModel")->isAllowToPanel())
-            $this->jsonError("未开通");
+            return $this->jsonError(l("panel-action.notAllowToPanel"));
     }
 
     public function getNewVHost()
     {
         $this->auth();
 
-        lpLocale::i()->load(["panel"]);
-
-        $tmp = new lpTemplate(rpROOT . "/template/dialog/edit-website.php");
-        $tmp["new"] = true;
-        $tmp->output();
+        lpTemplate::outputFile(rpROOT . "/template/dialog/edit-website.php", ["new" => true]);
     }
 
     public function getVHost()
     {
         $this->auth();
+
         $vhost = new rpVirtualHostModel($_POST["id"]);
         if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
-            die("站点ID不存在或站点不属于你");
+            die(l("panel-action.invalidIDOrPermission"));
 
-        lpLocale::i()->load(["panel"]);
-
-        $tmp = new lpTemplate(rpROOT . "//template/dialog/edit-website.php");
-        $tmp["rs"] = $vhost;
-        $tmp->output();
+        lpTemplate::outputFile(rpROOT . "/template/dialog/edit-website.php", ["vhost" => $vhost]);
     }
 
     public function createVHost()
@@ -81,8 +83,7 @@ class rpPanelActionHandler extends lpJSONHandler
             $id = rpVirtualHostModel::insert($vhost);
             rpLogModel::log(rpAuth::uname(), "log.type.createVHost", [$id, $id], $vhost);
 
-            echo json_encode(["status" => "ok"]);
-
+            echo json_encode(["success" => "ok"]);
             $this->reloadWebConfig(rpAuth::uname());
         }
         else
@@ -97,7 +98,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
         $vhost = new rpVirtualHostModel($id);
         if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
-            die("站点ID不存在或站点不属于你");
+            die(l("panel-action.invalidIDOrPermission"));
 
         $data = $this->checkInput($id);
         if($data["ok"])
@@ -127,7 +128,7 @@ class rpPanelActionHandler extends lpJSONHandler
             rpVirtualHostModel::update(["id" => $id], $vhost);
             rpLogModel::log(rpAuth::uname(), "log.type.editVHost", [$id, $id], $vhost);
 
-            echo json_encode(["status" => "ok"]);
+            echo json_encode(["success" => "ok"]);
 
             $this->reloadWebConfig(rpAuth::uname());
         }
@@ -143,12 +144,12 @@ class rpPanelActionHandler extends lpJSONHandler
 
         $vhost = new rpVirtualHostModel($_POST["id"]);
         if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
-            die("站点ID不存在或站点不属于你");
+            die(l("panel-action.invalidIDOrPermission"));
 
         rpVirtualHostModel::delete(["id" => $_POST["id"]]);
         rpLogModel::log(rpAuth::uname(), "log.type.deleteVHost", [$_POST["id"]], []);
 
-        echo json_encode(["status" => "ok"]);
+        echo json_encode(["success" => "ok"]);
     }
 
     public function getExtConfig($type)
@@ -156,7 +157,7 @@ class rpPanelActionHandler extends lpJSONHandler
         $this->auth();
 
         if(!in_array($type, ["apache2", "nginx"]))
-            die("参数错误");
+            die(l("panel-action.invalidCfgType"));
 
         $config = lpFactory::get("rpUserModel")["settings"]["{$type}extconfig"];
 
@@ -173,11 +174,11 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.sshPasswd", [], []);
 
-            echo json_encode(["status" => "ok"]);
+            echo json_encode(["success" => "ok"]);
         }
         else
         {
-            $this->jsonError("密码不合法");
+            $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
 
@@ -199,16 +200,14 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.pptpPasswd", [], []);
 
-            echo json_encode(["status" => "ok"]);
+            echo json_encode(["success" => "ok"]);
 
-            if(function_exists("fastcgi_finish_request"))
-                fastcgi_finish_request();
-
+            rpApp::finishRequest();
             shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
         }
         else
         {
-            $this->jsonError("密码不合法");
+            $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
 
@@ -224,11 +223,11 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.mysqlPasswd", [], []);
 
-            echo json_encode(["status" => "ok"]);
+            echo json_encode(["success" => "ok"]);
         }
         else
         {
-            $this->jsonError("密码不合法");
+            $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
 
@@ -242,11 +241,11 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.panelPasswd", [], []);
 
-            echo json_encode(array("status" => "ok"));
+            echo json_encode(array("success" => "ok"));
         }
         else
         {
-            $this->jsonError("密码不合法");
+            $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
 
@@ -272,7 +271,7 @@ class rpPanelActionHandler extends lpJSONHandler
         if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',
             $_POST["domains"]) || strlen($_POST["domains"]) > 128 )
         {
-            return ["ok" => false, "msg" => "域名格式不正确"];
+            return ["ok" => false, "msg" => l("panel-action.invalidDomain")];
         }
         else
         {
@@ -295,13 +294,13 @@ class rpPanelActionHandler extends lpJSONHandler
 
                 $errDomains = array_intersect($tD, $curD);
                 if(count($errDomains))
-                    return ["ok" => false, "msg" => "以下域名已被其他人绑定，请联系客服：" . join(" ", $errDomains)];
+                    return ["ok" => false, "msg" => l("panel-action.alreadyBind", join(" ", $errDomains))];
             }
         }
 
         // type站点类型
         if(!in_array($_POST["type"], array_keys($types)))
-            return ["ok" => false, "type参数错误"];
+            return ["ok" => false, l("站点类型不正确")];
         $data["type"] = $_POST["type"];
 
         // 类型相关选项
@@ -328,10 +327,10 @@ class rpPanelActionHandler extends lpJSONHandler
             if(isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1])
             {
                 if(!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128)
-                    return ["ok" => false, "别名{$vv[0]}不正确"];
+                    return ["ok" => false, l("panel-action.invalidAlias", $vv[0])];
 
                 if(!lpFactory::get("rpUserModel")->checkFileName($vv[1]))
-                    return ["ok" => false, "别名{$vv[1]}不正确"];
+                    return ["ok" => false, l("panel-action.invalidAlias", $vv[1])];
 
                 $aliasR[$vv[0]] = $vv[1];
             }
@@ -345,7 +344,7 @@ class rpPanelActionHandler extends lpJSONHandler
         if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
             strlen($_POST["indexs"]) > 256
         ) {
-            return ["ok" => false, "indexs格式不正确"];
+            return ["ok" => false, l("panel-action.invalidIndexs")];
         }
         $data["indexs"] = $_POST["indexs"];
 
@@ -353,10 +352,10 @@ class rpPanelActionHandler extends lpJSONHandler
         if($data["isssl"])
         {
             if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
-                return ["ok" => false, "sslcrt不正确或不存在"];
+                return ["ok" => false, l("panel-action.invalidSSLCrt")];
 
             if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
-                return ["ok" => false, "sslkey不正确或不存在"];
+                return ["ok" => false, l("panel-action.invalidSSLKey")];
 
             $data["sslcrt"] = $_POST["sslcrt"];
             $data["sslkey"] = $_POST["sslkey"];

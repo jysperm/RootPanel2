@@ -4,11 +4,11 @@ $types = rpVHostType::loadTypes();
 
 $rpDomain = $rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"];
 
-$rs = $this["rs"];
+$vhost = $this["vhost"];
 
 if($this["new"])
 {
-    $rs = [
+    $vhost = [
         "id" => "XXOO",
         "domains" => substr(md5(time()), 0, 8) . ".{$rpDomain}",
         "type" => "phpfpm",
@@ -35,7 +35,7 @@ if($this["new"])
             <label class="control-label" for="ison"><i class="icon-check"></i></label>
 
             <div class="controls">
-                <button id="ison" name="ison" type="button" class="btn <?= ($rs["ison"]) ? "active" : ""; ?>"
+                <button id="ison" name="ison" type="button" class="btn <?= ($vhost["ison"]) ? "active" : ""; ?>"
                         data-toggle="button">
                     启用站点
                 </button>
@@ -45,14 +45,14 @@ if($this["new"])
             <label class="control-label"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>">站点ID</a></label>
 
             <div class="controls">
-                <span class="label"><?= $rs["id"]; ?></span>
+                <span class="label"><?= $vhost["id"]; ?></span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="domains"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.dialog.domain"]; ?>">绑定的域名</a></label>
 
             <div class="controls">
-                <input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= $rs["domains"]; ?>"
+                <input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= $vhost["domains"]; ?>"
                        required="required"/>
             </div>
         </div>
@@ -60,7 +60,7 @@ if($this["new"])
             <label class="control-label" for="source"><a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>">数据源</a></label>
 
             <div class="controls">
-                <input type="text" class="input-xxlarge" id="source" name="source" value="<?= $rs["source"]; ?>"
+                <input type="text" class="input-xxlarge" id="source" name="source" value="<?= $vhost["source"]; ?>"
                        required="required"/>
             </div>
         </div>
@@ -77,7 +77,7 @@ if($this["new"])
                 <? foreach($types as $k => $v): ?>
                     <label class="radio">
                         <input type="radio" name="type" id="op<?= $k; ?>"
-                               value="<?= $k; ?>" <?= ($rs["type"] == $k) ? "checked='checked'" : ""; ?> />
+                               value="<?= $k; ?>" <?= ($vhost["type"] == $k) ? "checked='checked'" : ""; ?> />
                         <?= $v->meta()["description"]; ?>
                     </label>
                 <? endforeach; ?>
@@ -87,10 +87,10 @@ if($this["new"])
     <hr/>
 
     <div class="form-horizontal">
-        <h4 id="title-type"><?= $types[$rs["type"]]->meta()["name"]; ?></h4>
+        <h4 id="title-type"><?= $types[$vhost["type"]]->meta()["name"]; ?></h4>
         <? foreach($types as $k => $v): ?>
             <div class="setting-<?= $k; ?>">
-                <?= $v->settingsHTML(($rs["type"] == $k) ? $rs : ["settings" => $v->defaultSettings()]); ?>
+                <?= $v->settingsHTML(($vhost["type"] == $k) ? $vhost : ["settings" => $v->defaultSettings()]); ?>
             </div>
         <? endforeach; ?>
     </div>
@@ -105,7 +105,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <textarea id="alias" name="alias" rows="4"><?php
-                        foreach($rs["general"]["alias"] as $k => $v)
+                        foreach($vhost["general"]["alias"] as $k => $v)
                             echo "$k $v\n";
                         ?></textarea>
                 </label>
@@ -117,7 +117,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <button id="autoindex" name="autoindex" type="button"
-                            class="btn <?= ($rs["general"]["autoindex"]) ? "active" : ""; ?>" data-toggle="button">
+                            class="btn <?= ($vhost["general"]["autoindex"]) ? "active" : ""; ?>" data-toggle="button">
                         对目录显示文件列表
                     </button>
                 </label>
@@ -129,7 +129,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="indexs" name="indexs"
-                           value="<?= $rs["general"]["indexs"]; ?>"/>
+                           value="<?= $vhost["general"]["indexs"]; ?>"/>
                 </label>
             </div>
         </div>
@@ -145,7 +145,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <button id="isssl" name="isssl" type="button"
-                            class="btn <?= ($rs["general"]["isssl"]) ? "active" : ""; ?>"
+                            class="btn <?= ($vhost["general"]["isssl"]) ? "active" : ""; ?>"
                             data-toggle="button">启用SSL
                     </button>
                 </label>
@@ -157,7 +157,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="sslcrt" name="sslcrt"
-                           value="<?= $rs["general"]["sslcrt"]; ?>"/>
+                           value="<?= $vhost["general"]["sslcrt"]; ?>"/>
                 </label>
             </div>
         </div>
@@ -167,7 +167,7 @@ if($this["new"])
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="sslkey" name="sslkey"
-                           value="<?= $rs["general"]["sslkey"]; ?>"/>
+                           value="<?= $vhost["general"]["sslkey"]; ?>"/>
                 </label>
             </div>
         </div>
@@ -189,5 +189,5 @@ foreach($types as $k => $v) {
         $(".setting-<?= $k;?>").show();
     });
     <? endforeach; ?>
-    $("#op<?= $rs["type"];?>").click();
+    $("#op<?= $vhost["type"];?>").click();
 </script>

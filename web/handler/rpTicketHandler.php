@@ -4,6 +4,15 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class rpTicketHandler extends lpHandler
 {
+    public function __construct()
+    {
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+        $rpL->load("ticket");
+
+        parent::__construct();
+    }
+
     public function __invoke()
     {
         rpApp::goUrl("/ticket/list/");
@@ -35,10 +44,6 @@ class rpTicketHandler extends lpHandler
 
     public function create()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-        $rpL->load("ticket");
-
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
