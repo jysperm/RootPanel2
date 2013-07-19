@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 /**
  * Class lpPDOModel PDO Model
  * 该类提供了简单的PDO数据源的访问,

@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 /**
  *   该文件包含了LightPHP的全部可修改的配置信息
  *   该文件会被 /lp-load.php 通过 require() 包含, 通常你不需要手动包含该文件.

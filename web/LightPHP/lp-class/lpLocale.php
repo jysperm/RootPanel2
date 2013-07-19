@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 /**
  * 该类提供了简易的国际化功能.
  */

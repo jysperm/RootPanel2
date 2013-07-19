@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 /**
 *   该文件包含 lpHander 的类定义.
 *

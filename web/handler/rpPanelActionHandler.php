@@ -1,6 +1,8 @@
 <?php
 
-class rpPanelActionHandler extends lpHandler
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
+class rpPanelActionHandler extends lpJSONHandler
 {
     private function jsonError($msg)
     {
@@ -9,9 +11,8 @@ class rpPanelActionHandler extends lpHandler
 
     private function reloadWebConfig($uname)
     {
-        $this->finishRequest();
-
-        shell_exec(rpROOT . "//../cli/web-conf-maker.php {$uname}");
+        rpApp::finishRequest();
+        shell_exec(rpROOT . "/../cli/web-conf-maker.php {$uname}");
     }
 
     private function auth()

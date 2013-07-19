@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 // 禁止注册的用户名列表
 $rpCfg["NotAllowSignup"] = ["root"];
 
