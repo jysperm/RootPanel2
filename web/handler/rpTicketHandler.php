@@ -31,7 +31,7 @@ class rpTicketHandler extends lpHandler
             rpApp::goUrl("/user/login/", true);
 
         if(!in_array($_POST["type"], array_keys(l("ticket.types"))))
-            die(l("ticket.handler.invalidType"));
+            throw new Exception(l("ticket.handler.invalidType"));
 
         rpTicketModel::create($_POST);
 
@@ -47,15 +47,14 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
-            die("工单ID无效");
+            throw new Exception(l("ticket.handler.invalidID"));
         if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
-            die("该工单不属于你");
+            throw new Exception(l("ticket.handler.invalidPermission"));
 
-        $cb = $tk->reply($_POST);
+        $tk->reply($_POST);
         echo json_encode(["status" => "ok"]);
 
-        $this->finishRequest();
-        $cb();
+        rpApp::finishRequest();
     }
 
     public function view($id = null)
@@ -65,13 +64,11 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
-            die("工单ID无效");
+            throw new Exception(l("ticket.handler.invalidID"));
         if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
-            die("该工单不属于你");
+            throw new Exception(l("ticket.handler.invalidPermission"));
 
-        $tmp = new lpTemplate(rpROOT . "/template/ticket/view.php");
-        $tmp['tk'] = $tk;
-        $tmp->output();
+        lpTemplate::outputFile(rpROOT . "/template/ticket/view.php", ["tk" => $tk]);
     }
 
     public function close($id = null)
@@ -83,32 +80,30 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
-            die("工单ID无效");
+            throw new Exception(l("ticket.handler.invalidID"));
         if($tk["uname"] != rpAuth::uname() && !$isAdmin)
-            die("该工单不属于你");
+            throw new Exception(l("ticket.handler.invalidPermission"));
         if($tk["status"] == rpTicketModel::CLOSED)
-            die("该工单已经被关闭");
+            throw new Exception(l("ticket.handler.alreadyClosed"));
         if($tk["onlyclosebyadmin"] && !$isAdmin)
-            die("该工单只能被管理员关闭");
+            throw new Exception(l("ticket.handler.closeOnlyByAdmin"));
 
-        $cb = $tk->close();
+        $tk->close();
         echo json_encode(["status" => "ok"]);
 
-        $this->finishRequest();
-        $cb();
+        rpApp::finishRequest();
     }
 
     public function finish($id = null)
     {
         if(!lpFactory::get("rpUserModel")->isAdmin())
-            die("非管理员");
+            throw new Exception(l("ticket.handler.notAdmin"));
 
         $tk = new rpTicketModel($id);
 
-        $cb = $tk->finish();
+        $tk->finish();
         echo json_encode(["status" => "ok"]);
 
-        $this->finishRequest();
-        $cb();
+        rpApp::finishRequest();
     }
 }

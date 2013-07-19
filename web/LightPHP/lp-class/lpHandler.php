@@ -19,3 +19,8 @@ abstract class lpHandler
             ob_start();
     }
 }
+
+abstract class lpJSONHandler extends lpHandler
+{
+
+}
