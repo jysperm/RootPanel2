@@ -86,6 +86,10 @@ $rpL["ticket.template"]["configRequest"]["content"] = <<< HTML
 
 HTML;
 
+$rpL["ticket.admin.title"] = "工单";
+$rpL["ticket.admin.openTicket"] = "开放工单";
+$rpL["ticket.admin.allTicket"] = "所有工单";
+
 return $rpL;
 
 

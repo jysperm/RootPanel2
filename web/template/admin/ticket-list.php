@@ -1,20 +1,28 @@
 <?php
 
-$base = new lpTemplate(rpROOT . "/template/base.php");
-$base['title'] = $titile = "工单";
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
+/** @var lpLocale $rpL */
+$rpL = f("lpLocale");
+
+$rpL->load(["base", "ticket"]);
+
+$base = new lpTemplate(rpROOT . "/template/base.php");
 $page = lpDividePage::fromGET();
-$rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
-$dPage = new lpDividePage($rows, $page, $rpCfg["TKPerPage"]);
+
+$base['title'] = l("ticket.admin.title");
 
 $ifUName = [];
 if($this["uname"])
     $ifUName = ["uname" => $this["uname"]];
 
+$rows = rpTicketModel::count($ifUName);
+$dPage = new lpDividePage($rows, $page, c("TKPerPage"));
+
 ?>
 
 <? lpTemplate::beginBlock(); ?>
-    <li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> 工单列表 #<?= $page; ?></a></li>
+    <li class="active"><a href="#section-list"><i class="icon-chevron-right"></i> <?= l("ticket.ticketList", $page);?></a></li>
 <? $base['sidenav'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
@@ -25,17 +33,18 @@ if($this["uname"])
 </style>
 <? $base['header'] = lpTemplate::endBlock(); ?>
 
+<? lpTemplate::beginBlock(); ?>
 <section id="section-list">
-    <header>工单列表 #<?= $page; ?></header>
-    <h2>开放工单</h2>
+    <header><?= l("ticket.ticketList", $page);?></header>
+    <h2><?= l("ticket.admin.openTicket");?></h2>
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>类型</th>
-            <th>状态</th>
-            <th>标题</th>
-            <th>回复</th>
+            <th><?= l("ticket.list.id");?></th>
+            <th><?= l("ticket.list.type");?></th>
+            <th><?= l("ticket.list.status");?></th>
+            <th><?= l("ticket.list.title");?></th>
+            <th><?= l("ticket.list.reply");?></th>
         </tr>
         </thead>
         <tbody>
@@ -46,34 +55,34 @@ if($this["uname"])
                 <td><?= $rpL[$tk["status"]]; ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
-                    <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
-                    <span title="<?= gmdate(l("base.fullTime"), $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                    <?= l("ticket.replyBy", rpTicketReplyModel::count(["replyto" => $tk["id"]]), $tk["lastreply"],
+                        "<span title='" . gmdate(l("base.fullTime"), $tk["lastchange"]) . "'>" . rpTools::niceTime($tk["lastchange"]) . "</span>");?>
                 </td>
             </tr>
         <? endforeach; ?>
         </tbody>
     </table>
-    <h2>所有工单</h2>
+    <h2><?= l("ticket.admin.allTicket");?></h2>
     <table class="table table-striped table-bordered table-condensed">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>类型</th>
-            <th>状态</th>
-            <th>标题</th>
-            <th>回复</th>
+            <th><?= l("ticket.list.id");?></th>
+            <th><?= l("ticket.list.type");?></th>
+            <th><?= l("ticket.list.status");?></th>
+            <th><?= l("ticket.list.title");?></th>
+            <th><?= l("ticket.list.reply");?></th>
         </tr>
         </thead>
         <tbody>
-        <? foreach(rpTicketModel::select($ifUName, ["sort" => ["lastchange", false], "limit" => $rpCfg["TKPerPage"], "skip" => $dPage->getPos()]) as $tk): ?>
+        <? foreach(rpTicketModel::select($ifUName, ["sort" => ["lastchange", false], "limit" => c("TKPerPage"), "skip" => $dPage->getPos()]) as $tk): ?>
             <tr>
                 <td><?= $tk["id"]; ?></td>
                 <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
                 <td><?= $rpL[$tk["status"]]; ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
-                    <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
-                    <span title="<?= gmdate(l("base.fullTime"), $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                    <?= l("ticket.replyBy", rpTicketReplyModel::count(["replyto" => $tk["id"]]), $tk["lastreply"],
+                        "<span title='" . gmdate(l("base.fullTime"), $tk["lastchange"]) . "'>" . rpTools::niceTime($tk["lastchange"]) . "</span>");?>
                 </td>
             </tr>
         <? endforeach; ?>
@@ -90,7 +99,6 @@ if($this["uname"])
         </ul>
     </div>
 </section>
-
-
+<? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>
