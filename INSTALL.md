@@ -3,22 +3,13 @@
 
 ### 操作系统
 
->   Ubuntu Server 12.04
+>   Ubuntu Server 12.04 LTS
 >   ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
 
-### 挂载磁盘
+### 准备工作
 
-有些服务器有两个磁盘分区，分别用于 `/` 和 `/home`
-
-### 上传公钥 修改root密码
-
-本地：
-    ~/.ssh/id_rsa.pub
-
-服务器：
-    ~/.ssh/authorized_keys
-
-    chmod -R 600 ~/.ssh
+* 挂载磁盘分区
+* 上传公钥
 
 ### 更新安装软件包
 
