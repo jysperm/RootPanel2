@@ -47,7 +47,7 @@ if($this["uname"])
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
                     <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
-                    <span title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                    <span title="<?= gmdate(l("base.fullTime"), $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
                 </td>
             </tr>
         <? endforeach; ?>
@@ -73,7 +73,7 @@ if($this["uname"])
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
                     <?= rpTicketReplyModel::count(["replyto" => $tk["id"]]);?> 个回复 | <?= $tk["lastreply"];?> 于
-                    <span title="<?= gmdate("Y.m.d H:i:s", $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
+                    <span title="<?= gmdate(l("base.fullTime"), $tk["lastchange"]); ?>"><?= rpTools::niceTime($tk["lastchange"]); ?></span>
                 </td>
             </tr>
         <? endforeach; ?>

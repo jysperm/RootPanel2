@@ -300,7 +300,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
         // type站点类型
         if(!in_array($_POST["type"], array_keys($types)))
-            return ["ok" => false, l("站点类型不正确")];
+            return ["ok" => false, l("panel-action.invalidSiteType")];
         $data["type"] = $_POST["type"];
 
         // 类型相关选项

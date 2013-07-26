@@ -19,11 +19,19 @@ abstract class lpHandler
         if(!$action)
             $action = "__invoke";
 
-        $reflection = new ReflectionMethod($handler, $action);
-        if(!$reflection->isPublic())
-            throw new Exception("{$handler}::{$action} is not a public function");
+        if(method_exists($handler, "__call"))
+        {
+            $handler = new $handler;
+            return call_user_func_array([$handler, $action], $args);
+        }
+        else
+        {
+            $reflection = new ReflectionMethod($handler, $action);
+            if(!$reflection->isPublic())
+                throw new Exception("{$handler}::{$action} is not a public function");
 
-        return $reflection->invokeArgs(new $handler, $args);
+            return $reflection->invokeArgs(new $handler, $args);
+        }
     }
 
     static protected function isPost()

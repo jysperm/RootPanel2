@@ -90,7 +90,7 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
             <hr />
             <span class="label">
                 <span
-                    title="<?= gmdate("Y.m.d H:i:s", $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
+                    title="<?= gmdate(l("base.fullTime"), $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
                 | <?= $reply["uname"]; ?>
             </span>
         </div>

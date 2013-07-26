@@ -41,8 +41,8 @@ $me = f("rpUserModel");
 <? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
-<script type='text/javascript' src='<?= c("StaticPrefix");?>/static/locale/<?= $rpL->language();?>/panel.js'></script>
-<script type='text/javascript' src='<?= c("StaticPrefix");?>/static/script/panel.js'></script>
+<script type='text/javascript' src='<?= c("StaticPrefix");?>/locale/<?= $rpL->language();?>/locale.js'></script>
+<script type='text/javascript' src='<?= c("StaticPrefix");?>/script/panel.js'></script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>

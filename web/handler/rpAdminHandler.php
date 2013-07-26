@@ -1,5 +1,7 @@
 <?php
 
+defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+
 class rpAdminHandler extends lpHandler
 {
     private function auth()
@@ -7,7 +9,7 @@ class rpAdminHandler extends lpHandler
         if(!rpAuth::login())
             rpApp::goUrl("/user/login/", true);
 
-        if(!f("lpUserModel")->isAdmin())
+        if(!f("rpUserModel")->isAdmin())
             rpApp::goUrl("/panel/", true);
     }
 

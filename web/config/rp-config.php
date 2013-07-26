@@ -3,8 +3,8 @@
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 $rpCfg["Version"] = [
-    "main" => "2.1.0 B",
-    "time" => "2013.6.30",
+    "main" => "2.2.0 B",
+    "time" => "2013.7.26",
     "type" => "of",
 
     "Bootstrap" => "2.3.2",

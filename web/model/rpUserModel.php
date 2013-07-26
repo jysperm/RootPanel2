@@ -55,10 +55,7 @@ class rpUserModel extends lpPDOModel
 
     public function isAdmin()
     {
-        /** @var lpConfig $rpCfg */
-        $rpCfg = f("lpConfig");
-
-        return array_key_exists($this->data["uname"], $rpCfg["Admins"]);
+        return in_array($this->data["uname"], c("Admins"));
     }
 
     public function checkFileName($filename)
