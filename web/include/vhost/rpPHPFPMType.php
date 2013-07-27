@@ -7,17 +7,21 @@ class rpPHPFPMType extends rpVHostType
     public function meta()
     {
         return [
-            "name" => "PHP-FPM",
-            "description" => "PHP-FPM(常规PHP网站, 默认), 也适用于其他fastcgi"
+            "name" => l("vhost.phpfpm.name"),
+            "description" => l("vhost.phpfpm.description")
         ];
     }
 
     public function settingsHTML($old)
     {
+
+        $lPhpfpm = l("vhost.phpfpm.phpfpm");
+        $lPhpfpmTooltip = l("vhost.phpfpm.phpfpm.tooltip");
+
         return <<< HTML
 
 <div class="control-group">
-  <label class="control-label" for="vhost-phpfpm-server"><a href="#" rel="tooltip" title="一个Unix Socket地址，留空表示使用系统的">PHP-FPM</a></label>
+  <label class="control-label" for="vhost-phpfpm-server"><a href="#" rel="tooltip" title="{$lPhpfpmTooltip}">{$lPhpfpm}</a></label>
   <div class="controls">
     <input type="text" class="input-xxlarge" id="vhost-phpfpm-server" name="vhost-phpfpm-server" value="{$old["settings"]["server"]}"/>
   </div>
@@ -34,10 +38,10 @@ HTML;
     public function checkSettings($settings, $source)
     {
         if($settings["server"] && !lpFactory::get("rpUserModel")->checkFileName($settings["server"]))
-            return ["ok" => false, "msg" => "请填写有效的socket地址或留空"];
+            return ["ok" => false, "msg" => l("vhost.phpfpm.invalidPhpfpm")];
 
         if(!lpFactory::get("rpUserModel")->checkFileName($source))
-            return ["ok" => false, "msg" => "数据源格式不正确"];
+            return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => ["server" => $settings["server"]]];
     }

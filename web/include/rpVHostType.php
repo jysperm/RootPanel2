@@ -20,6 +20,11 @@ abstract class rpVHostType
 
     static public function loadTypes()
     {
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["vhost-type"]);
+
         $types = [
             "PHPFPM", "Proxy", "Apache2", "Nginx", "UWSGI"
         ];

@@ -7,8 +7,8 @@ class rpNginxType extends rpVHostType
     public function meta()
     {
         return [
-            "name" => "Nginx纯静态",
-            "description" => "Nginx纯静态, 不支持任何脚本"
+            "name" => l("vhost.nginx.name"),
+            "description" => l("vhost.nginx.description")
         ];
     }
 
@@ -25,7 +25,7 @@ class rpNginxType extends rpVHostType
     public function checkSettings($settings, $source)
     {
         if(!lpFactory::get("rpUserModel")->checkFileName($source))
-            return ["ok" => false, "msg" => "数据源格式不正确"];
+            return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => []];
     }

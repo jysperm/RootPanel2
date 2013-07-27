@@ -7,17 +7,20 @@ class rpProxyType extends rpVHostType
     public function meta()
     {
         return [
-            "name" => "反向代理",
-            "description" => "反向代理, 可代理其他外网网站也可以代理本地的其他端口"
+            "name" => l("vhost.proxy.name"),
+            "description" => l("vhost.proxy.description")
         ];
     }
 
     public function settingsHTML($old)
     {
+        $lHost = l("vhost.proxy.host");
+        $lHostTooltip = l("vhost.proxy.host.tooltip");
+
         return <<< HTML
 
 <div class="control-group">
-  <label class="control-label" for="vhost-proxy-host"><a href="#" rel="tooltip" title="留空表示不变更">变更主机头</a></label>
+  <label class="control-label" for="vhost-proxy-host"><a href="#" rel="tooltip" title="{$lHostTooltip}">{$lHost}</a></label>
   <div class="controls">
     <input type="text" class="input-xxlarge" id="vhost-proxy-host" name="vhost-proxy-host" value="{$old["settings"]["host"]}"/>
   </div>
@@ -35,11 +38,11 @@ HTML;
     {
         if($settings["host"] && !preg_match('/(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*/', $settings["host"]) ||
             strlen($settings["host"]) > 128 )
-            return ["ok" => false, "msg" => "请填写有效的域名"];
+            return ["ok" => false, "msg" => l("vhost.proxy.invalidHost")];
 
-        if(!preg_match('%^http://[^\s]*$%', $source) ||
+        if(!preg_match('%^https?://[^\s]*$%', $source) ||
             strlen($source) > 512 )
-            return ["ok" => false, "msg" => "数据源格式不正确"];
+            return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => ["host" => $settings["host"]]];
     }
