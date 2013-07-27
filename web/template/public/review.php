@@ -11,7 +11,7 @@ $base['title'] = l("base.review");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= $rpL["contact.service"];?></header>
+        <header><?= l("contact.service");?></header>
         <ul class="nav-list">
             <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
             <?= l("contact.list");?>

@@ -30,7 +30,7 @@ $base['title'] = l("pay.buy");
     <? else: ?>
         <? if(!f("rpUserModel")->isAllowToPanel()): ?>
             <div class="alert alert-block alert-success fade in">
-                <h4 class="alert-heading">><?= l("form.notice");?></h4>
+                <h4 class="alert-heading"><?= l("form.notice");?></h4>
                 <?= l("pay.info.notPay");?>
             </div>
         <? else: ?>
@@ -78,7 +78,7 @@ $base['title'] = l("pay.buy");
     <? lpTemplate::outputFile(rpROOT . "/template/widget/node-list.php");?>
 </section>
 
-<? lpTemplate::outputFile($rpL->file("template/agreement.php")); ?>
+<? lpTemplate::outputFile(f("lpLocale")->file("template/agreement.php")); ?>
 <? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

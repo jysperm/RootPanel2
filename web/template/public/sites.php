@@ -11,7 +11,7 @@ $base['title'] = l("sites.title");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= $rpL["contact.service"];?></header>
+        <header><?= l("contact.service");?></header>
         <ul class="nav-list">
             <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
             <?= l("contact.list");?>
@@ -34,14 +34,19 @@ $base['title'] = l("sites.title");
 
 <? lpTemplate::beginBlock(); ?>
     <script type="text/javascript">
-        $('#carousel').carousel();
+        $('#rpCarousel').carousel();
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
     <section>
         <header><?= l("sites.title");?></header>
-        <div id="carousel" class="carousel slide">
+        <div id="rpCarousel" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
             <div class="carousel-inner">
                 <? foreach(l("sites.big") as $site):?>
                     <div class="item active">
@@ -53,8 +58,8 @@ $base['title'] = l("sites.title");
                     </div>
                 <? endforeach;?>
             </div>
-            <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
-            <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
+            <a class="carousel-control left" href="#rpCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#rpCarousel" data-slide="next">&rsaquo;</a>
         </div>
         <div class="row-fluid">
             <ul class="thumbnails">

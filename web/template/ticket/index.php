@@ -13,7 +13,7 @@ $rows = rpTicketModel::count(["uname" => rpAuth::uname()]);
 $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
 
 if(!empty($_GET["template"]))
-    $template = in_array($_GET["template"], array_keys($rpL["ticket.template"])) ? $_GET["template"] : null;
+    $template = in_array($_GET["template"], array_keys(l("ticket.template"))) ? $_GET["template"] : null;
 
 ?>
 
@@ -104,7 +104,7 @@ if(!empty($_GET["template"]))
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="title" name="title"
-                           required="required" <?= !empty($template) ? "value='" . $rpL["ticket.template"][$template]["title"] . "'" : ""; ?> />
+                           required="required" <?= !empty($template) ? "value='" . l("ticket.template")[$template]["title"] . "'" : ""; ?> />
                 </label>
             </div>
         </div>
@@ -114,7 +114,7 @@ if(!empty($_GET["template"]))
             <div class="controls">
                 <label class="radio">
                     <select id="type" name="type">
-                        <? foreach($rpL["ticket.types.long"] as $k => $v): ?>
+                        <? foreach(l("ticket.types.long") as $k => $v): ?>
                             <? if(empty($template)): ?>
                                 <option
                                     value="<?= $k; ?>" <?= $k == l("ticket.types.default") ? 'selected="selected"' : ""; ?>><?= $v; ?></option>

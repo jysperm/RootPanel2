@@ -150,7 +150,7 @@ HTML;
             而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用), 视客服心情而定.
         </p>
         <p>
-            <? foreach($rpL["admin-list"] as $adminID => $admin): ?>
+            <? foreach(l("admin-list") as $adminID => $admin): ?>
                 <? $adminInfo = "{$admin['description']}<br />QQ: {$admin['qq']}<br />E-mail: {$admin['email']}"; ?>
                 <a class="admin" target="_blank" href="<?= $admin["url"]; ?>" rel="popover"
                    data-content="<?= $adminInfo; ?>" data-original-title="客服：<?= $admin["name"]; ?>">
@@ -166,7 +166,7 @@ HTML;
         </ul>
     </section>
 
-    <? lpTemplate::outputFile($rpL->file("template/agreement.php")); ?>
+    <? lpTemplate::outputFile(f("lpLocale")->file("template/agreement.php")); ?>
 <? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

@@ -104,7 +104,7 @@ if(rpAuth::login())
 <script type='text/javascript' src='<?= c("BootstrapPrefix");?>/js/bootstrap.js'></script>
 <script type='text/javascript' src='<?= c("StaticPrefix");?>/script/global.js'></script>
 <!--[if lte IE 8]>
-    <script type='text/javascript' src='<?= "{$rpCfg["StaticPrefix"]}/locale/{$rpL->language()}/kill-ie6.js";?>'></script>
+    <script type='text/javascript' src='<?= c("StaticPrefix") . "/locale/" . f("lpLocale")->language() . "/kill-ie6.js";?>'></script>
 <![endif]-->
 <?= $this["endOfBody"]; ?>
 </body>

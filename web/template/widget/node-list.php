@@ -2,9 +2,6 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-/** @var lpConfig $rpCfg */
-$rpCfg = f("lpConfig");
-
 f("lpLocale")->load("node-list");
 
 ?>
@@ -12,22 +9,22 @@ f("lpLocale")->load("node-list");
 <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th><?= $rpL["node-list.location"]; ?></th>
+        <th><?= l("node-list.location"); ?></th>
         <th>
-            <a href="#" rel="popover" data-content="<?= $rpL["node-list.popover.minRes"]; ?>"
-               data-original-title="<?= $rpL["node-list.minGuarantee"]; ?>"><?= $rpL["node-list.min"]; ?></a><?= $rpL["node-list.MemoryGuarantee"]; ?>
+            <a href="#" rel="popover" data-content="<?= l("node-list.popover.minRes"); ?>"
+               data-original-title="<?= l("node-list.minGuarantee"); ?>"><?= l("node-list.min"); ?></a><?= l("node-list.MemoryGuarantee"); ?>
         </th>
-        <th><?= $rpL["node-list.minCPUGuarantee"]; ?></th>
-        <th><?= $rpL["node-list.disk"]; ?></th>
-        <th><?= $rpL["node-list.trafficPerMonth"]; ?></th>
-        <th><?= $rpL["node-list.domain"]; ?></th>
+        <th><?= l("node-list.minCPUGuarantee"); ?></th>
+        <th><?= l("node-list.disk"); ?></th>
+        <th><?= l("node-list.trafficPerMonth"); ?></th>
+        <th><?= l("node-list.domain"); ?></th>
     </tr>
     </thead>
     <tbody>
-    <? foreach($rpCfg["NodeList"] as $nodeID => $node): ?>
+    <? foreach(c("NodeList") as $nodeID => $node): ?>
         <tr>
-            <td><a href="#" rel="popover" data-content="<?= $rpL["node-list"][$nodeID]["description"]; ?>"
-                   data-original-title="<?= $rpL["node-list"][$nodeID]["name"]; ?>"><?= $rpL["node-list"][$nodeID]["name"]; ?></a></td>
+            <td><a href="#" rel="popover" data-content="<?= l("node-list")[$nodeID]["description"]; ?>"
+                   data-original-title="<?= l("node-list")[$nodeID]["name"]; ?>"><?= l("node-list")[$nodeID]["name"]; ?></a></td>
             <td><?= $node["memory"]; ?>M</td>
             <td><?= $node["cpu"]; ?>MHz</td>
             <td><?= $node["disk"]; ?>M</td>

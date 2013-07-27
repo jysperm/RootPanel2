@@ -44,7 +44,7 @@ $commonAct = function($uname)
 <? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
-<script type='text/javascript' src='<?= c("StaticPrefix");?>/locale/<?= $rpL->language();?>/locale.js'></script>
+<script type='text/javascript' src='<?= c("StaticPrefix");?>/locale/<?= f("lpLocale")->language();?>/locale.js'></script>
 <script type='text/javascript' src='<?= c("StaticPrefix");?>/script/admin.js'></script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 

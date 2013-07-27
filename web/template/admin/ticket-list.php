@@ -48,8 +48,8 @@ $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
         <? foreach(rpTicketModel::select(["status" => rpTicketModel::OPEN], ["sort" => ["lastchange", false]]) as $tk): ?>
             <tr>
                 <td><?= $tk["id"]; ?></td>
-                <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
-                <td><?= $rpL[$tk["status"]]; ?></td>
+                <td><?= l("ticket.types")[$tk["type"]]; ?></td>
+                <td><?= l($tk["status"]); ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
                     <?= l("ticket.replyBy", rpTicketReplyModel::count(["replyto" => $tk["id"]]), $tk["lastreply"],
@@ -74,8 +74,8 @@ $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
         <? foreach(rpTicketModel::select($ifUName, ["sort" => ["lastchange", false], "limit" => c("TKPerPage"), "skip" => $dPage->getPos()]) as $tk): ?>
             <tr>
                 <td><?= $tk["id"]; ?></td>
-                <td><?= $rpL["ticket.types"][$tk["type"]]; ?></td>
-                <td><?= $rpL[$tk["status"]]; ?></td>
+                <td><?= l("ticket.types")[$tk["type"]]; ?></td>
+                <td><?= l($tk["status"]); ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
                 <td>
                     <?= l("ticket.replyBy", rpTicketReplyModel::count(["replyto" => $tk["id"]]), $tk["lastreply"],
