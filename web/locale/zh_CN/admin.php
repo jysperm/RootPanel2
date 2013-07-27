@@ -33,6 +33,6 @@ $rpL["admin.op.toFree"] = "开通为免费试用版";
 $rpL["admin.op.delete"] = "删除用户";
 $rpL["admin.op.alert"] = "续费提醒";
 $rpL["admin.op.switch"] = "变更付费方式";
-$rpL["admin.op.disable"] = "取消帐号";
+$rpL["admin.op.disable"] = "销毁帐号";
 
 return $rpL;

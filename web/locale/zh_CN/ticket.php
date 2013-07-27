@@ -90,6 +90,9 @@ $rpL["ticket.admin.title"] = "工单";
 $rpL["ticket.admin.openTicket"] = "开放工单";
 $rpL["ticket.admin.allTicket"] = "所有工单";
 
+$rpL["ticket.admin.objUser"] = "目标用户";
+$rpL["ticket.admin.closeOnlyByAdmin"] = "只允许管理员关闭";
+
 return $rpL;
 
 

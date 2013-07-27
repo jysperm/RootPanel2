@@ -28,6 +28,7 @@ RootPanel %s %s %s
 TEXT;
 $rpL["base.copyright"] = sprintf($rpL["base.copyright"], c("Version")["main"], c("Version")["time"], c("Version")["type"]);
 
+$rpL["base.data"] = "Y.m.d";
 $rpL["base.fullTime"] = "Y.m.d H:i:s";
 
 $rpL["base.userType"] = [

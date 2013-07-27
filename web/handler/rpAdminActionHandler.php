@@ -2,15 +2,18 @@
 
 class rpAdminActionHandler extends lpHandler
 {
+    private function jsonError($msg)
+    {
+        return json_encode(["success" => false, "msg" => $msg]);
+    }
+
     private function auth()
     {
-        global $rpCfg;
-
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            return $this->jsonError(l("admin-action.notLogin"));
 
-        if(!array_key_exists(rpAuth::uname(), $rpCfg["Admins"]))
-            rpApp::goUrl("/panel/", true);
+        if(!lpFactory::get("rpUserModel")->isAdmin())
+            return $this->jsonError(l("admin-action.notAdmin"));
     }
 
     public function addTime()
@@ -30,10 +33,14 @@ class rpAdminActionHandler extends lpHandler
     {
         $this->auth();
 
-        $title = "续费提醒-";
-        $title .= gmdate("Y.m.d");
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
 
-        $content = "你的账户将于 " . gmdate("Y.m.d", rpUserModel::by("uname", $_POST["uname"])["expired"]) . "到期";
+        $rpL->load(["base", "admin-action"]);
+
+        $expiredTime = gmdate(l("base.data"), rpUserModel::by("uname", $_POST["uname"])["expired"]);
+        $title = l("admin-action.ticket.alert.title", $expiredTime);
+        $content = l("admin-action.ticket.alert.content", $expiredTime);
 
         $data = [
             "users" => $_POST["uname"],
@@ -43,30 +50,28 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
-        $cb = rpTicketModel::create($data);
+        rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
 
-        $this->finishRequest();
-        $cb();
+        rpApp::finishRequest();
     }
 
     public function getNewTicket()
     {
         $this->auth();
-
         lpTemplate::outputFile(rpROOT . "/template/dialog/admin-new-ticket.php");
     }
 
     public function getPasswd()
     {
         $this->auth();
-        global $lpCfg;
 
         $token = rpAuth::creatToken($_POST["uname"]);
 
-        $cookieName = $lpCfg["lpTrackAuth"]["CookieName"];
-        $url = "/user/set-cookie/?{$cookieName["user"]}={$_POST["uname"]}&{$cookieName["passwd"]}={$token}";
+        $cookieUser = rpAuth::USER;
+        $cookiePasswd = rpAuth::PASSWD;
+        $url = "/user/set-cookie/?{$cookieUser}={$_POST["uname"]}&{$cookiePasswd}={$token}";
 
         echo "<a href='{$url}''>{$url}</a>";
     }
@@ -88,7 +93,8 @@ class rpAdminActionHandler extends lpHandler
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
 
-        $content = $title = "你的账户已经被开通为" . $rpL["global.userType"][$_POST['type']];
+        $title = l("admin-action.ticket.enable.title", l("base.userType")[$_POST['type']]);
+        $content = l("admin-action.ticket.enable.content", l("base.userType")[$_POST['type']]);
 
         $data = [
             "users" => $_POST["uname"],
@@ -98,14 +104,13 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
-        $cb = rpTicketModel::create($data);
+        rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
 
-        $this->finishRequest();
+        rpApp::finishRequest();
 
         shell_exec(rpROOT . "/../cli/create-account.php {$_POST['uname']}");
-        $cb();
     }
 
     public function disableUser()
@@ -114,7 +119,8 @@ class rpAdminActionHandler extends lpHandler
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
 
-        $content = $title = "你的账户已被停用";
+        $title = l("admin-action.ticket.enable.title");
+        $content = l("admin-action.ticket.enable.content");
 
         $data = [
             "users" => $_POST["uname"],
@@ -124,42 +130,24 @@ class rpAdminActionHandler extends lpHandler
             "onlyclosebyadmin" => 0
         ];
 
-        $cb = rpTicketModel::create($data);
+        rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
 
-        $this->finishRequest();
+        rpApp::finishRequest();
 
         shell_exec(rpROOT . "/../cli/delete-account.php {$_POST['uname']} sure");
-        $cb();
     }
 
     public function switchUser()
     {
         $this->auth();
-        global $rpL;
 
-        echo json_encode(["status"=>"ok"]);
-
-        if(in_array($_POST['type'], array_keys($rpL["global.userType"])))
+        if(in_array($_POST['type'], array_keys(l("base.userType"))))
         {
             rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type']]);
-
-            $content = $title = "你的账户已经被切换为" . $rpL["global.userType"][$_POST['type']];
-
-            $data = [
-                "users" => $_POST["uname"],
-                "type" => "pay",
-                "title" => $title,
-                "content" => $content,
-                "onlyclosebyadmin" => 0
-            ];
-
-            $cb = rpTicketModel::create($data);
-
-            $this->finishRequest();
-
-            $cb();
         }
+
+        echo json_encode(["status"=>"ok"]);
     }
 }
