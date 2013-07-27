@@ -113,7 +113,7 @@ class lpLocale implements ArrayAccess
     static public function judegeLanguage($localeRoot, $defaultLanguage, $cookieName="language")
     {
         $lang = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : "";
-        if($lang && !preg_match("/^[_A-Za-z]+$/", $lang) && is_dir("{$localeRoot}/{$lang}"))
+        if($lang && preg_match("/^[_A-Za-z]+$/", $lang) && is_dir("{$localeRoot}/{$lang}"))
             return $_COOKIE[$cookieName];
 
         if($_SERVER["HTTP_ACCEPT_LANGUAGE"])

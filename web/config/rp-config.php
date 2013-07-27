@@ -12,6 +12,7 @@ $rpCfg["Version"] = [
 ];
 
 $rpCfg["DefaultLanguage"] = "zh_CN";
+$rpCfg["AvailableLanguage"] = ["zh_CN"];
 
 // 每页显示日志条数
 $rpCfg["LogPerPage"] = 30;

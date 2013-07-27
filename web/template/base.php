@@ -68,6 +68,14 @@ if(rpAuth::login())
                         <li><a href="/user/signup/"><i class="icon-edit icon-white"></i><?= l("base.signup"); ?></a></li>
                         <li><a href="/user/login/"><i class="icon-user icon-white"></i><?= l("base.login"); ?></a></li>
                     <? endif; ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe icon-white"></i> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <? foreach(c("AvailableLanguage") as $l):?>
+                                <li><a href="/user/set-cookie/?language=<?= $l;?>"><?= $l;?></a></li>
+                            <? endforeach;?>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

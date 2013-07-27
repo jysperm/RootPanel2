@@ -276,7 +276,7 @@ function lpDefaultRouter($defaultHandler, $prefix = "")
         if(!is_subclass_of($handler, "lpHandler"))
             throw new Exception("{$handler} is not a subclass of lpHander");
 
-        $actionName = array_shift($params);
+        $actionName = str_replace("-", "", array_shift($params));
         if(in_array($actionName, $keywords))
             $actionName = $prefix . $actionName;
 

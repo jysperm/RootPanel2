@@ -103,7 +103,7 @@ class rpUserHandler extends lpHandler
     public function setCookie()
     {
         foreach($_GET as $k => $v)
-            setcookie($k, $v, time() + c("CookieLimit"), "/");
+            setcookie($k, $v, time() + f("lpConfig.lpCfg")["CookieLimit"], "/");
 
         if(isset($_GET["goUrl"]))
             rpApp::goUrl($_GET["goUrl"]);
