@@ -12,9 +12,7 @@ class rpUserHandler extends lpHandler
         }
         else
         {
-            /** @var lpLocale $rpL */
-            $rpL = f("lpLocale");
-            $rpL->load("signup");
+            f("lpLocale")->load("signup");
 
             $procError = function ($str) {
                 lpTemplate::outputFile(rpROOT . "/template/user/signup.php", [
@@ -71,10 +69,7 @@ class rpUserHandler extends lpHandler
         }
         else
         {
-            /** @var lpLocale $rpL */
-            $rpL = f("lpLocale");
-
-            $rpL->load(["login"]);
+            f("lpLocale")->load(["login"]);
 
             $procError = function($str) {
                 lpTemplate::outputFile(rpROOT . "/template/user/login.php", [

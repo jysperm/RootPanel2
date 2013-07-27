@@ -4,10 +4,7 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 $types = rpVHostType::loadTypes();
 
-/** @var lpLocale $rpL */
-$rpL = f("lpLocale");
-
-$rpL->load(["base", "panel", "form", "log"]);
+f("lpLocale")->load(["base", "panel", "form", "log"]);
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
 $base["title"] = l("panel.title");

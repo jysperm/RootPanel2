@@ -2,10 +2,7 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-/** @var lpLocale $rpL */
-$rpL = f("lpLocale");
-
-$rpL->load(["panel", "edit-website"]);
+f("lpLocale")->load(["panel", "edit-website"]);
 
 $types = rpVHostType::loadTypes();
 

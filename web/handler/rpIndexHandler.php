@@ -6,8 +6,6 @@ class rpIndexHandler extends lpHandler
 {
     public function __invoke()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-        lpTemplate::outputFile($rpL->file("template/index.php"));
+        lpTemplate::outputFile(f("lpLocale")->file("template/index.php"));
     }
 }

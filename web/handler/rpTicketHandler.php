@@ -6,9 +6,7 @@ class rpTicketHandler extends lpHandler
 {
     public function __construct()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-        $rpL->load("ticket");
+        f("lpLocale")->load("ticket");
 
         parent::__construct();
     }

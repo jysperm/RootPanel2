@@ -2,12 +2,10 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-/** @var lpLocale $rpL */
-$rpL = f("lpLocale");
 /** @var lpConfig $rpCfg */
 $rpCfg = f("lpConfig");
 
-$rpL->load("node-list");
+f("lpLocale")->load("node-list");
 
 ?>
 

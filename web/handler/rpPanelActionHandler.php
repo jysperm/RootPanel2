@@ -6,9 +6,7 @@ class rpPanelActionHandler extends lpJSONHandler
 {
     public function __construct()
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-        $rpL->load("panel-action");
+        f("lpLocale")->load("panel-action");
 
         parent::__construct();
     }

@@ -4,10 +4,7 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 /** @var lpConfig $rpCfg */
 $rpCfg = f("lpConfig");
-/** @var lpLocale $rpL */
-$rpL = f("lpLocale");
-
-$rpL->load(["admin-list", "contact"]);
+f("lpLocale")->load(["admin-list", "contact"]);
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
 

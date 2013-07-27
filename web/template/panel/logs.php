@@ -2,10 +2,7 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-/** @var lpLocale $rpL */
-$rpL = f("lpLocale");
-
-$rpL->load(["base", "logs", "log"]);
+f("lpLocale")->load(["base", "logs", "log"]);
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
 $page = lpDividePage::fromGET();

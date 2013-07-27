@@ -24,10 +24,7 @@ class rpTools
 
     public static function niceTime($time)
     {
-        /** @var lpLocale $rpL */
-        $rpL = f("lpLocale");
-
-        $rpL->load(["tools"]);
+        f("lpLocale")->load(["tools"]);
 
         $timeDiff = time() - $time;
         if($timeDiff < -3600 * 24)
