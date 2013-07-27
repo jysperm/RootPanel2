@@ -26,11 +26,12 @@
     apt-get install nginx php5-cli php5-fpm php-pear build-essential libpcre3-dev apache2-mpm-itk apache2-dev libapache2-mod-php5 php5-dev
     # PHP 扩展
     apt-get install php5-mysql php5-curl php5-gd php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
-    pecl install apc mongo
+    pecl install apc mongo memcache
     # MySQL, Memcached, PPTPD
-    apt-get install mysql-server mysql-client phpmyadmin memcached pptpd mongodb
+    apt-get purge exim4
+    apt-get install mysql-server mysql-client phpmyadmin memcached pptpd mongodb sendmail-bin
     # 工具
-    apt-get install screen git wget zip unzip iftop unrar-free axel vim emacs subversion subversion-tools curl chkconfig ntp snmpd quota quotatool tmux mercurial
+    apt-get install screen git wget zip unzip iftop unrar-free axel vim emacs subversion subversion-tools curl chkconfig ntp quota quotatool tmux mercurial
     # Python
     apt-get install python python-dev libapache2-mod-wsgi python-setuptools python-pip libapache2-mod-python
     pip install django tornado markdown python-memcached web.py mongo uwsgi virtualenv virtualenvwrapper
@@ -43,13 +44,33 @@
 
     cd /
     git clone git://github.com/jybox/RootPanel.git
-    cd /RootPanel
 
 ### 创建用户
 
     adduser rpadmin
     usermod -G rpadmin -a www-data
 
+### 系统设置
+
+    a2enmod rewrite
+    cp -r /usr/share/phpmyadmin /RootPanel/web/
+
+    mkdir -p /var/tmp/nginx/cache
+    ln -s /usr/lib/insserv/insserv /sbin/insserv
+
+    chkconfig memcached off
+    chkconfig mongodb off
+
+    hostname NODE.jybox.net
+    echo "NODE.jybox.net" > /etc/hostname
+    echo "127.0.0.1 NODE.jybox.net" >> /etc/hosts
+
+* 参照 EDIT-CONFIG.md 修改配置文件
+* 重启服务器
+* 登录 Phpmyadmin 建立数据库和帐号
+* 修改 RootPanel 的配置文件
+* 访问 `/install/` 创建数据库结构
+* 注册管理员帐号
 
 
 

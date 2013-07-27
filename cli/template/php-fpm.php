@@ -16,6 +16,6 @@ listen.mode = 0660
 
 pm = dynamic
 pm.max_children = 10
-pm.start_servers = 3
+pm.start_servers = 2
 pm.min_spare_servers = 1
-pm.max_spare_servers = 3
+pm.max_spare_servers = 2

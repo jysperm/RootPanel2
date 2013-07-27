@@ -28,6 +28,7 @@
 
     extension = apc.so
     extension = mongo.so
+    extension = memcache.so
 
 ## /etc/nginx/nginx.conf
 
@@ -103,6 +104,8 @@
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+        types_hash_max_size 8192;
+
         include /etc/nginx/conf.d/*.conf;
         include /etc/nginx/sites-enabled/*;
     }
@@ -111,8 +114,10 @@
 ## 删除
 
 * /etc/php5/fpm/pool.d/www.conf
+* /etc/nginx/sites-enabled/default
+* /etc/apache2/sites-enabled/000-default
 
-# RP主机
+# RootPanel
 ## /etc/php5/fpm/pool.d/rpadmin.conf
 
 新建：
@@ -129,13 +134,13 @@
 
     pm = dynamic
     pm.max_children = 10
-    pm.start_servers = 3
+    pm.start_servers = 2
     pm.min_spare_servers = 1
-    pm.max_spare_servers = 3
+    pm.max_spare_servers = 2
 
 ## /etc/nginx/sites-enabled/00000-rpadmin
 
-新建：
+新建(请替换NODE)：
 
     server {
         listen 80 default_server;
@@ -145,7 +150,7 @@
         listen 80;
         server_name NODE.rpvhost.net;
 
-        root /RootPanel/panel;
+        root /RootPanel/web;
         index index.html index.php;
 
         access_log /root/nginx.access.log;
@@ -175,9 +180,16 @@
     	}
     }
 
+## /etc/apache2/ports.conf
+
+改为：
+
+    NameVirtualHost *:8080
+    Listen 8080
+
 ## /etc/apache2/sites-enabled/00000-rpadmin
 
-新建：
+新建(请替换NODE)：
 
     <Directory />
         Options +FollowSymLinks
@@ -196,3 +208,16 @@
     	</Location>
     </VirtualHost>
 
+# PPTP
+## /etc/pptpd.conf
+
+新增：
+
+    localip 10.89.64.1
+    remoteip 10.89.64.100-150
+
+## /etc/rc.local
+
+新增：
+
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
