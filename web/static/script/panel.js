@@ -24,7 +24,7 @@ $($("#new-website").click(function () {
 }));
 
 function editWebsite(websiteId) {
-    $("#dialog .dialog-title").html("编辑站点");
+    $("#dialog .dialog-title").html(rpL["panel.editSite"]);
     $.post("/panel-action/get-vhost/", {"id": websiteId}, function (data) {
         $("#dialog .dialog-body").html(data);
 
@@ -51,7 +51,7 @@ function editWebsite(websiteId) {
 }
 
 function deleteWebsite(websiteId) {
-    if (confirm("你确定要删除？")) {
+    if (confirm(rpL["panel.sureDelete"])) {
         $.post("/panel-action/delete-vhost/", {"id": websiteId}, function (data) {
             if(data.success)
                 window.location.reload();

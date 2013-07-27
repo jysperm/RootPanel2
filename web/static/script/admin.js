@@ -1,6 +1,6 @@
 function addTime(uname)
 {
-    $.post("/admin-action/add-time/",{"uname": uname, "day": prompt("请输入要延时的天数")}, function(data){
+    $.post("/admin-action/add-time/",{"uname": uname, "day": prompt(rpL["admin.addTime"])}, function(data){
         if(data.status=="ok")
             window.location.reload();
         else
@@ -17,7 +17,7 @@ function alertUser(uname)
 
 function switchUser(uname)
 {
-    $.post("/admin-action/switch-user/",{"uname": uname, "type": prompt("请输入要转换的类型")}, function(data){
+    $.post("/admin-action/switch-user/",{"uname": uname, "type": prompt(rpL["admin.switch"])}, function(data){
         if(data.status=="ok")
             window.location.reload();
         else
@@ -71,7 +71,7 @@ function enableUser(uname, type)
 
 function deleteUser(uname)
 {
-    if(confirm("你确定要删除？"))
+    if(confirm(rpL["panel.sureDelete"]))
     {
         $.post("/admin-action/delete-user/",{"uname": uname}, function(data){
             if(data.status=="ok")
