@@ -71,8 +71,8 @@ if(rpAuth::login())
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe icon-white"></i> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <? foreach(c("AvailableLanguage") as $l):?>
-                                <li><a href="/user/set-cookie/?language=<?= $l;?>"><?= $l;?></a></li>
+                            <? foreach(c("AvailableLanguage") as $l => $helloWorld):?>
+                                <li><a href="/user/set-cookie/?language=<?= $l;?>"><?= $helloWorld;?> (<?= $l;?>)</a></li>
                             <? endforeach;?>
                         </ul>
                     </li>
