@@ -67,9 +67,7 @@ function lpLoader($name)
 
     $map = [
         "lpDefaultFilter" => "lpApp",
-        "lpDBInquiryDrive" => "lpDBDrive",
-        "lpMySQLDBInquiryDrive" => "lpMySQLDBDrive",
-        "lpMongoDBInquiryDrive" => "lpMongoDBDrive",
+        "lpJSONHandler" => "lpHandler",
         "lpMutex" => "lpFileLock"
     ];
 
