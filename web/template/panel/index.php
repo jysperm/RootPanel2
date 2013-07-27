@@ -38,7 +38,7 @@ $me = f("rpUserModel");
 <? $base['header'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
-<script type='text/javascript' src='<?= c("StaticPrefix");?>/locale/<?= $rpL->language();?>/locale.js'></script>
+<script type='text/javascript' src='<?= c("StaticPrefix");?>/locale/<?= f("lpLocale")->language();?>/locale.js'></script>
 <script type='text/javascript' src='<?= c("StaticPrefix");?>/script/panel.js'></script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
@@ -99,17 +99,17 @@ $me = f("rpUserModel");
         <? foreach(rpVirtualHostModel::select(["uname" => rpAuth::uname()]) as $host): ?>
             <div id="website<?= $host["id"];?>" class="box">
                 <div>
-                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.ison"]; ?>"><?= l("panel.website.ison");?></a> &raquo; <span
+                    <a href="#" rel="tooltip" title="<?= l("panel.tooltip.ison"); ?>"><?= l("panel.website.ison");?></a> &raquo; <span
                         class="label"><?= $host["ison"] ? l("form.yes") : l("form.no") ?></span> |
-                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.id"]; ?>"><?= l("panel.website.id");?></a> &raquo; <span
+                    <a href="#" rel="tooltip" title="<?= l("panel.tooltip.id"); ?>"><?= l("panel.website.id");?></a> &raquo; <span
                         class="label"><?= $host["id"]; ?></span> |
-                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.domain"]; ?>"><?= l("panel.website.domain");?></a> &raquo; <span
+                    <a href="#" rel="tooltip" title="<?= l("panel.tooltip.domain"); ?>"><?= l("panel.website.domain");?></a> &raquo; <span
                         class="label"><?= $host["domains"]; ?></span>
                 </div>
                 <div>
-                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.type"]; ?>"><?= l("panel.website.type");?></a> &raquo; <span
+                    <a href="#" rel="tooltip" title="<?= l("panel.tooltip.type"); ?>"><?= l("panel.website.type");?></a> &raquo; <span
                         class="label"><?= $types[$host["type"]]->meta()["name"]; ?></span> |
-                    <a href="#" rel="tooltip" title="<?= $rpL["panel.tooltip.source"]; ?>"><?= l("panel.website.source");?></a> &raquo; <span
+                    <a href="#" rel="tooltip" title="<?= l("panel.tooltip.source"); ?>"><?= l("panel.website.source");?></a> &raquo; <span
                         class="label"><?= $host["source"]; ?></span>
                 </div>
                 <button class="btn btn-danger pull-right" onclick="deleteWebsite(<?= $host["id"]; ?>);return false;"><?= l("form.delete");?>
