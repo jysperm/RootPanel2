@@ -37,7 +37,7 @@ $base['title'] = l("sites.title");
 
 <? lpTemplate::beginBlock(); ?>
     <script type="text/javascript">
-        $('#myCarousel').carousel();
+        $('#carousel').carousel();
     </script>
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 

@@ -90,6 +90,10 @@ class rpAdminActionHandler extends lpHandler
     public function enableUser()
     {
         $this->auth();
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["base", "admin-action"]);
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
 
@@ -116,6 +120,10 @@ class rpAdminActionHandler extends lpHandler
     public function disableUser()
     {
         $this->auth();
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["base", "admin-action"]);
 
         rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
 
@@ -142,6 +150,10 @@ class rpAdminActionHandler extends lpHandler
     public function switchUser()
     {
         $this->auth();
+        /** @var lpLocale $rpL */
+        $rpL = f("lpLocale");
+
+        $rpL->load(["base", "admin-action"]);
 
         if(in_array($_POST['type'], array_keys(l("base.userType"))))
         {
