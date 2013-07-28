@@ -25,18 +25,18 @@ class rpUserHandler extends lpHandler
             };
 
             if(!isset($_POST["uname"]) or !isset($_POST["email"]))
-                $procError($rpL["signup.tips.incomplete"]);
+                $procError(l("signup.tips.incomplete"));
 
             if(!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $_POST["uname"]) or
                 !preg_match('/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/', $_POST["email"])
             )
-                $procError($rpL["signup.rule"]);
+                $procError(l("signup.rule"));
 
             if(in_array($_POST["uname"], c("NotAllowSignup")))
-                $procError($rpL["signup.tips.notAllowSignup"]);
+                $procError(l("signup.tips.notAllowSignup"));
 
             if(rpUserModel::find(["uname" => $_POST["uname"]]))
-                $procError($rpL["signup.tips.userExists"]);
+                $procError(l("signup.tips.userExists"));
 
             $user = [
                 "uname" => $_POST["uname"],
@@ -80,12 +80,12 @@ class rpUserHandler extends lpHandler
             };
 
             if(!isset($_POST["uname"]) or !isset($_POST["passwd"]))
-                $procError($rpL["login.tips.noInput"]);
+                $procError(l("login.tips.noInput"));
 
             if(rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]))
                 rpApp::goUrl(isset($_GET["next"]) ? $_GET["next"] : "/panel/");
             else
-                $procError($rpL["login.tips.passwdError"]);
+                $procError(l("login.tips.passwdError"));
         }
     }
 
