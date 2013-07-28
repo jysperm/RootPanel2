@@ -45,8 +45,6 @@
     cd /
     git clone git://github.com/jybox/RootPanel.git
 
-### 创建用户
-
     adduser rpadmin
     usermod -G rpadmin -a www-data
 
@@ -61,15 +59,19 @@
     chkconfig memcached off
     chkconfig mongodb off
 
-    hostname NODE.jybox.net
-    echo "NODE.jybox.net" > /etc/hostname
-    echo "127.0.0.1 NODE.jybox.net" >> /etc/hosts
+    hostname NODE.rpvhost.net
+    echo "NODE.rpvhost.net" > /etc/hostname
+    echo "127.0.0.1 NODE.rpvhost.net" >> /etc/hosts
 
     chown -R rpadmin:rpadmin /RootPanel
     chmod -R 770 /RootPanel
 
+    quotacheck -uvag /home
+    quotaon -av
+
 * 参照 EDIT-CONFIG.md 修改配置文件
 * 重启服务器
+
 * 登录 Phpmyadmin 建立数据库和帐号
 * 修改 RootPanel 的配置文件
 * 访问 `/install/` 创建数据库结构

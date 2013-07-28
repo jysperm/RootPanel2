@@ -83,7 +83,7 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
     <header><?= l("ticket.list.reply"); ?> (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
     <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
         <div class="box">
-            <?= $reply["content"]; ?>
+            <?= rpTools::escapePlantText($reply["content"]); ?>
             <hr />
             <span class="label">
                 <span
