@@ -68,9 +68,9 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
 
 <? lpTemplate::beginBlock(); ?>
 <section id="content">
-    <header><?= $tk["title"]; ?></header>
+    <header><?= rpTools::escapePlantText($tk["title"]); ?></header>
     <p>
-        <?= $tk["content"]; ?>
+        <?= rpTools::escapePlantText($tk["content"]); ?>
     </p>
     <hr />
     <span class="label">

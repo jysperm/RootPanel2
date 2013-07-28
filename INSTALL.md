@@ -65,6 +65,9 @@
     echo "NODE.jybox.net" > /etc/hostname
     echo "127.0.0.1 NODE.jybox.net" >> /etc/hosts
 
+    chown -R rpadmin:rpadmin /RootPanel
+    chmod -R 770 /RootPanel
+
 * 参照 EDIT-CONFIG.md 修改配置文件
 * 重启服务器
 * 登录 Phpmyadmin 建立数据库和帐号

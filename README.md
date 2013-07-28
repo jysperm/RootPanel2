@@ -4,15 +4,7 @@
     
     chown -R rpadmin:rpadmin /RootPanel
     chmod -R 770 /RootPanel
-    
-### 重启服务器
 
-    service apache2 restart
-    service nginx restart
-    
-### 数据库
-
-在PHPMyAdmin新建用户`rpadmin`，赋予全局权限，创建同名数据库导入 `panel/db.sql`.
   
 ### 软件包设置
 

@@ -51,12 +51,12 @@ class rpTicketModel extends lpPDOModel
     {
         $ticket = [
             "time" => time(),
-            "title" => rpTools::escapePlantText($data["title"]),
+            "title" => $data["title"],
             "type" => $data["type"],
             "lastchange" => time(),
             "replys" => 0,
             "lastreply" => rpAuth::uname(),
-            "content" => rpTools::escapePlantText($data["content"])
+            "content" => $data["content"]
         ];
 
         $mailSender = function($id, $email) use($ticket) {
@@ -110,7 +110,7 @@ class rpTicketModel extends lpPDOModel
             "replyto" => $id,
             "time" => time(),
             "uname" => rpAuth::uname(),
-            "content" => rpTools::escapePlantText($data["content"])
+            "content" => $data["content"]
         ];
 
         $tkRow = [
