@@ -2,7 +2,7 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-f("lpLocale")->load(["form", "base", "login", "contact"]);
+f("lpLocale")->load(["contact", "form", "base", "login"]);
 
 $base = new lpTemplate(rpROOT . "/template/base.php");
 

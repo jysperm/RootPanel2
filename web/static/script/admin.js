@@ -58,7 +58,7 @@ function editSettings(uname)
         $("#dialog .dialog-ok").unbind('click');
         $("#dialog .dialog-ok").click(function () {
             var postdata = $("#dialog .website-form").serializeArray();
-            $.post("/admin/edit-settings/" + uname + "/", postdata, function (data) {
+            $.post("/admin-action/edit-settings/" + uname + "/", postdata, function (data) {
                 if(data.status == "ok")
                     window.location.reload();
                 else
