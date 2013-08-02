@@ -138,6 +138,7 @@ $commonAct = function($uname)
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');"><?= l("admin.op.addTime");?></a></li>
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>');"><?= l("admin.op.alert");?></a></li>
                             <li><a href="#" onclick="switchUser('<?= $user['uname'];?>');"><?= l("admin.op.switch");?></a></li>
+                            <li><a href="#" onclick="editSettings('<?= $user['uname'];?>');"><?= l("admin.op.editSettings");?></a></li>
                             <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
@@ -176,6 +177,7 @@ $commonAct = function($uname)
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');"><?= l("admin.op.addTime");?></a></li>
                             <li><a href="#" onclick="alertUser('<?= $user['uname'];?>');"><?= l("admin.op.alert");?></a></li>
                             <li><a href="#" onclick="disableUser('<?= $user['uname'];?>');"><?= l("admin.op.disable");?></a></li>
+                            <li><a href="#" onclick="editSettings('<?= $user['uname'];?>');"><?= l("admin.op.editSettings");?></a></li>
                             <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>
@@ -213,6 +215,7 @@ $commonAct = function($uname)
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="addTime('<?= $user['uname'];?>');"><?= l("admin.op.addTime");?></a></li>
                             <li><a href="#" onclick="switchUser('<?= $user['uname'];?>');"><?= l("admin.op.switch");?></a></li>
+                            <li><a href="#" onclick="editSettings('<?= $user['uname'];?>');"><?= l("admin.op.editSettings");?></a></li>
                             <?= $commonAct($user["uname"]); ?>
                         </ul>
                     </div>

@@ -59,6 +59,22 @@ class rpAdminActionHandler extends lpHandler
         lpTemplate::outputFile(rpROOT . "/template/dialog/admin-new-ticket.php");
     }
 
+    public function getEditSettings($uname = null)
+    {
+        $this->auth();
+        lpTemplate::outputFile(rpROOT . "/template/dialog/admin-edit-settings.php", ["uname" => $uname]);
+    }
+
+    public function editSettings($uname = null)
+    {
+        $this->auth();
+        rpUserModel::update(["uname" => $uname], ["settings" => [
+            "pptppasswd" => $_POST["pptppasswd"], "nginxextconfig" => $_POST["nginxextconfig"], "apache2extconfig" => $_POST["apache2extconfig"]]
+        ]);
+
+        rpApp::reloadWebConfig($uname);
+    }
+
     public function getPasswd()
     {
         $this->auth();

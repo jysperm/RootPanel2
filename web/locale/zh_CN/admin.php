@@ -34,5 +34,10 @@ $rpL["admin.op.delete"] = "删除用户";
 $rpL["admin.op.alert"] = "续费提醒";
 $rpL["admin.op.switch"] = "变更付费方式";
 $rpL["admin.op.disable"] = "销毁帐号";
+$rpL["admin.op.editSettings"] = "编辑选项";
+
+$rpL["admin.settings.pptppasswd"] = "PPTP密码";
+$rpL["admin.settings.nginxextconfig"] = "Nginx配置文件";
+$rpL["admin.settings.apache2extconfig"] = "Apache2配置文件";
 
 return $rpL;

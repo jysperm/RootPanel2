@@ -104,6 +104,7 @@
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+        fastcgi_intercept_errors on;
         types_hash_max_size 8192;
 
         include /etc/nginx/conf.d/*.conf;
@@ -133,10 +134,10 @@
     listen.mode = 0660
 
     pm = dynamic
-    pm.max_children = 10
-    pm.start_servers = 2
+    pm.max_children = 50
+    pm.start_servers = 4
     pm.min_spare_servers = 1
-    pm.max_spare_servers = 2
+    pm.max_spare_servers = 4
 
 ## /etc/nginx/sites-enabled/00000-rpadmin
 

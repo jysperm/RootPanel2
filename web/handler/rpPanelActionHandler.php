@@ -16,12 +16,6 @@ class rpPanelActionHandler extends lpJSONHandler
         return json_encode(["success" => false, "msg" => $msg]);
     }
 
-    private function reloadWebConfig($uname)
-    {
-        rpApp::finishRequest();
-        shell_exec(rpROOT . "/../cli/web-conf-maker.php {$uname}");
-    }
-
     private function auth()
     {
         if(!rpAuth::login())
@@ -82,7 +76,7 @@ class rpPanelActionHandler extends lpJSONHandler
             rpLogModel::log(rpAuth::uname(), "log.type.createVHost", [$id, $id], $vhost);
 
             echo json_encode(["success" => "ok"]);
-            $this->reloadWebConfig(rpAuth::uname());
+            rpApp::reloadWebConfig(rpAuth::uname());
         }
         else
         {
@@ -128,7 +122,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             echo json_encode(["success" => "ok"]);
 
-            $this->reloadWebConfig(rpAuth::uname());
+            rpApp::reloadWebConfig(rpAuth::uname());
         }
         else
         {

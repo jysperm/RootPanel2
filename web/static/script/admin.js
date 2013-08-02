@@ -27,7 +27,7 @@ function switchUser(uname)
 
 function newTK(uname)
 {
-    $("#dialog .dialog-title").html("创建工单");
+    $("#dialog .dialog-title").html(rpL["admin.newTK"]);
     $.post("/admin-action/get-new-ticket/", {}, function (data) {
         $("#dialog .dialog-body").html(data);
 
@@ -46,6 +46,28 @@ function newTK(uname)
 
         $("#dialog").modal();
         $("#dialog #users").val(uname);
+    }, "html");
+}
+
+function editSettings(uname)
+{
+    $("#dialog .dialog-title").html(rpL["admin.editSettings"]);
+    $.post("/admin-action/get-edit-settings/" + uname + "/", {}, function (data) {
+        $("#dialog .dialog-body").html(data);
+
+        $("#dialog .dialog-ok").unbind('click');
+        $("#dialog .dialog-ok").click(function () {
+            var postdata = $("#dialog .website-form").serializeArray();
+            $.post("/admin/edit-settings/" + uname + "/", postdata, function (data) {
+                if(data.status == "ok")
+                    window.location.reload();
+                else
+                    alert(data.msg);
+            }, "json");
+            return false;
+        });
+
+        $("#dialog").modal();
     }, "html");
 }
 

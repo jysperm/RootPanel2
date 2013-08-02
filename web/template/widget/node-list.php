@@ -14,7 +14,6 @@ f("lpLocale")->load("node-list");
             <a href="#" rel="popover" data-content="<?= l("node-list.popover.minRes"); ?>"
                data-original-title="<?= l("node-list.minGuarantee"); ?>"><?= l("node-list.min"); ?></a><?= l("node-list.MemoryGuarantee"); ?>
         </th>
-        <th><?= l("node-list.minCPUGuarantee"); ?></th>
         <th><?= l("node-list.disk"); ?></th>
         <th><?= l("node-list.trafficPerMonth"); ?></th>
         <th><?= l("node-list.domain"); ?></th>
@@ -26,7 +25,6 @@ f("lpLocale")->load("node-list");
             <td><a href="#" rel="popover" data-content="<?= l("node-list")[$nodeID]["description"]; ?>"
                    data-original-title="<?= l("node-list")[$nodeID]["name"]; ?>"><?= l("node-list")[$nodeID]["name"]; ?></a></td>
             <td><?= $node["memory"]; ?>M</td>
-            <td><?= $node["cpu"]; ?>MHz</td>
             <td><?= $node["disk"]; ?>M</td>
             <td><?= $node["traffic"]; ?>G</td>
             <td><a href="http://<?= $node["domain"]; ?>/"><?= $node["domain"]; ?></a></td>

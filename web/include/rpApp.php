@@ -97,4 +97,10 @@ class rpApp extends lpApp
         foreach(self::$atexit as $f)
             $f();
     }
+
+    public static function reloadWebConfig($uname)
+    {
+        rpApp::finishRequest();
+        shell_exec(rpROOT . "/../cli/web-conf-maker.php {$uname}");
+    }
 }

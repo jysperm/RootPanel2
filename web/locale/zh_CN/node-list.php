@@ -3,24 +3,18 @@
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 $rpL["node-list.jp1"] = <<< HTML
-
 总所周知Linode是业界良心，质量和稳定性都有保证，且日本线路到大陆比较近.<br />
 但该区域受到工信部重点关照，时常访问不畅.
-
 HTML;
 
 $rpL["node-list.us1"] = <<< HTML
-
 这个节点资源较多，无论是硬盘、内存、流量都较大.<br />
 到大陆的速度也可以接受，而且该区域目前还未受到特殊关照.
-
 HTML;
 
 $rpL["node-list.hk1"] = <<< HTML
-
-即将增加香港节点.<br />
+该节点到全国的速度都还不错，但是CPU和流量资源较为紧张<br />
 该节点不提供PPTP.
-
 HTML;
 
 $rpL["node-list"] = [
@@ -29,7 +23,7 @@ $rpL["node-list"] = [
         "description" => $rpL["node-list.jp1"],
     ],
     "us1" => [
-        "name" => "LocVPS洛杉矶",
+        "name" => "LocVPS洛杉矶(已满)",
         "description" => $rpL["node-list.us1"],
     ],
     "hk1" => [
@@ -42,7 +36,6 @@ $rpL["node-list.location"] = "机房";
 $rpL["node-list.minGuarantee"] = "最小保证";
 $rpL["node-list.min"] = "最小";
 $rpL["node-list.MemoryGuarantee"] = "内存保证";
-$rpL["node-list.minCPUGuarantee"] = "最小CPU保证";
 $rpL["node-list.disk"] = "磁盘空间";
 $rpL["node-list.trafficPerMonth"] = "流量/月";
 $rpL["node-list.domain"] = "域名";

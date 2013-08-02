@@ -325,7 +325,8 @@ abstract class lpPDOModel implements ArrayAccess
 
     static public function jsonEncode($data)
     {
-        foreach(static::metaData()["struct"] as $k => $v) {
+        foreach(static::metaData()["struct"] as $k => $v)
+        {
             if($v["type"] == self::JSON && array_key_exists($k, $data))
                 $data[$k] = json_encode($data[$k]);
         }
@@ -334,7 +335,8 @@ abstract class lpPDOModel implements ArrayAccess
 
     static public function jsonDecode($data)
     {
-        foreach(static::metaData()["struct"] as $k => $v) {
+        foreach(static::metaData()["struct"] as $k => $v)
+        {
             if($v["type"] == self::JSON && array_key_exists($k, $data))
                 $data[$k] = json_decode($data[$k], true);
         }
