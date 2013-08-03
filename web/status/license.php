@@ -20,7 +20,7 @@ if(isset($_POST["pubkey"]))
     {
         $strToEncode = "{$info["name"]} {$info["expired"]}";
         if($strDecode == $strToEncode)
-            echo "授权有效";
+            echo "授权有效，有效期至：{$info["expired"]}";
         else
             echo "站点ID或有效期有误： {$strDecode}";
     }
