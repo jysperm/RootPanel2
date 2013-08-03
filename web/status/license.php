@@ -41,7 +41,7 @@ if(isset($_POST["pubkey"]))
     <body>
         <form method="post">
             公钥来源 <input type="text" id="pubkey" name="pubkey" value ="https://raw.github.com/jybox/RootPanel/master/RootPanel.php.pubkey" /><br />
-            站点URL(含斜线) <input type="text" id="siteurl" name="siteurl" />
+            站点URL(含斜线) <input type="text" id="siteurl" name="siteurl" /><br />
             <input type="submit" value="验证站点">
         </form>
         <hr />
@@ -49,13 +49,13 @@ if(isset($_POST["pubkey"]))
             公钥来源 <input type="text" id="pubkey" name="pubkey" value ="https://raw.github.com/jybox/RootPanel/master/RootPanel.php.pubkey" /><br />
             站点ID(域名) <input type="text" id="siteid" name="siteid" /><br />
             有效期 <input type="text" id="expired" name="expired" /><br />
-            授权信息 <textarea id="license" name="license"></textarea>
+            授权信息 <textarea id="license" name="license"></textarea><br />
             <input type="submit" value="验证授权">
         </form>
         <hr />
         <form method="post">
             公钥来源 <input type="text" id="pubkey" name="pubkey" value ="https://raw.github.com/jybox/RootPanel/master/RootPanel.php.pubkey" /><br />
-            授权信息(JSON格式) <textarea id="licensejson" name="licensejson"></textarea>
+            授权信息(JSON格式) <textarea id="licensejson" name="licensejson"></textarea><br />
             <input type="submit" value="验证JSON序列">
         </form>
     </body>
