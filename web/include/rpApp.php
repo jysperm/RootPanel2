@@ -29,7 +29,8 @@ class rpApp extends lpApp
         $rpCfg->load([
             rpROOT . "/config/rp-config.php",
             rpROOT . "/config/main-config.php",
-            rpROOT . "/config/node-config.php"
+            rpROOT . "/config/node-config.php",
+            rpROOT . "/config/license.php"
         ]);
 
         lpFactory::register("lpLocale", function() {

@@ -15,4 +15,9 @@ class rpInstallHandler extends lpHandler
 
         rpApp::goUrl("/");
     }
+
+    public function license()
+    {
+        echo json_encode(c("License"));
+    }
 }

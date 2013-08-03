@@ -66,7 +66,7 @@
     chown -R rpadmin:rpadmin /RootPanel
     chmod -R 770 /RootPanel
 
-    quotacheck -uvag /home
+    quotacheck -acuv -a
     quotaon -av
 
 * 参照 EDIT-CONFIG.md 修改配置文件
