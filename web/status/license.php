@@ -8,7 +8,7 @@ if(isset($_POST["pubkey"]))
     if(isset($_POST["siteurl"]))
         $info = json_decode(file_get_contents($_POST["siteurl"] . "install/license/"), true);
     else if(isset($_POST["siteid"]))
-        $json = ["name" => $_POST["siteid"], "expired" => $_POST["expired"], "certificate" => $_POST["license"]];
+        $info = ["name" => $_POST["siteid"], "expired" => $_POST["expired"], "certificate" => $_POST["license"]];
     else
         $info = json_decode($_POST["licensejson"], true);
 
