@@ -3,7 +3,7 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- web/template/base.php	(revision 2d7168491572d2dc8de6e152945220a817aee51c)
+--- web/template/base.php	(date 1375619962000)
 +++ web/template/base.php	(revision )
 @@ -103,9 +103,6 @@
  <script type='text/javascript' src='<?= c("jQueryPrefix");?>/jquery.js'></script>
@@ -15,10 +15,15 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  <?= $this["endOfBody"]; ?>
  </body>
  </html>
+Index: LICENSE.md
+===================================================================
+--- LICENSE.md	(date 1375619962000)
++++ LICENSE.of.md	(revision )
+@@ -1,0 +1,0 @@
 Index: web/static/locale/zh_CN/kill-ie6.js
 ===================================================================
---- web/static/locale/zh_CN/kill-ie6.js	(revision 2d7168491572d2dc8de6e152945220a817aee51c)
-+++ web/static/locale/zh_CN/kill-ie6.js	(revision 2d7168491572d2dc8de6e152945220a817aee51c)
+--- web/static/locale/zh_CN/kill-ie6.js	(date 1375619962000)
++++ web/static/locale/zh_CN/kill-ie6.js	(date 1375619962000)
 @@ -1,274 +0,0 @@
 -/**
 - * Let's Kill IE6 (http://www.neoease.com/lets-kill-ie6/)
