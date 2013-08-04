@@ -103,7 +103,6 @@ class rpTicketModel extends lpPDOModel
 
     public function reply($data)
     {
-        global $rpCfg;
         $id = $this->data["id"];
 
         $reply = [
@@ -118,10 +117,13 @@ class rpTicketModel extends lpPDOModel
             "lastreply" => rpAuth::uname(),
         ];
 
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
-        $mailBody = "{$reply["content"]}<br />";
-        $mailBody .= "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
+        $mailSender = function($email) use($reply, $id) {
+            $mailer = lpFactory::get("lpSmtp");
+            $mailTitle = l("ticket.replyMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
+            $mailBody = l("ticket.replyMail.body", $reply["content"], c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);
+
+            $mailer->send($email, $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        };
 
         rpTicketReplyModel::insert($reply);
 
@@ -132,9 +134,9 @@ class rpTicketModel extends lpPDOModel
             $tkRow["status"] = rpTicketModel::HODE;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            return function() use($mailer, $mailTitle, $mailBody) {
-                $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-            };
+            rpApp::registerAtexit(function() use($mailSender) {
+                $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
+            });
         }
         else
         {
@@ -143,58 +145,58 @@ class rpTicketModel extends lpPDOModel
             $tkRow["status"] = rpTicketModel::OPEN;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            $mailTitle = "TK Reply | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
-
-            return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
-                $mailer->send($rpCfg["AdminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-            };
+            rpApp::registerAtexit(function() use($mailSender) {
+                $mailSender(c("AdminsEmail"));
+            });
         }
     }
 
     public function close()
     {
-        global $rpCfg;
         $id = $this->data["id"];
 
         rpTicketModel::update(["id" => $id], ["status" => self::CLOSED]);
 
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "TK Close | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
-        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
+        $mailSender = function($email) use($id) {
+            $mailer = lpFactory::get("lpSmtp");
+            $mailTitle = l("ticket.closeMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
+            $mailBody = l("ticket.closeMail.body", c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);
+
+            $mailer->send($email, $mailTitle, $mailBody, lpSmtp::HTMLMail);
+        };
 
         if(lpFactory::get("rpUserModel")->isAdmin())
         {
             rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
 
-            return function() use($mailer, $mailTitle, $mailBody) {
-                $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-            };
+            rpApp::registerAtexit(function() use($mailSender) {
+                $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
+            });
         }
         else
         {
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
-            return function() use($mailer, $mailTitle, $mailBody, $rpCfg) {
-                $mailer->send($rpCfg["AdminsEmail"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-            };
+            rpApp::registerAtexit(function() use($mailSender) {
+                $mailSender(c("AdminsEmail"));
+            });
         }
     }
 
     public function finish()
     {
-        global $rpCfg;
         $id = $this->data["id"];
 
         rpTicketModel::update(["id" => $id], ["status" => self::FINISH]);
 
-        $mailer = lpFactory::get("lpSmtp");
-        $mailTitle = "TK Finish | {$rpCfg["NodeID"]} | " . rpAuth::uname() . " | {$this->data["title"]}";
-        $mailBody = "<a href='http://{$rpCfg["NodeList"][$rpCfg["NodeID"]]["domain"]}/ticket/view/{$id}/'># {$id} | {$this->data["title"]}</a>";
-
         rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
 
-        return function() use($mailer, $mailTitle, $mailBody) {
+        rpApp::registerAtexit(function() use($id) {
+            $mailer = lpFactory::get("lpSmtp");
+            $mailTitle = l("ticket.closeMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
+            $mailBody = l("ticket.closeMail.body", c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);
+
             $mailer->send(rpUserModel::by("uname", $this->data["uname"])["email"], $mailTitle, $mailBody, lpSmtp::HTMLMail);
-        };
+        });
     }
 }

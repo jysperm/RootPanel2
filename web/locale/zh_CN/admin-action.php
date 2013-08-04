@@ -7,15 +7,15 @@ $rpL["admin-action.notAdmin"] = "你不是管理员";
 
 $rpL["admin-action.ticket.alert.title"] = "你的账户将于 %s 到期";
 $rpL["admin-action.ticket.alert.content"] = <<<HTML
-你的账户将于 %s 到期。<br />
-<br />
+你的账户将于 %s 到期。
+
 请及时登录面板进行续费，否则你的数据将会被销毁，有任何疑问请咨询管理员。
 HTML;
 
 $rpL["admin-action.ticket.enable.title"] = "你的账户已被开通为 %s";
 $rpL["admin-action.ticket.enable.content"] = <<<HTML
-你的账户已被开通为 %s。<br />
-<br />
+你的账户已被开通为 %s。
+
 如果在使用中遇到问题，请联系客服。
 HTML;
 

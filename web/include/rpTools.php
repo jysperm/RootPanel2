@@ -28,7 +28,7 @@ class rpTools
 
         $timeDiff = time() - $time;
         if($timeDiff < -3600 * 24)
-            return l("tools.niceTime.dayAfter", round($timeDiff / (-3600 * 24)));
+            return l("tools.niceTime.daysAfter", round($timeDiff / (-3600 * 24)));
         else if($timeDiff < -3600)
             return l("tools.niceTime.hoursAfter", round($timeDiff / (-3600)));
         else if($timeDiff < -60)

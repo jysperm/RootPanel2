@@ -47,8 +47,8 @@ $rpL["ticket.types.long"] = [
 ];
 
 $rpL["ticket.status.open"] = "开放中";
-$rpL["ticket.status.hode"] = "客服已回复";
-$rpL["ticket.status.finish"] = "客服已处理";
+$rpL["ticket.status.hode"] = "已回复";
+$rpL["ticket.status.finish"] = "已处理";
 $rpL["ticket.status.closed"] = "已关闭";
 
 $rpL["ticket.handler.invalidType"] = "工单类型错误";
@@ -58,9 +58,28 @@ $rpL["ticket.handler.alreadyClosed"] = "该工单已经关闭";
 $rpL["ticket.handler.closeOnlyByAdmin"] = "该工单只能被管理员关闭";
 $rpL["ticket.handler.notAdmin"] = "只有管理员可以标记完成";
 
-$rpL["ticket.createMail.title"] = "TK Create | %s | %s | %s";
+$rpL["ticket.createMail.title"] = "新工单 | %s | %s | %s";
 $rpL["ticket.createMail.body"] = <<< HTML
-%s<br /><a href='http://%s/ticket/view/%s/'># %s | %s</a>
+%s<br />
+<br />
+查看：<a href='http://%s/ticket/view/%s/'>#%s | %s</a>
+HTML;
+
+$rpL["ticket.replyMail.title"] = "新回复 | %s | %s | %s";
+$rpL["ticket.replyMail.body"] = <<< HTML
+%s<br />
+<br />
+查看：<a href='http://%s/ticket/view/%s/'>#%s | %s</a>
+HTML;
+
+$rpL["ticket.closeMail.title"] = "已关闭 | %s | %s | %s";
+$rpL["ticket.closeMail.body"] = <<< HTML
+查看：<a href='http://%s/ticket/view/%s/'>#%s | %s</a>
+HTML;
+
+$rpL["ticket.finishMail.title"] = "已处理 | %s | %s | %s";
+$rpL["ticket.finishMail.body"] = <<< HTML
+查看：<a href='http://%s/ticket/view/%s/'>#%s | %s</a>
 HTML;
 
 
