@@ -26,8 +26,8 @@
 ## 开源软件
 RootPanel 包含有其他开源软件，他们不受本授权影响，RootPanel 也没有违反它们的授权：
 
-* /statis/bootstarp [Apache License](https://github.com/twbs/bootstrap)
-* /statis/jquery [MIT License](https://github.com/jquery/jquery)
+* /static/bootstarp [Apache License](https://github.com/twbs/bootstrap)
+* /static/jquery [MIT License](https://github.com/jquery/jquery)
 * /LightPHP/ [LGPL](https://github.com/jybox/LightPHP)
 * /status/license.php 精英王子
 * /status/mobile.php [雅黑实验室](http://yahei.net/)
