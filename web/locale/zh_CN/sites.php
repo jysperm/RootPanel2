@@ -10,7 +10,8 @@ $rpL["sites.big"] = [
         "domain" => "jyprince.me",
         "url" => "http://jyprince.me/",
         "name" => "精英王子的博客",
-        "description" => "该博客包含了精英王子的生活点滴和一些技术教程"
+        "description" => "该博客包含了精英王子的生活点滴和一些技术教程",
+        "default" => true
     ], [
         "img" => "http://i.imgur.com/pYyZM85.png",
         "domain" => "im.librazy.org",

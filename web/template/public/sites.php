@@ -49,7 +49,7 @@ $base['title'] = l("sites.title");
             </ol>
             <div class="carousel-inner">
                 <? foreach(l("sites.big") as $site):?>
-                    <div class="item active">
+                    <div class="item<?= isset($site["default"]) ? " active" : "";?>">
                         <img src="<?= $site["img"];?>" alt="<?= $site["domain"];?>">
                         <div class="carousel-caption">
                             <h4><a href="<?= $site["url"];?>"><?= $site["name"];?></a></h4>
