@@ -3,7 +3,6 @@
 精英王子, m@jybox.net
 http://jyprince.me/
 2013.4.11
-GPLv3
 
 只支持Linux环境, 需开启短标记, 需启用`shell_exec()`.
 仅支持各浏览器的最新版本, IE最低支持IE9.
