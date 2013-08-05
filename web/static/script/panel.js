@@ -68,10 +68,10 @@ function changePasswd(name, isReload) {
             if(isReload)
                 window.location.reload();
             else
-                alert(data.status);
+                alert(data.message);
         }
         else
-            alert(data.msg);
+            alert(data.message);
     }, "json");
     return false;
 }

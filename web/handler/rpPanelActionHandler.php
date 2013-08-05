@@ -13,7 +13,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
     private function jsonError($msg)
     {
-        return json_encode(["success" => false, "msg" => $msg]);
+        return json_encode(["success" => false, "message" => $msg]);
     }
 
     private function auth()
@@ -166,7 +166,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.sshPasswd", [], []);
 
-            echo json_encode(["success" => "ok"]);
+            echo json_encode(["success" => true]);
         }
         else
         {
@@ -192,7 +192,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.pptpPasswd", [], []);
 
-            echo json_encode(["success" => "ok"]);
+            echo json_encode(["success" => true]);
 
             rpApp::finishRequest();
             shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
@@ -215,7 +215,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.mysqlPasswd", [], []);
 
-            echo json_encode(["success" => "ok"]);
+            echo json_encode(["success" => true]);
         }
         else
         {
@@ -233,7 +233,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             rpLogModel::log($uname, "log.type.panelPasswd", [], []);
 
-            echo json_encode(array("success" => "ok"));
+            echo json_encode(array("success" => true));
         }
         else
         {
