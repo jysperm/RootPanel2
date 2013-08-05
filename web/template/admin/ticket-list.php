@@ -47,7 +47,7 @@ $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
         <tbody>
         <? foreach(rpTicketModel::select(["status" => rpTicketModel::OPEN], ["sort" => ["lastchange", false]]) as $tk): ?>
             <tr>
-                <td><?= $tk["id"]; ?></td>
+                <td><?= $tk["id"]; ?> (<?= $tk["uname"]; ?>)</td>
                 <td><?= l("ticket.types")[$tk["type"]]; ?></td>
                 <td><?= l($tk["status"]); ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
@@ -73,7 +73,7 @@ $dPage = new lpDividePage($rows, $page, c("TKPerPage"));
         <tbody>
         <? foreach(rpTicketModel::select($ifUName, ["sort" => ["lastchange", false], "limit" => c("TKPerPage"), "skip" => $dPage->getPos()]) as $tk): ?>
             <tr>
-                <td><?= $tk["id"]; ?></td>
+                <td><?= $tk["id"]; ?> (<?= $tk["uname"]; ?>)</td>
                 <td><?= l("ticket.types")[$tk["type"]]; ?></td>
                 <td><?= l($tk["status"]); ?></td>
                 <td><a href="/ticket/view/<?= $tk["id"]; ?>/"><?= $tk["title"]; ?></a></td>
