@@ -23,7 +23,7 @@ shell_exec("sudo service nginx reload");
 shell_exec("sudo service apache2 reload");
 shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
 
-$db = lpFactory::get("PDO");
+$db = lpFactory::get("lpDBDrive");
 $db->exec(sprintf("DROP USER '%s'@'localhost';", $uname));
 
 foreach($db->query("show databases;") as $row)

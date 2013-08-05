@@ -15,7 +15,7 @@ if(!isset($argv[1]))
     die("error : {$argv[0]} <uname>\n");
 $uname = $argv[1];
 
-$db = lpFactory::get("PDO");
+$db = lpFactory::get("lpDBDrive");
 $user = rpUserModel::by("uname", $uname);
 
 $config["nginx"] = $config["apache"] = "# " . gmdate("Y.m.d H:i:s") . "\n";

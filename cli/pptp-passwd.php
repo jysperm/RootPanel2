@@ -9,7 +9,7 @@ rpApp::helloWorld();
 
 $lock = new lpMutex;
 
-$db = lpFactory::get("PDO");
+$db = lpFactory::get("lpDBDrive");
 
 lpTemplate::beginBlock();
 
