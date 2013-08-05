@@ -18,7 +18,7 @@ shell_exec("sudo rm -f /etc/nginx/sites-enabled/{$uname}");
 shell_exec("sudo rm -f /etc/apache2/sites-enabled/{$uname}");
 shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}.conf");
 
-shell_exec("sudo {$rpROOT}/../cli/pptp-passwd.php");
+shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
 shell_exec("sudo service nginx reload");
 shell_exec("sudo service apache2 reload");
 shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
@@ -27,10 +27,7 @@ $db = lpFactory::get("PDO");
 $db->exec(sprintf("DROP USER '%s'@'localhost';", $uname));
 
 foreach($db->query("show databases;") as $row)
-{
     if(substr($row["Database"], 0, strlen($uname)+1) == "{$uname}_")
-    {
         $db->exec(sprintf("DROP DATABASE `%s`;", $row["Database"]));
-    }
-}
+
 

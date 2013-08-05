@@ -25,7 +25,7 @@ foreach(rpVirtualHostModel::select(["uname" => $uname]) as $host)
     $host = rpVirtualHostModel::jsonDecode($host);
     $conf = $types[$host["type"]]->createConfig($host);
 
-    $tmp = new lpTemplate("{$rpROOT}/../cli/template/nginx.php");
+    $tmp = new lpTemplate(rpROOT . "/../cli/template/nginx.php");
     $tmp->setValues([
         "hosts" => $host,
         "user" => $user,
