@@ -22,6 +22,6 @@ shell_exec("sudo usermod -G {$uname} -a www-data");
 shell_exec("sudo setquota -u {$uname} {$diskLimitSoft} {$diskLimitHard} 0 0 -a");
 
 $db = lpFactory::get("lpDBDrive");
-$db->exec(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';", $uname, md5(lpStartTime + rand(PHP_INT_MAX))));
+$db->exec(sprintf("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';", $uname, md5(lpStartTime + rand(0, PHP_INT_MAX))));
 $db->exec(sprintf("GRANT ALL PRIVILEGES ON  `%s\\_%%` . * TO  '%s'@'localhost';", $uname, $uname));
 
