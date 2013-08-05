@@ -121,8 +121,6 @@ class rpAdminActionHandler extends lpHandler
 
         echo json_encode(["status"=>"ok"]);
 
-        rpApp::finishRequest();
-
         shell_exec(rpROOT . "/../cli/create-account.php {$_POST['uname']}");
     }
 
@@ -147,8 +145,6 @@ class rpAdminActionHandler extends lpHandler
         rpTicketModel::create($data);
 
         echo json_encode(["status"=>"ok"]);
-
-        rpApp::finishRequest();
 
         shell_exec(rpROOT . "/../cli/delete-account.php {$_POST['uname']} sure");
     }

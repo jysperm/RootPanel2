@@ -84,10 +84,7 @@ function getPasswd(uname)
 function enableUser(uname, type)
 {
     $.post("/admin-action/enable-user/",{"uname": uname, "type": type}, function(data){
-        if(data.status=="ok")
-            window.location.reload();
-        else
-            alert(data.msg);
+        window.location.reload();
     },"json");
 }
 
@@ -96,10 +93,7 @@ function deleteUser(uname)
     if(confirm(rpL["panel.sureDelete"]))
     {
         $.post("/admin-action/delete-user/",{"uname": uname}, function(data){
-            if(data.status=="ok")
-                window.location.reload();
-            else
-                alert(data.msg);
+            window.location.reload();
         },"json");
     }
 }

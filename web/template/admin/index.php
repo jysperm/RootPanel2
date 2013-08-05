@@ -120,7 +120,7 @@ $commonAct = function($uname)
         $timeS = $db->quote(time() + 15 * 24 * 3600);
         $timeE = $db->quote(time() - 15 * 24 * 3600);
         ?>
-        <? foreach($db->query("SELECT * FROM `user` WHERE (`type`='free') OR (`type`!='no' AND `expired` < {$timeS} AND `expired` > {$timeE})") as $user): ?>
+        <? foreach($db->query("SELECT * FROM `user` WHERE (`type`='free' AND `expired` > {$timeE}) OR (`type`!='no' AND `expired` < {$timeS} )") as $user): ?>
             <tr>
                 <td><span title="<?= str_replace("\"", "", $user['lastloginua']) . " " . $user['lastloginip'];?>"><?= $user['uname'];?> (<?= $user['id'];?>)</span></td>
                 <td><a href="/admin/ticket/<?= $user['uname'];?>/"><?= rpTicketModel::count(["uname" => $user['uname'], "status" => "ticket.status.open"]) ?></a></td>
