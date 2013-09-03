@@ -24,7 +24,7 @@
 * 对该授权的签名在 `LICENSE.md.sign`.
 
 ## 开源软件
-RootPanel 包含有其他开源软件，他们不受本授权影响，RootPanel 也没有违反它们的授权：
+RootPanel 包含有其他开源软件，他们不受本授权影响，RootPanel 也没有违反它们的授权协议：
 
 * /static/bootstarp [Apache License](https://github.com/twbs/bootstrap)
 * /static/jquery [MIT License](https://github.com/jquery/jquery)
