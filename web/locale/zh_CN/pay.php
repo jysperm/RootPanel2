@@ -38,7 +38,7 @@ $rpL["pay.info.notPay"] = sprintf($rpL["pay.info.notPay"], c("AdminsEmail"), l("
 
 
 $rpL["pay.urls"] = [
-    "std" => "http://item.taobao.com/item.htm?id=16169509767",
+    "std" => "http://item.taobao.com/item.htm?id=20007669473",
     "ext" => "http://item.taobao.com/item.htm?id=21047624871"
 ];
 
