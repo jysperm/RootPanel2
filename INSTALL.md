@@ -1,15 +1,35 @@
 ## 安装
-并非一定要使用纯净的操作系统来安装, 但要保证相应的包都存在.
+RootPanel 的安装是透明的，无需使用完全纯净的系统来进行安装，只需保证相应软件包都存在即可。
 
 ### 操作系统
 
->   Ubuntu Server 12.04 LTS
->   ftp://ftp.sjtu.edu.cn/ubuntu-cd/precise/ubuntu-12.04.1-server-amd64.iso
+目前支持 Debain 系的 Linux 发行版，以下发行版将作为首选的测试对象：
+
+* Debain 7
+* Ubuntu 12.04
 
 ### 准备工作
+(如果需要的话)
 
 * 挂载磁盘分区
 * 上传公钥
+* 生成 SSL 密钥对
+
+### Debain 6
+
+/etc/apt/sources.list
+
+新增：
+
+    deb http://packages.dotdeb.org squeeze all
+    deb-src http://packages.dotdeb.org squeeze all
+
+    deb http://packages.dotdeb.org squeeze-php54 all
+    deb-src http://packages.dotdeb.org squeeze-php54 all
+
+## 软件包
+
+    apt-get install sudo
 
 ### 更新安装软件包
 
@@ -27,7 +47,7 @@
     # PHP 扩展
     apt-get install php5-mysql php5-curl php5-gd php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl
     pecl install apc mongo memcache
-    # MySQL, Memcached, PPTPD
+    # MySQL, Memcached
     apt-get purge exim4
     apt-get install mysql-server mysql-client phpmyadmin memcached pptpd mongodb sendmail-bin
     # 工具
