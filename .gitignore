@@ -1,12 +1,8 @@
 ﻿# Linux
 *~
 
-# Winodws
+# Windows
 Thumbs.db
 
 # PhpStorm
 /.idea/*
-
-# RootPanel
-/panel/temp
-.lock
