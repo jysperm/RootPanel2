@@ -8,7 +8,7 @@ class rpApp extends lpApp
 
     static public function helloWorld()
     {
-        parent::helloWorld();
+        parent::helloWorld([]);
 
         self::registerShortFunc();
         self::initAutoload();
