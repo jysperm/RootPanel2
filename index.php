@@ -7,3 +7,5 @@ require_once(rpROOT . "/include/rpApp.php");
 
 rpApp::helloWorld();
 
+rpApp::exec();
+
