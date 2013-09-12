@@ -4,8 +4,6 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class rpApp extends lpApp
 {
-    private static $atexit = [];
-
     static public function helloWorld()
     {
         parent::helloWorld([]);
@@ -82,11 +80,6 @@ class rpApp extends lpApp
         });
     }
 
-    public static function registerAtexit($func)
-    {
-        self::$atexit[]= $func;
-    }
-
     public static function finishRequest()
     {
         if(function_exists("fastcgi_finish_request"))
@@ -94,9 +87,6 @@ class rpApp extends lpApp
             session_write_close();
             fastcgi_finish_request();
         }
-
-        foreach(self::$atexit as $f)
-            $f();
     }
 
     public static function reloadWebConfig($uname)
