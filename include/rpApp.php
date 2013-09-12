@@ -4,9 +4,9 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class rpApp extends lpApp
 {
-    static public function helloWorld()
+    static public function helloWorld(array $config = [])
     {
-        parent::helloWorld([]);
+        parent::helloWorld($config);
 
         self::registerShortFunc();
         self::initAutoload();
