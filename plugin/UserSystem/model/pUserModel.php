@@ -9,7 +9,7 @@ class pUserModel extends lpPDOModel
         return parent::meta([
             "table" => "user",
             "struct" => [
-                "id" => [self::INT, self::AI, self::PRIMARY],
+                "id" => [self::INT, self::AI],
                 "uname" => [self::VARCHAR => 256],
                 "passwd" => [self::TEXT],
                 "email" => [self::TEXT],
