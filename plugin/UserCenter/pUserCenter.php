@@ -1,5 +1,6 @@
 <?php
 
-class pUserCenter {
+class pUserCenter extends lpPlugin
+{
 
 }
