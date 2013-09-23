@@ -4,57 +4,36 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class rpApp extends lpApp
 {
-    static public function helloWorld(array $config = [])
+    public static function helloWorld(array $config = [])
     {
         parent::helloWorld($config);
 
         self::registerShortFunc();
         self::initAutoload();
 
-        function d()
-        {
-            /** @var PDO $db */
-            $db = f("lpDBDrive");
-            return $db;
-        }
-
-        lpFactory::register("lpConfig", function() {
-            return new lpConfig;
-        });
-
         /** @var lpConfig $rpCfg */
         $rpCfg = f("lpConfig");
-        $rpCfg->load([
-            rpROOT . "/config/rp-config.php",
-            rpROOT . "/config/main-config.php",
-            rpROOT . "/config/node-config.php",
-            rpROOT . "/config/license.php"
-        ]);
+        $configFiles = ["main"];
+        foreach($configFiles as $i)
+            $rpCfg->loadFromPHPFile(rpCORE . "/config/{$i}.php");
 
         lpFactory::register("lpLocale", function() {
-            $path = rpROOT . "/locale";
-            return new lpLocale($path, lpLocale::judegeLanguage($path, c("DefaultLanguage")));
+            $path = rpCORE . "/locale";
+            return new lpJSONLocale($path, self::checkLanguage($path, c("DefaultLanguage")));
         });
 
-        lpFactory::register("lpDBDrive", function() {
+        lpFactory::register("PDO.LightPHP", function() {
             $c = c("MySQLDB");
             return new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
         });
 
-        lpFactory::register("lpSmtp", function() {
+        lpFactory::register("lpSmtpMailer", function() {
             $c = c("SMTP");
-            return new lpSmtp($c["host"], $c["address"], $c["user"], $c["passwd"]);
-        });
-
-        lpFactory::register("rpUserModel", function($tag) {
-            if(!$tag)
-                return rpUserModel::by("uname", rpAuth::uname());
-            else
-                return rpUserModel::by("uname", $tag);
+            return new lpSmtpMailer($c["host"], $c["address"], $c["user"], $c["passwd"]);
         });
     }
 
-    static public function initAutoload()
+    public static function initAutoload()
     {
         spl_autoload_register(function ($name) {
             $map = [
@@ -65,33 +44,14 @@ class rpApp extends lpApp
                 $name = $map[$name];
 
             $paths = [
-                rpROOT . "/include/{$name}.php",
+                rpCORE . "/include/{$name}.php",
                 rpROOT . "/handler/{$name}.php",
-                rpROOT . "/model/{$name}.php",
-                rpROOT . "/include/vhost/{$name}.php"
+                rpROOT . "/model/{$name}.php"
             ];
 
-            foreach($paths as $path) {
-                if(file_exists($path)) {
-                    require_once($path);
-                    return;
-                }
-            }
+            foreach($paths as $path)
+                if(file_exists($path))
+                    return require_once($path);
         });
-    }
-
-    public static function finishRequest()
-    {
-        if(function_exists("fastcgi_finish_request"))
-        {
-            session_write_close();
-            fastcgi_finish_request();
-        }
-    }
-
-    public static function reloadWebConfig($uname)
-    {
-        rpApp::finishRequest();
-        shell_exec(rpROOT . "/../cli/web-conf-maker.php {$uname}");
     }
 }
