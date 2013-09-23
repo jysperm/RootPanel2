@@ -1,13 +1,6 @@
-# 系统
-## /etc/sysctl.conf
-
-修改：
-
-    net.ipv4.ip_forward=1
-
 ## /etc/sudoers
 
-新增：
+ADD:
 
     rpadmin ALL=(ALL) NOPASSWD: ALL
 
@@ -18,13 +11,13 @@
 * /etc/php5/cgi/php.ini
 * /etc/php5/cli/php.ini
 
-修改：
+Modified:
 
     display_errors = On
     post_max_size = 128M
     upload_max_filesize = 128M
 
-新增：
+ADD:
 
     extension = apc.so
     extension = mongo.so
@@ -32,7 +25,7 @@
 
 ## /etc/nginx/nginx.conf
 
-改为：
+Modified:
 
     user www-data www-data;
     pid /var/run/nginx.pid;
@@ -112,16 +105,15 @@
     }
 
 
-## 删除
+## Remove
 
 * /etc/php5/fpm/pool.d/www.conf
 * /etc/nginx/sites-enabled/default
 * /etc/apache2/sites-enabled/000-default
 
-# RootPanel
 ## /etc/php5/fpm/pool.d/rpadmin.conf
 
-新建：
+ADD:
 
     [rpadmin]
 
@@ -141,7 +133,7 @@
 
 ## /etc/nginx/sites-enabled/00000-rpadmin
 
-新建(请替换NODE)：
+ADD:
 
     server {
         listen 80 default_server;
@@ -175,50 +167,4 @@
     		stub_status on;
     		access_log  off;
     	}
-
-    	location /apache2-status {
-    	    proxy_pass http://127.0.0.1:8080;
-    	}
     }
-
-## /etc/apache2/ports.conf
-
-改为：
-
-    NameVirtualHost *:8080
-    Listen 8080
-
-## /etc/apache2/sites-enabled/00000-rpadmin
-
-新建(请替换NODE)：
-
-    <Directory />
-        Options +FollowSymLinks
-        AllowOverride All
-    </Directory>
-
-    ExtendedStatus On
-
-    <VirtualHost *:8080>
-        ServerName NODE.rpvhost.net
-
-        <Location /apache2-status>
-    		SetHandler server-status
-    		Order deny,allow
-    		Allow from all
-    	</Location>
-    </VirtualHost>
-
-# PPTP
-## /etc/pptpd.conf
-
-新增：
-
-    localip 10.89.64.1
-    remoteip 10.89.64.100-150
-
-## /etc/rc.local
-
-新增：
-
-    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
