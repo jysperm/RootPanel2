@@ -143,7 +143,7 @@ ADD:
         listen 80;
         server_name NODE.rpvhost.net;
 
-        root /RootPanel/web;
+        root /RootPanel;
         index index.html index.php;
 
         access_log /root/nginx.access.log;
