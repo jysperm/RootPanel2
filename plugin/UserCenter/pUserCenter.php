@@ -10,6 +10,11 @@ class pUserCenter extends lpPlugin
             "type" => ["export"],
             "requestStatic" => [
                 "bootstrap", "jquery"
+            ],
+            "hook" => [
+                "export.UserCenter.UserHandler" => function() {
+                    return new pUserHandler;
+                }
             ]
         ]);
     }
