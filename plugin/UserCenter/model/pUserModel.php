@@ -20,4 +20,41 @@ class pUserModel extends lpPDOModel
             ]
         ]);
     }
+
+    public function checkPasswd($passwd)
+    {
+        return $this->data["passwd"] == static::hashPasswd($this->data["uname"], $passwd);
+    }
+
+    // ----- static
+
+    public static function byUName($uname)
+    {
+        return static::by("uname", $uname);
+    }
+
+    public static function existsWithUName($uname)
+    {
+        return static::count(["uname" => $uname]);
+    }
+
+    public static function register($uname, $passwd, $email)
+    {
+        $data = [
+            "uname" => $uname,
+            "passwd" => static::hashPasswd($uname, $passwd),
+            "email" => $email,
+            "contacts" => [],
+            "settings" => [],
+            "signup" => time(),
+            "group" => []
+        ];
+
+        return static::insert($data);
+    }
+
+    public static function hashPasswd($uname, $passwd)
+    {
+        return hash("sha256", hash("sha256", $uname) . hash("sha256", $passwd));
+    }
 }
