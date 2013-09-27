@@ -1,8 +1,8 @@
 <?php
 
-defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+namespace lpPlugins\UserCenter;
 
-class pUserModel extends lpPDOModel
+class UserModel extends \lpPDOModel
 {
     protected static function metaData($data = null)
     {
@@ -35,7 +35,7 @@ class pUserModel extends lpPDOModel
 
     public static function existsWithUName($uname)
     {
-        return static::count(["uname" => $uname]);
+        return (bool)static::count(["uname" => $uname]);
     }
 
     public static function register($uname, $passwd, $email, $contact)
@@ -54,5 +54,10 @@ class pUserModel extends lpPDOModel
     public static function hashPasswd($uname, $passwd)
     {
         return hash("sha256", hash("sha256", $uname) . hash("sha256", $passwd));
+    }
+
+    public static function getTokenModel()
+    {
+        return new TokenModel;
     }
 }

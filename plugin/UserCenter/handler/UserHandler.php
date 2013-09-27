@@ -1,10 +1,10 @@
 <?php
 
-defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+namespace lpPlugins\UserCenter;
 
-class pUserHandler extends lpHandler
+class UserHandler extends \lpHandler
 {
-    /** @var  pUserModel */
+    /** @var  UserModel */
     private $model;
 
     public function __construct()
@@ -26,16 +26,16 @@ class pUserHandler extends lpHandler
             ]);
 
             if($this->model->byUName($uname)->data())
-                throw new lpHandlerException("userExists");
+                throw new \lpHandlerException("userExists");
 
-            if(in_array($uname, lpPlugin::hook("pUserCenter.notAllowSignup", [])))
-                throw new lpHandlerException("notAllowSignup");
+            if(in_array($uname, \lpPlugin::hook("pUserCenter.notAllowSignup", [])))
+                throw new \lpHandlerException("notAllowSignup");
 
             $this->model->register($uname, $passwd, $email, $contact);
 
-            lpApp::goUrl("/");
+            \lpApp::goUrl("/");
         }
-        catch(lpHandlerException $e)
+        catch(\lpHandlerException $e)
         {
             return $this->render("signup", [
                 "error" => $e->getMessage()
@@ -51,7 +51,7 @@ class pUserHandler extends lpHandler
         try {
 
         }
-        catch(lpHandlerException $e)
+        catch(\lpHandlerException $e)
         {
 
         }
@@ -77,8 +77,8 @@ class pUserHandler extends lpHandler
 
     public function logout()
     {
-        rpAuth::logout();
-        rpApp::goUrl("/");
+        \rpAuth::logout();
+        \rpApp::goUrl("/");
     }
 
 
