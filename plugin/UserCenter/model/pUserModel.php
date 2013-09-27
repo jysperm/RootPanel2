@@ -38,19 +38,17 @@ class pUserModel extends lpPDOModel
         return static::count(["uname" => $uname]);
     }
 
-    public static function register($uname, $passwd, $email)
+    public static function register($uname, $passwd, $email, $contact)
     {
-        $data = [
+        return static::insert([
             "uname" => $uname,
             "passwd" => static::hashPasswd($uname, $passwd),
             "email" => $email,
-            "contacts" => [],
+            "contacts" => ["default" => $contact],
             "settings" => [],
             "signup" => time(),
-            "group" => []
-        ];
-
-        return static::insert($data);
+            "group" => ["account" => "off"]
+        ]);
     }
 
     public static function hashPasswd($uname, $passwd)

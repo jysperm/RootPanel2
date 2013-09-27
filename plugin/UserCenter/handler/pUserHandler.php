@@ -4,72 +4,58 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 class pUserHandler extends lpHandler
 {
+    /** @var  pUserModel */
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = $this->model("User");
+    }
+
     public function signup()
     {
         if(!$this->isPost())
-        {
-            lpTemplate::outputFile(rpROOT . "/template/user/signup.php");
+            return $this->render("signup");
+
+        try {
+            list($uname, $passwd, $email, $contact) = $this->post([
+                "uname" => '/^[A-Za-z][A-Za-z0-9_]+$/',
+                "passwd",
+                "email" => '/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/',
+                "contact"
+            ]);
+
+            if($this->model->byUName($uname)->data())
+                throw new lpHandlerException("userExists");
+
+            if(in_array($uname, lpPlugin::hook("pUserCenter.notAllowSignup", [])))
+                throw new lpHandlerException("notAllowSignup");
+
+            $this->model->register($uname, $passwd, $email, $contact);
+
+            lpApp::goUrl("/");
         }
-        else
+        catch(lpHandlerException $e)
         {
-            f("lpLocale")->load("signup");
-
-            $procError = function ($str) {
-                lpTemplate::outputFile(rpROOT . "/template/user/signup.php", [
-                    "errorMsg" => $str,
-                    "uname" => $_POST["uname"],
-                    "email" => $_POST["email"],
-                    "qq" => $_POST["qq"]
-                ]);
-                exit(0);
-            };
-
-            if(!isset($_POST["uname"]) or !isset($_POST["email"]))
-                $procError(l("signup.tips.incomplete"));
-
-            if(!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $_POST["uname"]) or
-                !preg_match('/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/', $_POST["email"])
-            )
-                $procError(l("signup.rule"));
-
-            if(in_array($_POST["uname"], c("NotAllowSignup")))
-                $procError(l("signup.tips.notAllowSignup"));
-
-            if(rpUserModel::find(["uname" => $_POST["uname"]]))
-                $procError(l("signup.tips.userExists"));
-
-            $user = [
-                "uname" => $_POST["uname"],
-                "passwd" => rpAuth::dbHash($_POST["uname"], $_POST["passwd"]),
-                "email" => $_POST["email"],
-                "qq" => $_POST["qq"],
-                "regtime" => time(),
-                "type" => rpUserModel::NO,
-                "settings" => ["pptppasswd" => "", "nginxextconfig" => "", "apache2extconfig" => ""],
-                "expired" => time() - 1
-            ];
-
-            rpUserModel::insert($user);
-            rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]);
-
-            $user["passwd"] = null;
-            unset($user["settings"]);
-            unset($user["expired"]);
-            rpLogModel::log($_POST["uname"], "log.type.signup", [], $user);
-
-            rpApp::goUrl("/panel/");
+            return $this->render("signup", [
+                "error" => $e->getMessage()
+            ]);
         }
     }
 
     public function login()
     {
         if(!$this->isPost())
-        {
-            lpTemplate::outputFile(rpROOT . "/template/user/login.php");
+            return $this->render("login");
+
+        try {
+
         }
-        else
+        catch(lpHandlerException $e)
         {
-            f("lpLocale")->load(["login"]);
+
+        }
+
 
             $procError = function($str) {
                 lpTemplate::outputFile(rpROOT . "/template/user/login.php", [
@@ -86,7 +72,7 @@ class pUserHandler extends lpHandler
                 rpApp::goUrl(isset($_GET["next"]) ? $_GET["next"] : "/panel/");
             else
                 $procError(l("login.tips.passwdError"));
-        }
+
     }
 
     public function logout()
@@ -94,4 +80,6 @@ class pUserHandler extends lpHandler
         rpAuth::logout();
         rpApp::goUrl("/");
     }
+
+
 }
