@@ -12,7 +12,7 @@ class TokenModel extends \lpPDOModel
                 "id" => [self::INT, self::AI],
                 "user_id" => [self::INT],
                 "token" => [self::VARCHAR => 40],
-                "accessed_at" => [self::UINT, self::DEFALT => 0],
+                "accesse_at" => [self::UINT, self::DEFALT => 0],
                 // TODO: ENUM 类型
                 "status" => [self::VARCHAR => 255, self::DEFALT => self::ALIVE],
                 "settings" => [self::TEXT, self::JSON]
@@ -30,6 +30,11 @@ class TokenModel extends \lpPDOModel
     public static function byToken($token)
     {
         return self::by("token", $token);
+    }
+
+    public function userID()
+    {
+        return $this->data["user_id"];
     }
 
     /**
@@ -53,17 +58,23 @@ class TokenModel extends \lpPDOModel
         return $token;
     }
 
+    public function isValid($expiredTime)
+    {
+        return time() - $this->data["accesse_at"] < $expiredTime;
+    }
+
     public function remove()
     {
         $this->updateSelf([
             "status" => self::DELETED
         ]);
+
     }
 
     public function renew()
     {
-        self::updateSelf([
-            "accessed_at" => time()
+        $this->updateSelf([
+            "accesse_at" => time()
         ]);
     }
 }
