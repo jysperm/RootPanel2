@@ -4,7 +4,7 @@ namespace lpPlugins\UserCenter;
 
 class UserHandler extends \lpHandler
 {
-    /** @var  UserModel */
+    /** @var UserModel */
     private $model;
 
     public function __construct()
@@ -21,14 +21,14 @@ class UserHandler extends \lpHandler
             list($uname, $passwd, $email, $contact) = $this->post([
                 "uname" => '/^[A-Za-z][A-Za-z0-9_]+$/',
                 "passwd",
-                "email" => '/^[A-Za-z0-9_\-\.\+]+@[A-Za-z0-9_\-\.]+$/',
+                "email" => \lpValider::rx(lpEmail),
                 "contact"
             ]);
 
             if($this->model->byUName($uname)->data())
                 throw new \lpHandlerException("userExists");
 
-            if(in_array($uname, \lpPlugin::hook("pUserCenter.notAllowSignup", [])))
+            if(in_array($uname, \lpPlugin::hook("UserCenter.notAllowSignup", [])))
                 throw new \lpHandlerException("notAllowSignup");
 
             $this->model->register($uname, $passwd, $email, $contact);
@@ -49,30 +49,34 @@ class UserHandler extends \lpHandler
             return $this->render("login");
 
         try {
+            list($uname, $passwd) = $this->post([
+                "uname",
+                "passwd"
+            ]);
+
+            if(\lpValider::test(lpEmail, $uname))
+                $user = $this->model->byEmail($uname);
+            else
+                $user = $this->model->byUName($uname);
+
+            if(!$user->data())
+                throw new \lpHandlerException("userNotExists");
+
+            if(!$user->checkPasswd($passwd))
+                throw new \lpHandlerException("invalidPasswd");
+
+            /** @var \lpSession $session */
+            $session = \lpFactory::get("lpSession");
+            $session->authenticated($user->id());
+            $session->cookieRemember();
 
         }
         catch(\lpHandlerException $e)
         {
-
+            return $this->render("login", [
+                "error" => $e->getMessage()
+            ]);
         }
-
-
-            $procError = function($str) {
-                lpTemplate::outputFile(rpROOT . "/template/user/login.php", [
-                    "errorMsg" => $str,
-                    "uname" => $_POST["uname"],
-                ]);
-                exit();
-            };
-
-            if(!isset($_POST["uname"]) or !isset($_POST["passwd"]))
-                $procError(l("login.tips.noInput"));
-
-            if(rpAuth::login($_POST["uname"], ["raw" => $_POST["passwd"]]))
-                rpApp::goUrl(isset($_GET["next"]) ? $_GET["next"] : "/panel/");
-            else
-                $procError(l("login.tips.passwdError"));
-
     }
 
     public function logout()
@@ -80,6 +84,4 @@ class UserHandler extends \lpHandler
         \rpAuth::logout();
         \rpApp::goUrl("/");
     }
-
-
 }

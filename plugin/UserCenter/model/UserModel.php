@@ -28,14 +28,22 @@ class UserModel extends \lpPDOModel
 
     // ----- static
 
+    /**
+     * @param $uname
+     * @return UserModel
+     */
     public static function byUName($uname)
     {
         return static::by("uname", $uname);
     }
 
-    public static function existsWithUName($uname)
+    /**
+     * @param $email
+     * @return UserModel
+     */
+    public static function byEmail($email)
     {
-        return (bool)static::count(["uname" => $uname]);
+        return static::by("email", $email);
     }
 
     public static function register($uname, $passwd, $email, $contact)
