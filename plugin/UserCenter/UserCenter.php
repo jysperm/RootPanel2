@@ -2,12 +2,12 @@
 
 namespace lpPlugins\UserCenter;
 
-
 class UserCenter extends \lpPlugin
 {
     protected function metaData()
     {
         return parent::meta([
+            "dir" => dirname(__FILE__),
             "name" => "UserCenter",
             "version" => ["1.0" => 1],
             "type" => ["export"],
@@ -22,16 +22,11 @@ class UserCenter extends \lpPlugin
 
     protected function init()
     {
-        $this->load("handler/pUserHandler");
-        $this->load("model/pUserModel");
+
     }
 
     protected function hooks()
     {
-        return [
-            "export.pUserCenter.UserHandler" => function() {
-                return $this;
-            }
-        ];
+
     }
 }
