@@ -6,3 +6,6 @@ Thumbs.db
 
 # PhpStorm
 /.idea/*
+
+# Cache and Compiled
+/compiled/*
