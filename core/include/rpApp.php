@@ -8,6 +8,8 @@ class rpApp extends lpApp
     {
         parent::helloWorld($config);
 
+        define("rpCORE", rpROOT . "/core");
+
         self::registerShortFunc();
         self::initAutoload();
 
