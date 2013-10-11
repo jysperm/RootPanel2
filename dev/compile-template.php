@@ -6,7 +6,6 @@ if(!isset($argc))
 
 define("rpROOT", dirname(__FILE__) . "/..");
 
-const lpDisableErrorHandling = true;
 require_once(rpROOT . "/LightPHP/LightPHP.php");
 require_once(rpROOT . "/core/include/rpApp.php");
 rpApp::helloWorld();
@@ -49,7 +48,7 @@ foreach(new DirectoryIterator(rpROOT . "/plugin") as $fileinfo)
             foreach(new DirectoryIterator("{$pluginOut}/view") as $f)
             {
                 /** @var DirectoryIterator $f */
-                lpCompiledTemplate::compile($f->getPathname(), "{$pluginOut}/template/" . $fileinfo->getBasename(".html") . "php");
+                lpCompiledTemplate::compile($f->getPathname(), "{$pluginOut}/template/" . $f->getBasename(".html") . ".php");
             }
         }
     }
