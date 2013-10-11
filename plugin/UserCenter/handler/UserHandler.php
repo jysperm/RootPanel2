@@ -4,6 +4,8 @@ namespace lpPlugins\UserCenter;
 
 class UserHandler extends \lpHandler
 {
+    use \lpPlugableHandler;
+
     /** @var UserModel */
     private $model;
 
@@ -81,7 +83,7 @@ class UserHandler extends \lpHandler
 
     public function logout()
     {
-        \rpAuth::logout();
+        \lpFactory::get("lpSession")->logout();
         \rpApp::goUrl("/");
     }
 }

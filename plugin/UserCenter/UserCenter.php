@@ -25,8 +25,12 @@ class UserCenter extends \lpPlugin
 
     }
 
-    protected function hooks()
+    protected function routes()
     {
-
+        return [
+            '^/user/(signup|login|logout)/?' => function($act) {
+                UserHandler::invoke($act, [], ["plugin" => $this]);
+            }
+        ];
     }
 }
