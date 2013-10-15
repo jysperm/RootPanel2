@@ -2,7 +2,7 @@
 
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
-class rpApp extends lpApp
+class App extends lpApp
 {
     public static function helloWorld(array $config = [])
     {

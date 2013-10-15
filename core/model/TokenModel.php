@@ -1,8 +1,6 @@
 <?php
 
-namespace lpPlugins\UserCenter;
-
-class TokenModel extends \lpPDOModel
+class TokenModel extends lpPDOModel
 {
     protected static function metaData($data = null)
     {

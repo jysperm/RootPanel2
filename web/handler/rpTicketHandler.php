@@ -13,13 +13,13 @@ class rpTicketHandler extends lpHandler
 
     public function __invoke()
     {
-        rpApp::goUrl("/ticket/list/");
+        App::goUrl("/ticket/list/");
     }
 
     public function rpList()
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         lpTemplate::outputFile(rpROOT . "/template/ticket/index.php");
     }
@@ -27,7 +27,7 @@ class rpTicketHandler extends lpHandler
     public function view($id = null)
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
@@ -43,7 +43,7 @@ class rpTicketHandler extends lpHandler
     public function create()
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         if(!in_array($_POST["type"], array_keys(l("ticket.types"))))
             throw new Exception(l("ticket.handler.invalidType"));
@@ -52,13 +52,13 @@ class rpTicketHandler extends lpHandler
 
         echo json_encode(["status" => "ok"]);
 
-        rpApp::finishRequest();
+        App::finishRequest();
     }
 
     public function reply($id = null)
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         $tk = new rpTicketModel($id);
         if($tk->isNull())
@@ -69,13 +69,13 @@ class rpTicketHandler extends lpHandler
         $tk->reply($_POST);
         echo json_encode(["status" => "ok"]);
 
-        rpApp::finishRequest();
+        App::finishRequest();
     }
 
     public function close($id = null)
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         $isAdmin = lpFactory::get("rpUserModel")->isAdmin();
 
@@ -92,7 +92,7 @@ class rpTicketHandler extends lpHandler
         $tk->close();
         echo json_encode(["status" => "ok"]);
 
-        rpApp::finishRequest();
+        App::finishRequest();
     }
 
     public function finish($id = null)
@@ -105,6 +105,6 @@ class rpTicketHandler extends lpHandler
         $tk->finish();
         echo json_encode(["status" => "ok"]);
 
-        rpApp::finishRequest();
+        App::finishRequest();
     }
 }

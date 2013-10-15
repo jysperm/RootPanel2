@@ -5,14 +5,13 @@ define("rpROOT", dirname(__FILE__));
 require_once(rpROOT . "/LightPHP/LightPHP.php");
 require_once(rpROOT . "/core/include/rpApp.php");
 
-rpApp::helloWorld([
+App::helloWorld([
     "RunLevel" => lpDebug
 ]);
 
-lpPlugin::registerPluginDir(rpROOT . "/plugin");
-lpPlugin::initPlugin();
+App::bind('^/user/(signup|login|logout)/?', function($act) {
+    UserHandler::invoke($act, [], ["plugin" => $this]);
+});
 
-
-lpPlugin::bindRoute();
-rpApp::exec();
+App::exec();
 

@@ -50,7 +50,7 @@ class rpAdminActionHandler extends lpHandler
 
         echo json_encode(["status"=>"ok"]);
 
-        rpApp::finishRequest();
+        App::finishRequest();
     }
 
     public function getNewTicket()
@@ -72,7 +72,7 @@ class rpAdminActionHandler extends lpHandler
             "pptppasswd" => $_POST["pptppasswd"], "nginxextconfig" => $_POST["nginxextconfig"], "apache2extconfig" => $_POST["apache2extconfig"]]
         ]);
 
-        rpApp::reloadWebConfig($uname);
+        App::reloadWebConfig($uname);
     }
 
     public function getPasswd()

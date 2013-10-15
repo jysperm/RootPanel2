@@ -5,7 +5,7 @@ define("rpROOT", dirname(__FILE__) . "/../web");
 
 require_once(rpROOT . "/LightPHP/lp-load.php");
 require_once(rpROOT . "/include/rpApp.php");
-rpApp::helloWorld();
+App::helloWorld();
 
 if(!isset($argv[1]))
     die("error : {$argv[0]} <uname>\n");

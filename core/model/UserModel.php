@@ -1,8 +1,6 @@
 <?php
 
-namespace lpPlugins\UserCenter;
-
-class UserModel extends \lpPDOModel
+class UserModel extends lpPDOModel
 {
     protected static function metaData($data = null)
     {

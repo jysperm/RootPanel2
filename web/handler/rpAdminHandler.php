@@ -7,10 +7,10 @@ class rpAdminHandler extends lpHandler
     private function auth()
     {
         if(!rpAuth::login())
-            rpApp::goUrl("/user/login/", true);
+            App::goUrl("/user/login/", true);
 
         if(!f("rpUserModel")->isAdmin())
-            rpApp::goUrl("/panel/", true);
+            App::goUrl("/panel/", true);
     }
 
     public function __invoke()

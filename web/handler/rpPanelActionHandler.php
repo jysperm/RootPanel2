@@ -76,7 +76,7 @@ class rpPanelActionHandler extends lpJSONHandler
             rpLogModel::log(rpAuth::uname(), "log.type.createVHost", [$id, $id], $vhost);
 
             echo json_encode(["success" => "ok"]);
-            rpApp::reloadWebConfig(rpAuth::uname());
+            App::reloadWebConfig(rpAuth::uname());
         }
         else
         {
@@ -122,7 +122,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             echo json_encode(["success" => "ok"]);
 
-            rpApp::reloadWebConfig(rpAuth::uname());
+            App::reloadWebConfig(rpAuth::uname());
         }
         else
         {
@@ -194,7 +194,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             echo json_encode(["success" => true]);
 
-            rpApp::finishRequest();
+            App::finishRequest();
             shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
         }
         else

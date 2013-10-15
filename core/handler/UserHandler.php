@@ -1,11 +1,7 @@
 <?php
 
-namespace lpPlugins\UserCenter;
-
-class UserHandler extends \lpHandler
+class UserHandler extends lpHandler
 {
-    use \lpPlugableHandler;
-
     /** @var UserModel */
     private $model;
 
@@ -23,21 +19,20 @@ class UserHandler extends \lpHandler
             list($uname, $passwd, $email, $contact) = $this->post([
                 "uname" => '/^[A-Za-z][A-Za-z0-9_]+$/',
                 "passwd",
-                "email" => \lpValider::rx(lpEmail),
+                "email" => lpValider::rx(lpEmail),
                 "contact"
             ]);
 
             if($this->model->byUName($uname)->data())
-                throw new \lpHandlerException("userExists");
+                throw new lpHandlerException("userExists");
 
-            if(in_array($uname, \lpPlugin::hook("UserCenter.notAllowSignup", [])))
-                throw new \lpHandlerException("notAllowSignup");
+            //TODO: notAllowSignup
 
             $this->model->register($uname, $passwd, $email, $contact);
 
-            \lpApp::goUrl("/");
+            App::goUrl("/");
         }
-        catch(\lpHandlerException $e)
+        catch(lpHandlerException $e)
         {
             return $this->render("signup", [
                 "error" => $e->getMessage()
@@ -56,24 +51,24 @@ class UserHandler extends \lpHandler
                 "passwd"
             ]);
 
-            if(\lpValider::test(lpEmail, $uname))
+            if(lpValider::test(lpEmail, $uname))
                 $user = $this->model->byEmail($uname);
             else
                 $user = $this->model->byUName($uname);
 
             if(!$user->data())
-                throw new \lpHandlerException("userNotExists");
+                throw new lpHandlerException("userNotExists");
 
             if(!$user->checkPasswd($passwd))
-                throw new \lpHandlerException("invalidPasswd");
+                throw new lpHandlerException("invalidPasswd");
 
             /** @var \lpSession $session */
-            $session = \lpFactory::get("lpSession");
+            $session = lpFactory::get("lpSession");
             $session->authenticated($user->id());
             $session->cookieRemember();
 
         }
-        catch(\lpHandlerException $e)
+        catch(lpHandlerException $e)
         {
             return $this->render("login", [
                 "error" => $e->getMessage()
@@ -83,7 +78,7 @@ class UserHandler extends \lpHandler
 
     public function logout()
     {
-        \lpFactory::get("lpSession")->logout();
-        \rpApp::goUrl("/");
+        lpFactory::get("lpSession")->logout();
+        App::goUrl("/");
     }
 }

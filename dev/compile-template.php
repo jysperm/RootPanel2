@@ -8,7 +8,7 @@ define("rpROOT", dirname(__FILE__) . "/..");
 
 require_once(rpROOT . "/LightPHP/LightPHP.php");
 require_once(rpROOT . "/core/include/rpApp.php");
-rpApp::helloWorld();
+App::helloWorld();
 
 $tools = [
     "jade" => "nodejs /usr/lib/node_modules/jade/bin/jade -P"
