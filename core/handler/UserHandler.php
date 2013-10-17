@@ -26,7 +26,8 @@ class UserHandler extends lpHandler
             if($this->model->byUName($uname)->data())
                 throw new lpHandlerException("userExists");
 
-            //TODO: notAllowSignup
+            if(in_array($uname, c("NotAllowSignup")))
+                throw new lpHandlerException("notAllowSignup");
 
             $this->model->register($uname, $passwd, $email, $contact);
 
@@ -62,7 +63,7 @@ class UserHandler extends lpHandler
             if(!$user->checkPasswd($passwd))
                 throw new lpHandlerException("invalidPasswd");
 
-            /** @var \lpSession $session */
+            /** @var lpSession $session */
             $session = lpFactory::get("lpSession");
             $session->authenticated($user->id());
             $session->cookieRemember();

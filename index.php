@@ -10,7 +10,7 @@ App::helloWorld([
 ]);
 
 App::bind('^/user/(signup|login|logout)/?', function($act) {
-    UserHandler::invoke($act, [], ["plugin" => $this]);
+    UserHandler::invoke($act);
 });
 
 App::exec();
