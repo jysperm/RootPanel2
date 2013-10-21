@@ -11,5 +11,3 @@ Thumbs.db
 /cache/*
 /compiled/*
 /static/*
-
-!.gitkeep
