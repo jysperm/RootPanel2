@@ -15,7 +15,7 @@ class App extends lpApp
 
         /** @var lpConfig $rpCfg */
         $rpCfg = f("lpConfig");
-        $configFiles = ["main"];
+        $configFiles = ["main", "db", "library", "plugin"];
         foreach($configFiles as $i)
             $rpCfg->loadFromPHPFile(rpCORE . "/config/{$i}.php");
 

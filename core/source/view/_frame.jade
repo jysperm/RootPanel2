@@ -1,0 +1,13 @@
+doctype 5
+html
+    head
+        meta(charset="utf-8")
+        link(rel="shortcut icon", type="image/x-icon", href="{=StaticPrefix}/image/icon.png")
+        link(rel="stylesheet", type="text/css", href="{=StaticPrefix}/library/bootstrap/css/bootstrap.min.css")
+        block head
+    body
+        #content
+            block content
+        script(type="text/javascript", src="{=StaticPrefix}/library/jquery/jquery.min.js")
+        script(type="text/javascript", src="{=StaticPrefix}/library/bootstrap/js/bootstrap.min.js")
+        block footer

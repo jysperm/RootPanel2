@@ -7,49 +7,38 @@ if(!isset($argc))
 define("rpROOT", dirname(__FILE__) . "/..");
 
 require_once(rpROOT . "/LightPHP/LightPHP.php");
-require_once(rpROOT . "/core/include/rpApp.php");
+require_once(rpROOT . "/core/include/App.php");
 App::helloWorld();
 
 $tools = [
-    "jade" => "nodejs /usr/lib/node_modules/jade/bin/jade -P"
+    "jade" => "jade -P"
 ];
 
-$makeDirs = [
-    "/compiled/plugin"
-];
+$baseOutputDir = rpROOT . "/compiled";
 
-foreach($makeDirs as $dir)
-    if(!file_exists(rpROOT . $dir))
-        mkdir(rpROOT . $dir);
+compileJadeDir(rpROOT . "/core/source/view", $baseOutputDir);
 
-foreach(new DirectoryIterator(rpROOT . "/plugin") as $fileinfo)
+function compileJadeDir($dir, $outputDir)
 {
-    /** @var DirectoryIterator $fileinfo */
-    if(!$fileinfo->isDot())
+    global $tools;
+
+    print shell_exec("{$tools["jade"]} '{$dir}' --out '{$outputDir}/view'");
+
+    foreach(new DirectoryIterator($dir) as $fileinfo)
     {
-        $pluginOut = rpROOT . "/compiled/plugin/{$fileinfo->getFilename()}";
+        /** @var DirectoryIterator $fileinfo */
 
-        $makeDirs = [
-            $pluginOut,
-            "{$pluginOut}/template",
-            "{$pluginOut}/view"
-        ];
+        if($fileinfo->isDot() || $fileinfo->isDir() || substr($fileinfo->getFilename(),0, 1) == "_")
+            continue;
 
-        foreach($makeDirs as $dir)
-            if(!file_exists($dir))
-                mkdir($dir);
-
-        $jadeDir = "{$fileinfo->getPathname()}/source/view";
-        if(file_exists($jadeDir) && count(scandir($jadeDir)) > 2)
-            print shell_exec("{$tools["jade"]} {$jadeDir} --out {$pluginOut}/view");
-
-        if(file_exists("{$pluginOut}/view"))
+        foreach(c("AvailableLanguage") as $language)
         {
-            foreach(new DirectoryIterator("{$pluginOut}/view") as $f)
-            {
-                /** @var DirectoryIterator $f */
-                lpCompiledTemplate::compile($f->getPathname(), "{$pluginOut}/template/" . $f->getBasename(".html") . ".php");
-            }
+            $source = "{$outputDir}/view/" . $fileinfo->getBasename(".jade") . ".html";
+            $output = "{$outputDir}/template/" . $fileinfo->getBasename(".jade") . ".php";
+
+            lpFactory::modify("lpLocale", new lpJSONLocale(rpCORE . "/locale", $language));
+
+            lpCompiledTemplate::compile($source, $output);
         }
     }
 }
