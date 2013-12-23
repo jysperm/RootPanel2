@@ -18,7 +18,7 @@ class rpTicketHandler extends lpHandler
 
     public function rpList()
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             App::goUrl("/user/login/", true);
 
         lpTemplate::outputFile(rpROOT . "/template/ticket/index.php");
@@ -26,13 +26,13 @@ class rpTicketHandler extends lpHandler
 
     public function view($id = null)
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             App::goUrl("/user/login/", true);
 
         $tk = new rpTicketModel($id);
-        if($tk->isNull())
+        if ($tk->isNull())
             throw new Exception(l("ticket.handler.invalidID"));
-        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
+        if ($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             throw new Exception(l("ticket.handler.invalidPermission"));
 
         lpTemplate::outputFile(rpROOT . "/template/ticket/view.php", ["tk" => $tk]);
@@ -42,10 +42,10 @@ class rpTicketHandler extends lpHandler
 
     public function create()
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             App::goUrl("/user/login/", true);
 
-        if(!in_array($_POST["type"], array_keys(l("ticket.types"))))
+        if (!in_array($_POST["type"], array_keys(l("ticket.types"))))
             throw new Exception(l("ticket.handler.invalidType"));
 
         rpTicketModel::create($_POST);
@@ -57,13 +57,13 @@ class rpTicketHandler extends lpHandler
 
     public function reply($id = null)
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             App::goUrl("/user/login/", true);
 
         $tk = new rpTicketModel($id);
-        if($tk->isNull())
+        if ($tk->isNull())
             throw new Exception(l("ticket.handler.invalidID"));
-        if($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
+        if ($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
             throw new Exception(l("ticket.handler.invalidPermission"));
 
         $tk->reply($_POST);
@@ -74,19 +74,19 @@ class rpTicketHandler extends lpHandler
 
     public function close($id = null)
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             App::goUrl("/user/login/", true);
 
         $isAdmin = lpFactory::get("rpUserModel")->isAdmin();
 
         $tk = new rpTicketModel($id);
-        if($tk->isNull())
+        if ($tk->isNull())
             throw new Exception(l("ticket.handler.invalidID"));
-        if($tk["uname"] != rpAuth::uname() && !$isAdmin)
+        if ($tk["uname"] != rpAuth::uname() && !$isAdmin)
             throw new Exception(l("ticket.handler.invalidPermission"));
-        if($tk["status"] == rpTicketModel::CLOSED)
+        if ($tk["status"] == rpTicketModel::CLOSED)
             throw new Exception(l("ticket.handler.alreadyClosed"));
-        if($tk["onlyclosebyadmin"] && !$isAdmin)
+        if ($tk["onlyclosebyadmin"] && !$isAdmin)
             throw new Exception(l("ticket.handler.closeOnlyByAdmin"));
 
         $tk->close();
@@ -97,7 +97,7 @@ class rpTicketHandler extends lpHandler
 
     public function finish($id = null)
     {
-        if(!lpFactory::get("rpUserModel")->isAdmin())
+        if (!lpFactory::get("rpUserModel")->isAdmin())
             throw new Exception(l("ticket.handler.notAdmin"));
 
         $tk = new rpTicketModel($id);

@@ -17,7 +17,7 @@ class rpTicketModel extends lpPDOModel
 
     static protected function metaData()
     {
-        if(!self::$metaData) {
+        if (!self::$metaData) {
             self::$metaData = [
                 "db" => f("lpDBDrive"),
                 "table" => "ticket",
@@ -40,7 +40,7 @@ class rpTicketModel extends lpPDOModel
                 "lastreply" => ["type" => self::VARCHAR, "length" => 256]
             ];
 
-            foreach(self::$metaData["struct"] as &$v)
+            foreach (self::$metaData["struct"] as &$v)
                 $v[self::NOTNULL] = true;
         }
 
@@ -59,7 +59,7 @@ class rpTicketModel extends lpPDOModel
             "content" => $data["content"]
         ];
 
-        $mailSender = function($id, $email) use($ticket) {
+        $mailSender = function ($id, $email) use ($ticket) {
             $mailer = lpFactory::get("lpSmtp");
             $mailTitle = l("ticket.createMail.title", c("NodeID"), rpAuth::uname(), $ticket["title"]);
             $mailBody = l("ticket.createMail.body", $ticket["content"], c("NodeList")[c("NodeID")]["domain"], $id, $id, $ticket["title"]);
@@ -68,26 +68,22 @@ class rpTicketModel extends lpPDOModel
         };
 
         $id = null;
-        if(lpFactory::get("rpUserModel")->isAdmin())
-        {
+        if (lpFactory::get("rpUserModel")->isAdmin()) {
             $users = explode(" ", trim(str_replace("  ", " ", $data["users"])));
             $ticket["status"] = rpTicketModel::HODE;
 
-            foreach($users as $user)
-            {
+            foreach ($users as $user) {
                 $ticket["onlyclosebyadmin"] = $data["onlyclosebyadmin"] ? 1 : 0;
                 $ticket["uname"] = $user;
 
                 $id = rpTicketModel::insert($ticket);
                 rpLogModel::log($user, "log.type.adminCreateTicket", [$id, $id], $ticket, rpAuth::uname());
 
-                App::registerAtexit(function() use($mailSender, $id, $user) {
+                App::registerAtexit(function () use ($mailSender, $id, $user) {
                     $mailSender($id, rpUserModel::by("uname", $user)["email"]);
                 });
             }
-        }
-        else
-        {
+        } else {
             $ticket["onlyclosebyadmin"] = 0;
             $ticket["uname"] = rpAuth::uname();
             $ticket["status"] = rpTicketModel::OPEN;
@@ -95,7 +91,7 @@ class rpTicketModel extends lpPDOModel
             $id = rpTicketModel::insert($ticket);
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
-            App::registerAtexit(function() use($mailSender, $id) {
+            App::registerAtexit(function () use ($mailSender, $id) {
                 $mailSender($id, c("AdminsEmail"));
             });
         }
@@ -117,7 +113,7 @@ class rpTicketModel extends lpPDOModel
             "lastreply" => rpAuth::uname(),
         ];
 
-        $mailSender = function($email) use($reply, $id) {
+        $mailSender = function ($email) use ($reply, $id) {
             $mailer = lpFactory::get("lpSmtp");
             $mailTitle = l("ticket.replyMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
             $mailBody = l("ticket.replyMail.body", $reply["content"], c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);
@@ -127,25 +123,22 @@ class rpTicketModel extends lpPDOModel
 
         rpTicketReplyModel::insert($reply);
 
-        if(lpFactory::get("rpUserModel")->isAdmin())
-        {
+        if (lpFactory::get("rpUserModel")->isAdmin()) {
             rpLogModel::log($this->data['uname'], "log.type.adminReplyTicket", [$id, $id], $reply, rpAuth::uname());
 
             $tkRow["status"] = rpTicketModel::HODE;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            App::registerAtexit(function() use($mailSender) {
+            App::registerAtexit(function () use ($mailSender) {
                 $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
             });
-        }
-        else
-        {
+        } else {
             rpLogModel::log($this->data['uname'], "log.type.replyTicket", [$id, $id], $reply);
 
             $tkRow["status"] = rpTicketModel::OPEN;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            App::registerAtexit(function() use($mailSender) {
+            App::registerAtexit(function () use ($mailSender) {
                 $mailSender(c("AdminsEmail"));
             });
         }
@@ -157,7 +150,7 @@ class rpTicketModel extends lpPDOModel
 
         rpTicketModel::update(["id" => $id], ["status" => self::CLOSED]);
 
-        $mailSender = function($email) use($id) {
+        $mailSender = function ($email) use ($id) {
             $mailer = lpFactory::get("lpSmtp");
             $mailTitle = l("ticket.closeMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
             $mailBody = l("ticket.closeMail.body", c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);
@@ -165,19 +158,16 @@ class rpTicketModel extends lpPDOModel
             $mailer->send($email, $mailTitle, $mailBody, lpSmtp::HTMLMail);
         };
 
-        if(lpFactory::get("rpUserModel")->isAdmin())
-        {
+        if (lpFactory::get("rpUserModel")->isAdmin()) {
             rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
 
-            App::registerAtexit(function() use($mailSender) {
+            App::registerAtexit(function () use ($mailSender) {
                 $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
             });
-        }
-        else
-        {
+        } else {
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
-            App::registerAtexit(function() use($mailSender) {
+            App::registerAtexit(function () use ($mailSender) {
                 $mailSender(c("AdminsEmail"));
             });
         }
@@ -191,7 +181,7 @@ class rpTicketModel extends lpPDOModel
 
         rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
 
-        App::registerAtexit(function() use($id) {
+        App::registerAtexit(function () use ($id) {
             $mailer = lpFactory::get("lpSmtp");
             $mailTitle = l("ticket.closeMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
             $mailBody = l("ticket.closeMail.body", c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);

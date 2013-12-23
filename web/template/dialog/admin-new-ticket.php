@@ -9,14 +9,14 @@ f("lpLocale")->load(["ticket"]);
 <form class="website-form">
     <div class="form-horizontal">
         <div class="control-group">
-            <label class="control-label" for="users"><?= l("ticket.admin.objUser");?></label>
+            <label class="control-label" for="users"><?= l("ticket.admin.objUser"); ?></label>
 
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="users" name="users" required="required"/>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="title"><?= l("ticket.list.title");?></label>
+            <label class="control-label" for="title"><?= l("ticket.list.title"); ?></label>
 
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="title" name="title" required="required"/>
@@ -28,8 +28,9 @@ f("lpLocale")->load(["ticket"]);
             <div class="controls">
                 <label class="radio">
                     <select id="type" name="type">
-                        <? foreach(l("ticket.types.long") as $k => $v): ?>
-                            <option value="<?= $k; ?>" <?= $k == l("ticket.types.default") ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
+                        <? foreach (l("ticket.types.long") as $k => $v): ?>
+                            <option
+                                value="<?= $k; ?>" <?= $k == l("ticket.types.default") ? 'selected="selected"' : ""; ?>><?= $v; ?></option>
                         <? endforeach; ?>
                     </select>
                 </label>
@@ -40,14 +41,15 @@ f("lpLocale")->load(["ticket"]);
 
             <div class="controls">
                 <label class="radio">
-                    <button id="onlyclosebyadmin" name="onlyclosebyadmin" type="button" class="btn" data-toggle="button">
-                        <?= l("ticket.admin.closeOnlyByAdmin");?>
+                    <button id="onlyclosebyadmin" name="onlyclosebyadmin" type="button" class="btn"
+                            data-toggle="button">
+                        <?= l("ticket.admin.closeOnlyByAdmin"); ?>
                     </button>
                 </label>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="content"><?= l("ticket.create.content");?></label>
+            <label class="control-label" for="content"><?= l("ticket.create.content"); ?></label>
 
             <div class="controls">
                 <label class="radio">

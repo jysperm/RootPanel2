@@ -37,10 +37,10 @@ HTML;
 
     public function checkSettings($settings, $source)
     {
-        if($settings["server"] && !lpFactory::get("rpUserModel")->checkFileName($settings["server"]))
+        if ($settings["server"] && !lpFactory::get("rpUserModel")->checkFileName($settings["server"]))
             return ["ok" => false, "msg" => l("vhost.phpfpm.invalidPhpfpm")];
 
-        if(!lpFactory::get("rpUserModel")->checkFileName($source))
+        if (!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => ["server" => $settings["server"]]];
@@ -50,10 +50,8 @@ HTML;
     {
         $uname = $hosts["uname"];
 
-        if(rpVirtualHostModel::count(["uname" => $hosts["uname"], "type" => "phpfpm"]))
-        {
-            if(!file_exists("/etc/php5/fpm/pool.d/{$uname}.conf"))
-            {
+        if (rpVirtualHostModel::count(["uname" => $hosts["uname"], "type" => "phpfpm"])) {
+            if (!file_exists("/etc/php5/fpm/pool.d/{$uname}.conf")) {
                 $tmp = new lpTemplate(rpROOT . "/../cli/template/php-fpm.php");
                 $tmp["uname"] = $uname;
 
@@ -61,14 +59,10 @@ HTML;
                 shell_exec("sudo cp /tmp/temp /etc/php5/fpm/pool.d/{$uname}.conf");
                 shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
             }
-        }
-        else
-        {
-            if(file_exists("/etc/php5/fpm/pool.d/{$uname}.conf"))
-            {
+        } else {
+            if (file_exists("/etc/php5/fpm/pool.d/{$uname}.conf")) {
                 shell_exec("sudo rm -f /etc/php5/fpm/pool.d/{$uname}.conf");
-                if(shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`")=="kill: No such process")
-                {
+                if (shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`") == "kill: No such process") {
                     shell_exec("service php5-fpm restart");
                 }
             }

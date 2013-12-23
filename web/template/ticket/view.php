@@ -24,12 +24,15 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
         textarea {
             width: 530px;
         }
+
         .box hr, #content hr {
             margin: 1px;
         }
+
         section header {
             font-size: 28px;
         }
+
         section {
             line-height: 22px;
         }
@@ -47,7 +50,7 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
             }, "json");
             return false;
         }));
-        $($("#deleteTK").click(function(){
+        $($("#deleteTK").click(function () {
             $.post("/ticket/close/<?= $tk["id"];?>/", {}, function (data) {
                 if (data.status == "ok")
                     window.location.reload();
@@ -55,7 +58,7 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
                     alert(data.msg);
             }, "json");
         }));
-        $($("#finishTK").click(function(){
+        $($("#finishTK").click(function () {
             $.post("/ticket/finish/<?= $tk["id"];?>/", {}, function (data) {
                 if (data.status == "ok")
                     window.location.reload();
@@ -67,61 +70,61 @@ $base['title'] = $titile = l("ticket.ticketList", $tk["id"]);
 <? $base['endOfBody'] = lpTemplate::endBlock(); ?>
 
 <? lpTemplate::beginBlock(); ?>
-<section id="content">
-    <header><?= rpTools::escapePlantText($tk["title"]); ?></header>
-    <p>
-        <?= rpTools::escapePlantText($tk["content"]); ?>
-    </p>
-    <hr />
+    <section id="content">
+        <header><?= rpTools::escapePlantText($tk["title"]); ?></header>
+        <p>
+            <?= rpTools::escapePlantText($tk["content"]); ?>
+        </p>
+        <hr/>
     <span class="label">
         <span title="<?= gmdate(l("base.fullTime"), $tk["time"]); ?>"><?= rpTools::niceTime($tk["time"]); ?></span>
         | <?= $tk["uname"]; ?>
     </span>
-</section>
+    </section>
 
-<section id="replys">
-    <header><?= l("ticket.list.reply"); ?> (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
-    <? foreach(rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
-        <div class="box">
-            <?= rpTools::escapePlantText($reply["content"]); ?>
-            <hr />
+    <section id="replys">
+        <header><?= l("ticket.list.reply"); ?> (<?= rpTicketReplyModel::count(["replyto" => $tk["id"]]); ?>)</header>
+        <? foreach (rpTicketReplyModel::select(["replyto" => $tk["id"]]) as $reply): ?>
+            <div class="box">
+                <?= rpTools::escapePlantText($reply["content"]); ?>
+                <hr/>
             <span class="label">
                 <span
                     title="<?= gmdate(l("base.fullTime"), $reply["time"]); ?>"><?= rpTools::niceTime($reply["time"]); ?></span>
                 | <?= $reply["uname"]; ?>
             </span>
-        </div>
-    <? endforeach; ?>
-</section>
+            </div>
+        <? endforeach; ?>
+    </section>
 
-<section id="operation">
-    <header><?= l("ticket.nav.opeator"); ?></header>
-    <? if($tk["status"] != rpTicketModel::CLOSED && (!$tk["onlyclosebyadmin"] || lpFactory::get("rpUserModel")->isAdmin())): ?>
-        <button class="btn btn-danger" id="deleteTK"><?= l("ticket.opeator.close"); ?></button>
-    <? endif; ?>
-    <? if(lpFactory::get("rpUserModel")->isAdmin() && ($tk["status"] == rpTicketModel::HODE || $tk["status"] == rpTicketModel::OPEN)): ?>
-        <button class="btn btn-success" id="finishTK"><?= l("ticket.opeator.finish"); ?></button>
-    <? endif; ?>
-    <hr/>
-    <? if($tk["status"] != "ticket.status.closed"): ?>
-        <form class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="content"><?= l("ticket.opeator.content"); ?></label>
+    <section id="operation">
+        <header><?= l("ticket.nav.opeator"); ?></header>
+        <? if ($tk["status"] != rpTicketModel::CLOSED && (!$tk["onlyclosebyadmin"] || lpFactory::get("rpUserModel")->isAdmin())): ?>
+            <button class="btn btn-danger" id="deleteTK"><?= l("ticket.opeator.close"); ?></button>
+        <? endif; ?>
+        <? if (lpFactory::get("rpUserModel")->isAdmin() && ($tk["status"] == rpTicketModel::HODE || $tk["status"] == rpTicketModel::OPEN)): ?>
+            <button class="btn btn-success" id="finishTK"><?= l("ticket.opeator.finish"); ?></button>
+        <? endif; ?>
+        <hr/>
+        <? if ($tk["status"] != "ticket.status.closed"): ?>
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="content"><?= l("ticket.opeator.content"); ?></label>
 
-                <div class="controls">
-                    <label class="radio">
-                        <textarea id="content" name="content" rows="10"></textarea><br/>
-                    </label>
+                    <div class="controls">
+                        <label class="radio">
+                            <textarea id="content" name="content" rows="10"></textarea><br/>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large"><?= l("ticket.opeator.reply"); ?></button>
-            </div>
-        </form>
-    <? else: ?>
-        <div><?= l("ticket.opeator.closed"); ?></div>
-    <? endif; ?>
-</section>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large"><?= l("ticket.opeator.reply"); ?></button>
+                </div>
+            </form>
+        <? else: ?>
+            <div><?= l("ticket.opeator.closed"); ?></div>
+        <? endif; ?>
+    </section>
 <? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

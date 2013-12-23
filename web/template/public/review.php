@@ -11,10 +11,10 @@ $base['title'] = l("base.review");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= l("contact.service");?></header>
+        <header><?= l("contact.service"); ?></header>
         <ul class="nav-list">
-            <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
-            <?= l("contact.list");?>
+            <li><?= l("contact.email"); ?> <?= c("AdminsEmail"); ?></li>
+            <?= l("contact.list"); ?>
         </ul>
     </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>
@@ -36,8 +36,8 @@ $base['title'] = l("base.review");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= l("base.review");?></header>
-        <div class="ds-thread" data-thread-key="page-review" data-title="><?= l("base.review");?>">
+        <header><?= l("base.review"); ?></header>
+        <div class="ds-thread" data-thread-key="page-review" data-title="><?= l("base.review"); ?>">
         </div>
     </section>
 <? $base['content'] = lpTemplate::endBlock(); ?>

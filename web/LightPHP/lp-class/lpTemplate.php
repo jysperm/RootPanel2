@@ -3,11 +3,10 @@
 defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 
 /**
-*   该文件包含 lpTemplate 的类定义.
-*
-*   @package LightPHP
-*/
-
+ *   该文件包含 lpTemplate 的类定义.
+ *
+ * @package LightPHP
+ */
 class lpTemplate implements ArrayAccess
 {
     private $filename;
@@ -16,7 +15,7 @@ class lpTemplate implements ArrayAccess
     /* ArrayAccess */
     public function offsetSet($offset, $value)
     {
-        if(is_null($offset))
+        if (is_null($offset))
             $this->values[] = $value;
         else
             $this->values[$offset] = $value;
@@ -75,10 +74,10 @@ class lpTemplate implements ArrayAccess
         return ob_get_clean();
     }
 
-    static public function outputFile($file, $values=[])
+    static public function outputFile($file, $values = [])
     {
         $tmp = new lpTemplate($file);
-        if($values)
+        if ($values)
             $tmp->setValues($values);
         $tmp->output();
     }

@@ -8,7 +8,7 @@ class rpVirtualHostModel extends lpPDOModel
 
     static protected function metaData()
     {
-        if(!self::$metaData) {
+        if (!self::$metaData) {
             self::$metaData = [
                 "db" => f("lpDBDrive"),
                 "table" => "virtualhost",
@@ -29,7 +29,7 @@ class rpVirtualHostModel extends lpPDOModel
                 "ison" => ["type" => self::INT]
             ];
 
-            foreach(self::$metaData["struct"] as &$v)
+            foreach (self::$metaData["struct"] as &$v)
                 $v[self::NOTNULL] = true;
         }
 

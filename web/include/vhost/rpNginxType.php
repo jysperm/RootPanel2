@@ -24,7 +24,7 @@ class rpNginxType extends rpVHostType
 
     public function checkSettings($settings, $source)
     {
-        if(!lpFactory::get("rpUserModel")->checkFileName($source))
+        if (!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => []];

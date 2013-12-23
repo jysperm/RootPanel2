@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-if(!isset($argc))
+if (!isset($argc))
     die("Please run this file in shell.");
 
 define("rpROOT", dirname(__FILE__) . "/..");
@@ -24,15 +24,13 @@ function compileJadeDir($dir, $outputDir)
 
     print shell_exec("{$tools["jade"]} '{$dir}' --out '{$outputDir}/view'");
 
-    foreach(new DirectoryIterator($dir) as $fileinfo)
-    {
+    foreach (new DirectoryIterator($dir) as $fileinfo) {
         /** @var DirectoryIterator $fileinfo */
 
-        if($fileinfo->isDot() || $fileinfo->isDir() || substr($fileinfo->getFilename(),0, 1) == "_")
+        if ($fileinfo->isDot() || $fileinfo->isDir() || substr($fileinfo->getFilename(), 0, 1) == "_")
             continue;
 
-        foreach(c("AvailableLanguage") as $language)
-        {
+        foreach (c("AvailableLanguage") as $language) {
             $source = "{$outputDir}/view/" . $fileinfo->getBasename(".jade") . ".html";
             $output = "{$outputDir}/template/" . $fileinfo->getBasename(".jade") . ".php";
 

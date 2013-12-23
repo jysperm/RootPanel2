@@ -18,10 +18,10 @@ class rpPanelActionHandler extends lpJSONHandler
 
     private function auth()
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             return $this->jsonError(l("panel-action.notLogin"));
 
-        if(!lpFactory::get("rpUserModel")->isAllowToPanel())
+        if (!lpFactory::get("rpUserModel")->isAllowToPanel())
             return $this->jsonError(l("panel-action.notAllowToPanel"));
     }
 
@@ -37,7 +37,7 @@ class rpPanelActionHandler extends lpJSONHandler
         $this->auth();
 
         $vhost = new rpVirtualHostModel($_POST["id"]);
-        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+        if ($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
             die(l("panel-action.invalidIDOrPermission"));
 
         lpTemplate::outputFile(rpROOT . "/template/dialog/edit-website.php", ["vhost" => $vhost]);
@@ -48,8 +48,7 @@ class rpPanelActionHandler extends lpJSONHandler
         $this->auth();
         $data = $this->checkInput();
 
-        if($data["ok"])
-        {
+        if ($data["ok"]) {
             $data = $data["data"];
 
             $general = [
@@ -77,9 +76,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             echo json_encode(["success" => "ok"]);
             App::reloadWebConfig(rpAuth::uname());
-        }
-        else
-        {
+        } else {
             $this->jsonError($data["msg"]);
         }
     }
@@ -89,12 +86,11 @@ class rpPanelActionHandler extends lpJSONHandler
         $this->auth();
 
         $vhost = new rpVirtualHostModel($id);
-        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+        if ($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
             die(l("panel-action.invalidIDOrPermission"));
 
         $data = $this->checkInput($id);
-        if($data["ok"])
-        {
+        if ($data["ok"]) {
             $data = $data["data"];
 
             $general = [
@@ -123,9 +119,7 @@ class rpPanelActionHandler extends lpJSONHandler
             echo json_encode(["success" => "ok"]);
 
             App::reloadWebConfig(rpAuth::uname());
-        }
-        else
-        {
+        } else {
             $this->jsonError($data["msg"]);
         }
     }
@@ -135,7 +129,7 @@ class rpPanelActionHandler extends lpJSONHandler
         $this->auth();
 
         $vhost = new rpVirtualHostModel($_POST["id"]);
-        if($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
+        if ($vhost->isNull() || $vhost["uname"] != rpAuth::uname())
             die(l("panel-action.invalidIDOrPermission"));
 
         rpVirtualHostModel::delete(["id" => $_POST["id"]]);
@@ -148,7 +142,7 @@ class rpPanelActionHandler extends lpJSONHandler
     {
         $this->auth();
 
-        if(!in_array($type, ["apache2", "nginx"]))
+        if (!in_array($type, ["apache2", "nginx"]))
             die(l("panel-action.invalidCfgType"));
 
         $config = lpFactory::get("rpUserModel")["settings"]["{$type}extconfig"];
@@ -159,17 +153,14 @@ class rpPanelActionHandler extends lpJSONHandler
     public function sshPasswd()
     {
         $this->auth();
-        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
-        {
+        if (preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"])) {
             $uname = rpAuth::uname();
             shell_exec("echo '{$uname}:{$_POST['passwd']}' | sudo chpasswd");
 
             rpLogModel::log($uname, "log.type.sshPasswd", [], []);
 
             echo json_encode(["success" => true]);
-        }
-        else
-        {
+        } else {
             $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
@@ -178,8 +169,7 @@ class rpPanelActionHandler extends lpJSONHandler
     {
         $this->auth();
 
-        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
-        {
+        if (preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"])) {
             $uname = rpAuth::uname();
 
             $lock = new lpMutex;
@@ -196,9 +186,7 @@ class rpPanelActionHandler extends lpJSONHandler
 
             App::finishRequest();
             shell_exec("sudo " . rpROOT . "/../cli/pptp-passwd.php");
-        }
-        else
-        {
+        } else {
             $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
@@ -206,8 +194,7 @@ class rpPanelActionHandler extends lpJSONHandler
     public function mysqlpasswd()
     {
         $this->auth();
-        if(preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"]))
-        {
+        if (preg_match('/^[A-Za-z0-9\-_]+$/', $_POST["passwd"])) {
             $db = lpFactory::get("PDO");
             $uname = rpAuth::uname();
 
@@ -216,9 +203,7 @@ class rpPanelActionHandler extends lpJSONHandler
             rpLogModel::log($uname, "log.type.mysqlPasswd", [], []);
 
             echo json_encode(["success" => true]);
-        }
-        else
-        {
+        } else {
             $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
@@ -226,17 +211,14 @@ class rpPanelActionHandler extends lpJSONHandler
     public function panelPasswd()
     {
         $this->auth();
-        if(isset($_POST["passwd"]))
-        {
+        if (isset($_POST["passwd"])) {
             $uname = rpAuth::uname();
             rpUserModel::update(["uname" => $uname], ["passwd" => rpAuth::dbHash($uname, $_POST["passwd"])]);
 
             rpLogModel::log($uname, "log.type.panelPasswd", [], []);
 
             echo json_encode(array("success" => true));
-        }
-        else
-        {
+        } else {
             $this->jsonError(l("panel-action.invalidPasswd"));
         }
     }
@@ -260,50 +242,44 @@ class rpPanelActionHandler extends lpJSONHandler
         // domains-域名
         // (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*
         // ^ *DOMAIN( DOMAIN)* *$
-        if(!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',
-            $_POST["domains"]) || strlen($_POST["domains"]) > 128 )
-        {
+        if (!preg_match('/^ *(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*( (\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*)* *$/',
+                $_POST["domains"]) || strlen($_POST["domains"]) > 128
+        ) {
             return ["ok" => false, "msg" => l("panel-action.invalidDomain")];
-        }
-        else
-        {
+        } else {
             $data["domains"] = strtolower(trim(str_replace("  ", " ", $_POST["domains"])));
 
-            if(!$id)
-            {
+            if (!$id) {
                 $rsDomains = rpVirtualHostModel::select();
-            }
-            else
-            {
+            } else {
                 $db = lpFactory::get("PDO");
                 $rsDomains = $db->query("SELECT * FROM `virtualhost` WHERE `id` <> " . $db->quote($id));
             }
 
-            foreach($rsDomains as $row)
-            {
+            foreach ($rsDomains as $row) {
                 $tD = explode(" ", $row["domains"]);
                 $curD = explode(" ", $data["domains"]);
 
                 $errDomains = array_intersect($tD, $curD);
-                if(count($errDomains))
+                if (count($errDomains))
                     return ["ok" => false, "msg" => l("panel-action.alreadyBind", join(" ", $errDomains))];
             }
         }
 
         // type站点类型
-        if(!in_array($_POST["type"], array_keys($types)))
+        if (!in_array($_POST["type"], array_keys($types)))
             return ["ok" => false, l("panel-action.invalidSiteType")];
         $data["type"] = $_POST["type"];
 
         // 类型相关选项
         $perfix = "vhost-{$data["type"]}-";
         $settings = [];
-        foreach($_POST as $k => $v)
-            if(substr($k, 0, strlen($perfix)) == $perfix)
+        foreach ($_POST as $k => $v)
+            if (substr($k, 0, strlen($perfix)) == $perfix)
                 $settings[substr($k, strlen($perfix))] = $v;
 
         $r = $types[$_POST["type"]]->checkSettings($settings, $_POST["source"]);
-        if(!$r["ok"])
+        if (!$r["ok"])
             return ["ok" => false, "msg" => $r["msg"]];
 
         $data["settings"] = $r["data"];
@@ -313,15 +289,14 @@ class rpPanelActionHandler extends lpJSONHandler
         // alias别名
         $aliasR = [];
         $alias = explode("\n", $_POST["alias"]);
-        foreach($alias as $v) {
+        foreach ($alias as $v) {
             $vv = explode(" ", trim(str_replace("  ", " ", $v)));
 
-            if(isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1])
-            {
-                if(!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128)
+            if (isset($vv[0]) && isset($vv[1]) && $vv[0] && $vv[1]) {
+                if (!preg_match('/^\S+$/', $vv[0]) || strlen($vv[0]) > 128)
                     return ["ok" => false, l("panel-action.invalidAlias", $vv[0])];
 
-                if(!lpFactory::get("rpUserModel")->checkFileName($vv[1]))
+                if (!lpFactory::get("rpUserModel")->checkFileName($vv[1]))
                     return ["ok" => false, l("panel-action.invalidAlias", $vv[1])];
 
                 $aliasR[$vv[0]] = $vv[1];
@@ -333,7 +308,7 @@ class rpPanelActionHandler extends lpJSONHandler
         // [A-Za-z0-9_\-\.]+
         // ^ *FILENAME( FILENAME)* *$
         // ^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$
-        if(!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
+        if (!preg_match('/^ *[A-Za-z0-9_\-\.]+( [A-Za-z0-9_\-\.]+)* *$/', $_POST["indexs"]) ||
             strlen($_POST["indexs"]) > 256
         ) {
             return ["ok" => false, l("panel-action.invalidIndexs")];
@@ -341,19 +316,16 @@ class rpPanelActionHandler extends lpJSONHandler
         $data["indexs"] = $_POST["indexs"];
 
         // SSL
-        if($data["isssl"])
-        {
-            if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
+        if ($data["isssl"]) {
+            if (!lpFactory::get("rpUserModel")->checkFileName($_POST["sslcrt"]) || !file_exists($_POST["sslcrt"]))
                 return ["ok" => false, l("panel-action.invalidSSLCrt")];
 
-            if(!lpFactory::get("rpUserModel")->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
+            if (!lpFactory::get("rpUserModel")->checkFileName($_POST["sslkey"]) || !file_exists($_POST["sslkey"]))
                 return ["ok" => false, l("panel-action.invalidSSLKey")];
 
             $data["sslcrt"] = $_POST["sslcrt"];
             $data["sslkey"] = $_POST["sslkey"];
-        }
-        else
-        {
+        } else {
             $data["sslcrt"] = $data["sslkey"] = "";
         }
 

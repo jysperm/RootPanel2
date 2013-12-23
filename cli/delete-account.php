@@ -7,7 +7,7 @@ require_once(rpROOT . "/LightPHP/lp-load.php");
 require_once(rpROOT . "/include/rpApp.php");
 App::helloWorld();
 
-if(!isset($argv[1]) || !isset($argv[2]) || $argv[2]!="sure")
+if (!isset($argv[1]) || !isset($argv[2]) || $argv[2] != "sure")
     die("error : {$argv[0]} <uname> sure\n");
 
 $uname = $argv[1];
@@ -26,8 +26,8 @@ shell_exec("sudo kill -USR2 `cat /var/run/php5-fpm.pid`");
 $db = lpFactory::get("lpDBDrive");
 $db->exec(sprintf("DROP USER '%s'@'localhost';", $uname));
 
-foreach($db->query("show databases;") as $row)
-    if(substr($row["Database"], 0, strlen($uname)+1) == "{$uname}_")
+foreach ($db->query("show databases;") as $row)
+    if (substr($row["Database"], 0, strlen($uname) + 1) == "{$uname}_")
         $db->exec(sprintf("DROP DATABASE `%s`;", $row["Database"]));
 
 

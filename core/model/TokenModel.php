@@ -46,7 +46,7 @@ class TokenModel extends lpPDOModel
         $token = null;
         do {
             $token = sha1(rand(0, PHP_INT_MAX));
-        } while(self::byToken($token)->data());
+        } while (self::byToken($token)->data());
 
         self::insert([
             "user_id" => $user->id(),

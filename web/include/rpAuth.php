@@ -21,7 +21,7 @@ class rpAuth extends lpTrackAuth
     static public function uname()
     {
         $realUName = parent::uname();
-        if(isset($_COOKIE["rp_changeuname"]) && rpUserModel::by("uname", $realUName)->isAdmin())
+        if (isset($_COOKIE["rp_changeuname"]) && rpUserModel::by("uname", $realUName)->isAdmin())
             return $_COOKIE["rp_changeuname"];
         else
             return $realUName;

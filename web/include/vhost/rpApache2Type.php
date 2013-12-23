@@ -55,14 +55,15 @@ HTML;
 
     public function checkSettings($settings, $source)
     {
-        if(!in_array($settings["type"], ["unless", "only"]))
+        if (!in_array($settings["type"], ["unless", "only"]))
             return ["ok" => false, "msg" => l("vhost.apache2.invalidType")];
 
-        if(!lpFactory::get("rpUserModel")->checkFileName($source))
+        if (!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
-        if(!preg_match('/^ *[A-Za-z0-9_\-\.]*( [A-Za-z0-9_\-\.]*)* *$/', $settings["extension"]) ||
-            strlen($settings["extension"]) >256 )
+        if (!preg_match('/^ *[A-Za-z0-9_\-\.]*( [A-Za-z0-9_\-\.]*)* *$/', $settings["extension"]) ||
+            strlen($settings["extension"]) > 256
+        )
             return ["ok" => false, "msg" => l("vhost.apache2.invalidExtension")];
 
         $settings["extension"] = trim(str_replace("  ", " ", $settings["extension"]));

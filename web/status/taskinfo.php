@@ -25,7 +25,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
     <link href="http://lib.sinaapp.com/js/bootstrap/latest/css/bootstrap-responsive.min.css" rel="stylesheet"
           type="text/css"/>
     <style type="text/css">
-            /* 左侧导航栏 */
+        /* 左侧导航栏 */
         .sidenav {
             width: 175px;
             margin: 30px 0 0;
@@ -59,7 +59,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
             border-radius: 6px 6px 0 0;
         }
 
-            /* 全局常规 */
+        /* 全局常规 */
         body {
             font-family: "Microsoft YaHei", "WenQuanYi Micro Hei", "WenQuanYi Zen Hei", arial, sans-serif;
             font-size: 16px;
@@ -84,7 +84,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
             color: #008200;
         }
 
-            /* 重载bootstrap */
+        /* 重载bootstrap */
         .accordion-group {
             border: none;
         }
@@ -139,7 +139,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
         </div>
         <?= (100 - $realMemPer - $cachedMemPer - $buffersMemPer); ?>%
     </div>
-    <? if($swapUsedMemPer > 1): ?>
+    <? if ($swapUsedMemPer > 1): ?>
         <div class="progress progress-striped active">
             <div class="bar pull-left"
                  style="width:<?php echo $swapUsedMemPer; ?>%;background-color:#FBB450;">
@@ -151,7 +151,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
     <span class="label label-important">应用程序使用内存</span>
     <span class="label label-info">页面缓存</span>
     <span class="label label-success">磁盘缓冲</span>
-    <? if($swapUsedMemPer > 1): ?>
+    <? if ($swapUsedMemPer > 1): ?>
         <span class="label label-warning">交换空间</span>
     <? endif; ?>
     <span class="label">空闲内存</span>
@@ -176,9 +176,9 @@ $shellResult["ps"] = shell_exec("ps xufwa");
     $hours = floor($hours - ($days * 24));
     $min = floor($mins - ($days * 60 * 24) - ($hours * 60));
     $uptimeStr = "";
-    if($days)
+    if ($days)
         $uptimeStr = "{$days} days ";
-    if($hours)
+    if ($hours)
         $uptimeStr .= "{$hours} hours ";
     $uptimeStr .= "{$min} mins";
 
@@ -225,9 +225,9 @@ $shellResult["ps"] = shell_exec("ps xufwa");
     $procOutput = "";
     $psInfo = $shellResult["ps"];
     $psArray = explode("\n", $psInfo);
-    for($i = 1; $i < count($psArray); $i++) {
+    for ($i = 1; $i < count($psArray); $i++) {
         $vpsArrayInfo = $psArray[$i];
-        while(stripos($psArray[$i], "  "))
+        while (stripos($psArray[$i], "  "))
             $psArray[$i] = str_replace("  ", " ", $psArray[$i]);
         $procArray = explode(" ", $psArray[$i]);
 
@@ -240,7 +240,7 @@ $shellResult["ps"] = shell_exec("ps xufwa");
         @$escedprocArray7 = htmlspecialchars($procArray[7]);
         $cmd = str_replace(" ", "&nbsp;", htmlspecialchars(substr($vpsArrayInfo, 64)));
 
-        if(@$procArray[5] > 0) {
+        if (@$procArray[5] > 0) {
             @$procOutput .= <<< HTML
                 <tr>
                   <td>{$procArray[0]}</td>
@@ -275,7 +275,7 @@ HTML;
         </tr>
         </thead>
         <tbody>
-        <? foreach($userInfo as $k => $v): ?>
+        <? foreach ($userInfo as $k => $v): ?>
             <tr>
                 <td><?= $k; ?></td>
                 <td><?= $v["procNum"]; ?></td>

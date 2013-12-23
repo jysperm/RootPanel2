@@ -9,10 +9,10 @@ class rpAdminActionHandler extends lpHandler
 
     private function auth()
     {
-        if(!rpAuth::login())
+        if (!rpAuth::login())
             return $this->jsonError(l("admin-action.notLogin"));
 
-        if(!lpFactory::get("rpUserModel")->isAdmin())
+        if (!lpFactory::get("rpUserModel")->isAdmin())
             return $this->jsonError(l("admin-action.notAdmin"));
     }
 
@@ -26,7 +26,7 @@ class rpAdminActionHandler extends lpHandler
 
         rpLogModel::log($_POST["uname"], "log.type.addTime", [intval($_POST["day"])], [], rpAuth::uname());
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
     }
 
     public function alertUser()
@@ -48,7 +48,7 @@ class rpAdminActionHandler extends lpHandler
 
         rpTicketModel::create($data);
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
 
         App::finishRequest();
     }
@@ -96,7 +96,7 @@ class rpAdminActionHandler extends lpHandler
 
         rpLogModel::log($_POST["uname"], "log.type.delete", [], [], rpAuth::uname());
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
     }
 
     public function enableUser()
@@ -104,7 +104,7 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         f("lpLocale")->load(["base", "admin-action"]);
 
-        rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type'], "expired" => time()]);
+        rpUserModel::update(["uname" => $_POST['uname']], ["type" => $_POST['type'], "expired" => time()]);
 
         $title = l("admin-action.ticket.enable.title", l("base.userType")[$_POST['type']]);
         $content = l("admin-action.ticket.enable.content", l("base.userType")[$_POST['type']]);
@@ -119,7 +119,7 @@ class rpAdminActionHandler extends lpHandler
 
         rpTicketModel::create($data);
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
 
         shell_exec(rpROOT . "/../cli/create-account.php {$_POST['uname']}");
     }
@@ -129,7 +129,7 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         f("lpLocale")->load(["base", "admin-action"]);
 
-        rpUserModel::update(["uname" => $_POST['uname']],["type" => rpUserModel::NO]);
+        rpUserModel::update(["uname" => $_POST['uname']], ["type" => rpUserModel::NO]);
 
         $title = l("admin-action.ticket.enable.title");
         $content = l("admin-action.ticket.enable.content");
@@ -144,7 +144,7 @@ class rpAdminActionHandler extends lpHandler
 
         rpTicketModel::create($data);
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
 
         shell_exec(rpROOT . "/../cli/delete-account.php {$_POST['uname']} sure");
     }
@@ -154,11 +154,10 @@ class rpAdminActionHandler extends lpHandler
         $this->auth();
         f("lpLocale")->load(["base", "admin-action"]);
 
-        if(in_array($_POST['type'], array_keys(l("base.userType"))))
-        {
-            rpUserModel::update(["uname" => $_POST['uname']],["type" => $_POST['type']]);
+        if (in_array($_POST['type'], array_keys(l("base.userType")))) {
+            rpUserModel::update(["uname" => $_POST['uname']], ["type" => $_POST['type']]);
         }
 
-        echo json_encode(["status"=>"ok"]);
+        echo json_encode(["status" => "ok"]);
     }
 }

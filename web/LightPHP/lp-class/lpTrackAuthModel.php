@@ -8,7 +8,7 @@ class lpTrackAuthModel extends lpPDOModel
 
     static protected function metaData()
     {
-        if(!self::$metaData) {
+        if (!self::$metaData) {
             self::$metaData = [
                 "db" => lpFactory::get("lpDBDrive"),
                 "table" => "lpTrackAuth",
@@ -24,7 +24,7 @@ class lpTrackAuthModel extends lpPDOModel
                 "lastActivityTime" => ["type" => self::UINT]
             ];
 
-            foreach(self::$metaData["struct"] as &$v)
+            foreach (self::$metaData["struct"] as &$v)
                 $v[self::NOTNULL] = true;
         }
 

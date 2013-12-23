@@ -9,8 +9,7 @@ $types = rpVHostType::loadTypes();
 $rpDomain = c("NodeList")[c("NodeID")]["domain"];
 $vhost = $this["vhost"];
 
-if($this["new"])
-{
+if ($this["new"]) {
     $vhost = [
         "id" => "XXOO",
         "domains" => substr(md5(time()), 0, 8) . ".{$rpDomain}",
@@ -33,8 +32,10 @@ if($this["new"])
 <form class="website-form">
     <div class="form-horizontal">
         <h4><?= l("edit-website.general"); ?></h4>
+
         <div class="control-group">
             <label class="control-label" for="ison"><i class="icon-check"></i></label>
+
             <div class="controls">
                 <button id="ison" name="ison" type="button" class="btn <?= ($vhost["ison"]) ? "active" : ""; ?>"
                         data-toggle="button">
@@ -43,20 +44,26 @@ if($this["new"])
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.id"); ?>"><?= l("panel.website.id"); ?></a></label>
+            <label class="control-label"><a href="#" rel="tooltip"
+                                            title="<?= l("panel.tooltip.id"); ?>"><?= l("panel.website.id"); ?></a></label>
+
             <div class="controls">
                 <span class="label"><?= $vhost["id"]; ?></span>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="domains"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.dialog.domain"); ?>"><?= l("edit-website.domain"); ?></a></label>
+            <label class="control-label" for="domains"><a href="#" rel="tooltip"
+                                                          title="<?= l("panel.tooltip.dialog.domain"); ?>"><?= l("edit-website.domain"); ?></a></label>
+
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="domains" name="domains" value="<?= $vhost["domains"]; ?>"
                        required="required"/>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="source"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.source"); ?>"><?= l("panel.website.source"); ?></a></label>
+            <label class="control-label" for="source"><a href="#" rel="tooltip"
+                                                         title="<?= l("panel.tooltip.source"); ?>"><?= l("panel.website.source"); ?></a></label>
+
             <div class="controls">
                 <input type="text" class="input-xxlarge" id="source" name="source" value="<?= $vhost["source"]; ?>"
                        required="required"/>
@@ -67,10 +74,12 @@ if($this["new"])
 
     <div class="form-horizontal">
         <h4><?= l("edit-website.siteType"); ?></h4>
+
         <div class="control-group">
             <label class="control-label">&raquo;</label>
+
             <div class="controls">
-                <? foreach($types as $k => $v): ?>
+                <? foreach ($types as $k => $v): ?>
                     <label class="radio">
                         <input type="radio" name="type" id="op<?= $k; ?>"
                                value="<?= $k; ?>" <?= ($vhost["type"] == $k) ? "checked='checked'" : ""; ?> />
@@ -83,7 +92,7 @@ if($this["new"])
     <hr/>
     <div class="form-horizontal">
         <h4 id="title-type"><?= $types[$vhost["type"]]->meta()["name"]; ?></h4>
-        <? foreach($types as $k => $v): ?>
+        <? foreach ($types as $k => $v): ?>
             <div class="setting-<?= $k; ?>">
                 <?= $v->settingsHTML(($vhost["type"] == $k) ? $vhost : ["settings" => $v->defaultSettings()]); ?>
             </div>
@@ -92,12 +101,14 @@ if($this["new"])
     <hr/>
     <div class="form-horizontal">
         <h4><?= l("edit-website.common"); ?></h4>
+
         <div class="control-group">
             <label class="control-label" for="alias"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.alias"); ?>">Alias别名</a></label>
+
             <div class="controls">
                 <label class="radio">
                     <textarea id="alias" name="alias" rows="4"><?php
-                        foreach($vhost["general"]["alias"] as $k => $v)
+                        foreach ($vhost["general"]["alias"] as $k => $v)
                             echo "$k $v\n";
                         ?></textarea>
                 </label>
@@ -105,6 +116,7 @@ if($this["new"])
         </div>
         <div class="control-group">
             <label class="control-label" for="autoindex"><i class="icon-check"></i></label>
+
             <div class="controls">
                 <label class="radio">
                     <button id="autoindex" name="autoindex" type="button"
@@ -115,11 +127,13 @@ if($this["new"])
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="indexs"><a href="#" rel="tooltip" title="<?= l("panel.tooltip.index");?>"><?= l("edit-website.indexs");?></a></label>
+            <label class="control-label" for="indexs"><a href="#" rel="tooltip"
+                                                         title="<?= l("panel.tooltip.index"); ?>"><?= l("edit-website.indexs"); ?></a></label>
+
             <div class="controls">
                 <label class="radio">
                     <input type="text" class="input-xxlarge" id="indexs" name="indexs"
-                           value="<?= $vhost["general"]["indexs"];?>"/>
+                           value="<?= $vhost["general"]["indexs"]; ?>"/>
                 </label>
             </div>
         </div>
@@ -127,20 +141,22 @@ if($this["new"])
     <hr/>
 
     <div class="form-horizontal">
-        <h4><?= l("edit-website.ssl");?></h4>
+        <h4><?= l("edit-website.ssl"); ?></h4>
+
         <div class="control-group">
             <label class="control-label" for="isssl"><i class="icon-check"></i></label>
+
             <div class="controls">
                 <label class="radio">
                     <button id="isssl" name="isssl" type="button"
                             class="btn <?= ($vhost["general"]["isssl"]) ? "active" : ""; ?>"
-                            data-toggle="button"><?= l("edit-website.enabledSsl");?>
+                            data-toggle="button"><?= l("edit-website.enabledSsl"); ?>
                     </button>
                 </label>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="sslcrt"><?= l("edit-website.sslcrt");?></label>
+            <label class="control-label" for="sslcrt"><?= l("edit-website.sslcrt"); ?></label>
 
             <div class="controls">
                 <label class="radio">
@@ -150,7 +166,7 @@ if($this["new"])
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="sslkey"><?= l("edit-website.sslkey");?></label>
+            <label class="control-label" for="sslkey"><?= l("edit-website.sslkey"); ?></label>
 
             <div class="controls">
                 <label class="radio">
@@ -163,7 +179,7 @@ if($this["new"])
 </form>
 <?php
 $jsSiteType = "";
-foreach($types as $k => $v) {
+foreach ($types as $k => $v) {
     $jsSiteType [] = "'{$k}'";
 }
 ?>

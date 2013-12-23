@@ -5,7 +5,9 @@ defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
 abstract class rpVHostType
 {
     abstract public function meta();
+
     abstract public function settingsHTML($old);
+
     abstract public function defaultSettings();
 
     /**
@@ -27,10 +29,9 @@ abstract class rpVHostType
         ];
 
         $objs = [];
-        foreach($types as $v)
-        {
+        foreach ($types as $v) {
             $name = "rp{$v}Type";
-            $objs[strtolower($v)]= new $name;
+            $objs[strtolower($v)] = new $name;
         }
 
         return $objs;

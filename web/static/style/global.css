@@ -2,6 +2,7 @@
 .copyright {
     margin-top: 40px;
 }
+
 /* 全局常规 */
 body {
     font-family: "WenQuanYi Micro Hei", "WenQuanYi Zen Hei", "Microsoft YaHei", arial, sans-serif;
@@ -206,13 +207,13 @@ ul.left-tabs li {
 }
 
 /* 不同分辨率配置 */
-@media (min-width:1200px) {
+@media (min-width: 1200px) {
     .sidenav {
         width: 258px;
     }
 }
 
-@media (max-width:980px) {
+@media (max-width: 980px) {
     .sidenav {
         position: static;
         width: auto;

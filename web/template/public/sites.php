@@ -11,10 +11,10 @@ $base['title'] = l("sites.title");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= l("contact.service");?></header>
+        <header><?= l("contact.service"); ?></header>
         <ul class="nav-list">
-            <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
-            <?= l("contact.list");?>
+            <li><?= l("contact.email"); ?> <?= c("AdminsEmail"); ?></li>
+            <?= l("contact.list"); ?>
         </ul>
     </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>
@@ -25,6 +25,7 @@ $base['title'] = l("sites.title");
             height: 500px;
             width: 870px;
         }
+
         .thumbnail img {
             width: 300px;
             height: 200px;
@@ -40,7 +41,7 @@ $base['title'] = l("sites.title");
 
 <? lpTemplate::beginBlock(); ?>
     <section>
-        <header><?= l("sites.title");?></header>
+        <header><?= l("sites.title"); ?></header>
         <div id="rpCarousel" class="carousel slide">
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -48,36 +49,39 @@ $base['title'] = l("sites.title");
                 <li data-target="#myCarousel" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
-                <? foreach(l("sites.big") as $site):?>
-                    <div class="item<?= isset($site["default"]) ? " active" : "";?>">
-                        <img src="<?= $site["img"];?>" alt="<?= $site["domain"];?>">
+                <? foreach (l("sites.big") as $site): ?>
+                    <div class="item<?= isset($site["default"]) ? " active" : ""; ?>">
+                        <img src="<?= $site["img"]; ?>" alt="<?= $site["domain"]; ?>">
+
                         <div class="carousel-caption">
-                            <h4><a href="<?= $site["url"];?>"><?= $site["name"];?></a></h4>
-                            <p><?= $site["description"];?></p>
+                            <h4><a href="<?= $site["url"]; ?>"><?= $site["name"]; ?></a></h4>
+
+                            <p><?= $site["description"]; ?></p>
                         </div>
                     </div>
-                <? endforeach;?>
+                <? endforeach; ?>
             </div>
             <a class="carousel-control left" href="#rpCarousel" data-slide="prev">&lsaquo;</a>
             <a class="carousel-control right" href="#rpCarousel" data-slide="next">&rsaquo;</a>
         </div>
         <div class="row-fluid">
             <ul class="thumbnails">
-                <? foreach(l("sites.small") as $site):?>
+                <? foreach (l("sites.small") as $site): ?>
                     <li class="span4">
                         <div class="thumbnail">
-                            <img src="<?= $site["img"];?>" alt="<?= $site["domain"];?>">
+                            <img src="<?= $site["img"]; ?>" alt="<?= $site["domain"]; ?>">
+
                             <div class="caption">
-                                <? if($site["url"]):?>
-                                    <h3><a href="<?= $site["url"];?>"><?= $site["name"];?></a></h3>
-                                <? else:?>
-                                    <h3><?= $site["name"];?></h3>
-                                <? endif;?>
-                                <p><?= $site["description"];?></p>
+                                <? if ($site["url"]): ?>
+                                    <h3><a href="<?= $site["url"]; ?>"><?= $site["name"]; ?></a></h3>
+                                <? else: ?>
+                                    <h3><?= $site["name"]; ?></h3>
+                                <? endif; ?>
+                                <p><?= $site["description"]; ?></p>
                             </div>
                         </div>
                     </li>
-                <? endforeach;?>
+                <? endforeach; ?>
             </ul>
         </div>
     </section>

@@ -11,14 +11,14 @@ $base['title'] = l("base.signup");
 
 <? lpTemplate::beginBlock(); ?>
 <section>
-    <header><?= l("signup.view.isHasAccount");?></header>
-    <a href="/user/login/" class="btn btn-success"><?= l("signup.view.clickToLogin");?></a>
+    <header><?= l("signup.view.isHasAccount"); ?></header>
+    <a href="/user/login/" class="btn btn-success"><?= l("signup.view.clickToLogin"); ?></a>
 </section>
 <section>
-    <header><?= l("contact.service");?></header>
+    <header><?= l("contact.service"); ?></header>
     <ul class="nav-list">
-        <li><?= l("contact.email");?> <?= c("AdminsEmail");?></li>
-        <?= l("contact.list");?>
+        <li><?= l("contact.email"); ?> <?= c("AdminsEmail"); ?></li>
+        <?= l("contact.list"); ?>
     </ul>
 </section>
 <? $base['sidebar'] = lpTemplate::endBlock(); ?>
@@ -56,56 +56,56 @@ $base['title'] = l("base.signup");
 
 <? lpTemplate::beginBlock(); ?>
 <section>
-    <header><?= l("base.signup");?> <span
-            class="text-small-per50 not-bold"><?= l("signup.view.signingNow");?><?= c("NodeName");?></span>
+    <header><?= l("base.signup"); ?> <span
+            class="text-small-per50 not-bold"><?= l("signup.view.signingNow"); ?><?= c("NodeName"); ?></span>
     </header>
     <form class="form-horizontal" id="form" method="post">
         <div id="errorTips" class="alert alert-error<?= $this["errorMsg"] ? "" : " hide"; ?>">
-            <header><?= l("form.error");?></header>
-            <span id="errorBody"><?= $this["errorMsg"];?></span>
+            <header><?= l("form.error"); ?></header>
+            <span id="errorBody"><?= $this["errorMsg"]; ?></span>
         </div>
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="uname"><?= l("signup.account");?></label>
+                <label class="control-label" for="uname"><?= l("signup.account"); ?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="uname" name="uname"
                            value="<?= isset($uname) ? $uname : ""; ?>" required="required"/>
 
-                    <p class="help-block"><?= l("signup.view.accountTips");?></p>
+                    <p class="help-block"><?= l("signup.view.accountTips"); ?></p>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="email"><?= l("signup.email");?></label>
+                <label class="control-label" for="email"><?= l("signup.email"); ?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="email" name="email"
                            value="<?= isset($email) ? $email : ""; ?>" required="required"/>
 
-                    <p class="help-block"><?= l("signup.view.emailTips");?></p>
+                    <p class="help-block"><?= l("signup.view.emailTips"); ?></p>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="passwdtext"><?= l("signup.passwd");?></label>
+                <label class="control-label" for="passwdtext"><?= l("signup.passwd"); ?></label>
 
                 <div class="controls">
-                    <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required" />
-                    <input type="password" class="input-xlarge hide" id="passwd" name="passwd" />
+                    <input type="text" class="input-xlarge" id="passwdtext" name="passwdtext" required="required"/>
+                    <input type="password" class="input-xlarge hide" id="passwd" name="passwd"/>
                     <button id="isShowPasswd" type="button" class="btn active"
-                            data-toggle="button"><?= l("signup.view.isRaw");?></button>
+                            data-toggle="button"><?= l("signup.view.isRaw"); ?></button>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="qq"><?= l("signup.view.qq");?></label>
+                <label class="control-label" for="qq"><?= l("signup.view.qq"); ?></label>
 
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="qq" name="qq" value="<?= isset($qq) ? $qq : ""; ?>"/>
 
-                    <p class="help-block"><?= l("signup.view.qqTips");?></p>
+                    <p class="help-block"><?= l("signup.view.qqTips"); ?></p>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary btn-large"><?= l("base.signup");?></button>
+                <button type="submit" class="btn btn-primary btn-large"><?= l("base.signup"); ?></button>
             </div>
         </fieldset>
     </form>

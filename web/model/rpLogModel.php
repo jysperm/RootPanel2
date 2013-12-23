@@ -8,7 +8,7 @@ class rpLogModel extends lpPDOModel
 
     static protected function metaData()
     {
-        if(!self::$metaData) {
+        if (!self::$metaData) {
             self::$metaData = [
                 "db" => f("lpDBDrive"),
                 "table" => "log",
@@ -29,7 +29,7 @@ class rpLogModel extends lpPDOModel
                 "ua" => ["type" => self::TEXT]
             ];
 
-            foreach(self::$metaData["struct"] as &$v)
+            foreach (self::$metaData["struct"] as &$v)
                 $v[self::NOTNULL] = true;
         }
 
@@ -37,11 +37,11 @@ class rpLogModel extends lpPDOModel
     }
 
     /**
-     * @param string     $user       被记录日志的用户名
-     * @param string     $type       日志的类型
-     * @param array      $info       根据日志类型提供的附加信息
-     * @param array      $detail     更多详细信息
-     * @param string     $by         日志的触发者(默认同$user)
+     * @param string $user 被记录日志的用户名
+     * @param string $type 日志的类型
+     * @param array $info 根据日志类型提供的附加信息
+     * @param array $detail 更多详细信息
+     * @param string $by 日志的触发者(默认同$user)
      */
     static public function log($user, $type, $info, $detail, $by = null)
     {

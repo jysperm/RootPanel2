@@ -1,4 +1,4 @@
-<? defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));?>
+<? defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden")); ?>
 
 <section id="agreement">
     <header>政策和约定</header>
@@ -14,6 +14,7 @@
         <li>大量占用服务器资源用于无意义的计算</li>
     </ul>
     <p>若无意违反，将给予一到两次的警告，故意违反则封停帐号不做退款(若数据合法可退还数据).</p>
+
     <p><b>担保</b></p>
     <ul>
         <li>对于上游服务商(VPS提供商, 网络提供商)的故障我们无能为力，但会做适度补偿</li>

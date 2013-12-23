@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-if(!isset($argc))
+if (!isset($argc))
     die("Please run this file in shell.");
 
 define("rpROOT", dirname(__FILE__) . "/..");

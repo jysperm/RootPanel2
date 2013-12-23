@@ -13,10 +13,9 @@ $db = lpFactory::get("lpDBDrive");
 
 lpTemplate::beginBlock();
 
-foreach($db->query("SELECT * FROM `user` WHERE `type` != 'no'") as $user)
-{
+foreach ($db->query("SELECT * FROM `user` WHERE `type` != 'no'") as $user) {
     $passwd = json_decode($user["settings"], true)["pptppasswd"];
-    if($passwd)
+    if ($passwd)
         echo "{$user['uname']} * {$passwd} * \n";
 }
 

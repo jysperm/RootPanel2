@@ -36,10 +36,10 @@ HTML;
 
     public function checkSettings($settings, $source)
     {
-        if(!lpFactory::get("rpUserModel")->checkFileName($settings["socket"]))
+        if (!lpFactory::get("rpUserModel")->checkFileName($settings["socket"]))
             return ["ok" => false, "msg" => l("vhost.uwsgi.invalidSocket")];
 
-        if(!lpFactory::get("rpUserModel")->checkFileName($source))
+        if (!lpFactory::get("rpUserModel")->checkFileName($source))
             return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => ["socket" => $settings["socket"]]];

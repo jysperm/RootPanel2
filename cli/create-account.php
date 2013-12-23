@@ -7,7 +7,7 @@ require_once(rpROOT . "/LightPHP/lp-load.php");
 require_once(rpROOT . "/include/rpApp.php");
 App::helloWorld();
 
-if(!isset($argv[1]))
+if (!isset($argv[1]))
     die("error : {$argv[0]} <uname>\n");
 
 $uname = $argv[1];

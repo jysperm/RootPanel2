@@ -36,12 +36,14 @@ HTML;
 
     public function checkSettings($settings, $source)
     {
-        if($settings["host"] && !preg_match('/(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*/', $settings["host"]) ||
-            strlen($settings["host"]) > 128 )
+        if ($settings["host"] && !preg_match('/(\*\.)?[A-Za-z0-9]+(\-[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(\-[A-Za-z0-9]+)*)*/', $settings["host"]) ||
+            strlen($settings["host"]) > 128
+        )
             return ["ok" => false, "msg" => l("vhost.proxy.invalidHost")];
 
-        if(!preg_match('%^https?://[^\s]*$%', $source) ||
-            strlen($source) > 512 )
+        if (!preg_match('%^https?://[^\s]*$%', $source) ||
+            strlen($source) > 512
+        )
             return ["ok" => false, "msg" => l("vhost.invalidSource")];
 
         return ["ok" => true, "data" => ["host" => $settings["host"]]];

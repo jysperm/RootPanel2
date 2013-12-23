@@ -20,10 +20,11 @@ f("lpLocale")->load("node-list");
     </tr>
     </thead>
     <tbody>
-    <? foreach(c("NodeList") as $nodeID => $node): ?>
+    <? foreach (c("NodeList") as $nodeID => $node): ?>
         <tr>
             <td><a href="#" rel="popover" data-content="<?= l("node-list")[$nodeID]["description"]; ?>"
-                   data-original-title="<?= l("node-list")[$nodeID]["name"]; ?>"><?= l("node-list")[$nodeID]["name"]; ?></a></td>
+                   data-original-title="<?= l("node-list")[$nodeID]["name"]; ?>"><?= l("node-list")[$nodeID]["name"]; ?></a>
+            </td>
             <td><?= $node["memory"]; ?>M</td>
             <td><?= $node["disk"]; ?>M</td>
             <td><?= $node["traffic"]; ?>G</td>

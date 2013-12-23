@@ -12,7 +12,7 @@ class UserHandler extends lpHandler
 
     public function signup()
     {
-        if(!$this->isPost())
+        if (!$this->isPost())
             return $this->render("signup");
 
         try {
@@ -23,18 +23,16 @@ class UserHandler extends lpHandler
                 "contact"
             ]);
 
-            if($this->model->byUName($uname)->data())
+            if ($this->model->byUName($uname)->data())
                 throw new lpHandlerException("userExists");
 
-            if(in_array($uname, c("NotAllowSignup")))
+            if (in_array($uname, c("NotAllowSignup")))
                 throw new lpHandlerException("notAllowSignup");
 
             $this->model->register($uname, $passwd, $email, $contact);
 
             App::goUrl("/");
-        }
-        catch(lpHandlerException $e)
-        {
+        } catch (lpHandlerException $e) {
             return $this->render("signup", [
                 "error" => $e->getMessage()
             ]);
@@ -43,7 +41,7 @@ class UserHandler extends lpHandler
 
     public function login()
     {
-        if(!$this->isPost())
+        if (!$this->isPost())
             return $this->render("login");
 
         try {
@@ -52,15 +50,15 @@ class UserHandler extends lpHandler
                 "passwd"
             ]);
 
-            if(lpValider::test(lpEmail, $uname))
+            if (lpValider::test(lpEmail, $uname))
                 $user = $this->model->byEmail($uname);
             else
                 $user = $this->model->byUName($uname);
 
-            if(!$user->data())
+            if (!$user->data())
                 throw new lpHandlerException("userNotExists");
 
-            if(!$user->checkPasswd($passwd))
+            if (!$user->checkPasswd($passwd))
                 throw new lpHandlerException("invalidPasswd");
 
             /** @var lpSession $session */
@@ -68,9 +66,7 @@ class UserHandler extends lpHandler
             $session->authenticated($user->id());
             $session->cookieRemember();
 
-        }
-        catch(lpHandlerException $e)
-        {
+        } catch (lpHandlerException $e) {
             return $this->render("login", [
                 "error" => $e->getMessage()
             ]);

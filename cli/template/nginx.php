@@ -6,31 +6,31 @@ $u = $this["user"];
 ?>
 
 server {
-    listen 80;
+listen 80;
 
-    <? if($v["general"]["isssl"]):?>
+<? if ($v["general"]["isssl"]): ?>
     listen 443 ssl;
     ssl                  on;
     ssl_certificate      <?= $v["general"]["sslcrt"]; ?>;
     ssl_certificate_key  <?= $v["general"]["sslkey"]; ?>;
-    <? endif;?>
+<? endif; ?>
 
-    server_name <?= $v["domains"]; ?>;
+server_name <?= $v["domains"]; ?>;
 
-    access_log /home/<?= $u["uname"];?>/nginx.access.log;
-    error_log /home/<?= $u["uname"];?>/nginx.error.log;
+access_log /home/<?= $u["uname"]; ?>/nginx.access.log;
+error_log /home/<?= $u["uname"]; ?>/nginx.error.log;
 
-    index <?= $v["general"]["indexs"]; ?>;
+index <?= $v["general"]["indexs"]; ?>;
 
-    <? if($v["general"]["autoindex"]):?>
+<? if ($v["general"]["autoindex"]): ?>
     autoindex on;
-    <? endif;?>
+<? endif; ?>
 
-    <?= $this["conf"];?>
+<?= $this["conf"]; ?>
 
-    <? foreach($v["general"]["alias"] as $k => $v): ?>
-    location <?= $k;?> {
-        alias <?= $v;?>;
+<? foreach ($v["general"]["alias"] as $k => $v): ?>
+    location <?= $k; ?> {
+    alias <?= $v; ?>;
     }
-    <? endforeach; ?>
+<? endforeach; ?>
 }

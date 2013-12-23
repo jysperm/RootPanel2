@@ -10,26 +10,26 @@ class App extends lpApp
 
         define("rpCORE", rpROOT . "/core");
 
-        self::registerShortFunc();
+        self::registerBuildInShortFunc();
         self::initAutoload();
 
         /** @var lpConfig $rpCfg */
         $rpCfg = f("lpConfig");
         $configFiles = ["main", "db", "library", "plugin"];
-        foreach($configFiles as $i)
+        foreach ($configFiles as $i)
             $rpCfg->loadFromPHPFile(rpCORE . "/config/{$i}.php");
 
-        lpFactory::register("lpLocale", function() {
+        lpFactory::register("lpLocale", function () {
             $path = rpCORE . "/locale";
             return new lpJSONLocale($path, self::checkLanguage($path, c("DefaultLanguage")));
         });
 
-        lpFactory::register("PDO.LightPHP", function() {
+        lpFactory::register("PDO.LightPHP", function () {
             $c = c("MySQLDB");
             return new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
         });
 
-        lpFactory::register("lpSmtpMailer", function() {
+        lpFactory::register("lpSmtpMailer", function () {
             $c = c("SMTP");
             return new lpSmtpMailer($c["host"], $c["address"], $c["user"], $c["passwd"]);
         });
@@ -42,7 +42,7 @@ class App extends lpApp
 
             ];
 
-            if(in_array($name, array_keys($map)))
+            if (in_array($name, array_keys($map)))
                 $name = $map[$name];
 
             $paths = [
@@ -51,8 +51,8 @@ class App extends lpApp
                 rpCORE . "/model/{$name}.php"
             ];
 
-            foreach($paths as $path)
-                if(file_exists($path))
+            foreach ($paths as $path)
+                if (file_exists($path))
                     return require_once($path);
         });
     }

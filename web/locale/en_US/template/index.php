@@ -73,6 +73,7 @@ HTML;
             和大多市面上的卖的虚拟主机相比，RP主机更加自由，你几乎可以在上面搭建所有类型的服务器，事实上，这相当于合租VPS了.<br/>
             而价格又不高，适合搭建个人博客等小规模应用，适合喜欢折腾新鲜技术的技术宅.
         </p>
+
         <p>
             RP主机实际上就是一台划分了用户的Linux服务器，每个用户都可以干自己想做的事情.<br/>
             当然，会有以root权限运行的监控程序限制你的资源使用，以免影响到其他用户.<br/>
@@ -140,7 +141,7 @@ HTML;
     </section>
     <section id="resource">
         <header>资源参数</header>
-        <?  lpTemplate::outputFile(rpROOT . "/template/widget/node-list.php");?>
+        <? lpTemplate::outputFile(rpROOT . "/template/widget/node-list.php"); ?>
         <p>
             注意：你运行的一切服务，都在以上的限制之中，包括但不限于网页、数据库、梯子、Shell程序.
         </p>
@@ -152,8 +153,9 @@ HTML;
             `额外技术支持版`中提供随叫随到的技术支持，帮助你解决网站架设、linux及其周边软件的问题，在您寂寞时还提供陪聊服务.
             而标准版中，是否解答于服务器无关的问题(例如某个软件如何使用), 视客服心情而定.
         </p>
+
         <p>
-            <? foreach($rpL["admin-list"] as $adminID => $admin): ?>
+            <? foreach ($rpL["admin-list"] as $adminID => $admin): ?>
                 <? $adminInfo = "{$admin['description']}<br />QQ: {$admin['qq']}<br />E-mail: {$admin['email']}"; ?>
                 <a class="admin" target="_blank" href="<?= $admin["url"]; ?>" rel="popover"
                    data-content="<?= $adminInfo; ?>" data-original-title="客服：<?= $admin["name"]; ?>">
@@ -161,15 +163,16 @@ HTML;
                 </a>
             <? endforeach; ?>
         </p>
+
         <p>
-            客服邮箱：<code><i class="icon-envelope"></i><?= $rpCfg["AdminsEmail"];?></code>
+            客服邮箱：<code><i class="icon-envelope"></i><?= $rpCfg["AdminsEmail"]; ?></code>
         </p>
         <ul class="left-tabs">
-            <?= l("contact.list");?>
+            <?= l("contact.list"); ?>
         </ul>
     </section>
 
-    <? lpTemplate::outputFile($rpL->file("template/agreement.php")); ?>
+<? lpTemplate::outputFile($rpL->file("template/agreement.php")); ?>
 <? $base['content'] = lpTemplate::endBlock(); ?>
 
 <? $base->output(); ?>

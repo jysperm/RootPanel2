@@ -1,16 +1,16 @@
 <?php
 $u = $this["uname"];
 ?>
-[<?= $u;?>]
+[<?= $u; ?>]
 
-user = <?= $u;?>
+user = <?= $u; ?>
 
-group = <?= $u;?>
+group = <?= $u; ?>
 
-listen = /tmp/<?= $u;?>-fpm.sock
-listen.owner = <?= $u;?>
+listen = /tmp/<?= $u; ?>-fpm.sock
+listen.owner = <?= $u; ?>
 
-listen.group = <?= $u;?>
+listen.group = <?= $u; ?>
 
 listen.mode = 0660
 

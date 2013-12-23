@@ -20,62 +20,102 @@ $version = 'v1.0';
 
 $top = `top -n 1 -b`;
 //$top = `ps -aux`;
-$top = str_replace("<","&lt;",$top);
+$top = str_replace("<", "&lt;", $top);
 
 //ajax调用实时刷新
-if($_GET['act']=='rt')
-{
-	$arr=array('top'=>"$top");
-	$jarr=json_encode($arr); 
-	echo $_GET['callback'],'(',$jarr,')';
-	exit;
+if ($_GET['act'] == 'rt') {
+    $arr = array('top' => "$top");
+    $jarr = json_encode($arr);
+    echo $_GET['callback'], '(', $jarr, ')';
+    exit;
 }
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<title><?php echo $title.$version; ?></title>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- Powered by: Yahei.Net -->
-<style type="text/css">
-<!--
-* {font-family: Tahoma, "Microsoft Yahei", Arial; }
-body{text-align: center; margin: 0 auto; padding: 0;font-size:12px;font-family:Tahoma, Arial}
-a{color: #FFFFFF; text-decoration:none;}
-#page {width: 100%; padding: 0 20px; margin: 0 auto; text-align: left;}
-#foot {width: 100%; text-align: left; }
--->
-</style>
-<script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
-<script type="text/javascript"> 
-<!--
-$(document).ready(function(){getJSONData();});
-function getJSONData()
-{
-	setTimeout("getJSONData()", 2000);
-	$.getJSON('?act=rt&callback=?', displayData);
-}
-function displayData(dataJSON)
-{
-	$("#top").html(dataJSON.top);
-}
--->
-</script>
-</head>
+    <title><?php echo $title . $version; ?></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- Powered by: Yahei.Net -->
+
+    <style type="text/css">
+
+        <!--
+
+        * {
+            font-family: Tahoma, "Microsoft Yahei", Arial;
+        }
+
+        body {
+            text-align: center;
+            margin: 0 auto;
+            padding: 0;
+            font-size: 12px;
+            font-family: Tahoma, Arial
+        }
+
+        a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        #page {
+            width: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        #foot {
+            width: 100%;
+            text-align: left;
+        }
+
+        -->
+
+    </style>
+
+    <script language="JavaScript" type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        <!--
+        $(document).ready(function () {
+            getJSONData();
+        });
+        function getJSONData() {
+            setTimeout("getJSONData()", 2000);
+            $.getJSON('?act=rt&callback=?', displayData);
+        }
+        function displayData(dataJSON) {
+            $("#top").html(dataJSON.top);
+        }
+        -->
+    </script>
+
+</head>
+
 <body>
-
-<div id="page">
+
+
+<div id="page">
+
 
 <pre id='top' style='font-family:vt7X13,"Courier New";font-size:12px;line-height:14px;word-break:break-all;'>
-<?php echo $psout;?>
+<?php echo $psout; ?>
 </pre>
 
-<div id="foot">
-<a href="http://www.yahei.net/" target="_blank"><?php echo $title.$version; ?></a>
-<br /><br />提示：如果页面不显示TOP命令的结果,是因为服务器权限设置障碍。
+    <div id="foot">
+        <a href="http://www.yahei.net/" target="_blank"><?php echo $title . $version; ?></a>
+        <br/><br/>提示：如果页面不显示TOP命令的结果,是因为服务器权限设置障碍。
+    </div>
+
 </div>
 
-</div>
-</body>
-</html>
+</body>
+
+</html>

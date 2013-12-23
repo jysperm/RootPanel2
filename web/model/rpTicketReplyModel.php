@@ -8,7 +8,7 @@ class rpTicketReplyModel extends lpPDOModel
 
     static protected function metaData()
     {
-        if(!self::$metaData) {
+        if (!self::$metaData) {
             self::$metaData = [
                 "db" => f("lpDBDrive"),
                 "table" => "ticketreply",
@@ -25,7 +25,7 @@ class rpTicketReplyModel extends lpPDOModel
                 "content" => ["type" => self::TEXT],
             ];
 
-            foreach(self::$metaData["struct"] as &$v)
+            foreach (self::$metaData["struct"] as &$v)
                 $v[self::NOTNULL] = true;
         }
 

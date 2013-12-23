@@ -6,31 +6,31 @@ $exts = str_replace(" ", "|", $v["settings"]["extension"]);
 
 ?>
 
-root <?= $v["source"];?>;
+root <?= $v["source"]; ?>;
 
-<? if($v["settings"]["type"] == "only"): ?>
+<? if ($v["settings"]["type"] == "only"): ?>
     location / {
-        try_files $uri $uri/ @apache;
+    try_files $uri $uri/ @apache;
     }
 
-    location ~ \.(<?= $exts;?>)$ {
-        proxy_pass http://127.0.0.1:8080;
+    location ~ \.(<?= $exts; ?>)$ {
+    proxy_pass http://127.0.0.1:8080;
     }
 
     location @apache {
-        proxy_pass http://127.0.0.1:8080;
+    proxy_pass http://127.0.0.1:8080;
     }
-<? else:?>
+<? else: ?>
     location / {
-        proxy_pass http://127.0.0.1:8080;
+    proxy_pass http://127.0.0.1:8080;
     }
 
-    location ~ \.(<?= $exts;?>)$ {
-        try_files $uri =404;
+    location ~ \.(<?= $exts; ?>)$ {
+    try_files $uri =404;
     }
-<? endif;?>
+<? endif; ?>
 
 location = / {
-    proxy_pass http://127.0.0.1:8080;
+proxy_pass http://127.0.0.1:8080;
 }
 

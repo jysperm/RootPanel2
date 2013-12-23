@@ -9,7 +9,7 @@ App::helloWorld([
     "RunLevel" => lpDebug
 ]);
 
-App::bind('^/user/(signup|login|logout)/?', function($act) {
+App::bind('^/user/(signup|login|logout)/?', function ($act) {
     UserHandler::invoke($act);
 });
 
