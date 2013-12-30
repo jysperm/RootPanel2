@@ -7,7 +7,4 @@ Thumbs.db
 # PhpStorm
 /.idea/*
 
-# Cache, Compiled, 3rd Library
-/cache/*
-/compiled/*
-/static/*
+/Core/static/*
