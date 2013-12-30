@@ -1,14 +1,14 @@
 <?php
 
-defined("lpInLightPHP") or die(header("HTTP/1.1 403 Not Forbidden"));
+namespace RootPanel\Core\Core;
 
-class App extends lpApp
+class Application extends \LightPHP\Core\Application
 {
     public static function helloWorld(array $config = [])
     {
         parent::helloWorld($config);
 
-        define("rpCORE", rpROOT . "/core");
+        define("rpCORE", rpROOT . "/Core");
 
         self::registerBuildInShortFunc();
         self::initAutoload();
@@ -46,7 +46,7 @@ class App extends lpApp
                 $name = $map[$name];
 
             $paths = [
-                rpCORE . "/include/{$name}.php",
+                rpCORE . "/Core/{$name}.php",
                 rpCORE . "/handler/{$name}.php",
                 rpCORE . "/model/{$name}.php"
             ];

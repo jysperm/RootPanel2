@@ -19,20 +19,20 @@ class UserHandler extends lpHandler
             list($uname, $passwd, $email, $contact) = $this->post([
                 "uname" => '/^[A-Za-z][A-Za-z0-9_]+$/',
                 "passwd",
-                "email" => lpValider::rx(lpEmail),
+                "email" => Validator::rx(lpEmail),
                 "contact"
             ]);
 
             if ($this->model->byUName($uname)->data())
-                throw new lpHandlerException("userExists");
+                throw new handlerException("userExists");
 
             if (in_array($uname, c("NotAllowSignup")))
-                throw new lpHandlerException("notAllowSignup");
+                throw new handlerException("notAllowSignup");
 
             $this->model->register($uname, $passwd, $email, $contact);
 
-            App::goUrl("/");
-        } catch (lpHandlerException $e) {
+            Application::goUrl("/");
+        } catch (handlerException $e) {
             return $this->render("signup", [
                 "error" => $e->getMessage()
             ]);
@@ -50,23 +50,23 @@ class UserHandler extends lpHandler
                 "passwd"
             ]);
 
-            if (lpValider::test(lpEmail, $uname))
+            if (Validator::test(lpEmail, $uname))
                 $user = $this->model->byEmail($uname);
             else
                 $user = $this->model->byUName($uname);
 
             if (!$user->data())
-                throw new lpHandlerException("userNotExists");
+                throw new handlerException("userNotExists");
 
             if (!$user->checkPasswd($passwd))
-                throw new lpHandlerException("invalidPasswd");
+                throw new handlerException("invalidPasswd");
 
-            /** @var lpSession $session */
+            /** @var Auth $session */
             $session = lpFactory::get("lpSession");
             $session->authenticated($user->id());
             $session->cookieRemember();
 
-        } catch (lpHandlerException $e) {
+        } catch (handlerException $e) {
             return $this->render("login", [
                 "error" => $e->getMessage()
             ]);
@@ -76,6 +76,6 @@ class UserHandler extends lpHandler
     public function logout()
     {
         lpFactory::get("lpSession")->logout();
-        App::goUrl("/");
+        Application::goUrl("/");
     }
 }

@@ -4,8 +4,8 @@
 define("rpROOT", dirname(__FILE__) . "/../web");
 
 require_once(rpROOT . "/LightPHP/lp-load.php");
-require_once(rpROOT . "/include/rpApp.php");
-App::helloWorld();
+require_once(rpROOT . "/Core/rpApp.php");
+Application::helloWorld();
 
 $types = rpVHostType::loadTypes();
 

@@ -1,17 +1,15 @@
 <?php
 
-define("rpROOT", dirname(__FILE__));
+namespace RootPanel;
+
+use RootPanel\Core\Core\Application;
+
+require_once("LightPHP/LightPHP.php");
+require_once("Core/Core/Application.php");
 
 require_once(rpROOT . "/LightPHP/LightPHP.php");
-require_once(rpROOT . "/core/include/App.php");
+require_once(rpROOT . "/Core/Core/Application.php");
 
-App::helloWorld([
+Application::helloWorld([
     "RunLevel" => lpDebug
 ]);
-
-App::bind('^/user/(signup|login|logout)/?', function ($act) {
-    UserHandler::invoke($act);
-});
-
-App::exec();
-

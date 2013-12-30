@@ -7,10 +7,10 @@ class rpPanelHandler extends lpHandler
     private function auth()
     {
         if (!rpAuth::login())
-            App::goUrl("/user/login/", true);
+            Application::goUrl("/user/login/", true);
 
         if (f("rpUserModel")->isAdmin())
-            App::goUrl("/admin/", true);
+            Application::goUrl("/admin/", true);
     }
 
     public function __invoke()

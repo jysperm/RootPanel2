@@ -7,10 +7,6 @@ if (!isset($argc))
 define("rpROOT", dirname(__FILE__) . "/..");
 $rpROOT = rpROOT;
 
-$tools = [
-    "cp" => "cp -r"
-];
-
 $baseOutputDir = rpROOT . "/static";
 
-print shell_exec("{$tools["cp"]} '{$rpROOT}/core/source/image' '{$baseOutputDir}/image'");
+print shell_exec("{$tools["cp"]} '{$rpROOT}/Core/source/image' '{$baseOutputDir}/image'");

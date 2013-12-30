@@ -79,7 +79,7 @@ class rpTicketModel extends lpPDOModel
                 $id = rpTicketModel::insert($ticket);
                 rpLogModel::log($user, "log.type.adminCreateTicket", [$id, $id], $ticket, rpAuth::uname());
 
-                App::registerAtexit(function () use ($mailSender, $id, $user) {
+                Application::registerAtexit(function () use ($mailSender, $id, $user) {
                     $mailSender($id, rpUserModel::by("uname", $user)["email"]);
                 });
             }
@@ -91,7 +91,7 @@ class rpTicketModel extends lpPDOModel
             $id = rpTicketModel::insert($ticket);
             rpLogModel::log(rpAuth::uname(), "log.type.createTicket", [$id, $id], $ticket);
 
-            App::registerAtexit(function () use ($mailSender, $id) {
+            Application::registerAtexit(function () use ($mailSender, $id) {
                 $mailSender($id, c("AdminsEmail"));
             });
         }
@@ -129,7 +129,7 @@ class rpTicketModel extends lpPDOModel
             $tkRow["status"] = rpTicketModel::HODE;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            App::registerAtexit(function () use ($mailSender) {
+            Application::registerAtexit(function () use ($mailSender) {
                 $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
             });
         } else {
@@ -138,7 +138,7 @@ class rpTicketModel extends lpPDOModel
             $tkRow["status"] = rpTicketModel::OPEN;
             rpTicketModel::update(["id" => $id], $tkRow);
 
-            App::registerAtexit(function () use ($mailSender) {
+            Application::registerAtexit(function () use ($mailSender) {
                 $mailSender(c("AdminsEmail"));
             });
         }
@@ -161,13 +161,13 @@ class rpTicketModel extends lpPDOModel
         if (lpFactory::get("rpUserModel")->isAdmin()) {
             rpLogModel::log($this->data['uname'], "log.type.adminCloseTicket", [$id, $id], [], rpAuth::uname());
 
-            App::registerAtexit(function () use ($mailSender) {
+            Application::registerAtexit(function () use ($mailSender) {
                 $mailSender(rpUserModel::by("uname", $this->data["uname"])["email"]);
             });
         } else {
             rpLogModel::log(rpAuth::uname(), "log.type.closeTicket", [$id, $id], []);
 
-            App::registerAtexit(function () use ($mailSender) {
+            Application::registerAtexit(function () use ($mailSender) {
                 $mailSender(c("AdminsEmail"));
             });
         }
@@ -181,7 +181,7 @@ class rpTicketModel extends lpPDOModel
 
         rpLogModel::log($this->data['uname'], "log.type.finishTicket", [$id, $id], [], rpAuth::uname());
 
-        App::registerAtexit(function () use ($id) {
+        Application::registerAtexit(function () use ($id) {
             $mailer = lpFactory::get("lpSmtp");
             $mailTitle = l("ticket.closeMail.title", c("NodeID"), rpAuth::uname(), $this->data["title"]);
             $mailBody = l("ticket.closeMail.body", c("NodeList")[c("NodeID")]["domain"], $id, $id, $this->data["title"]);

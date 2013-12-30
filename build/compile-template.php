@@ -7,16 +7,12 @@ if (!isset($argc))
 define("rpROOT", dirname(__FILE__) . "/..");
 
 require_once(rpROOT . "/LightPHP/LightPHP.php");
-require_once(rpROOT . "/core/include/App.php");
-App::helloWorld();
-
-$tools = [
-    "jade" => "jade -P"
-];
+require_once(rpROOT . "/Core/Core/Application.php");
+Application::helloWorld();
 
 $baseOutputDir = rpROOT . "/compiled";
 
-compileJadeDir(rpROOT . "/core/source/view", $baseOutputDir);
+compileJadeDir(rpROOT . "/Core/source/view", $baseOutputDir);
 
 function compileJadeDir($dir, $outputDir)
 {
@@ -36,7 +32,7 @@ function compileJadeDir($dir, $outputDir)
 
             lpFactory::modify("lpLocale", new lpJSONLocale(rpCORE . "/locale", $language));
 
-            lpCompiledTemplate::compile($source, $output);
+            CompiledTemplate::compile($source, $output);
         }
     }
 }

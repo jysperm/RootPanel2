@@ -1,6 +1,6 @@
 <?php
 
-class UserModel extends lpPDOModel
+class UserModel extends Model
 {
     protected static function metaData($data = null)
     {

@@ -13,7 +13,7 @@ class rpInstallHandler extends lpHandler
         rpTicketModel::install();
         rpTicketReplyModel::install();
 
-        App::goUrl("/");
+        Application::goUrl("/");
     }
 
     public function license()
