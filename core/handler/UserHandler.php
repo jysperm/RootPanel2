@@ -1,6 +1,10 @@
 <?php
 
-class UserHandler extends lpHandler
+namespace RootPanel\Core\Handler;
+
+use RootPanel\Core\Core\Handler;
+
+class UserHandler extends Handler
 {
     /** @var UserModel */
     private $model;

@@ -45,7 +45,7 @@ function sys_linux()
     // CPU
     if (false === ($str = @file("/proc/cpuinfo"))) return false;
     $str = implode("", $str);
-    @preg_match_all("/model\s+name\s{0,}\:+\s{0,}([\w\s\)\(\@.-]+)([\r\n]+)/s", $str, $model);
+    @preg_match_all("/Model\s+name\s{0,}\:+\s{0,}([\w\s\)\(\@.-]+)([\r\n]+)/s", $str, $model);
     @preg_match_all("/cpu\s+MHz\s{0,}\:+\s{0,}([\d\.]+)[\r\n]+/", $str, $mhz);
     @preg_match_all("/cache\s+size\s{0,}\:+\s{0,}([\d\.]+\s{0,}[A-Z]+[\r\n]+)/", $str, $cache);
     @preg_match_all("/bogomips\s{0,}\:+\s{0,}([\d\.]+)[\r\n]+/", $str, $bogomips);
@@ -54,7 +54,7 @@ function sys_linux()
         /*
         for($i = 0; $i < $res['cpu']['num']; $i++)
         {
-            $res['cpu']['model'][] = $model[1][$i].'&nbsp;('.$mhz[1][$i].')';
+            $res['cpu']['Model'][] = $Model[1][$i].'&nbsp;('.$mhz[1][$i].')';
             $res['cpu']['mhz'][] = $mhz[1][$i];
             $res['cpu']['cache'][] = $cache[1][$i];
             $res['cpu']['bogomips'][] = $bogomips[1][$i];
@@ -66,8 +66,8 @@ function sys_linux()
         $mhz[1][0] = ' | 频率:' . $mhz[1][0];
         $cache[1][0] = ' | 二级缓存:' . $cache[1][0];
         $bogomips[1][0] = ' | Bogomips:' . $bogomips[1][0];
-        $res['cpu']['model'][] = $model[1][0] . $mhz[1][0] . $cache[1][0] . $bogomips[1][0] . $x1;
-        if (false !== is_array($res['cpu']['model'])) $res['cpu']['model'] = implode("<br />", $res['cpu']['model']);
+        $res['cpu']['Model'][] = $model[1][0] . $mhz[1][0] . $cache[1][0] . $bogomips[1][0] . $x1;
+        if (false !== is_array($res['cpu']['Model'])) $res['cpu']['Model'] = implode("<br />", $res['cpu']['Model']);
         if (false !== is_array($res['cpu']['mhz'])) $res['cpu']['mhz'] = implode("<br />", $res['cpu']['mhz']);
         if (false !== is_array($res['cpu']['cache'])) $res['cpu']['cache'] = implode("<br />", $res['cpu']['cache']);
         if (false !== is_array($res['cpu']['bogomips'])) $res['cpu']['bogomips'] = implode("<br />", $res['cpu']['bogomips']);
@@ -126,7 +126,7 @@ function sys_freebsd()
 {
     //CPU
     if (false === ($res['cpu']['num'] = get_key("hw.ncpu"))) return false;
-    $res['cpu']['model'] = get_key("hw.model");
+    $res['cpu']['Model'] = get_key("hw.Model");
     //LOAD AVG
     if (false === ($res['loadAvg'] = get_key("vm.loadavg"))) return false;
     //UPTIME
@@ -210,7 +210,7 @@ function sys_windows()
     /*
         for ($i=0;$i<$res['cpu']['num'];$i++)
         {
-            $res['cpu']['model'] .= $cpuinfo[0]['Name']."<br />";
+            $res['cpu']['Model'] .= $cpuinfo[0]['Name']."<br />";
             $res['cpu']['cache'] .= $cpuinfo[0]['L2CacheSize']."<br />";
         }*/
     $cpuinfo[0]['L2CacheSize'] = ' (' . $cpuinfo[0]['L2CacheSize'] . ')';
@@ -218,7 +218,7 @@ function sys_windows()
         $x1 = '';
     else
         $x1 = '×' . $res['cpu']['num'];
-    $res['cpu']['model'] = $cpuinfo[0]['Name'] . $cpuinfo[0]['L2CacheSize'] . $x1;
+    $res['cpu']['Model'] = $cpuinfo[0]['Name'] . $cpuinfo[0]['L2CacheSize'] . $x1;
     // SYSINFO
     $sysinfo = GetWMI($wmi, "Win32_OperatingSystem", array('LastBootUpTime', 'TotalVisibleMemorySize', 'FreePhysicalMemory', 'Caption', 'CSDVersion', 'SerialNumber', 'InstallDate'));
     $sysinfo[0]['Caption'] = iconv('GBK', 'UTF-8', $sysinfo[0]['Caption']);
@@ -453,7 +453,7 @@ if ($sysInfo['memTotal'] < 1024) {
             <td>可用空间: <?php echo $df; ?>&nbsp;G</td>
         </tr>
         <tr>
-            <td class="word">CPU型号[<?php echo $sysInfo['cpu']['num']; ?>核]: <?php echo $sysInfo['cpu']['model']; ?></td>
+            <td class="word">CPU型号[<?php echo $sysInfo['cpu']['num']; ?>核]: <?php echo $sysInfo['cpu']['Model']; ?></td>
         </tr>
         <tr>
             <td>物理内存: <?php echo $memTotal; ?></td>

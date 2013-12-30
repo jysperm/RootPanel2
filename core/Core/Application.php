@@ -47,8 +47,8 @@ class Application extends \LightPHP\Core\Application
 
             $paths = [
                 rpCORE . "/Core/{$name}.php",
-                rpCORE . "/handler/{$name}.php",
-                rpCORE . "/model/{$name}.php"
+                rpCORE . "/Handler/{$name}.php",
+                rpCORE . "/Model/{$name}.php"
             ];
 
             foreach ($paths as $path)

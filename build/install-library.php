@@ -1,19 +1,18 @@
 #!/usr/bin/php
 <?php
 
-define("rpROOT", dirname(__FILE__) . "/..");
+namespace RootPanel\CLI;
 
-require_once(rpROOT . "/build/config.php");
-require_once(rpROOT . "/LightPHP/LightPHP.php");
-require_once(rpROOT . "/Core/Core/Application.php");
-Application::helloWorld();
+use LightPHP\Core\Exception;
 
-$baseOutputDir = rpROOT . "/static/library";
+include("./config.php");
+
+$baseOutputDir = "{$baseOutputDir}/library";
 
 $files = [
     "http://cdn.staticfile.org/" => [
         "twitter-bootstrap/" => [
-            "3.0.3/" => [
+            "{$config["bootstrap"]}/" => [
                 "css/" => [
                     "bootstrap-theme.css",
                     "bootstrap-theme.min.css",
@@ -34,7 +33,7 @@ $files = [
         ],
 
         "jquery/" => [
-            "2.0.3/" => [
+            "{$config["jquery"]}/" => [
                 "jquery.js",
                 "jquery.min.js",
                 "jquery.min.map"
@@ -48,7 +47,7 @@ $funcDownload = function ($url) use ($baseOutputDir) {
     $filename = end($urlItem);
     $data = file_get_contents($url);
     if (!file_put_contents("{$baseOutputDir}/{$filename}", $data))
-        throw new lpException($php_errormsg, error_get_last());
+        throw new Exception($php_errormsg, error_get_last());
 };
 
 $funcProcess = function ($dir, array $path = []) use (&$funcPrecess, $funcDownload) {

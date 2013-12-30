@@ -51,12 +51,12 @@ $rpL["ticket.status.hode"] = "已回复";
 $rpL["ticket.status.finish"] = "已处理";
 $rpL["ticket.status.closed"] = "已关闭";
 
-$rpL["ticket.handler.invalidType"] = "工单类型错误";
-$rpL["ticket.handler.invalidID"] = "无效工单ID";
-$rpL["ticket.handler.invalidPermission"] = "你对该工单没有权限";
-$rpL["ticket.handler.alreadyClosed"] = "该工单已经关闭";
-$rpL["ticket.handler.closeOnlyByAdmin"] = "该工单只能被管理员关闭";
-$rpL["ticket.handler.notAdmin"] = "只有管理员可以标记完成";
+$rpL["ticket.Handler.invalidType"] = "工单类型错误";
+$rpL["ticket.Handler.invalidID"] = "无效工单ID";
+$rpL["ticket.Handler.invalidPermission"] = "你对该工单没有权限";
+$rpL["ticket.Handler.alreadyClosed"] = "该工单已经关闭";
+$rpL["ticket.Handler.closeOnlyByAdmin"] = "该工单只能被管理员关闭";
+$rpL["ticket.Handler.notAdmin"] = "只有管理员可以标记完成";
 
 $rpL["ticket.createMail.title"] = "新工单 | %s | %s | %s";
 $rpL["ticket.createMail.body"] = <<< HTML

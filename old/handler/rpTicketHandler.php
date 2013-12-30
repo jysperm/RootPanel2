@@ -31,9 +31,9 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if ($tk->isNull())
-            throw new Exception(l("ticket.handler.invalidID"));
+            throw new Exception(l("ticket.Handler.invalidID"));
         if ($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
-            throw new Exception(l("ticket.handler.invalidPermission"));
+            throw new Exception(l("ticket.Handler.invalidPermission"));
 
         lpTemplate::outputFile(rpROOT . "/template/ticket/view.php", ["tk" => $tk]);
     }
@@ -46,7 +46,7 @@ class rpTicketHandler extends lpHandler
             Application::goUrl("/user/login/", true);
 
         if (!in_array($_POST["type"], array_keys(l("ticket.types"))))
-            throw new Exception(l("ticket.handler.invalidType"));
+            throw new Exception(l("ticket.Handler.invalidType"));
 
         rpTicketModel::create($_POST);
 
@@ -62,9 +62,9 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if ($tk->isNull())
-            throw new Exception(l("ticket.handler.invalidID"));
+            throw new Exception(l("ticket.Handler.invalidID"));
         if ($tk["uname"] != rpAuth::uname() && !lpFactory::get("rpUserModel")->isAdmin())
-            throw new Exception(l("ticket.handler.invalidPermission"));
+            throw new Exception(l("ticket.Handler.invalidPermission"));
 
         $tk->reply($_POST);
         echo json_encode(["status" => "ok"]);
@@ -81,13 +81,13 @@ class rpTicketHandler extends lpHandler
 
         $tk = new rpTicketModel($id);
         if ($tk->isNull())
-            throw new Exception(l("ticket.handler.invalidID"));
+            throw new Exception(l("ticket.Handler.invalidID"));
         if ($tk["uname"] != rpAuth::uname() && !$isAdmin)
-            throw new Exception(l("ticket.handler.invalidPermission"));
+            throw new Exception(l("ticket.Handler.invalidPermission"));
         if ($tk["status"] == rpTicketModel::CLOSED)
-            throw new Exception(l("ticket.handler.alreadyClosed"));
+            throw new Exception(l("ticket.Handler.alreadyClosed"));
         if ($tk["onlyclosebyadmin"] && !$isAdmin)
-            throw new Exception(l("ticket.handler.closeOnlyByAdmin"));
+            throw new Exception(l("ticket.Handler.closeOnlyByAdmin"));
 
         $tk->close();
         echo json_encode(["status" => "ok"]);
@@ -98,7 +98,7 @@ class rpTicketHandler extends lpHandler
     public function finish($id = null)
     {
         if (!lpFactory::get("rpUserModel")->isAdmin())
-            throw new Exception(l("ticket.handler.notAdmin"));
+            throw new Exception(l("ticket.Handler.notAdmin"));
 
         $tk = new rpTicketModel($id);
 

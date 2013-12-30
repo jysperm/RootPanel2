@@ -51,12 +51,12 @@ $rpL["ticket.status.hode"] = "Replied";
 $rpL["ticket.status.finish"] = "Solved";
 $rpL["ticket.status.closed"] = "Closed";
 
-$rpL["ticket.handler.invalidType"] = "The ticket type is invalid";
-$rpL["ticket.handler.invalidID"] = "Invalid ticket ID";
-$rpL["ticket.handler.invalidPermission"] = "You do not have permission of this ticket";
-$rpL["ticket.handler.alreadyClosed"] = "This ticket has been closed";
-$rpL["ticket.handler.closeOnlyByAdmin"] = "This ticket can only be closed by the Administrator";
-$rpL["ticket.handler.notAdmin"] = "Only administrators can mark is as finished.";
+$rpL["ticket.Handler.invalidType"] = "The ticket type is invalid";
+$rpL["ticket.Handler.invalidID"] = "Invalid ticket ID";
+$rpL["ticket.Handler.invalidPermission"] = "You do not have permission of this ticket";
+$rpL["ticket.Handler.alreadyClosed"] = "This ticket has been closed";
+$rpL["ticket.Handler.closeOnlyByAdmin"] = "This ticket can only be closed by the Administrator";
+$rpL["ticket.Handler.notAdmin"] = "Only administrators can mark is as finished.";
 
 $rpL["ticket.createMail.title"] = "TK Create | %s | %s | %s";
 $rpL["ticket.createMail.body"] = <<< HTML

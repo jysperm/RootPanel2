@@ -51,12 +51,12 @@ $rpL["ticket.status.hode"] = "客服已回複";
 $rpL["ticket.status.finish"] = "客服已處理";
 $rpL["ticket.status.closed"] = "已關閉";
 
-$rpL["ticket.handler.invalidType"] = "工單類型錯誤";
-$rpL["ticket.handler.invalidID"] = "無效工單ID";
-$rpL["ticket.handler.invalidPermission"] = "妳對該工單沒有權限";
-$rpL["ticket.handler.alreadyClosed"] = "該工單已經關閉";
-$rpL["ticket.handler.closeOnlyByAdmin"] = "該工單只能被管理員關閉";
-$rpL["ticket.handler.notAdmin"] = "只有管理員可以標記完成";
+$rpL["ticket.Handler.invalidType"] = "工單類型錯誤";
+$rpL["ticket.Handler.invalidID"] = "無效工單ID";
+$rpL["ticket.Handler.invalidPermission"] = "妳對該工單沒有權限";
+$rpL["ticket.Handler.alreadyClosed"] = "該工單已經關閉";
+$rpL["ticket.Handler.closeOnlyByAdmin"] = "該工單只能被管理員關閉";
+$rpL["ticket.Handler.notAdmin"] = "只有管理員可以標記完成";
 
 $rpL["ticket.createMail.title"] = "TK Create | %s | %s | %s";
 $rpL["ticket.createMail.body"] = <<< HTML
