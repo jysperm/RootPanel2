@@ -20,15 +20,6 @@ Option Packages:
 
     git vim
 
-Develop Source:
-
-    deb http://ftp.us.debian.org/debian/ sid main
-
-Develop Packages:
-
-    npm
-
-
 ## Archlinux
 Recommend the latest version.
 
@@ -38,13 +29,6 @@ Core Packages:
 
 Plugin Packages:
 
-Option Packages:
-
-    git vim
-
-Develop Packages:
-
-    nodejs
 
 ## Ubuntu
 
