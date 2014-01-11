@@ -1,38 +1,23 @@
 <?php
 
+namespace RootPanel\Core\Model;
+
+use RootPanel\Core\Core\Model;
+
 class UserModel extends Model
 {
-    protected static function metaData($data = null)
-    {
-        return parent::meta([
-            "table" => "user",
-            "struct" => [
-                "id" => [self::INT, self::AI],
-                "uname" => [self::VARCHAR => 256],
-                "passwd" => [self::TEXT],
-                "email" => [self::TEXT],
-                "contacts" => [self::TEXT, self::JSON],
-                "settings" => [self::TEXT, self::JSON],
-                "signup_at" => [self::UINT],
-                "group" => [self::TEXT, self::JSON]
-            ]
-        ]);
-    }
-
     public function checkPasswd($passwd)
     {
-        return $this->data["passwd"] == static::hashPasswd($this->data["uname"], $passwd);
+        return $this->data["passwd"] == self::hashPasswd($this->data["username"], $passwd);
     }
 
-    // ----- static
-
     /**
-     * @param $uname
+     * @param $username
      * @return UserModel
      */
-    public static function byUName($uname)
+    public static function byUsername($username)
     {
-        return static::by("uname", $uname);
+        return static::by("username", $username);
     }
 
     /**
@@ -44,22 +29,22 @@ class UserModel extends Model
         return static::by("email", $email);
     }
 
-    public static function register($uname, $passwd, $email, $contact)
+    public static function register($username, $passwd, $email, $contact)
     {
-        return static::insert([
-            "uname" => $uname,
-            "passwd" => static::hashPasswd($uname, $passwd),
+        return self::q()->insert([
+            "username" => $username,
+            "passwd" => static::hashPasswd($username, $passwd),
             "email" => $email,
             "contacts" => ["default" => $contact],
             "settings" => [],
-            "signup" => time(),
-            "group" => ["account" => "off"]
+            "group" => ["account" => "off"],
+            "signup_at" => time()
         ]);
     }
 
-    public static function hashPasswd($uname, $passwd)
+    public static function hashPasswd($username, $passwd)
     {
-        return hash("sha256", hash("sha256", $uname) . hash("sha256", $passwd));
+        return hash("sha256", hash("sha256", $username) . hash("sha256", $passwd));
     }
 
     public static function getTokenModel()
