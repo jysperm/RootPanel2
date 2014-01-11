@@ -28,5 +28,5 @@ RootPanel 可以用来管理和销售 Linux 服务器上的各种服务，每种
 
 ## 运行环境
 
-* PHP5.4 + MySQL
+* PHP5.4 + MySQL, Memcache
 * Debian, Archlinux, Ubuntu, Centos

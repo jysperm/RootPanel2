@@ -2,58 +2,69 @@
 
 namespace RootPanel\Core\Core;
 
+use LightPHP\Cache\Adapter\MemCache;
+use LightPHP\Model\Wrapper\CachedModel;
+use LightPHP\Tool\Config;
+use PDO;
+
+define("rpCORE", rpROOT . "/Core");
+
 class Application extends \LightPHP\Core\Application
 {
+    /** @var MemCache */
+    public static $cache;
+    /** @var Config */
+    public static $config;
+    public static $database;
+
     public static function helloWorld(array $config = [])
     {
         parent::helloWorld($config);
 
-        define("rpCORE", rpROOT . "/Core");
-
-        self::registerBuildInShortFunc();
         self::initAutoload();
+        self::registerShortFunc();
 
-        /** @var lpConfig $rpCfg */
-        $rpCfg = f("lpConfig");
-        $configFiles = ["main", "db", "library", "plugin"];
-        foreach ($configFiles as $i)
-            $rpCfg->loadFromPHPFile(rpCORE . "/config/{$i}.php");
+        self::$config = new Config;
+        self::$config->loadFromPHPFile(rpCORE . "/config/main.php");
 
-        lpFactory::register("lpLocale", function () {
-            $path = rpCORE . "/locale";
-            return new lpJSONLocale($path, self::checkLanguage($path, c("DefaultLanguage")));
-        });
+        self::$cache = new MemCache(c("Cache.host"), c("Cache.ttl"), ["prefix" => c("Cache.prefix")]);
+        CachedModel::$cache = self::$cache;
 
-        lpFactory::register("PDO.LightPHP", function () {
-            $c = c("MySQLDB");
-            return new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
-        });
-
-        lpFactory::register("lpSmtpMailer", function () {
-            $c = c("SMTP");
-            return new lpSmtpMailer($c["host"], $c["address"], $c["user"], $c["passwd"]);
-        });
+        $c = c("DB");
+        self::$database = new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
+        Model::$source = self::$database;
     }
 
     public static function initAutoload()
     {
         spl_autoload_register(function ($name) {
-            $map = [
+            $paths = explode("\\", $name);
+            $path = implode(DIRECTORY_SEPARATOR, $paths);
+            $path = "{$path}.php";
 
-            ];
-
-            if (in_array($name, array_keys($map)))
-                $name = $map[$name];
-
-            $paths = [
-                rpCORE . "/Core/{$name}.php",
-                rpCORE . "/Handler/{$name}.php",
-                rpCORE . "/Model/{$name}.php"
-            ];
-
-            foreach ($paths as $path)
-                if (file_exists($path))
-                    return require_once($path);
+            if(file_exists($path))
+            {
+                /** @noinspection PhpIncludeInspection */
+                require_once($path);
+            }
         });
+    }
+
+    public static function registerShortFunc()
+    {
+        function c($name)
+        {
+            $keys = explode(".", $name);
+            $result = Application::$config->get(array_shift($keys));
+
+            foreach($keys as $k)
+            {
+                if(!$result)
+                    return $result;
+                $result = $result[$k];
+            }
+
+            return $result;
+        }
     }
 }

@@ -10,6 +10,13 @@ return [
         "charset" => "utf8"
     ],
 
+    "Cache" => [
+        "type" => "memcache",
+        "host" => ["unix:///home/rpadmin/memcached.sock" => 0],
+        "ttl" => 3600 * 8,
+        "prefix" => "rp3:"
+    ],
+
     "EnablePlugin" => [
 
     ],
@@ -17,7 +24,7 @@ return [
     "DefaultLanguage" => "zh_CN",
     "AvailableLanguage" => ["zh_CN"],
 
-    // TODO: 此处应自动检查 /etc/passwd
+    // TODO: should auto check /etc/passwd
     "NotAllowSignup" => [
         "root", "default", "admin", "sudo"
     ]
