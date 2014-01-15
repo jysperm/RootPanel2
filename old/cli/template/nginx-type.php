@@ -1,1 +1,0 @@
-root <?= $this["hosts"]["source"]; ?>;
