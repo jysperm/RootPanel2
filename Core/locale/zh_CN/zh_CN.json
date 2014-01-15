@@ -1,4 +1,7 @@
 {
+  "app": {
+    "name": "RootPanel"
+  },
   "word": {
     "login": "登录",
     "signup": "注册"

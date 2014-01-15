@@ -5,6 +5,8 @@ namespace RootPanel\Core\Core;
 use LightPHP\Cache\Adapter\MemCache;
 use LightPHP\Core\Handler;
 use LightPHP\Core\Router;
+use LightPHP\Locale\Adapter\JSONLocale;
+use LightPHP\Locale\Locale;
 use LightPHP\Model\Wrapper\CachedModel;
 use LightPHP\Tool\Auth;
 use LightPHP\Tool\Config;
@@ -23,6 +25,8 @@ class Application extends \LightPHP\Core\Application
     public static $database;
     /** @var Auth */
     public static $auth;
+    /** @var JSONLocale */
+    public static $locale;
 
     public static function helloWorld(array $config = [])
     {
@@ -42,6 +46,11 @@ class Application extends \LightPHP\Core\Application
         Model::$source = self::$database;
 
         self::$auth = new Auth(new UserModel);
+
+        self::$locale = new JSONLocale(
+            rpCORE . "/locale",
+            Locale::checkLanguage(rpCORE . "/locale", c("DefaultLanguage"))
+        );
     }
 
     public static function registerRouters()
@@ -81,6 +90,13 @@ class Application extends \LightPHP\Core\Application
             }
 
             return $result;
+        }
+
+        function l($name, $_ = null)
+        {
+            $param = func_get_args();
+            array_shift($param);
+            return Application::$locale->get($name, $param);
         }
     }
 }
