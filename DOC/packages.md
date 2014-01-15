@@ -30,6 +30,10 @@ Core Packages:
 Plugin Packages:
 
 
+Option Packages:
+
+    git vim
+
 ## Ubuntu
 
 ## Centos

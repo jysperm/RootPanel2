@@ -3,9 +3,14 @@
 namespace RootPanel\Core\Core;
 
 use LightPHP\Cache\Adapter\MemCache;
+use LightPHP\Core\Handler;
+use LightPHP\Core\Router;
 use LightPHP\Model\Wrapper\CachedModel;
+use LightPHP\Tool\Auth;
 use LightPHP\Tool\Config;
 use PDO;
+use RootPanel\Core\Handler\UserHandler;
+use RootPanel\Core\Model\UserModel;
 
 define("rpCORE", rpROOT . "/Core");
 
@@ -16,6 +21,8 @@ class Application extends \LightPHP\Core\Application
     /** @var Config */
     public static $config;
     public static $database;
+    /** @var Auth */
+    public static $auth;
 
     public static function helloWorld(array $config = [])
     {
@@ -33,6 +40,15 @@ class Application extends \LightPHP\Core\Application
         $c = c("DB");
         self::$database = new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
         Model::$source = self::$database;
+
+        self::$auth = new Auth(new UserModel);
+    }
+
+    public static function registerRouters()
+    {
+        Router::bind("^/user/(signup|login|logout|settings)/", function($page) {
+            UserHandler::invokeREST($page, Handler::method());
+        });
     }
 
     public static function initAutoload()
