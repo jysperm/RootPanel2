@@ -1,23 +1,11 @@
 <?php
 
-class TokenModel extends lpPDOModel
-{
-    protected static function metaData($data = null)
-    {
-        return parent::meta([
-            "table" => "token",
-            "struct" => [
-                "id" => [self::INT, self::AI],
-                "user_id" => [self::INT],
-                "token" => [self::VARCHAR => 40],
-                "accesse_at" => [self::UINT, self::DEFALT => 0],
-                // TODO: ENUM 类型
-                "status" => [self::VARCHAR => 255, self::DEFALT => self::ALIVE],
-                "settings" => [self::TEXT, self::JSON]
-            ]
-        ]);
-    }
+namespace RootPanel\Core\Model;
 
+use RootPanel\Core\Core\Model;
+
+class TokenModel extends Model
+{
     const ALIVE = "alive";
     const DELETED = "deleted";
 
@@ -36,7 +24,7 @@ class TokenModel extends lpPDOModel
     }
 
     /**
-     * 生成一个新的 Toekn
+     * 生成一个新的 Token
      *
      * @param UserModel $user
      * @return string
@@ -48,7 +36,7 @@ class TokenModel extends lpPDOModel
             $token = sha1(rand(0, PHP_INT_MAX));
         } while (self::byToken($token)->data());
 
-        self::insert([
+        self::q()->insert([
             "user_id" => $user->id(),
             "token" => $token
         ]);
@@ -58,12 +46,12 @@ class TokenModel extends lpPDOModel
 
     public function isValid($expiredTime)
     {
-        return time() - $this->data["accesse_at"] < $expiredTime;
+        return time() - $this->data["accessed_at"] < $expiredTime;
     }
 
     public function remove()
     {
-        $this->updateSelf([
+        $this->update([
             "status" => self::DELETED
         ]);
 
@@ -71,8 +59,8 @@ class TokenModel extends lpPDOModel
 
     public function renew()
     {
-        $this->updateSelf([
-            "accesse_at" => time()
+        $this->update([
+            "accessed_at" => time()
         ]);
     }
 }
