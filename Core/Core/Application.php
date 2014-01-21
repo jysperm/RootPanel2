@@ -11,10 +11,12 @@ use LightPHP\Model\Wrapper\CachedModel;
 use LightPHP\Tool\Auth;
 use LightPHP\Tool\Config;
 use PDO;
+use PDOException;
 use RootPanel\Core\Handler\UserHandler;
 use RootPanel\Core\Model\UserModel;
+use LightPHP\Core\Exception;
 
-define("rpCORE", rpROOT . "/Core");
+define("rpCORE", __DIR__ . "/..");
 
 class Application extends \LightPHP\Core\Application
 {
@@ -41,9 +43,15 @@ class Application extends \LightPHP\Core\Application
         self::$cache = new MemCache(c("Cache.host"), c("Cache.ttl"), ["prefix" => c("Cache.prefix")]);
         CachedModel::$cache = self::$cache;
 
-        $c = c("DB");
-        self::$database = new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
-        Model::$source = self::$database;
+        try {
+            $c = c("DB");
+            self::$database = new PDO("mysql:host={$c['host']};dbname={$c['dbname']}", $c["user"], $c["passwd"]);
+            Model::$source = self::$database;
+        }
+        catch(PDOException $e)
+        {
+            throw new Exception("access mysql failed");
+        }
 
         self::$auth = new Auth(new UserModel);
 

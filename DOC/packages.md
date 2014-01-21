@@ -11,7 +11,11 @@ Core Source:
 
 Core Packages:
 
-    phpmyadmin php5-fpm nginx mysql-server sudo postfix
+    ## apt-get install
+    phpmyadmin php5-fpm nginx mysql-server sudo postfix memcached php-pear php5-dev
+
+    ## pecl install
+    memcache
 
 Plugin Packages:
 
